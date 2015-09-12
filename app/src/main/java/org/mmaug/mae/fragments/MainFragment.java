@@ -26,6 +26,7 @@ public class MainFragment extends Fragment
   @Bind(R.id.date_of_birth) TextView mDateOfBirth;
   Calendar now;
   int maxAgeforVote = 18;
+  String DATE_TAG = "Datepickerdialog";
   private Avatar mSelectedAvatar = Avatar.ONE;
   private View mSelectedAvatarView;
 
@@ -50,7 +51,7 @@ public class MainFragment extends Fragment
         com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(this,
             now.get(Calendar.YEAR) - maxAgeforVote, now.get(Calendar.MONTH),
             now.get(Calendar.DAY_OF_MONTH));
-    datePickerDialog.show(getActivity().getFragmentManager(), "Datepickerdialog");
+    datePickerDialog.show(getActivity().getFragmentManager(), DATE_TAG);
   }
 
   //TODO reenable
