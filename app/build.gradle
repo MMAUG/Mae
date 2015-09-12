@@ -68,4 +68,12 @@ dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
   compile 'com.android.support:appcompat-v7:23.0.1'
   compile 'com.android.support:design:23.0.1'
+  compile 'com.android.support:support-v4:23.0.1'
+  compile 'com.android.support:recyclerview-v7:23.0.1'
+  compile 'com.android.support:cardview-v7:23.0.1'
+  compile 'com.jakewharton:butterknife:5.1.1'
+  compile 'com.airbnb.android:airmapview:1.2.0'
+  compile 'com.squareup.retrofit:retrofit:2.0.0-beta1'
+  compile 'com.squareup.retrofit:converter-gson:2.0.0-beta1'
+  compile 'com.squareup.okhttp:okhttp:2.5.0'
 }
