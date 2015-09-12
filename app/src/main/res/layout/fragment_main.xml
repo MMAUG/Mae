@@ -9,8 +9,21 @@
     tools:context=".MainActivityFragment">
 
   <TextView
+      android:id="@+id/sample"
       android:text="@string/hello_world"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"/>
+
+    <GridView
+        android:verticalSpacing="4dp"
+        android:layout_below="@+id/sample"
+        android:id="@+id/avatars"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:choiceMode="singleChoice"
+        android:cropToPadding="true"
+        android:listSelector="@android:color/transparent"
+        />
+
 
 </RelativeLayout>
