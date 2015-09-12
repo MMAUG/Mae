@@ -59,9 +59,11 @@ public class AvatarView extends ImageView implements Checkable {
   @Override protected void onDraw(@NonNull Canvas canvas) {
     super.onDraw(canvas);
     if (mChecked) {
-      Drawable border = null;
+      Drawable border;
       if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
         border = getResources().getDrawable(R.drawable.selector_avatar, null);
+      } else {
+        border = getResources().getDrawable(R.drawable.selector_avatar);
       }
       border.setBounds(0, 0, getWidth(), getHeight());
       border.draw(canvas);
