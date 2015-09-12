@@ -3,8 +3,8 @@ package org.mmaug.mae.activities;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.R;
+import org.mmaug.mae.base.BaseActivity;
 
 public class MainActivity extends BaseActivity {
 
