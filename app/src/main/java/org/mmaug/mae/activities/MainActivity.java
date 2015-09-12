@@ -1,9 +1,10 @@
-package org.mmaug.mae;
+package org.mmaug.mae.activities;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import org.mmaug.mae.Base.BaseActivity;
+import org.mmaug.mae.base.BaseActivity;
+import org.mmaug.mae.R;
 
 public class MainActivity extends BaseActivity {
 

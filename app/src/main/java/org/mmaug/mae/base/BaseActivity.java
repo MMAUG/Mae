@@ -1,4 +1,4 @@
-package org.mmaug.mae.Base;
+package org.mmaug.mae.base;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
