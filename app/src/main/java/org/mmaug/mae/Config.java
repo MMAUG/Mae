@@ -44,7 +44,7 @@ public class Config {
   public static final String BUDDHISM = "buddhism";
   public static final String HINDUISM = "hinduism";
   public static final String ISLAM = "islam";
-  public static final String christianity = "christianity";
+  public static final String CHRISTIANITY = "christianity";
 
   public static final String GENDER = "gender";
   public static final String FEMALE = "F";
@@ -62,6 +62,7 @@ public class Config {
   public static final String DT_PCODE = "dt_pcode";
   public static final String LNG = "lon";
   public static final String LAT = "lat";
+
 
   //candidate endpoints
   public static final String CANDIDATE_URL = "/" + CANDIDATE;
