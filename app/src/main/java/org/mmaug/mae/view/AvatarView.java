@@ -65,6 +65,7 @@ public class AvatarView extends ImageView implements Checkable {
       } else {
         border = getResources().getDrawable(R.drawable.selector_avatar);
       }
+      assert border != null;
       border.setBounds(0, 0, getWidth(), getHeight());
       border.draw(canvas);
     }
