@@ -50,20 +50,20 @@ public class SignUpFragment extends Fragment
 
   @OnClick(R.id.sign_up_card) void checkVote() {
     //TODO remove hardcoded strings
-    //final String voterName = "ပိုးပိုးမြင့်ဆွေ";
+    //final String voterName = "ရဲမြတ်သူ";
     //StringBuilder stringBuilder = new StringBuilder();
-    //stringBuilder.append("၉");
+    //stringBuilder.append("၁၂");
     //stringBuilder.append("/");
-    //stringBuilder.append("ခအဇ");
+    //stringBuilder.append("အစန");
     //stringBuilder.append("(နိုင်)");
-    //stringBuilder.append("၀၂၂၉၄၂");
+    //stringBuilder.append("၂၀၈၅၇၃");
     //String voterNrc = stringBuilder.toString();
     //Map<String, String> params = new HashMap<>();
     //params.put(Config.VOTER_NAME, voterName);
-    //params.put(Config.DATE_OF_BIRTH, "1988-07-07");
+    //params.put(Config.DATE_OF_BIRTH, "1990-01-31");
     //params.put(Config.NRC, voterNrc);
-    //params.put(Config.FATHER_NAME, "ဦးမြင့်ဆွေ");
-    //params.put(Config.TOWNSHIP, "ချမ်းအေးသာစံ");
+    //params.put(Config.FATHER_NAME, "ဦးအောင်ကျော်မြင့်");
+    //params.put(Config.TOWNSHIP, "အင်းစိန်");
 
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append(mNrcNo.getText().toString());
