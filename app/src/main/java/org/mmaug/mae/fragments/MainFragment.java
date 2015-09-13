@@ -65,7 +65,7 @@ public class MainFragment extends Fragment
     Call<Voter> voterCall = RESTClient.getService().searchVoter(voterName, params);
     voterCall.enqueue(new Callback<Voter>() {
       @Override public void onResponse(Response<Voter> response) {
-        Log.e("Response", "" + response.message());
+        Log.e("Response", "" + response.code());
         //TODO check null value return  Log.e("Voter", "" + response.body());
       }
 
