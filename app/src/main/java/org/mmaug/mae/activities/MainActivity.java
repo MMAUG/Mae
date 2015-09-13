@@ -41,10 +41,10 @@ public class MainActivity extends BaseActivity {
   }
 
   @Override protected boolean needToolbar() {
-    return true;
+    return false;
   }
 
   @Override protected String getToolbarText() {
-    return "မဲပေးစို့";
+    return null;
   }
 }

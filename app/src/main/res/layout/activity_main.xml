@@ -1,20 +1,9 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment"
+    android:name="org.mmaug.mae.fragments.MainFragment"
+    tools:layout="@layout/fragment_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
-  <include
-      layout="@layout/toolbar"
-      />
-  <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:tools="http://schemas.android.com/tools"
-      android:id="@+id/fragment"
-      android:name="org.mmaug.mae.fragments.MainFragment"
-      tools:layout="@layout/fragment_main"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      />
+    />
 
-</LinearLayout>

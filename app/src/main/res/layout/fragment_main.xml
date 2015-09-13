@@ -1,7 +1,6 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
@@ -13,140 +12,178 @@
       android:layout_height="fill_parent"
       android:layout_weight="1"
       />
-  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:tools="http://schemas.android.com/tools"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      android:id="@+id/main_fragment"
-      android:visibility="gone"
+
+  <android.support.v4.widget.NestedScrollView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      >
-
-    <EditText
-        android:text="ဒေါ်အောင်ဆန်းစုကြည်"
-        android:id="@+id/user_name"
-        android:hint="@string/user_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        tools:context=".MainActivityFragment"
-        />
-
-
-    <TextView
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:text="@string/user_dob"
-        android:id="@+id/date_of_birth_label"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_alignTop="@+id/date_of_birth"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        />
-
-    <TextView
-        android:padding="5dp"
-        style="@style/Widget.AppCompat.Spinner"
-        android:layout_toRightOf="@+id/date_of_birth_label"
-        android:layout_toEndOf="@id/date_of_birth_label"
-        android:gravity="center"
-        android:layout_below="@+id/user_name"
-        android:id="@+id/date_of_birth"
-        android:hint="1945-06-19"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        />
-
-    <android.support.percent.PercentRelativeLayout
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_below="@+id/date_of_birth"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:id="@+id/view"
-        >
-
-      <EditText
-          android:layout_height="wrap_content"
-          android:layout_width="wrap_content"
-          android:text="၁၂"
-          android:maxLength="3"
-          android:id="@+id/nrc_no"
-          app:layout_widthPercent="20%"
-          android:layout_below="@+id/imageView"
-          />
-
-      <EditText
-          android:layout_toEndOf="@id/nrc_no"
-          android:layout_toRightOf="@id/nrc_no"
-          android:layout_height="wrap_content"
-          android:layout_width="match_parent"
-          android:hint="ဗဟန"
-          android:id="@+id/nrc_township"
-          android:text="ဗဟန"
-          app:layout_widthPercent="30%"
-          android:layout_below="@+id/imageView"
-          />
-
-      <EditText
-          android:id="@+id/nrc_value"
-          android:text="၁၀၉၄၅၈"
-          android:layout_toEndOf="@+id/nrc_township"
-          android:layout_toRightOf="@+id/nrc_township"
-          app:layout_widthPercent="50%"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          />
-
-    </android.support.percent.PercentRelativeLayout>
-
-    <TextView
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@color/primary_dark"
-        android:padding="5dp"
-        android:id="@+id/avatar_title"
-        android:layout_below="@+id/view"
-        android:text="@string/choose_avatar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-
-    <GridView
-        android:horizontalSpacing="4dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:verticalSpacing="4dp"
-        android:layout_below="@+id/avatar_title"
-        android:id="@+id/avatars"
+      android:id="@+id/main_fragment"
+      android:background="@color/primary">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:choiceMode="singleChoice"
-        android:cropToPadding="true"
-        android:listSelector="@android:color/transparent"
-        />
+        android:orientation="vertical"
+        android:gravity="center">
+      <ImageView
+          android:id="@+id/tick_mark_iv"
+          android:layout_width="100dp"
+          android:layout_height="100dp"
+          android:src="@drawable/ic_logo_line"
+          android:layout_margin="@dimen/spacing_major"/>
+      <TextView
+          style="@style/TextAppearance.AppCompat.Headline"
+          android:textColor="@color/white"
+          android:padding="@dimen/spacing_minor"
+          android:gravity="center"
+          android:textStyle="bold"
+          android:lineSpacingMultiplier="1.4"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/check_voter"/>
+      <android.support.v7.widget.CardView
+          android:id="@+id/register_card"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="@dimen/spacing_massive"
+          android:layout_marginRight="@dimen/spacing_massive"
+          android:layout_marginTop="@dimen/spacing_minor"
+          android:layout_marginBottom="@dimen/spacing_minor"
+          app:cardUseCompatPadding="true"
+          app:cardElevation="@dimen/spacing_major">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+          <EditText
+              android:id="@+id/township"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:padding="@dimen/spacing_major"
+              android:background="@null"
+              android:hint="မြို့နယ်"/>
+          <View android:layout_width="match_parent"
+              android:layout_height="0.5dp"
+              android:background="@color/mdtp_light_gray"/>
+          <EditText
+              android:id="@+id/user_name"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:padding="@dimen/spacing_major"
+              android:background="@null"
+              android:hint="မိမိနာမည်"/>
+          <View android:layout_width="match_parent"
+              android:layout_height="0.5dp"
+              android:background="@color/mdtp_light_gray"/>
+          <EditText
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:padding="@dimen/spacing_major"
+              android:background="@null"
+              android:hint="အဘနာမည်"/>
+          <View android:layout_width="match_parent"
+              android:layout_height="0.5dp"
+              android:background="@color/mdtp_light_gray"/>
+          <LinearLayout android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:weightSum="8">
+            <EditText
+                android:id="@+id/nrc_no"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/spacing_major"
+                android:singleLine="true"
+                android:lines="1"
+                android:maxLines="1"
+                android:paddingBottom="@dimen/spacing_major"
+                android:background="@null"
+                android:hint="၁၂"/>
+            <EditText
+                android:id="@+id/nrc_township"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:lines="1"
+                android:maxLines="1"
+                android:gravity="center"
+                android:paddingTop="@dimen/spacing_major"
+                android:paddingBottom="@dimen/spacing_major"
+                android:background="@null"
+                android:hint="ဗဟန"/>
+            <EditText
+                android:id="@+id/nrc_value"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:lines="1"
+                android:maxLines="1"
+                android:gravity="center"
+                android:paddingTop="@dimen/spacing_major"
+                android:paddingBottom="@dimen/spacing_major"
+                android:background="@null"
+                android:hint="၂၀၈၅၇၃"/>
+          </LinearLayout>
 
-  </RelativeLayout>
-  <android.support.design.widget.FloatingActionButton
-      android:id="@+id/post_fab"
-      android:visibility="gone"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_margin="16dp"
-      android:clickable="true"
-      app:layout_anchor="@id/avatars"
-      app:layout_anchorGravity="bottom|right|end"
-      app:pressedTranslationZ="16dp"
-      app:borderWidth="0dp"
-      app:elevation="16dp"
-      app:rippleColor="@color/primary_dark"
-      />
+          <View android:layout_width="match_parent"
+              android:layout_height="0.5dp"
+              android:background="@color/mdtp_light_gray"/>
+          <LinearLayout android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:weightSum="2">
+            <TextView
+                style="@style/Widget.AppCompat.EditText"
+                android:hint="မွေးနေ့"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:lines="1"
+                android:maxLines="1"
+                android:paddingTop="@dimen/spacing_major"
+                android:paddingBottom="@dimen/spacing_major"
+                android:gravity="center"
+                android:background="@null"
+                />
 
+            <TextView
+                android:padding="5dp"
+                style="@style/Widget.AppCompat.Spinner"
+                android:gravity="center"
+                android:id="@+id/date_of_birth"
+                android:hint="ရွေးပါ"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="48dp"
+                />
+          </LinearLayout>
+        </LinearLayout>
+      </android.support.v7.widget.CardView>
+      <android.support.v7.widget.CardView
+          android:id="@+id/sign_up_card"
+          android:layout_width="180dp"
+          android:layout_height="wrap_content"
+          android:layout_centerHorizontal="true"
+          android:layout_below="@id/register_card"
+          app:cardBackgroundColor="@color/accent_color"
+          app:cardUseCompatPadding="true"
+          android:foreground="?attr/selectableItemBackground"
+          app:cardElevation="@dimen/spacing_minor">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.AppCompat.Widget.Button.Inverse"
+            android:text="စစ်မယ်"
+            android:gravity="center"
+            android:padding="@dimen/spacing_not_so_major"
+            android:layout_centerHorizontal="true"/>
+      </android.support.v7.widget.CardView>
+    </LinearLayout>
+  </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
