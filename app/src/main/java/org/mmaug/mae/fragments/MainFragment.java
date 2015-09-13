@@ -1,6 +1,7 @@
 package org.mmaug.mae.fragments;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -35,6 +36,7 @@ public class MainFragment extends Fragment
   @Bind(R.id.nrc_value) EditText mNrcValue;
   @Bind(R.id.contentFragment) FrameLayout contenFragment;
   @Bind(R.id.main_fragment) RelativeLayout main_view;
+  @Bind(R.id.post_fab) FloatingActionButton post_fab;
   Calendar now;
   int maxAgeforVote = 18;
   String DATE_TAG = "Datepickerdialog";
@@ -59,6 +61,7 @@ public class MainFragment extends Fragment
   @OnClick(R.id.post_fab) void checkVote() {
 
     main_view.setVisibility(View.GONE);
+    post_fab.setVisibility(View.GONE);
     contenFragment.setVisibility(View.VISIBLE);
     HomeFragment homeFragment = new HomeFragment();
     FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -115,6 +118,7 @@ public class MainFragment extends Fragment
     View rootView = inflater.inflate(R.layout.fragment_main, container, false);
     ButterKnife.bind(this, rootView);
     main_view.setVisibility(View.VISIBLE);
+    post_fab.setVisibility(View.VISIBLE);
     setUpGridView();
     return rootView;
   }
