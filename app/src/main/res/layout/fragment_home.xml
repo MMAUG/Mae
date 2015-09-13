@@ -34,17 +34,48 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             />
-        <TextView
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:gravity="center_horizontal|center|center_vertical"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:text="@string/mm_toVote"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+            android:gravity="center">
+          <TextView
+              android:gravity="center_horizontal|center|center_vertical"
+              android:textColor="@color/white"
+              android:textStyle="bold"
+              android:textSize="20sp"
+              android:text="@string/mm_toVote"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:padding="@dimen/spacing_minor"
+              />
+
+          <TextView
+              android:gravity="center_horizontal|center|center_vertical"
+              android:textColor="@color/white"
+              android:textStyle="bold"
+              android:textSize="36sp"
+              android:text="@string/mm_toVote"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/month_day_left"
+              android:padding="@dimen/spacing_minor"
+              />
+          <TextView
+              android:gravity="center_horizontal|center|center_vertical"
+              android:textColor="@color/white"
+              android:textStyle="bold"
+              android:textSize="18sp"
+              android:text="@string/mm_toVote"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/hour_minute_left"
+              android:padding="@dimen/spacing_minor"
+              />
+        </LinearLayout>
+
       </RelativeLayout>
 
     </android.support.design.widget.CollapsingToolbarLayout>

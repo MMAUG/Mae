@@ -4,10 +4,17 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import java.text.ParseException;
+import java.util.HashMap;
 import org.mmaug.mae.R;
+import org.mmaug.mae.utils.MixUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,6 +29,9 @@ public class HomeFragment extends android.support.v4.app.Fragment {
   // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
   private static final String ARG_PARAM1 = "param1";
   private static final String ARG_PARAM2 = "param2";
+
+  @Bind(R.id.month_day_left) TextView monthDayLeft;
+  @Bind(R.id.hour_minute_left) TextView hourMinuteLeft;
 
   // TODO: Rename and change types of parameters
   private String mParam1;
@@ -62,7 +72,26 @@ public class HomeFragment extends android.support.v4.app.Fragment {
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     // Inflate the layout for this fragment
-    return inflater.inflate(R.layout.fragment_home, container, false);
+    View view = inflater.inflate(R.layout.fragment_home, container, false);
+    ButterKnife.bind(this, view);
+    try {
+
+      new CountDownTimer(MixUtils.millisToLongDHMS(), 1000 * 60) {
+        @Override public void onTick(long millisUntilFinished) {
+
+          HashMap<String, String> values = MixUtils.millisToLongDHMS(millisUntilFinished);
+          monthDayLeft.setText(MixUtils.convertToBurmese(values.get("month_day")));
+          hourMinuteLeft.setText(MixUtils.convertToBurmese(values.get("hour_minute")));
+        }
+
+        @Override public void onFinish() {
+
+        }
+      }.start();
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    return view;
   }
 
   // TODO: Rename method, update argument and hook method into UI event
