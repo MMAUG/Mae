@@ -22,7 +22,7 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.widget.Checkable;
 import android.widget.ImageView;
-import org.mmaug.mae.R;
+import org.mmaug.mae.utils.MixUtils;
 
 /**
  * A simple view that wraps an avatar.
@@ -59,13 +59,7 @@ public class AvatarView extends ImageView implements Checkable {
   @Override protected void onDraw(@NonNull Canvas canvas) {
     super.onDraw(canvas);
     if (mChecked) {
-      Drawable border;
-      if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-        border = getResources().getDrawable(R.drawable.selector_avatar, null);
-      } else {
-        border = getResources().getDrawable(R.drawable.selector_avatar);
-      }
-      assert border != null;
+      Drawable border = MixUtils.getImageDrawable(getResources());
       border.setBounds(0, 0, getWidth(), getHeight());
       border.draw(canvas);
     }
