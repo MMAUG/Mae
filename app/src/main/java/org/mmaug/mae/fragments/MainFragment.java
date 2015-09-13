@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,6 +40,8 @@ public class MainFragment extends Fragment
   @Bind(R.id.nrc_no) EditText mNrcNo;
   @Bind(R.id.nrc_township) EditText mNrcTownShip;
   @Bind(R.id.nrc_value) EditText mNrcValue;
+  @Bind(R.id.contentFragment) FrameLayout contenFragment;
+  @Bind(R.id.main_fragment) RelativeLayout main_view;
   Calendar now;
   int maxAgeforVote = 18;
   String DATE_TAG = "Datepickerdialog";
@@ -72,12 +76,18 @@ public class MainFragment extends Fragment
     //params.put(Config.DATE_OF_BIRTH, "1945-06-19");
     params.put(Config.NRCNO, voterNrc);
     //params.put(Config.FATHER_NAME, "ဦးအောင်ဆန်း");
-
     Call<Voter> voterCall = RESTClient.getService().searchVoter(voterName, params);
     voterCall.enqueue(new Callback<Voter>() {
       @Override public void onResponse(Response<Voter> response) {
         Voter voter = response.body();
+        contenFragment.setVisibility(View.VISIBLE);
+        main_view.setVisibility(View.GONE);
         Log.e("Vote Name", voter.getVoterName());
+        HomeFragment homeFragment = new HomeFragment();
+        android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.contentFragment, homeFragment);
+        transaction.commit();
         //TODO check null value return  Log.e("Voter", "" + response.body());
       }
 
@@ -107,6 +117,7 @@ public class MainFragment extends Fragment
       Bundle savedInstanceState) {
     View rootView = inflater.inflate(R.layout.fragment_main, container, false);
     ButterKnife.bind(this, rootView);
+    main_view.setVisibility(View.VISIBLE);
     setUpGridView();
     return rootView;
   }
