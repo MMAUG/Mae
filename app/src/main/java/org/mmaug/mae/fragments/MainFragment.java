@@ -2,6 +2,7 @@ package org.mmaug.mae.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,6 @@ public class MainFragment extends Fragment
   }
 
   @OnClick(R.id.post_fab) void checkVote() {
-    //Map<String,String> searchName = new HashMap<>();
     Map<String, String> params = new HashMap<>();
     params.put("dateofbirth", "1945-06-19");
     params.put("nrc", "၁၂/ဗဟန(နိုင်)၁၀၉၄၅၈");
@@ -63,6 +63,7 @@ public class MainFragment extends Fragment
         RESTClient.getInstance().getService().searchVoter("အောင်ဆန်းစုကြည်", params);
     voterCall.enqueue(new Callback<Voter>() {
       @Override public void onResponse(Response<Voter> response) {
+        Log.e("Response", response.body().getVoterName());
         //TODO check null value return  Log.e("Voter", "" + response.body());
       }
 

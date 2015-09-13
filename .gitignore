@@ -4,9 +4,6 @@ build
 *.iml
 .idea/
 
-# Built application files
-*.apk
-
 # Files for the Dalvik VM
 *.dex
 
