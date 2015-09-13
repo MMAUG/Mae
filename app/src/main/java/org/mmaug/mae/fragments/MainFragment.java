@@ -15,6 +15,7 @@ import butterknife.OnClick;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.adapter.AvatarAdapter;
 import org.mmaug.mae.models.Avatar;
@@ -54,21 +55,22 @@ public class MainFragment extends Fragment
   }
 
   @OnClick(R.id.post_fab) void checkVote() {
-    Map<String, String> params = new HashMap<>();
-    params.put("dateofbirth", "1945-06-19");
-    params.put("nrc", "၁၂/ဗဟန(နိုင်)၁၀၉၄၅၈");
-    params.put("father_name", "ဦးအောင်ဆန်း");
+    String voterName = "အောင်ဆန်းစုကြည်";
 
-    Call<Voter> voterCall =
-        RESTClient.getInstance().getService().searchVoter("အောင်ဆန်းစုကြည်", params);
+    Map<String, String> params = new HashMap<>();
+    //params.put(Config.DATE_OF_BIRTH, "1945-06-19");
+    params.put(Config.NRCNO, "၁၂/ဗဟန(နိုင်)၁၀၉၄၅၈");
+    //params.put(Config.FATHER_NAME, "ဦးအောင်ဆန်း");
+
+    Call<Voter> voterCall = RESTClient.getService().searchVoter(voterName, params);
     voterCall.enqueue(new Callback<Voter>() {
       @Override public void onResponse(Response<Voter> response) {
-        Log.e("Response", "" + response.body());
+        Log.e("Response", "" + response.message());
         //TODO check null value return  Log.e("Voter", "" + response.body());
       }
 
       @Override public void onFailure(Throwable t) {
-
+        t.printStackTrace();
       }
     });
   }

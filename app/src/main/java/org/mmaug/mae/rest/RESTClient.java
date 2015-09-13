@@ -26,7 +26,7 @@ public class RESTClient {
     return instance;
   }
 
-  public RESTService getService() {
-    return mService;
+  public static synchronized RESTService getService() {
+    return getInstance().mService;
   }
 }
