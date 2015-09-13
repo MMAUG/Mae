@@ -5,9 +5,11 @@
     android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="org.mmaug.mae.fragments.SignupFragment"
     android:background="@color/primary">
-<RelativeLayout
+  <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+      android:layout_height="match_parent"
+      android:orientation="vertical"
+      android:gravity="center">
     <ImageView
         android:id="@+id/tick_mark_iv"
         android:layout_width="100dp"
@@ -147,5 +149,5 @@
         android:padding="@dimen/spacing_not_so_major"
         android:layout_centerHorizontal="true"/>
     </android.support.v7.widget.CardView>
-</RelativeLayout>
+  </LinearLayout>
 </ScrollView>
