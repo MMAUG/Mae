@@ -63,7 +63,7 @@ public class MainFragment extends Fragment
         RESTClient.getInstance().getService().searchVoter("အောင်ဆန်းစုကြည်", params);
     voterCall.enqueue(new Callback<Voter>() {
       @Override public void onResponse(Response<Voter> response) {
-        Log.e("Response", response.body().getVoterName());
+        Log.e("Response", "" + response.body());
         //TODO check null value return  Log.e("Voter", "" + response.body());
       }
 
