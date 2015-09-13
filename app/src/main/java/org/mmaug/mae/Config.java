@@ -63,7 +63,6 @@ public class Config {
   public static final String LNG = "lon";
   public static final String LAT = "lat";
 
-
   //candidate endpoints
   public static final String CANDIDATE_URL = "/" + CANDIDATE;
   public static final String CANDIDATE_LIST_URL = CANDIDATE_URL + "/" + LIST;
