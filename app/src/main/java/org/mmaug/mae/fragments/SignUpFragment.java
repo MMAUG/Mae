@@ -82,7 +82,7 @@ public class SignUpFragment extends Fragment
     final Call<User> registerUser = RESTClient.getService().registerUser(params);
     registerUser.enqueue(new Callback<User>() {
       @Override public void onResponse(Response<User> response) {
-        if (response.code() == 200) {
+        if (response.code() == 201) {
           main_view.setVisibility(View.GONE);
           contenFragment.setVisibility(View.VISIBLE);
           HomeFragment homeFragment = new HomeFragment();
