@@ -14,9 +14,10 @@ public class User {
   private String township;
   @SerializedName("updated_at") private long updatedAt;
   @SerializedName("created_at") private long createdAt;
-  @SerializedName("_id") private String id;
+  @SerializedName("id") private String id;
   @SerializedName("mps_token") private String mpsToken;
   @SerializedName("access_token") private String accessToken;
+  @SerializedName("can_vote") private int canVote;
 
   public String getName() {
     return name;
@@ -81,4 +82,21 @@ public class User {
   public void setAccessToken(String accessToken) {
     this.accessToken = accessToken;
   }
+
+  public int getCanVote() {
+    return canVote;
+  }
+
+  public void setCanVote(int canVote) {
+    this.canVote = canVote;
+  }
+
+  public String getNrc() {
+    return nrc;
+  }
+
+  public void setNrc(String nrc) {
+    this.nrc = nrc;
+  }
 }
+
