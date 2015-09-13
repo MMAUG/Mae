@@ -12,6 +12,7 @@
       android:layout_height="match_parent"
       >
     <EditText
+        android:text="ဒေါ်အောင်ဆန်းစုကြည်"
         android:id="@+id/user_name"
         android:hint="@string/user_name"
         android:layout_width="match_parent"
@@ -63,7 +64,7 @@
       <EditText
           android:layout_height="wrap_content"
           android:layout_width="wrap_content"
-          android:hint="၁၂"
+          android:text="၁၂"
           android:maxLength="3"
           android:id="@+id/nrc_no"
           app:layout_widthPercent="20%"
@@ -83,7 +84,8 @@
           />
 
       <EditText
-          android:hint="၁၀၉၄၅၈"
+          android:id="@+id/nrc_value"
+          android:text="၁၀၉၄၅၈"
           android:layout_toEndOf="@+id/nrc_township"
           android:layout_toRightOf="@+id/nrc_township"
           app:layout_widthPercent="50%"

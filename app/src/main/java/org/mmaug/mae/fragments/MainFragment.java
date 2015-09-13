@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 import butterknife.Bind;
@@ -33,6 +34,10 @@ public class MainFragment extends Fragment
 
   @Bind(R.id.avatars) GridView mAvatarGrid;
   @Bind(R.id.date_of_birth) TextView mDateOfBirth;
+  @Bind(R.id.user_name) EditText mUserName;
+  @Bind(R.id.nrc_no) EditText mNrcNo;
+  @Bind(R.id.nrc_township) EditText mNrcTownShip;
+  @Bind(R.id.nrc_value) EditText mNrcValue;
   Calendar now;
   int maxAgeforVote = 18;
   String DATE_TAG = "Datepickerdialog";
@@ -55,17 +60,25 @@ public class MainFragment extends Fragment
   }
 
   @OnClick(R.id.post_fab) void checkVote() {
-    String voterName = "အောင်ဆန်းစုကြည်";
-
+    final String voterName = mUserName.getText().toString();
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append(mNrcNo.getText().toString());
+    stringBuilder.append("/");
+    stringBuilder.append(mNrcTownShip.getText().toString());
+    stringBuilder.append("(နိုင်)");
+    stringBuilder.append(mNrcValue.getText());
+    String voterNrc = stringBuilder.toString();
     Map<String, String> params = new HashMap<>();
     //params.put(Config.DATE_OF_BIRTH, "1945-06-19");
-    params.put(Config.NRCNO, "၁၂/ဗဟန(နိုင်)၁၀၉၄၅၈");
+    params.put(Config.NRCNO, voterNrc);
     //params.put(Config.FATHER_NAME, "ဦးအောင်ဆန်း");
 
     Call<Voter> voterCall = RESTClient.getService().searchVoter(voterName, params);
     voterCall.enqueue(new Callback<Voter>() {
       @Override public void onResponse(Response<Voter> response) {
         Log.e("Response", "" + response.code());
+        Voter voter = response.body();
+        Log.e("Vote Name", voter.getVoterName());
         //TODO check null value return  Log.e("Voter", "" + response.body());
       }
 
