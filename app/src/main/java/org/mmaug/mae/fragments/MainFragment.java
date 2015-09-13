@@ -43,6 +43,9 @@ public class MainFragment extends Fragment
   @Bind(R.id.main_fragment) NestedScrollView main_view;
   Calendar now;
   int maxAgeforVote = 18;
+  int defaultYear;
+  int defaultMonth;
+  int defaultDate;
   String DATE_TAG = "Datepickerdialog";
 
   @OnClick(R.id.sign_up_card) void checkVote() {
@@ -95,15 +98,15 @@ public class MainFragment extends Fragment
 
       }
     });
-
   }
 
   @OnClick(R.id.date_of_birth) void DatePicker() {
     now = Calendar.getInstance();
-    com.wdullaer.materialdatetimepicker.date.DatePickerDialog datePickerDialog =
-        com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(this,
-            now.get(Calendar.YEAR) - maxAgeforVote, now.get(Calendar.MONTH),
-            now.get(Calendar.DAY_OF_MONTH));
+    com.wdullaer.materialdatetimepicker.date.DatePickerDialog datePickerDialog;
+
+    datePickerDialog =
+        com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(this, defaultYear,
+            defaultMonth, defaultDate);
     datePickerDialog.show(getActivity().getFragmentManager(), DATE_TAG);
   }
 
@@ -112,15 +115,21 @@ public class MainFragment extends Fragment
     View rootView = inflater.inflate(R.layout.fragment_main, container, false);
     ButterKnife.bind(this, rootView);
     main_view.setVisibility(View.VISIBLE);
+    now = Calendar.getInstance();
+    defaultYear = now.get(Calendar.YEAR) - maxAgeforVote;
+    defaultMonth = now.get(Calendar.MONTH);
+    defaultDate = now.get(Calendar.DAY_OF_MONTH);
     return rootView;
   }
 
   @Override
   public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year,
       int monthOfYear, int dayOfMonth) {
-    now = Calendar.getInstance();
-    if ((now.get(Calendar.YEAR) - year) >= 18) {
-      mDateOfBirth.setText(year + "-" + monthOfYear + "-" + dayOfMonth);
+    defaultYear = year;
+    defaultDate = dayOfMonth;
+    defaultMonth = monthOfYear;
+    if ((now.get(Calendar.YEAR) - defaultYear) >= 18) {
+      mDateOfBirth.setText(defaultYear + "-" + defaultMonth + "-" + defaultDate);
     }
   }
 }
