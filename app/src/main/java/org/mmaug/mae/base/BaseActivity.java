@@ -14,7 +14,6 @@ import com.google.android.gms.location.LocationServices;
 public class BaseActivity extends AppCompatActivity
     implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
   //For Google API
-  //For Google API
   protected GoogleApiClient mGoogleApiClient;
   protected Location mLastLocation;
 
