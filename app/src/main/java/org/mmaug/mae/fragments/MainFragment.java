@@ -12,9 +12,16 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import org.mmaug.mae.R;
 import org.mmaug.mae.adapter.AvatarAdapter;
 import org.mmaug.mae.models.Avatar;
+import org.mmaug.mae.models.Voter;
+import org.mmaug.mae.rest.RESTClient;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -43,6 +50,26 @@ public class MainFragment extends Fragment
     });
     mAvatarGrid.setNumColumns(4);
     mAvatarGrid.setItemChecked(mSelectedAvatar.ordinal(), true);
+  }
+
+  @OnClick(R.id.post_fab) void checkVote() {
+    //Map<String,String> searchName = new HashMap<>();
+    Map<String, String> params = new HashMap<>();
+    params.put("dateofbirth", "1945-06-19");
+    params.put("nrc", "၁၂/ဗဟန(နိုင်)၁၀၉၄၅၈");
+    params.put("father_name", "ဦးအောင်ဆန်း");
+
+    Call<Voter> voterCall =
+        RESTClient.getInstance().getService().searchVoter("အောင်ဆန်းစုကြည်", params);
+    voterCall.enqueue(new Callback<Voter>() {
+      @Override public void onResponse(Response<Voter> response) {
+        //TODO check null value return  Log.e("Voter", "" + response.body());
+      }
+
+      @Override public void onFailure(Throwable t) {
+
+      }
+    });
   }
 
   @OnClick(R.id.date_of_birth) void DatePicker() {

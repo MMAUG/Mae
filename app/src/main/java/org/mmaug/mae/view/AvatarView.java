@@ -15,14 +15,16 @@
  */
 package org.mmaug.mae.view;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.widget.Checkable;
 import android.widget.ImageView;
-import org.mmaug.mae.utils.MixUtils;
+import org.mmaug.mae.R;
 
 /**
  * A simple view that wraps an avatar.
@@ -41,6 +43,9 @@ public class AvatarView extends ImageView implements Checkable {
 
   public AvatarView(Context context, AttributeSet attrs, int defStyle) {
     super(context, attrs, defStyle);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      setClipToOutline(true);
+    }
   }
 
   @Override public boolean isChecked() {
@@ -59,13 +64,20 @@ public class AvatarView extends ImageView implements Checkable {
   @Override protected void onDraw(@NonNull Canvas canvas) {
     super.onDraw(canvas);
     if (mChecked) {
-      Drawable border = MixUtils.getImageDrawable(getResources());
+      Drawable border = null;
+      if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        border = getResources().getDrawable(R.drawable.selector_avatar, null);
+      }
       border.setBounds(0, 0, getWidth(), getHeight());
       border.draw(canvas);
     }
   }
 
-  @Override protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+  @TargetApi(Build.VERSION_CODES.LOLLIPOP) @Override
+  protected void onSizeChanged(int w, int h, int oldw, int oldh) {
     super.onSizeChanged(w, h, oldw, oldh);
+    if (w > 0 && h > 0) {
+      setOutlineProvider(new RoundOutlineProvider(Math.min(w, h)));
+    }
   }
 }
