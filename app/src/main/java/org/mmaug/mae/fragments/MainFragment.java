@@ -2,7 +2,6 @@ package org.mmaug.mae.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +15,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.adapter.AvatarAdapter;
 import org.mmaug.mae.models.Avatar;
-import org.mmaug.mae.models.Voter;
-import org.mmaug.mae.rest.RESTClient;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -64,7 +55,15 @@ public class MainFragment extends Fragment
   }
 
   @OnClick(R.id.post_fab) void checkVote() {
-    final String voterName = mUserName.getText().toString();
+
+    main_view.setVisibility(View.GONE);
+    contenFragment.setVisibility(View.VISIBLE);
+    HomeFragment homeFragment = new HomeFragment();
+    android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
+    android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
+    transaction.replace(R.id.contentFragment, homeFragment);
+    transaction.commit();
+   /* final String voterName = mUserName.getText().toString();
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append(mNrcNo.getText().toString());
     stringBuilder.append("/");
@@ -81,21 +80,15 @@ public class MainFragment extends Fragment
       @Override public void onResponse(Response<Voter> response) {
         Log.e("Response", "" + response.code());
         Voter voter = response.body();
-        contenFragment.setVisibility(View.VISIBLE);
-        main_view.setVisibility(View.GONE);
-        Log.e("Vote Name", voter.getVoterName());
-        HomeFragment homeFragment = new HomeFragment();
-        android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.contentFragment, homeFragment);
-        transaction.commit();
+
+
         //TODO check null value return  Log.e("Voter", "" + response.body());
       }
 
       @Override public void onFailure(Throwable t) {
         t.printStackTrace();
       }
-    });
+    });*/
   }
 
   @OnClick(R.id.date_of_birth) void DatePicker() {

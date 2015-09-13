@@ -26,4 +26,31 @@
   <dimen name="activity_horizontal_margin">16dp</dimen>
   <dimen name="activity_vertical_margin">16dp</dimen>
   <dimen name="size_fab">48dp</dimen>
+  <!-- detail -->
+  <dimen name="detail_title_text_size">32sp</dimen>
+  <dimen name="detail_body_text_size">22sp</dimen>
+  <item name="detail_body_line_spacing_multiplier"
+      format="float"
+      type="fraction">1.25
+  </item>
+
+  <dimen name="fab_press_translation_z">6dp</dimen>
+  <dimen name="fab_margin">24dp</dimen>
+
+  <dimen name="default_padding_small">4dp</dimen>
+  <dimen name="default_padding_medium">8dp</dimen>
+  <dimen name="default_padding_large">16dp</dimen>
+  <dimen name="toolbar_elevation">6dp</dimen>
+  <dimen name="fab_elevation">8dp</dimen>
+  <dimen name="appbarlayout_height">192dp</dimen>
+  <dimen name="collapsingtoolbar_expanded_title_margin_bottom">32dp</dimen>
+  <dimen name="collapsingtoolbar_expanded_title_margin_end">64dp</dimen>
+  <dimen name="collapsingtoolbar_expanded_title_margin_start">48dp</dimen>
+
+  <dimen name="textsize_medium">18sp</dimen>
+  <dimen name="textsize_small">16sp</dimen>
+  <dimen name="imageview_in_list_height">100dp</dimen>
+
+  <!--http://stackoverflow.com/questions/30643081/nestedscrollview-and-webview-height-issue-->
+  <dimen name="linearlayout_fix">500dp</dimen>
 </resources>
