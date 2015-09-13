@@ -19,7 +19,7 @@ public interface RESTService {
    * Check Voter Services
    **/
 
-  @GET(Config.VOTER_CHECK) Call<Voter> searchVoter(@Query("voter_name") String voterName,
+  @GET(Config.VOTER_CHECK) Call<Voter> searchVoter(@Query(Config.VOTER_NAME) String voterName,
       @QueryMap Map<String, String> optionalQueries);
 
   /**

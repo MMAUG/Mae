@@ -5,7 +5,7 @@ package org.mmaug.mae;
  */
 public class Config {
 
-  public static final String BASE_URL = "http://188.166.240.34/api/v1";
+  public static final String BASE_URL = "http://188.166.240.34/api/v1/";
 
   /**
    * Check Voter API
@@ -15,10 +15,10 @@ public class Config {
   public static final String VOTER_CHECK = "voter-check";
 
   //param
-  public static final String VOTER_NAME = "voter_name";
+  public static final String VOTER_NAME = "name";
   public static final String DATE_OF_BIRTH = "dateofbirth";
   public static final String FATHER_NAME = "father_name";
-  public static final String NRCNO = "nrcno";
+  public static final String NRCNO = "nrc";
 
   /**
    * MaePaySoh API
@@ -64,19 +64,19 @@ public class Config {
   public static final String LAT = "lat";
 
   //candidate endpoints
-  public static final String CANDIDATE_URL = "/" + CANDIDATE;
+  public static final String CANDIDATE_URL = CANDIDATE;
   public static final String CANDIDATE_LIST_URL = CANDIDATE_URL + "/" + LIST;
 
   //party endpoints
-  public static final String PARTY_LIST_URL = "/" + PARTY;
+  public static final String PARTY_LIST_URL = PARTY;
   public static final String PARTY_URL = PARTY_LIST_URL + "/detail";
 
   // faq endpoints
-  public static final String FAQ_URL = "/" + FAQ;
+  public static final String FAQ_URL = FAQ;
   public static final String FAQ_LIST_URL = FAQ_URL + "/" + LIST;
   public static final String FAQ_SEARCH = FAQ_URL + "/search";
 
   //geo location
-  public static final String GEO_LOCATION_URL = "/geo/district";
+  public static final String GEO_LOCATION_URL = "geo/district";
   public static final String GEO_LOCATION_SEARCH = GEO_LOCATION_URL + "/find";
 }
