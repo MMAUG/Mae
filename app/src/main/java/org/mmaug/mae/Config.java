@@ -64,19 +64,19 @@ public class Config {
   public static final String LAT = "lat";
 
   //candidate endpoints
-  public static final String CANDIDATE_URL = "/" + CANDIDATE;
+  public static final String CANDIDATE_URL = CANDIDATE;
   public static final String CANDIDATE_LIST_URL = CANDIDATE_URL + "/" + LIST;
 
   //party endpoints
-  public static final String PARTY_LIST_URL = "/" + PARTY;
+  public static final String PARTY_LIST_URL = PARTY;
   public static final String PARTY_URL = PARTY_LIST_URL + "/detail";
 
   // faq endpoints
-  public static final String FAQ_URL = "/" + FAQ;
+  public static final String FAQ_URL = FAQ;
   public static final String FAQ_LIST_URL = FAQ_URL + "/" + LIST;
   public static final String FAQ_SEARCH = FAQ_URL + "/search";
 
   //geo location
-  public static final String GEO_LOCATION_URL = "/geo/district";
+  public static final String GEO_LOCATION_URL = "geo/district";
   public static final String GEO_LOCATION_SEARCH = GEO_LOCATION_URL + "/find";
 }
