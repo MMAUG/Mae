@@ -29,7 +29,7 @@ import retrofit.Response;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainFragment extends Fragment
+public class SignUpFragment extends Fragment
     implements com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener {
 
   @Bind(R.id.date_of_birth) TextView mDateOfBirth;
@@ -112,7 +112,7 @@ public class MainFragment extends Fragment
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+    View rootView = inflater.inflate(R.layout.fragment_sign_up, container, false);
     ButterKnife.bind(this, rootView);
     main_view.setVisibility(View.VISIBLE);
     now = Calendar.getInstance();
