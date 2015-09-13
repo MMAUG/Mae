@@ -79,7 +79,7 @@ public class MainFragment extends Fragment
     Call<Voter> voterCall = RESTClient.getService().searchVoter(voterName, params);
     voterCall.enqueue(new Callback<Voter>() {
       @Override public void onResponse(Response<Voter> response) {
-        Log.e("Response", "" + response.code());
+        Log.e("Response", "" + response.message());
 
         Voter voter = response.body();
         contenFragment.setVisibility(View.VISIBLE);

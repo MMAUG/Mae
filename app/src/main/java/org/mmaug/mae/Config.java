@@ -5,14 +5,14 @@ package org.mmaug.mae;
  */
 public class Config {
 
-  public static final String BASE_URL = "http://188.166.240.34/api/v1";
+  public static final String BASE_URL = "http://188.166.240.34/api/v1/";
 
   /**
    * Check Voter API
    **/
 
   //url for voter check
-  public static final String VOTER_CHECK = "/voter-check";
+  public static final String VOTER_CHECK = "voter-check";
 
   //param
   public static final String VOTER_NAME = "name";
