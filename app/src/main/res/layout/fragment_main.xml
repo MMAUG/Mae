@@ -76,6 +76,7 @@
               android:layout_height="0.5dp"
               android:background="@color/mdtp_light_gray"/>
           <EditText
+              android:id="@+id/father_name"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:gravity="center"

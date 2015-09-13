@@ -13,12 +13,14 @@ public class Config {
 
   //url for voter check
   public static final String VOTER_CHECK = "voter-check";
+  public static final String REGISTER = "register";
 
   //param
   public static final String VOTER_NAME = "name";
-  public static final String DATE_OF_BIRTH = "dateofbirth";
+  public static final String DATE_OF_BIRTH = "dob";
+  public static final String TOWNSHIP = "township";
   public static final String FATHER_NAME = "father_name";
-  public static final String NRCNO = "nrc";
+  public static final String NRC = "nrc";
 
   /**
    * MaePaySoh API

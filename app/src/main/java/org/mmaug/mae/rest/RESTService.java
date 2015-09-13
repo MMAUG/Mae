@@ -3,9 +3,13 @@ package org.mmaug.mae.rest;
 import com.google.gson.JsonObject;
 import java.util.Map;
 import org.mmaug.mae.Config;
+import org.mmaug.mae.models.User;
 import org.mmaug.mae.models.Voter;
 import retrofit.Call;
+import retrofit.http.FieldMap;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
+import retrofit.http.POST;
 import retrofit.http.Path;
 import retrofit.http.Query;
 import retrofit.http.QueryMap;
@@ -21,6 +25,9 @@ public interface RESTService {
 
   @GET(Config.VOTER_CHECK) Call<Voter> searchVoter(@Query(Config.VOTER_NAME) String voterName,
       @QueryMap Map<String, String> optionalQueries);
+
+  @FormUrlEncoded @POST(Config.REGISTER) Call<User> registerUser(
+      @FieldMap Map<String, String> body);
 
   /**
    * Maepaysoh services
