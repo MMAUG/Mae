@@ -136,16 +136,16 @@
   </RelativeLayout>
   <android.support.design.widget.FloatingActionButton
       android:id="@+id/post_fab"
+      android:visibility="gone"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:src="@drawable/ic_add"
       android:layout_margin="16dp"
       android:clickable="true"
       app:layout_anchor="@id/avatars"
       app:layout_anchorGravity="bottom|right|end"
       app:pressedTranslationZ="16dp"
       app:borderWidth="0dp"
-      app:elevation="8dp"
+      app:elevation="16dp"
       app:rippleColor="@color/primary_dark"
       />
 
