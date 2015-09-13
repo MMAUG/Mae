@@ -57,7 +57,7 @@ public class MainFragment extends Fragment
   //TODO reenable
   private int calculateSpanCount() {
     int avatarSize = getResources().getDimensionPixelSize(R.dimen.size_fab);
-    int avatarPadding = getResources().getDimensionPixelSize(R.dimen.spacing_double);
+    int avatarPadding = getResources().getDimensionPixelSize(R.dimen.spacing_micro);
     return mAvatarGrid.getWidth() / (avatarSize + avatarPadding);
   }
 

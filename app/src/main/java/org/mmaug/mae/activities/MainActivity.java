@@ -10,7 +10,6 @@ public class MainActivity extends BaseActivity {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -31,5 +30,21 @@ public class MainActivity extends BaseActivity {
     }
 
     return super.onOptionsItemSelected(item);
+  }
+
+  @Override protected int getLayoutResource() {
+    return R.layout.activity_main;
+  }
+
+  @Override protected boolean getHomeUpEnabled() {
+    return false;
+  }
+
+  @Override protected boolean needToolbar() {
+    return true;
+  }
+
+  @Override protected String getToolbarText() {
+    return "မဲပေးစို့";
   }
 }
