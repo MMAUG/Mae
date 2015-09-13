@@ -2,6 +2,8 @@ package org.mmaug.mae.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,8 +61,8 @@ public class MainFragment extends Fragment
     main_view.setVisibility(View.GONE);
     contenFragment.setVisibility(View.VISIBLE);
     HomeFragment homeFragment = new HomeFragment();
-    android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
-    android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
+    FragmentManager fm = getActivity().getSupportFragmentManager();
+    FragmentTransaction transaction = fm.beginTransaction();
     transaction.replace(R.id.contentFragment, homeFragment);
     transaction.commit();
    /* final String voterName = mUserName.getText().toString();
