@@ -49,6 +49,7 @@ public class RESTClient {
       Request.Builder builder = request.newBuilder();
       builder.header("X-API-KEY", "pRGKrLV8pKgReysQ27lORJsFbuJi4eAx");
       builder.header("X-API-SECRET", "r3pcXrYDvsTIRikBBG4SzdzAwgSsdIYU");
+      builder.header("Accept", "application/json");
       request = builder.build();
 
       long t1 = System.nanoTime();
