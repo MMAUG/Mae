@@ -24,8 +24,7 @@ public class RESTClient {
 
     final Retrofit restAdapter =
         new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).
-            client(client).
-            build();
+            client(client).build();
     mService = restAdapter.create(RESTService.class);
   }
 
@@ -40,11 +39,17 @@ public class RESTClient {
     return getInstance().mService;
   }
 
-  class LoggingInterceptor implements Interceptor {
+  private class LoggingInterceptor implements Interceptor {
     private final String TAG = LoggingInterceptor.class.getSimpleName();
 
     @Override public Response intercept(Chain chain) throws IOException {
+
       Request request = chain.request();
+
+      Request.Builder builder = request.newBuilder();
+      builder.header("X-API-KEY", "pRGKrLV8pKgReysQ27lORJsFbuJi4eAx");
+      builder.header("X-API-SECRET", "r3pcXrYDvsTIRikBBG4SzdzAwgSsdIYU");
+      request = builder.build();
 
       long t1 = System.nanoTime();
       Log.i(TAG, String.format("Sending request %s on %s%n%s", request.url(), chain.connection(),
