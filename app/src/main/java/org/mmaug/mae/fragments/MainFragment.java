@@ -77,8 +77,8 @@ public class MainFragment extends Fragment
     voterCall.enqueue(new Callback<Voter>() {
       @Override public void onResponse(Response<Voter> response) {
         Log.e("Response", "" + response.code());
-        Voter voter = response.body();
-        Log.e("Vote Name", voter.getVoterName());
+        //Voter voter = response.body();
+        //Log.e("Vote Name", voter.getVoterName());
         //TODO check null value return  Log.e("Voter", "" + response.body());
       }
 
