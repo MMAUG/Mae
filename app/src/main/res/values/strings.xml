@@ -10,4 +10,8 @@
   <!-- TODO: Remove or change this placeholder text -->
   <string name="hello_blank_fragment">Hello blank fragment</string>
   <string name="check_voter">မဲစာရင်းစစ်ရန်\nအချက်အလက်ထည့်ပါ</string>
+  <string name="congrat">ဂုဏ်ယူပါတယ်</string>
+  <string name="voter_check_ok">မဲပေးခွင့်ရှိသူတစ်ယောက်အဖြစ် မဲစာရင်းတွင် ပါ၀င်ပါသည်</string>
+  <string name="recheck_data">အချက်အလက်ပြန်ကြည့်မည်</string>
+  <string name="ok_myan">ကောင်းပြီ</string>
 </resources>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+    <TextView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.AppCompat.Headline"
+        android:padding="@dimen/spacing_major"
+        android:text="@string/congrat"/>
+    <TextView
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:padding="@dimen/spacing_minor"
+        android:textColor="@color/mdtp_light_gray"
+        android:layout_marginLeft="@dimen/spacing_major"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/voter_check_ok"/>
+    <hu.aut.utillib.circular.widget.CircularFrameLayout
+        android:id="@+id/simple_reveal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/spacing_major">
+
+        <!-- Put any child views here if you want, it's stock FrameLayout  -->
+        <ImageView
+            android:id="@+id/circle_empty"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/circle_bg_white"/>
+        <ImageView
+            android:id="@+id/circle_full"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:scaleType="fitCenter"
+            android:padding="@dimen/spacing_minor"
+            android:src="@drawable/ic_logo_line"
+            android:background="@drawable/circle_bg_green"/>
+
+
+    </hu.aut.utillib.circular.widget.CircularFrameLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="@dimen/spacing_major"
+        android:textColor="@android:color/holo_red_dark"
+        android:text="@string/recheck_data"/>
+
+    <TextView
+        android:id="@+id/voter_check_ok_btn"
+        style="@style/TextAppearance.AppCompat.Button"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/spacing_major"
+        android:background="@color/accent_color"
+        android:foreground="?attr/selectableItemBackground"
+        android:text="@string/ok_myan"/>
+</LinearLayout>

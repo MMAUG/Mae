@@ -44,7 +44,7 @@ public class SignUpFragment extends Fragment
 
   @OnClick(R.id.sign_up_card) void checkVote() {
 
-    //// FIXME: 9/15/15 If the server return proper api response,uncomment below codes
+    //// FIXME: 9/15/15 If the server return proper api response,uncomment below codes <YE MYAT THU>
 
     /**
      * DELETE THIS CODES

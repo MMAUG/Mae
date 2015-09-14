@@ -1,6 +1,8 @@
 package org.mmaug.mae.fragments;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,9 +10,12 @@ import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import hu.aut.utillib.circular.animation.CircularAnimationUtils;
 import java.text.ParseException;
 import java.util.HashMap;
 import org.mmaug.mae.R;
@@ -32,10 +37,12 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
   @Bind(R.id.month_day_left) TextView monthDayLeft;
   @Bind(R.id.hour_minute_left) TextView hourMinuteLeft;
+  @Bind(R.id.tvThumb) TextView tvThumb;
 
   // TODO: Rename and change types of parameters
   private String mParam1;
   private String mParam2;
+  private Dialog voteResultDialog;
 
   private OnFragmentInteractionListener mListener;
 
@@ -122,5 +129,34 @@ public class HomeFragment extends android.support.v4.app.Fragment {
   public interface OnFragmentInteractionListener {
     // TODO: Update argument type and name
     public void onFragmentInteraction(Uri uri);
+  }
+
+  @OnClick(R.id.tvThumb)
+  public void showVoteResult(TextView textView){
+    //// TODO: 9/15/15 Handle the NOT OK result <Ye Myat Thu>
+    View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_voter_check_ok, null);
+    View myTargetView = view.findViewById(R.id.circle_full);
+    View mySourceView = view.findViewById(R.id.circle_empty);
+    View okBtn = view.findViewById(R.id.voter_check_ok_btn);
+    //myTargetView & mySourceView are children in the CircularFrameLayout
+    float finalRadius = CircularAnimationUtils.hypo(200, 200);
+    ////getCenter computes from 2 view: One is touched, and one will be animated, but you can use anything for center
+    //int[] center = CircularAnimationUtils.getCenter(fab, myTargetView);
+    ObjectAnimator animator =
+        CircularAnimationUtils.createCircularTransform(myTargetView, mySourceView, 1,
+            2, 0F, finalRadius);
+    animator.setInterpolator(new AccelerateDecelerateInterpolator());
+    animator.setDuration(1500);
+    voteResultDialog = new Dialog(getActivity(),android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
+    voteResultDialog.setContentView(view);
+    voteResultDialog.show();
+    animator.start();
+    okBtn.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        if (voteResultDialog.isShowing()){
+          voteResultDialog.dismiss();
+        }
+      }
+    });
   }
 }
