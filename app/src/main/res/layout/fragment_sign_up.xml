@@ -42,8 +42,8 @@
           android:id="@+id/register_card"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginLeft="@dimen/spacing_massive"
-          android:layout_marginRight="@dimen/spacing_massive"
+          android:layout_marginLeft="@dimen/spacing_not_so_massive"
+          android:layout_marginRight="@dimen/spacing_not_so_massive"
           app:cardUseCompatPadding="true"
           app:cardElevation="@dimen/spacing_major">
         <LinearLayout
