@@ -25,13 +25,12 @@
         android:gravity="center">
       <ImageView
           android:id="@+id/tick_mark_iv"
-          android:layout_width="100dp"
-          android:layout_height="100dp"
+          android:layout_width="56dp"
+          android:layout_height="56dp"
           android:src="@drawable/ic_logo_line"
           android:layout_margin="@dimen/spacing_major"/>
       <TextView
-          style="@style/TextAppearance.AppCompat.Headline"
-          android:textColor="@color/white"
+          style="@style/TextAppearance.AppCompat.Title.Inverse"
           android:padding="@dimen/spacing_minor"
           android:gravity="center"
           android:textStyle="bold"
@@ -45,8 +44,6 @@
           android:layout_height="wrap_content"
           android:layout_marginLeft="@dimen/spacing_massive"
           android:layout_marginRight="@dimen/spacing_massive"
-          android:layout_marginTop="@dimen/spacing_minor"
-          android:layout_marginBottom="@dimen/spacing_minor"
           app:cardUseCompatPadding="true"
           app:cardElevation="@dimen/spacing_major">
         <LinearLayout
