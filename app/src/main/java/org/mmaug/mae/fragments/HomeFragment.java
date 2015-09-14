@@ -116,6 +116,35 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     super.onDetach();
   }
 
+  @OnClick(R.id.tvThumb) public void showVoteResult(TextView textView) {
+    //// TODO: 9/15/15 Handle the NOT OK result <Ye Myat Thu>
+    View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_voter_check_ok, null);
+    View myTargetView = view.findViewById(R.id.circle_full);
+    View mySourceView = view.findViewById(R.id.circle_empty);
+    View okBtn = view.findViewById(R.id.voter_check_ok_btn);
+    //myTargetView & mySourceView are children in the CircularFrameLayout
+    float finalRadius = CircularAnimationUtils.hypo(200, 200);
+    ////getCenter computes from 2 view: One is touched, and one will be animated, but you can use anything for center
+    //int[] center = CircularAnimationUtils.getCenter(fab, myTargetView);
+    ObjectAnimator animator =
+        CircularAnimationUtils.createCircularTransform(myTargetView, mySourceView, 1, 2, 0F,
+            finalRadius);
+    animator.setInterpolator(new AccelerateDecelerateInterpolator());
+    animator.setDuration(1500);
+    voteResultDialog =
+        new Dialog(getActivity(), android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
+    voteResultDialog.setContentView(view);
+    voteResultDialog.show();
+    animator.start();
+    okBtn.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        if (voteResultDialog.isShowing()) {
+          voteResultDialog.dismiss();
+        }
+      }
+    });
+  }
+
   /**
    * This interface must be implemented by activities that contain this
    * fragment to allow an interaction in this fragment to be communicated
@@ -129,34 +158,5 @@ public class HomeFragment extends android.support.v4.app.Fragment {
   public interface OnFragmentInteractionListener {
     // TODO: Update argument type and name
     public void onFragmentInteraction(Uri uri);
-  }
-
-  @OnClick(R.id.tvThumb)
-  public void showVoteResult(TextView textView){
-    //// TODO: 9/15/15 Handle the NOT OK result <Ye Myat Thu>
-    View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_voter_check_ok, null);
-    View myTargetView = view.findViewById(R.id.circle_full);
-    View mySourceView = view.findViewById(R.id.circle_empty);
-    View okBtn = view.findViewById(R.id.voter_check_ok_btn);
-    //myTargetView & mySourceView are children in the CircularFrameLayout
-    float finalRadius = CircularAnimationUtils.hypo(200, 200);
-    ////getCenter computes from 2 view: One is touched, and one will be animated, but you can use anything for center
-    //int[] center = CircularAnimationUtils.getCenter(fab, myTargetView);
-    ObjectAnimator animator =
-        CircularAnimationUtils.createCircularTransform(myTargetView, mySourceView, 1,
-            2, 0F, finalRadius);
-    animator.setInterpolator(new AccelerateDecelerateInterpolator());
-    animator.setDuration(1500);
-    voteResultDialog = new Dialog(getActivity(),android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
-    voteResultDialog.setContentView(view);
-    voteResultDialog.show();
-    animator.start();
-    okBtn.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View view) {
-        if (voteResultDialog.isShowing()){
-          voteResultDialog.dismiss();
-        }
-      }
-    });
   }
 }

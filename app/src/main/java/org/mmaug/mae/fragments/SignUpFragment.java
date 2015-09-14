@@ -70,7 +70,7 @@ public class SignUpFragment extends Fragment
     FragmentManager fm = getActivity().getSupportFragmentManager();
     FragmentTransaction transaction = fm.beginTransaction();
     transaction.replace(R.id.contentFragment, homeFragment);
-          transaction.commit();
+    transaction.commit();
 
     /***
      * UNCOMMENT THIS CODES
@@ -94,23 +94,23 @@ public class SignUpFragment extends Fragment
     //  @Override public void onResponse(Response<User> response) {
 
     // if (response.code() == 201) {
-        //main_view.setVisibility(View.GONE);
-        //contenFragment.setVisibility(View.VISIBLE);
-        //HomeFragment homeFragment = new HomeFragment();
-        //FragmentManager fm = getActivity().getSupportFragmentManager();
-        //FragmentTransaction transaction = fm.beginTransaction();
-        //transaction.replace(R.id.contentFragment, homeFragment);
-        //      transaction.commit();
-        //    }
-        //    Log.e("Response", response.code() + " " + response.message());
-        //  }
-        //
-        //  @Override public void onFailure(Throwable t) {
-        //
-        //  }
-        //});
-        //}
-    }
+    //main_view.setVisibility(View.GONE);
+    //contenFragment.setVisibility(View.VISIBLE);
+    //HomeFragment homeFragment = new HomeFragment();
+    //FragmentManager fm = getActivity().getSupportFragmentManager();
+    //FragmentTransaction transaction = fm.beginTransaction();
+    //transaction.replace(R.id.contentFragment, homeFragment);
+    //      transaction.commit();
+    //    }
+    //    Log.e("Response", response.code() + " " + response.message());
+    //  }
+    //
+    //  @Override public void onFailure(Throwable t) {
+    //
+    //  }
+    //});
+    //}
+  }
 
   @OnClick(R.id.date_of_birth) void DatePicker() {
     now = Calendar.getInstance();
