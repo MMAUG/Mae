@@ -3,6 +3,7 @@ package org.mmaug.mae.rest;
 import com.google.gson.JsonObject;
 import java.util.Map;
 import org.mmaug.mae.Config;
+import org.mmaug.mae.models.User;
 import org.mmaug.mae.models.Voter;
 import retrofit.Call;
 import retrofit.http.FieldMap;
@@ -26,7 +27,7 @@ public interface RESTService {
       @QueryMap Map<String, String> optionalQueries);
 
   //TODO to check this is work or not
-  @FormUrlEncoded @POST(Config.REGISTER) Call<Voter> registerUser(
+  @FormUrlEncoded @POST(Config.REGISTER) Call<User> registerUser(
       @FieldMap Map<String, String> body);
 
   /**
