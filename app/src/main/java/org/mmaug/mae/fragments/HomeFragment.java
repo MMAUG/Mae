@@ -85,7 +85,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
     try {
 
-      new CountDownTimer(MixUtils.calculateTimeLeftToVote(), 1000 * 60) {
+      new CountDownTimer(MixUtils.calculateTimeLeftToVote(), 1000) {
         @Override public void onTick(long millisUntilFinished) {
 
           HashMap<String, String> values = MixUtils.formatTime(millisUntilFinished);

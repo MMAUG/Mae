@@ -52,6 +52,8 @@ public class MixUtils {
     long hours = TimeUnit.MILLISECONDS.toHours(millis);
     millis -= TimeUnit.HOURS.toMillis(hours);
     long minutes = TimeUnit.MILLISECONDS.toMinutes(millis);
+    millis -= TimeUnit.MINUTES.toMillis(minutes);
+    long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
 
     long month = 0;
     if (days > 30) {
@@ -80,6 +82,11 @@ public class MixUtils {
     if (!(hours == 0 && minutes == 0)) {
       hourMinutes.append(minutes);
       hourMinutes.append(" မိနစ် ");
+    }
+
+    if (hours == 0 && minutes != 0) {
+      hourMinutes.append(seconds);
+      hourMinutes.append(" စက္ကန့် ");
     }
 
     HashMap<String, String> hashMap = new HashMap<>();
