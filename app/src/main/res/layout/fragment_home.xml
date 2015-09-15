@@ -43,6 +43,7 @@
             android:gravity="center"
             >
           <TextView
+              android:id="@+id/to_vote"
               android:gravity="center_horizontal|center|center_vertical"
               android:textColor="@color/white"
               android:textStyle="bold"

@@ -37,6 +37,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
   @Bind(R.id.month_day_left) TextView monthDayLeft;
   @Bind(R.id.hour_minute_left) TextView hourMinuteLeft;
+  @Bind(R.id.to_vote) TextView toVote;
   @Bind(R.id.tvThumb) TextView tvThumb;
 
   // TODO: Rename and change types of parameters
@@ -84,10 +85,10 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
     try {
 
-      new CountDownTimer(MixUtils.millisToLongDHMS(), 1000 * 60) {
+      new CountDownTimer(MixUtils.calculateTimeLeftToVote(), 1000 * 60) {
         @Override public void onTick(long millisUntilFinished) {
 
-          HashMap<String, String> values = MixUtils.millisToLongDHMS(millisUntilFinished);
+          HashMap<String, String> values = MixUtils.formatTime(millisUntilFinished);
           String monthDay = MixUtils.convertToBurmese(values.get("month_day"));
           String hourMinute = MixUtils.convertToBurmese(values.get("hour_minute"));
           monthDayLeft.setText(monthDay);
@@ -96,15 +97,13 @@ public class HomeFragment extends android.support.v4.app.Fragment {
           if (monthDay.isEmpty()) {
             monthDayLeft.setVisibility(View.GONE);
           }
-          if (hourMinute.isEmpty()) {
-            monthDayLeft.setText("အခ\u103Bိန\u103Aရောက\u103Aပ\u103Cီ");
-            monthDayLeft.setVisibility(View.VISIBLE);
-            hourMinuteLeft.setVisibility(View.GONE);
-          }
         }
 
         @Override public void onFinish() {
-
+          toVote.setText("ပြောင်းလဲရန်");
+          monthDayLeft.setText("အခ\u103Bိန\u103Aရောက\u103Aပ\u103Cီ");
+          monthDayLeft.setVisibility(View.VISIBLE);
+          hourMinuteLeft.setVisibility(View.GONE);
         }
       }.start();
     } catch (ParseException e) {

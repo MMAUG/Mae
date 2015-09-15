@@ -37,7 +37,7 @@ public class MixUtils {
     return border;
   }
 
-  public static long millisToLongDHMS() throws ParseException {
+  public static long calculateTimeLeftToVote() throws ParseException {
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
     formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
     String electionTime = "2015-11-08 08:00:00";
@@ -45,7 +45,7 @@ public class MixUtils {
     return electionDate.getTime() - new Date().getTime();
   }
 
-  public static HashMap<String, String> millisToLongDHMS(long millis) {
+  public static HashMap<String, String> formatTime(long millis) {
 
     long days = TimeUnit.MILLISECONDS.toDays(millis);
     millis -= TimeUnit.DAYS.toMillis(days);
