@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.transition.Slide;
 import android.transition.TransitionManager;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import java.text.ParseException;
@@ -22,7 +23,7 @@ public class MixUtils {
 
   public static void makeSlide(View rootView) {
     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-      TransitionManager.beginDelayedTransition((ViewGroup) rootView, new Slide());
+      TransitionManager.beginDelayedTransition((ViewGroup) rootView, new Slide(Gravity.BOTTOM));
     } else {
     }
   }

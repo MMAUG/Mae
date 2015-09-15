@@ -57,7 +57,7 @@ public interface RESTService {
       @QueryMap Map<String, String> optionalQueries);
 
   //party
-  @GET(Config.PARTY_LIST_URL) Call<JsonObject> getPartyList();
+  @GET(Config.PARTY_LIST_URL) Call<JsonObject> getPartyList(@Query("token") String user_token);
 
   @GET(Config.PARTY_URL + "{/id}") Call<JsonObject> getPartyDetail(@Path("id") String id);
 }
