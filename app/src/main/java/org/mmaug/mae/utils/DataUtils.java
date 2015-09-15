@@ -58,6 +58,69 @@ public class DataUtils {
     return stateRegions;
   }
 
+  public ArrayList<District> loadDistrict() {
+    ArrayList<District> districts = new ArrayList<>();
+    try {
+      InputStream json = mContext.getAssets().open("District.json");
+      JsonParser parser = new JsonParser();
+      JsonReader reader = new JsonReader(new InputStreamReader(json));
+      reader.setLenient(true);
+
+      JsonArray data = parser.parse(reader).getAsJsonArray();
+
+      for (JsonElement element : data) {
+        District district = gson.fromJson(element, District.class);
+        districts.add(district);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    return districts;
+  }
+
+  public ArrayList<Township> loadTownship() {
+    ArrayList<Township> townships = new ArrayList<>();
+    try {
+      InputStream json = mContext.getAssets().open("Township.json");
+      JsonParser parser = new JsonParser();
+      JsonReader reader = new JsonReader(new InputStreamReader(json));
+      reader.setLenient(true);
+
+      JsonArray data = parser.parse(reader).getAsJsonArray();
+
+      for (JsonElement element : data) {
+        Township township = gson.fromJson(element, Township.class);
+        townships.add(township);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    return townships;
+  }
+
+  public ArrayList<Town> loadTown() {
+    ArrayList<Town> stateRegions = new ArrayList<>();
+    try {
+      InputStream json = mContext.getAssets().open("Towns.json");
+      JsonParser parser = new JsonParser();
+      JsonReader reader = new JsonReader(new InputStreamReader(json));
+      reader.setLenient(true);
+
+      JsonArray data = parser.parse(reader).getAsJsonArray();
+
+      for (JsonElement element : data) {
+        Town town = gson.fromJson(element, Town.class);
+        stateRegions.add(town);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    return stateRegions;
+  }
+
   public static class StateRegion {
     @SerializedName("SR_Pcode") private String SRPcode;
     @SerializedName("State_Region") private String SateRegionName;
