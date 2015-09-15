@@ -93,7 +93,6 @@ public class HomeFragment extends android.support.v4.app.Fragment {
           String hourMinute = MixUtils.convertToBurmese(values.get("hour_minute"));
           monthDayLeft.setText(monthDay);
           hourMinuteLeft.setText(hourMinute);
-
           if (monthDay.isEmpty()) {
             monthDayLeft.setVisibility(View.GONE);
           }
