@@ -6,12 +6,11 @@ package org.mmaug.mae;
 public class Config {
 
   public static final String BASE_URL = "http://188.166.240.34/api/v1/";
+
   /**
    * Check Voter API
    **/
 
-  //url for voter check
-  public static final String VOTER_CHECK = "voter-check";
   public static final String REGISTER = "register";
 
   //param
@@ -52,7 +51,7 @@ public class Config {
   public static final String MALE = "M";
 
   //http://api.maepaysoh.org/party?token=user-token-key
-  public static final String PARTY = "http://api.maepaysoh.org";
+  public static final String PARTY = "msp";
   public static final String CANDIDATE = "candidate";
 
   public static final String FAQ = "faq";
@@ -71,7 +70,6 @@ public class Config {
 
   //party endpoints
   public static final String PARTY_LIST_URL = PARTY;
-  public static final String PARTY_URL = PARTY_LIST_URL + "/party";
 
   // faq endpoints
   public static final String FAQ_URL = FAQ;
