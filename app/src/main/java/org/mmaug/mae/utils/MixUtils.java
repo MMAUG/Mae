@@ -2,6 +2,10 @@ package org.mmaug.mae.utils;
 
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.transition.Slide;
+import android.transition.TransitionManager;
+import android.view.View;
+import android.view.ViewGroup;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,6 +19,13 @@ import org.mmaug.mae.R;
  * Created by poepoe on 13/9/15.
  */
 public class MixUtils {
+
+  public static void makeSlide(View rootView) {
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+      TransitionManager.beginDelayedTransition((ViewGroup) rootView, new Slide());
+    } else {
+    }
+  }
 
   public static final Drawable getImageDrawable(Resources res) {
     Drawable border;

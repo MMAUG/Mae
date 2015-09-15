@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
+import org.mmaug.mae.utils.MixUtils;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -65,6 +66,7 @@ public class SignUpFragment extends Fragment
     params.put(Config.TOWNSHIP, "အင်းစိန်");
 
     main_view.setVisibility(View.GONE);
+    MixUtils.makeSlide(contenFragment);
     contenFragment.setVisibility(View.VISIBLE);
     HomeFragment homeFragment = new HomeFragment();
     FragmentManager fm = getActivity().getSupportFragmentManager();
