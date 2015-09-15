@@ -1,0 +1,802 @@
+[
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR001",
+    "State_Region": "Kachin",
+    "D_Pcode": "MMR001D001",
+    "District": "Myitkyina",
+    "District_Mya_MM3": "မြစ်ကြီးနားခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR001D001",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR001",
+    "State_Region": "Kachin",
+    "D_Pcode": "MMR001D002",
+    "District": "Mohnyin",
+    "District_Mya_MM3": "မိုးညှင်းခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR001D002",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR001",
+    "State_Region": "Kachin",
+    "D_Pcode": "MMR001D003",
+    "District": "Bhamo",
+    "District_Mya_MM3": "ဗန်းမော်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR001D003",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR001",
+    "State_Region": "Kachin",
+    "D_Pcode": "MMR001D004",
+    "District": "Puta-O",
+    "District_Mya_MM3": "ပူတာအိုခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR001D004",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR002",
+    "State_Region": "Kayah",
+    "D_Pcode": "MMR002D001",
+    "District": "Loikaw",
+    "District_Mya_MM3": "လွိုင်ကော်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR002D001",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR002",
+    "State_Region": "Kayah",
+    "D_Pcode": "MMR002D002",
+    "District": "Bawlake",
+    "District_Mya_MM3": "ဘောလခဲခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR002D002",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR003",
+    "State_Region": "Kayin",
+    "D_Pcode": "MMR003D001",
+    "District": "Hpa-An",
+    "District_Mya_MM3": "ဘားအံခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR003D001",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR003",
+    "State_Region": "Kayin",
+    "D_Pcode": "MMR003D002",
+    "District": "Myawaddy",
+    "District_Mya_MM3": "မြဝတီခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR003D002",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR003",
+    "State_Region": "Kayin",
+    "D_Pcode": "MMR003D003",
+    "District": "Kawkareik",
+    "District_Mya_MM3": "ကော့ကရိတ်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR003D003",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR003",
+    "State_Region": "Kayin",
+    "D_Pcode": "MMR003D004",
+    "District": "Hpapun",
+    "District_Mya_MM3": "ဖာပွန်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR003D004",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR004",
+    "State_Region": "Chin",
+    "D_Pcode": "MMR004D001",
+    "District": "Falam",
+    "District_Mya_MM3": "ဖလန်းခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR004D001",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR004",
+    "State_Region": "Chin",
+    "D_Pcode": "MMR004D002",
+    "District": "Mindat",
+    "District_Mya_MM3": "မင်းတပ်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR004D002",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR004",
+    "State_Region": "Chin",
+    "D_Pcode": "MMR004D003",
+    "District": "Hakha",
+    "District_Mya_MM3": "ဟားခါးခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR004D003",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR005",
+    "State_Region": "Sagaing",
+    "D_Pcode": "MMR005D001",
+    "District": "Sagaing",
+    "District_Mya_MM3": "စစ်ကိုင်းခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR005D001",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR005",
+    "State_Region": "Sagaing",
+    "D_Pcode": "MMR005D002",
+    "District": "Shwebo",
+    "District_Mya_MM3": "ရွှေဘိုခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR005D002",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR005",
+    "State_Region": "Sagaing",
+    "D_Pcode": "MMR005D003",
+    "District": "Monywa",
+    "District_Mya_MM3": "မုံရွာခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR005D003",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR005",
+    "State_Region": "Sagaing",
+    "D_Pcode": "MMR005D004",
+    "District": "Katha",
+    "District_Mya_MM3": "ကသာခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR005D004",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR005",
+    "State_Region": "Sagaing",
+    "D_Pcode": "MMR005D005",
+    "District": "Kale",
+    "District_Mya_MM3": "ကလေးခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR005D005",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR005",
+    "State_Region": "Sagaing",
+    "D_Pcode": "MMR005D006",
+    "District": "Tamu",
+    "District_Mya_MM3": "တမူးခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR005D006",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR005",
+    "State_Region": "Sagaing",
+    "D_Pcode": "MMR005D007",
+    "District": "Mawlaik",
+    "District_Mya_MM3": "မော်လိုက်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR005D007",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR005",
+    "State_Region": "Sagaing",
+    "D_Pcode": "MMR005D008",
+    "District": "Hkamti",
+    "District_Mya_MM3": "ခန္တီးခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR005D008",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "New District formed with government notification issued on June 2013",
+    "SR_Pcode": "MMR005",
+    "State_Region": "Sagaing",
+    "D_Pcode": "MMR005D009",
+    "District": "Yinmarbin",
+    "District_Mya_MM3": "ယင်းမာပင်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR005D009",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "New District formed with government notification issued on March 2015",
+    "SR_Pcode": "MMR005",
+    "State_Region": "Sagaing",
+    "D_Pcode": "MMR005D010",
+    "District": "Kanbalu",
+    "District_Mya_MM3": "ကန့်ဘလူခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR005D010",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR006",
+    "State_Region": "Tanintharyi",
+    "D_Pcode": "MMR006D001",
+    "District": "Dawei",
+    "District_Mya_MM3": "ထားဝယ်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR006D001",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR006",
+    "State_Region": "Tanintharyi",
+    "D_Pcode": "MMR006D002",
+    "District": "Myeik",
+    "District_Mya_MM3": "မြိတ်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR006D002",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR006",
+    "State_Region": "Tanintharyi",
+    "D_Pcode": "MMR006D003",
+    "District": "Kawthoung",
+    "District_Mya_MM3": "ကော့သောင်းခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR006D003",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR007",
+    "State_Region": "Bago (East)",
+    "D_Pcode": "MMR007D001",
+    "District": "Bago",
+    "District_Mya_MM3": "ပဲခူးခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR007D001",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR007",
+    "State_Region": "Bago (East)",
+    "D_Pcode": "MMR007D002",
+    "District": "Taungoo",
+    "District_Mya_MM3": "တောင်ငူခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR007D002",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR008",
+    "State_Region": "Bago (West)",
+    "D_Pcode": "MMR008D001",
+    "District": "Pyay",
+    "District_Mya_MM3": "ပြည်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR008D001",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR008",
+    "State_Region": "Bago (West)",
+    "D_Pcode": "MMR008D002",
+    "District": "Thayarwady",
+    "District_Mya_MM3": "သာယာဝတီခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR008D002",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR009",
+    "State_Region": "Magway",
+    "D_Pcode": "MMR009D001",
+    "District": "Magway",
+    "District_Mya_MM3": "မကွေးခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR009D001",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR009",
+    "State_Region": "Magway",
+    "D_Pcode": "MMR009D002",
+    "District": "Minbu",
+    "District_Mya_MM3": "မင်းဘူးခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR009D002",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR009",
+    "State_Region": "Magway",
+    "D_Pcode": "MMR009D003",
+    "District": "Thayet",
+    "District_Mya_MM3": "သရက်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR009D003",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR009",
+    "State_Region": "Magway",
+    "D_Pcode": "MMR009D004",
+    "District": "Pakokku",
+    "District_Mya_MM3": "ပခုက္ကူခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR009D004",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR009",
+    "State_Region": "Magway",
+    "D_Pcode": "MMR009D005",
+    "District": "Gangaw",
+    "District_Mya_MM3": "ဂန့်ဂေါခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR009D005",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR010",
+    "State_Region": "Mandalay",
+    "D_Pcode": "MMR010D001",
+    "District": "Mandalay",
+    "District_Mya_MM3": "မန္တလေးခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR010D001",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR010",
+    "State_Region": "Mandalay",
+    "D_Pcode": "MMR010D002",
+    "District": "Pyinoolwin",
+    "District_Mya_MM3": "ပြင်ဦးလွင်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR010D002",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR010",
+    "State_Region": "Mandalay",
+    "D_Pcode": "MMR010D003",
+    "District": "Kyaukse",
+    "District_Mya_MM3": "ကျောက်ဆည်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR010D003",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR010",
+    "State_Region": "Mandalay",
+    "D_Pcode": "MMR010D004",
+    "District": "Myingyan",
+    "District_Mya_MM3": "မြင်းခြံခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR010D004",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR010",
+    "State_Region": "Mandalay",
+    "D_Pcode": "MMR010D005",
+    "District": "Nyaung-U",
+    "District_Mya_MM3": "ညောင်ဦးခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR010D005",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR010",
+    "State_Region": "Mandalay",
+    "D_Pcode": "MMR010D006",
+    "District": "Yamethin",
+    "District_Mya_MM3": "ရမည်းသင်းခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR010D006",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR010",
+    "State_Region": "Mandalay",
+    "D_Pcode": "MMR010D007",
+    "District": "Meiktila",
+    "District_Mya_MM3": "မိတ္ထီလာခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR010D007",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR011",
+    "State_Region": "Mon",
+    "D_Pcode": "MMR011D001",
+    "District": "Mawlamyine",
+    "District_Mya_MM3": "မော်လမြိုင်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR011D001",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR011",
+    "State_Region": "Mon",
+    "D_Pcode": "MMR011D002",
+    "District": "Thaton",
+    "District_Mya_MM3": "သထုံခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR011D002",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR012",
+    "State_Region": "Rakhine",
+    "D_Pcode": "MMR012D001",
+    "District": "Sittwe",
+    "District_Mya_MM3": "စစ်တွေခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR012D001",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR012",
+    "State_Region": "Rakhine",
+    "D_Pcode": "MMR012D002",
+    "District": "Maungdaw",
+    "District_Mya_MM3": "မောင်တောခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR012D002",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR012",
+    "State_Region": "Rakhine",
+    "D_Pcode": "MMR012D003",
+    "District": "Kyaukpyu",
+    "District_Mya_MM3": "ကျောက်ဖြူခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR012D003",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR012",
+    "State_Region": "Rakhine",
+    "D_Pcode": "MMR012D004",
+    "District": "Thandwe",
+    "District_Mya_MM3": "သံတွဲခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR012D004",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR012",
+    "State_Region": "Rakhine",
+    "D_Pcode": "MMR012D005",
+    "District": "Mrauk-U",
+    "District_Mya_MM3": "မြောက်ဦးခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR012D005",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR013",
+    "State_Region": "Yangon",
+    "D_Pcode": "MMR013D001",
+    "District": "Yangon (North)",
+    "District_Mya_MM3": "ရန်ကုန်(မြောက်ပိုင်း)",
+    "MYAINFO_D_ID": "ASIMMR013D001",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR013",
+    "State_Region": "Yangon",
+    "D_Pcode": "MMR013D002",
+    "District": "Yangon (East)",
+    "District_Mya_MM3": "ရန်ကုန်(အရှေ့ပိုင်း)",
+    "MYAINFO_D_ID": "ASIMMR013D002",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR013",
+    "State_Region": "Yangon",
+    "D_Pcode": "MMR013D003",
+    "District": "Yangon (South)",
+    "District_Mya_MM3": "ရန်ကုန်(တောင်ပိုင်း)",
+    "MYAINFO_D_ID": "ASIMMR013D003",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR013",
+    "State_Region": "Yangon",
+    "D_Pcode": "MMR013D004",
+    "District": "Yangon (West)",
+    "District_Mya_MM3": "ရန်ကုန်(အနောက်ပိုင်း)",
+    "MYAINFO_D_ID": "ASIMMR013D004",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR014",
+    "State_Region": "Shan (South)",
+    "D_Pcode": "MMR014D001",
+    "District": "Taunggyi",
+    "District_Mya_MM3": "တောင်ကြီးခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR014D001",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR014",
+    "State_Region": "Shan (South)",
+    "D_Pcode": "MMR014D002",
+    "District": "Loilen",
+    "District_Mya_MM3": "လွိုင်လင်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR014D002",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR014",
+    "State_Region": "Shan (South)",
+    "D_Pcode": "MMR014D003",
+    "District": "Langkho",
+    "District_Mya_MM3": "လင်းခေးရိုင်",
+    "MYAINFO_D_ID": "ASIMMR014D003",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR015",
+    "State_Region": "Shan (North)",
+    "D_Pcode": "MMR015D001",
+    "District": "Lashio",
+    "District_Mya_MM3": "လားရှိုးခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR015D001",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR015",
+    "State_Region": "Shan (North)",
+    "D_Pcode": "MMR015D002",
+    "District": "Muse",
+    "District_Mya_MM3": "မူဆယ်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR015D002",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR015",
+    "State_Region": "Shan (North)",
+    "D_Pcode": "MMR015D003",
+    "District": "Kyaukme",
+    "District_Mya_MM3": "ကျောက်မဲခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR015D003",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "Deleted, GAD notification issued on Jan 2014",
+    "SR_Pcode": "MMR015",
+    "State_Region": "Shan (North)",
+    "D_Pcode": "MMR015D004",
+    "District": "Kunlong",
+    "District_Mya_MM3": "ကွမ်းလုံခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR015D004",
+    "Sources": "GAD, Feb 2011"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR015",
+    "State_Region": "Shan (North)",
+    "D_Pcode": "MMR015D005",
+    "District": "Laukkaing",
+    "District_Mya_MM3": "လောက်ကိုင်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR015D005",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "New District formed with government notification issued on August 2011",
+    "SR_Pcode": "MMR015",
+    "State_Region": "Shan (North)",
+    "D_Pcode": "MMR015D006",
+    "District": "Hopang",
+    "District_Mya_MM3": "ဟိုပန်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR015D006",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "New District formed with government notification issued on Jan 2013",
+    "SR_Pcode": "MMR015",
+    "State_Region": "Shan (North)",
+    "D_Pcode": "MMR015D007",
+    "District": "Matman",
+    "District_Mya_MM3": "မက်မန်းခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR015D007",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "New District formed with government notification issued on Jan 2014",
+    "SR_Pcode": "MMR015",
+    "State_Region": "Shan (North)",
+    "D_Pcode": "MMR015D008",
+    "District": "Mongmit",
+    "District_Mya_MM3": "မိုးမိတ်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR015D008",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR015",
+    "State_Region": "Shan (North)",
+    "D_Pcode": "MMR015D221",
+    "District": "Laukkaing (Kokang SAZ)",
+    "District_Mya_MM3": "လောက်ကိုင်-ကိုးကန့်အထူးဒေသ (၁)",
+    "MYAINFO_D_ID": "ASIMMR015D221",
+    "Sources": "UNODC_Sep 2009"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR015",
+    "State_Region": "Shan (North)",
+    "D_Pcode": "MMR015D331",
+    "District": "Mong Maw (Wa SAD)",
+    "District_Mya_MM3": "မိုင်းမော-ဝအထူးဒေသ (၂)",
+    "MYAINFO_D_ID": "ASIMMR015D331",
+    "Sources": "UNODC_Sep 2009"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR015",
+    "State_Region": "Shan (North)",
+    "D_Pcode": "MMR015D332",
+    "District": "Wein Kawng (Wein Kao) (Wa SAD)",
+    "District_Mya_MM3": "ဝိန်းကောင်-ဝအထူးဒေသ (၂)",
+    "MYAINFO_D_ID": "ASIMMR015D332",
+    "Sources": "UNODC_Sep 2009"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR016",
+    "State_Region": "Shan (East)",
+    "D_Pcode": "MMR016D001",
+    "District": "Kengtung",
+    "District_Mya_MM3": "ကျိုင်းတုံခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR016D001",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR016",
+    "State_Region": "Shan (East)",
+    "D_Pcode": "MMR016D002",
+    "District": "Monghsat",
+    "District_Mya_MM3": "မိုင်းဆတ်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR016D002",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR016",
+    "State_Region": "Shan (East)",
+    "D_Pcode": "MMR016D003",
+    "District": "Tachileik",
+    "District_Mya_MM3": "တာချီလိတ်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR016D003",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "Deleted, GAD notification issued on Nov 2014",
+    "SR_Pcode": "MMR016",
+    "State_Region": "Shan (East)",
+    "D_Pcode": "MMR016D004",
+    "District": "Monghpyak",
+    "District_Mya_MM3": "မိုင်းဖြတ်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR016D004",
+    "Sources": "GAD, Feb 2011"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR016",
+    "State_Region": "Shan (East)",
+    "D_Pcode": "MMR016D333",
+    "District": "Mong Pawk (Wa SAD)",
+    "District_Mya_MM3": "မိုင်းပေါက်-ဝအထူးဒေသ (၂)",
+    "MYAINFO_D_ID": "ASIMMR016D333",
+    "Sources": "UNODC_Sep 2009"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR017",
+    "State_Region": "Ayeyarwady",
+    "D_Pcode": "MMR017D001",
+    "District": "Pathein",
+    "District_Mya_MM3": "ပုသိမ်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR017D001",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR017",
+    "State_Region": "Ayeyarwady",
+    "D_Pcode": "MMR017D002",
+    "District": "Hinthada",
+    "District_Mya_MM3": "ဟင်္သာတခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR017D002",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR017",
+    "State_Region": "Ayeyarwady",
+    "D_Pcode": "MMR017D003",
+    "District": "Myaungmya",
+    "District_Mya_MM3": "မြောင်းမြခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR017D003",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR017",
+    "State_Region": "Ayeyarwady",
+    "D_Pcode": "MMR017D004",
+    "District": "Labutta",
+    "District_Mya_MM3": "လပွတ္တာခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR017D004",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR017",
+    "State_Region": "Ayeyarwady",
+    "D_Pcode": "MMR017D005",
+    "District": "Maubin",
+    "District_Mya_MM3": "မအူပင်ခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR017D005",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR017",
+    "State_Region": "Ayeyarwady",
+    "D_Pcode": "MMR017D006",
+    "District": "Pyapon",
+    "District_Mya_MM3": "ဖျာပုံခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR017D006",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR018",
+    "State_Region": "Nay Pyi Taw",
+    "D_Pcode": "MMR018D001",
+    "District": "Oke Ta Ra",
+    "District_Mya_MM3": "ဥတ္တရခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR018D001",
+    "Sources": "GAD, Mar 2015"
+  },
+  {
+    "Remark": "",
+    "SR_Pcode": "MMR018",
+    "State_Region": "Nay Pyi Taw",
+    "D_Pcode": "MMR018D002",
+    "District": "Det Khi Na",
+    "District_Mya_MM3": "ဒက္ခိဏခရိုင်",
+    "MYAINFO_D_ID": "ASIMMR018D002",
+    "Sources": "GAD, Mar 2015"
+  }
+]
