@@ -55,13 +55,21 @@ public class MixUtils {
       monthDay.append(month);
       monthDay.append(" လ ");
     }
-    monthDay.append(days);
-    monthDay.append(" ရက် ");
 
-    hourMinutes.append(hours);
-    hourMinutes.append(" နာရီ ");
-    hourMinutes.append(minutes);
-    hourMinutes.append(" မိနစ် ");
+    if (days != 0) {
+      monthDay.append(days);
+      monthDay.append(" ရက် ");
+    }
+
+    if (hours != 0) {
+      hourMinutes.append(hours);
+      hourMinutes.append(" နာရီ ");
+    }
+
+    if (!(hours == 0 && minutes == 0)) {
+      hourMinutes.append(minutes);
+      hourMinutes.append(" မိနစ် ");
+    }
 
     HashMap<String, String> hashMap = new HashMap<>();
     hashMap.put("month_day", monthDay.toString());

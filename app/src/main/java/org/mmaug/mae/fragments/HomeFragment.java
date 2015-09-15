@@ -87,8 +87,19 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         @Override public void onTick(long millisUntilFinished) {
 
           HashMap<String, String> values = MixUtils.millisToLongDHMS(millisUntilFinished);
-          monthDayLeft.setText(MixUtils.convertToBurmese(values.get("month_day")));
-          hourMinuteLeft.setText(MixUtils.convertToBurmese(values.get("hour_minute")));
+          String monthDay = MixUtils.convertToBurmese(values.get("month_day"));
+          String hourMinute = MixUtils.convertToBurmese(values.get("hour_minute"));
+          monthDayLeft.setText(monthDay);
+          hourMinuteLeft.setText(hourMinute);
+
+          if (monthDay.isEmpty()) {
+            monthDayLeft.setVisibility(View.GONE);
+          }
+          if (hourMinute.isEmpty()) {
+            monthDayLeft.setText("အခ\u103Bိန\u103Aရောက\u103Aပ\u103Cီ");
+            monthDayLeft.setVisibility(View.VISIBLE);
+            hourMinuteLeft.setVisibility(View.GONE);
+          }
         }
 
         @Override public void onFinish() {
