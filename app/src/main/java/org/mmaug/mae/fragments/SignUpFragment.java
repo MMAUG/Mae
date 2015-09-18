@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +50,7 @@ public class SignUpFragment extends Fragment
   @Bind(R.id.rv_search_township) RecyclerView mTownshipList;
   @Bind(R.id.searchFragment) FrameLayout searchView;
 
+  private ArrayList<DataUtils.Township> townships;
   private TownshipAdapter adapter;
   Calendar now;
   int maxAgeforVote = 18;
@@ -141,7 +144,11 @@ public class SignUpFragment extends Fragment
       Bundle savedInstanceState) {
     View rootView = inflater.inflate(R.layout.fragment_sign_up, container, false);
     ButterKnife.bind(this, rootView);
+
+    //search township view
     initRecyclerView();
+    initEditText();
+
     mainView.setVisibility(View.VISIBLE);
     now = Calendar.getInstance();
     defaultYear = now.get(Calendar.YEAR) - maxAgeforVote;
@@ -166,7 +173,7 @@ public class SignUpFragment extends Fragment
   }
 
   private void initRecyclerView() {
-    ArrayList<DataUtils.Township> townships = DataUtils.getInstance(getContext()).loadTownship();
+    townships = DataUtils.getInstance(getContext()).loadTownship();
     mTownshipList.setLayoutManager(
         new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
     adapter = new TownshipAdapter(townships);
@@ -174,30 +181,67 @@ public class SignUpFragment extends Fragment
     mTownshipList.setAdapter(adapter);
   }
 
+  private void initEditText() {
+    searchTownship.addTextChangedListener(new TextWatcher() {
+      @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+      }
+
+      @Override public void afterTextChanged(Editable s) {
+
+        if (s.length() == 0) {
+          adapter.setTownships(townships);
+        } else {
+          searchTownship(s.toString(), townships);
+        }
+      }
+    });
+  }
+
   //township onitem click
   @Override public void onItemClick(DataUtils.Township township) {
     showHidSearchView(true);
   }
 
-  private void showHidSearchView(boolean visiblity) {
-    mainView.setVisibility(visiblity ? View.VISIBLE : View.GONE);
-    searchView.setVisibility(visiblity ? View.GONE : View.VISIBLE);
+  private void showHidSearchView(boolean visibility) {
+    mainView.setVisibility(visibility ? View.VISIBLE : View.GONE);
+    searchView.setVisibility(visibility ? View.GONE : View.VISIBLE);
   }
 
-  private void searchTownship(String township) {
+  private void searchTownship(CharSequence township, ArrayList<DataUtils.Township> listToSearch) {
     final Pattern pattern = Pattern.compile("^[A-Za-z, ]++$");
     if (pattern.matcher(township).matches()) {
-      searchTownshipInEng();
+      adapter.setTownships(searchTownshipInEng(township, listToSearch));
     } else {
-      searchTownshipMya();
+      adapter.setTownships(searchTownshipMya(township, listToSearch));
     }
   }
 
-  private void searchTownshipInEng() {
+  private ArrayList<DataUtils.Township> searchTownshipInEng(CharSequence input,
+      ArrayList<DataUtils.Township> listToSearch) {
+    ArrayList<DataUtils.Township> found = new ArrayList<>();
 
+    for (DataUtils.Township township : listToSearch) {
+      if (township.getTownshipName().contains(input)) {
+        found.add(township);
+      }
+    }
+    return found;
   }
 
-  private void searchTownshipMya() {
+  private ArrayList<DataUtils.Township> searchTownshipMya(CharSequence input,
+      ArrayList<DataUtils.Township> listToSearch) {
+    ArrayList<DataUtils.Township> found = new ArrayList<>();
 
+    for (DataUtils.Township township : listToSearch) {
+      if (township.getTowhshipNameBurmese().contains(input)) {
+        found.add(township);
+      }
+    }
+    return found;
   }
 }
