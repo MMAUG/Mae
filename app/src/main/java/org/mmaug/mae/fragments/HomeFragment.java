@@ -4,9 +4,11 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,7 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Random;
 import org.mmaug.mae.R;
+import org.mmaug.mae.activities.LocationActivity;
 import org.mmaug.mae.utils.MixUtils;
 
 /**
@@ -127,6 +130,12 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
   @Override public void onDetach() {
     super.onDetach();
+  }
+
+  @OnClick(R.id.cardview_party)
+  public void whereToVote(CardView cardView){
+    Intent mapIntent = new Intent(getActivity(), LocationActivity.class);
+    startActivity(mapIntent);
   }
 
   @OnClick(R.id.tvThumb) public void showVoteResult(TextView textView) {

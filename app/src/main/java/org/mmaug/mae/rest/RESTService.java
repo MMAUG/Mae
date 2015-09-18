@@ -3,6 +3,7 @@ package org.mmaug.mae.rest;
 import com.google.gson.JsonObject;
 import java.util.Map;
 import org.mmaug.mae.Config;
+import org.mmaug.mae.models.GeoReturnObject;
 import org.mmaug.mae.models.User;
 import retrofit.Call;
 import retrofit.http.FieldMap;
@@ -46,7 +47,7 @@ public interface RESTService {
   @GET(Config.FAQ_SEARCH) Call<JsonObject> serchFaq(@QueryMap Map<String, String> optionalQueries);
 
   //geo location
-  @GET(Config.GEO_LOCATION_URL) Call<JsonObject> getLocationList(
+  @GET(Config.GEO_LOCATION_URL) Call<GeoReturnObject> getLocationList(
       @QueryMap Map<String, String> optionalQueries);
 
   @GET(Config.GEO_LOCATION_SEARCH) Call<JsonObject> searchLocation(
