@@ -13,7 +13,20 @@
       android:layout_weight="1"
       />
 
+  <FrameLayout
+      android:id="@+id/searchFragment"
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent"
+      android:layout_weight="1"
+      android:background="@color/primary"
+      >
+
+    <include layout="@layout/view_search_township"/>
+
+  </FrameLayout>
+
   <android.support.v4.widget.NestedScrollView
+      android:visibility="gone"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:id="@+id/main_fragment"
@@ -51,7 +64,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
           <TextView
-              style="@style/Widget.AppCompat.AutoCompleteTextView"
+              style="@style/Widget.AppCompat.EditText"
               android:id="@+id/township"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
