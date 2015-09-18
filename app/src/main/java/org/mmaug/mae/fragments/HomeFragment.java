@@ -1,13 +1,26 @@
 package org.mmaug.mae.fragments;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.TextView;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import hu.aut.utillib.circular.animation.CircularAnimationUtils;
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Random;
 import org.mmaug.mae.R;
+import org.mmaug.mae.utils.MixUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,9 +36,15 @@ public class HomeFragment extends android.support.v4.app.Fragment {
   private static final String ARG_PARAM1 = "param1";
   private static final String ARG_PARAM2 = "param2";
 
+  @Bind(R.id.month_day_left) TextView monthDayLeft;
+  @Bind(R.id.hour_minute_left) TextView hourMinuteLeft;
+  @Bind(R.id.to_vote) TextView toVote;
+  @Bind(R.id.tvThumb) TextView tvThumb;
+
   // TODO: Rename and change types of parameters
   private String mParam1;
   private String mParam2;
+  private Dialog voteResultDialog;
 
   private OnFragmentInteractionListener mListener;
 
@@ -57,12 +76,42 @@ public class HomeFragment extends android.support.v4.app.Fragment {
       mParam1 = getArguments().getString(ARG_PARAM1);
       mParam2 = getArguments().getString(ARG_PARAM2);
     }
+
+
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     // Inflate the layout for this fragment
-    return inflater.inflate(R.layout.fragment_home, container, false);
+    View view = inflater.inflate(R.layout.fragment_home, container, false);
+    ButterKnife.bind(this, view);
+
+    try {
+
+      new CountDownTimer(MixUtils.calculateTimeLeftToVote(), 1000) {
+        @Override public void onTick(long millisUntilFinished) {
+
+          HashMap<String, String> values = MixUtils.formatTime(millisUntilFinished);
+          String monthDay = MixUtils.convertToBurmese(values.get("month_day"));
+          String hourMinute = MixUtils.convertToBurmese(values.get("hour_minute"));
+          monthDayLeft.setText(monthDay);
+          hourMinuteLeft.setText(hourMinute);
+          if (monthDay.isEmpty()) {
+            monthDayLeft.setVisibility(View.GONE);
+          }
+        }
+
+        @Override public void onFinish() {
+          toVote.setText("ပြောင်းလဲရန်");
+          monthDayLeft.setText("အခ\u103Bိန\u103Aရောက\u103Aပ\u103Cီ");
+          monthDayLeft.setVisibility(View.VISIBLE);
+          hourMinuteLeft.setVisibility(View.GONE);
+        }
+      }.start();
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    return view;
   }
 
   // TODO: Rename method, update argument and hook method into UI event
@@ -78,6 +127,52 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
   @Override public void onDetach() {
     super.onDetach();
+  }
+
+  @OnClick(R.id.tvThumb) public void showVoteResult(TextView textView) {
+    //// TODO: 9/15/15 Handle the NOT OK result <Ye Myat Thu>
+    boolean ok = new Random().nextBoolean();
+    View view;
+    voteResultDialog = new Dialog(getActivity(), android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
+    if(ok) {
+      view = getActivity().getLayoutInflater().inflate(R.layout.dialog_voter_check_ok, null);
+      View myTargetView = view.findViewById(R.id.circle_full);
+      View mySourceView = view.findViewById(R.id.circle_empty);
+      View okBtn = view.findViewById(R.id.voter_check_ok_btn);
+      //myTargetView & mySourceView are children in the CircularFrameLayout
+      float finalRadius = CircularAnimationUtils.hypo(200, 200);
+      ////getCenter computes from 2 view: One is touched, and one will be animated, but you can use anything for center
+      //int[] center = CircularAnimationUtils.getCenter(fab, myTargetView);
+      ObjectAnimator animator =
+          CircularAnimationUtils.createCircularTransform(myTargetView, mySourceView, 1, 2, 0F,
+              finalRadius);
+      animator.setInterpolator(new AccelerateDecelerateInterpolator());
+      animator.setDuration(1500);
+      voteResultDialog.setContentView(view);
+      voteResultDialog.show();
+      animator.start();
+      okBtn.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View view) {
+          if (voteResultDialog.isShowing()) {
+            voteResultDialog.dismiss();
+          }
+        }
+      });
+    }else{
+      view = getActivity().getLayoutInflater().inflate(R.layout.dialog_voter_check_not_ok, null);
+      View okBtn = view.findViewById(R.id.voter_check_ok_btn);
+      voteResultDialog.setContentView(view);
+      voteResultDialog.show();
+      okBtn.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View view) {
+          if (voteResultDialog.isShowing()) {
+            voteResultDialog.dismiss();
+          }
+        }
+      });
+    }
+
+
   }
 
   /**

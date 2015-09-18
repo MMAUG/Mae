@@ -16,12 +16,11 @@ import org.mmaug.mae.R;
  */
 public abstract class BaseActivity extends AppCompatActivity
     implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+  public Toolbar toolbar;
+  public TextView tvToolbarTitle;
   //For Google API
   protected GoogleApiClient mGoogleApiClient;
   protected Location mLastLocation;
-
-  public Toolbar toolbar;
-  public TextView tvToolbarTitle;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

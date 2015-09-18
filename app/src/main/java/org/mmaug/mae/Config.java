@@ -11,14 +11,14 @@ public class Config {
    * Check Voter API
    **/
 
-  //url for voter check
-  public static final String VOTER_CHECK = "voter-check";
+  public static final String REGISTER = "register";
 
   //param
   public static final String VOTER_NAME = "name";
-  public static final String DATE_OF_BIRTH = "dateofbirth";
+  public static final String DATE_OF_BIRTH = "dob";
+  public static final String TOWNSHIP = "township";
   public static final String FATHER_NAME = "father_name";
-  public static final String NRCNO = "nrc";
+  public static final String NRC = "nrc";
 
   /**
    * MaePaySoh API
@@ -50,7 +50,8 @@ public class Config {
   public static final String FEMALE = "F";
   public static final String MALE = "M";
 
-  public static final String PARTY = "party";
+  //http://api.maepaysoh.org/party?token=user-token-key
+  public static final String PARTY = "msp";
   public static final String CANDIDATE = "candidate";
 
   public static final String FAQ = "faq";
@@ -69,7 +70,6 @@ public class Config {
 
   //party endpoints
   public static final String PARTY_LIST_URL = PARTY;
-  public static final String PARTY_URL = PARTY_LIST_URL + "/detail";
 
   // faq endpoints
   public static final String FAQ_URL = FAQ;
