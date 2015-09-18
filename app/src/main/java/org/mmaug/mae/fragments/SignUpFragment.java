@@ -196,7 +196,7 @@ public class SignUpFragment extends Fragment
         if (s.length() == 0) {
           adapter.setTownships(townships);
         } else {
-          searchTownship(s.toString(), townships);
+          searchTownship(s.toString().toLowerCase(), townships);
         }
       }
     });
@@ -205,6 +205,7 @@ public class SignUpFragment extends Fragment
   //township onitem click
   @Override public void onItemClick(DataUtils.Township township) {
     showHidSearchView(true);
+    mTownship.setText(township.getTowhshipNameBurmese());
   }
 
   private void showHidSearchView(boolean visibility) {
@@ -212,7 +213,7 @@ public class SignUpFragment extends Fragment
     searchView.setVisibility(visibility ? View.GONE : View.VISIBLE);
   }
 
-  private void searchTownship(CharSequence township, ArrayList<DataUtils.Township> listToSearch) {
+  private void searchTownship(String township, ArrayList<DataUtils.Township> listToSearch) {
     final Pattern pattern = Pattern.compile("^[A-Za-z, ]++$");
     if (pattern.matcher(township).matches()) {
       adapter.setTownships(searchTownshipInEng(township, listToSearch));
@@ -221,24 +222,24 @@ public class SignUpFragment extends Fragment
     }
   }
 
-  private ArrayList<DataUtils.Township> searchTownshipInEng(CharSequence input,
+  private ArrayList<DataUtils.Township> searchTownshipInEng(String input,
       ArrayList<DataUtils.Township> listToSearch) {
     ArrayList<DataUtils.Township> found = new ArrayList<>();
 
     for (DataUtils.Township township : listToSearch) {
-      if (township.getTownshipName().contains(input)) {
+      if (township.getTownshipName().toLowerCase().contains(input)) {
         found.add(township);
       }
     }
     return found;
   }
 
-  private ArrayList<DataUtils.Township> searchTownshipMya(CharSequence input,
+  private ArrayList<DataUtils.Township> searchTownshipMya(String input,
       ArrayList<DataUtils.Township> listToSearch) {
     ArrayList<DataUtils.Township> found = new ArrayList<>();
 
     for (DataUtils.Township township : listToSearch) {
-      if (township.getTowhshipNameBurmese().contains(input)) {
+      if (township.getTowhshipNameBurmese().startsWith(input)) {
         found.add(township);
       }
     }
