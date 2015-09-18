@@ -10,6 +10,7 @@ import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
 import static org.mmaug.mae.Config.BASE_URL;
+import static org.mmaug.mae.Config.MPS_BASE_URL;
 
 /**
  * Created by poepoe on 12/9/15.
@@ -17,6 +18,7 @@ import static org.mmaug.mae.Config.BASE_URL;
 public class RESTClient {
   private static RESTClient instance;
   private RESTService mService;
+  private RESTService mMPSService;
 
   public RESTClient() {
     OkHttpClient client = new OkHttpClient();
@@ -25,7 +27,14 @@ public class RESTClient {
     final Retrofit restAdapter =
         new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).
             client(client).build();
+
+    final Retrofit mpsRestAdapter = new Retrofit.Builder().baseUrl(MPS_BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(client)
+        .build();
+
     mService = restAdapter.create(RESTService.class);
+    mMPSService = mpsRestAdapter.create(RESTService.class);
   }
 
   public static RESTClient getInstance() {
@@ -37,6 +46,10 @@ public class RESTClient {
 
   public static synchronized RESTService getService() {
     return getInstance().mService;
+  }
+
+  public static synchronized RESTService getMPSService() {
+    return getInstance().mMPSService;
   }
 
   private class LoggingInterceptor implements Interceptor {

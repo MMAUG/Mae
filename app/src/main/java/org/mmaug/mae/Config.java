@@ -24,8 +24,9 @@ public class Config {
    * MaePaySoh API
    **/
 
+  public static final String MPS_BASE_URL =
+      "http://api.maepaysoh.org?token=3db8827d-2521-57be-987a-e9e366874b/";
   //param
-  public static final String TOKEN = "token";
   public static final String WITH = "_with";
   public static final String PER_PAGE = "per_page";
   public static final String FONT = "font";
