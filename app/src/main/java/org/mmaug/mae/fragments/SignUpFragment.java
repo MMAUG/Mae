@@ -32,7 +32,7 @@ public class SignUpFragment extends Fragment
   @Bind(R.id.nrc_no) EditText mNrcNo;
   @Bind(R.id.nrc_township) EditText mNrcTownShip;
   @Bind(R.id.nrc_value) EditText mNrcValue;
-  @Bind(R.id.township) EditText mTownship;
+  @Bind(R.id.township) TextView mTownship;
   @Bind(R.id.father_name) EditText mFatherName;
   @Bind(R.id.contentFragment) FrameLayout contenFragment;
   @Bind(R.id.main_fragment) NestedScrollView main_view;
@@ -145,5 +145,9 @@ public class SignUpFragment extends Fragment
     if ((now.get(Calendar.YEAR) - defaultYear) >= 18) {
       mDateOfBirth.setText(defaultYear + "-" + defaultMonth + "-" + defaultDate);
     }
+  }
+
+  @OnClick(R.id.township) void chooseTownship() {
+
   }
 }
