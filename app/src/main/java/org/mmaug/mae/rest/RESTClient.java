@@ -30,7 +30,7 @@ public class RESTClient {
 
     final Retrofit mpsRestAdapter = new Retrofit.Builder().baseUrl(MPS_BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
-        .client(client)
+        .client(new OkHttpClient())
         .build();
 
     mService = restAdapter.create(RESTService.class);
