@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="2"
+            >
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                >
+                <fragment
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/location_detail_map"
+                    tools:context="org.maepaysoh.maepaysoh.ui.LocationDetailActivity"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    />
+
+                <TextView
+                    android:id="@+id/location_name"
+                    android:background="@color/primary"
+                    style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:padding="@dimen/spacing_minor"
+                    android:visibility="gone"
+                    tools:text="Myaung Mya"
+                    />
+            </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>

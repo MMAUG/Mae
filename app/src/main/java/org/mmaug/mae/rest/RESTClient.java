@@ -24,13 +24,14 @@ public class RESTClient {
     OkHttpClient client = new OkHttpClient();
     client.interceptors().add(new LoggingInterceptor());
 
+
     final Retrofit restAdapter =
         new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).
             client(client).build();
 
     final Retrofit mpsRestAdapter = new Retrofit.Builder().baseUrl(MPS_BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
-        .client(client)
+        .client(new OkHttpClient())
         .build();
 
     mService = restAdapter.create(RESTService.class);
