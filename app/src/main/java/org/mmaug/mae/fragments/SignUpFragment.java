@@ -227,7 +227,7 @@ public class SignUpFragment extends Fragment
     ArrayList<DataUtils.Township> found = new ArrayList<>();
 
     for (DataUtils.Township township : listToSearch) {
-      if (township.getTownshipName().toLowerCase().contains(input)) {
+      if (township.getTownshipName().toLowerCase().startsWith(input)) {
         found.add(township);
       }
     }
