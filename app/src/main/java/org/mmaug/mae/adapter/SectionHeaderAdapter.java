@@ -9,11 +9,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import java.util.Arrays;
 import java.util.Comparator;
+import org.mmaug.mae.base.BaseAdapter;
 
 /**
  * Created by poepoe on 19/9/15.
  */
-public class SectionAdatper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class SectionHeaderAdapter extends BaseAdapter<BaseAdapter.BaseViewHolder> {
 
   private final Context mContext;
   private static final int SECTION_TYPE = 0;
@@ -22,11 +23,11 @@ public class SectionAdatper extends RecyclerView.Adapter<RecyclerView.ViewHolder
   private int mSectionResourceId;
   private int mTextResourceId;
   //private LayoutInflater mLayoutInflater;
-  private RecyclerView.Adapter mBaseAdapter;
+  private BaseAdapter mBaseAdapter;
   private SparseArray<Section> mSections = new SparseArray<Section>();
 
-  public SectionAdatper (Context context, int sectionResourceId, int textResourceId,
-      RecyclerView.Adapter baseAdapter) {
+  public SectionHeaderAdapter(Context context, int sectionResourceId, int textResourceId,
+      BaseAdapter baseAdapter) {
 
     //mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     mSectionResourceId = sectionResourceId;
@@ -57,7 +58,7 @@ public class SectionAdatper extends RecyclerView.Adapter<RecyclerView.ViewHolder
     });
   }
 
-  public static class SectionViewHolder extends RecyclerView.ViewHolder {
+  public static class SectionViewHolder extends BaseViewHolder {
 
     public TextView title;
 
@@ -67,16 +68,16 @@ public class SectionAdatper extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
   }
 
-  @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int typeView) {
+  @Override public BaseAdapter.BaseViewHolder onCreateViewHolder(ViewGroup parent, int typeView) {
     if (typeView == SECTION_TYPE) {
       final View view = LayoutInflater.from(mContext).inflate(mSectionResourceId, parent, false);
       return new SectionViewHolder(view, mTextResourceId);
     } else {
-      return mBaseAdapter.onCreateViewHolder(parent, typeView - 1);
+      return (BaseViewHolder) mBaseAdapter.onCreateViewHolder(parent, typeView - 1);
     }
   }
 
-  @Override public void onBindViewHolder(RecyclerView.ViewHolder sectionViewHolder, int position) {
+  @Override public void onBindViewHolder(BaseViewHolder sectionViewHolder, int position) {
     if (isSectionHeaderPosition(position)) {
       ((SectionViewHolder) sectionViewHolder).title.setText(mSections.get(position).title);
     } else {
