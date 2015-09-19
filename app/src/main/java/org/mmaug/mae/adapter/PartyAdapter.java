@@ -33,7 +33,7 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.PartyViewHol
 
   @Override public PartyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     mContext = parent.getContext();
-    View view = LayoutInflater.from(mContext).inflate(R.layout.party_item, parent, false);
+    View view = LayoutInflater.from(mContext).inflate(R.layout.item_party, parent, false);
     return new PartyViewHolder(view);
   }
 
