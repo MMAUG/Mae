@@ -38,8 +38,8 @@ android {
   buildTypes {
     release {
       signingConfig signingConfigs.release
-      //      applicationIdSuffix '.release'
-      //      versionNameSuffix '-RELEASE'
+            applicationIdSuffix '.release'
+            versionNameSuffix '-RELEASE'
     }
     debug {
       debuggable true
@@ -93,7 +93,7 @@ dependencies {
 
   //widgets
   compile 'com.wdullaer:materialdatetimepicker:1.5.1'
-  compile 'com.google.android.gms:play-services-maps:7.5.0'
+  compile 'com.google.android.gms:play-services-maps:7.8.0'
   compile 'com.google.android.gms:play-services-location:7.8.0'
   compile 'com.google.maps.android:android-maps-utils:0.4'
 
