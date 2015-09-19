@@ -1,7 +1,7 @@
 package org.mmaug.mae.activities;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import butterknife.Bind;
@@ -58,7 +58,7 @@ public class PartyListActivity extends BaseActivity {
     ButterKnife.bind(this);
     mPartyAdapter = new PartyAdapter();
     mPartyListRecyclerView.setHasFixedSize(true);
-    mPartyListRecyclerView.setLayoutManager(new LinearLayoutManager(PartyListActivity.this));
+    mPartyListRecyclerView.setLayoutManager(new GridLayoutManager(PartyListActivity.this, 2));
     endlessRecyclerViewAdapter = new EndlessRecyclerViewAdapter(this, mPartyAdapter,
         new EndlessRecyclerViewAdapter.RequestToLoadMoreListener() {
           @Override public void onLoadMoreRequested() {
