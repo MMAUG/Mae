@@ -82,6 +82,7 @@ dependencies {
   // utils
   compile 'com.jakewharton:butterknife:7.0.1'
 
+
   // map
   compile 'com.google.android.gms:play-services:7.8.0'
   compile 'com.airbnb.android:airmapview:1.2.0'
@@ -93,6 +94,9 @@ dependencies {
 
   //widgets
   compile 'com.wdullaer:materialdatetimepicker:1.5.1'
+  compile 'com.github.michaelye.easydialog:easydialog:1.0'
+
+  //map
   compile 'com.google.android.gms:play-services-maps:7.8.0'
   compile 'com.google.android.gms:play-services-location:7.8.0'
   compile 'com.google.maps.android:android-maps-utils:0.4'

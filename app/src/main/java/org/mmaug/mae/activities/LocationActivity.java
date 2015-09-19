@@ -21,6 +21,7 @@ import com.google.maps.android.geojson.GeoJsonGeometry;
 import com.google.maps.android.geojson.GeoJsonLayer;
 import com.google.maps.android.geojson.GeoJsonPointStyle;
 import com.google.maps.android.geojson.GeoJsonPolygonStyle;
+import com.michael.easydialog.EasyDialog;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +43,7 @@ import retrofit.Response;
 public class LocationActivity extends BaseActivity{
   @Bind(R.id.location_name) TextView mLocationName;
   @Bind(R.id.month_day_left) TextView monthDayLef;
+  @Bind(R.id.hidden_view) View hiddenView;
 
   private GoogleMap mMap;
   @Override protected int getLayoutResource() {
@@ -134,12 +136,28 @@ public class LocationActivity extends BaseActivity{
             R.id.location_detail_map)).getMap();
       }
 
-      LatLngBounds bounds = builder.build();
+      final LatLngBounds bounds = builder.build();
       int padding = (int) getResources().getDimension(R.dimen.spacing_minor);
       CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+      mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+        @Override public void onMapClick(LatLng latLng) {
+          if (bounds.contains(latLng)) {
+            new EasyDialog(LocationActivity.this)
+                .setLayoutResourceId(R.layout.tip_layout)//layout resource id
+                .setBackgroundColor(
+                    LocationActivity.this.getResources().getColor(R.color.primary))
+                .setLocationByAttachedView(hiddenView)
+                .setAnimationAlphaShow(1000, 0.0f, 1.0f)
+                .setAnimationAlphaDismiss(500, 1.0f, 0.0f)
+                .setTouchOutsideDismiss(true)
+                .setMatchParent(false)
+                .show();
+          }
+        }
+      });
       mMap.moveCamera(cu);
-
       layer.addLayerToMap();
+
     } catch (JSONException e) {
       e.printStackTrace();
     }
