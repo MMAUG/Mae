@@ -17,7 +17,7 @@ import org.mmaug.mae.view.AspectRatioImageView;
 /**
  * Created by Ye Lin Aung on 15/08/04.
  */
-public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.PartyViewHolder> {
+public class PartyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
   private Context mContext;
   private List<Party> mParties;
   private ClickInterface mClickInterface;
@@ -31,16 +31,17 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.PartyViewHol
     notifyDataSetChanged();
   }
 
-  @Override public PartyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     mContext = parent.getContext();
     View view = LayoutInflater.from(mContext).inflate(R.layout.item_party, parent, false);
     return new PartyViewHolder(view);
   }
 
-  @Override public void onBindViewHolder(PartyViewHolder holder, int position) {
-    Party party = mParties.get(position);
-    holder.mPartyNameMyanmar.setText(party.getPartyName());
-    List<String> leaders = party.getLeadership();
+  @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    if(holder instanceof PartyViewHolder) {
+      Party party = mParties.get(position);
+      ((PartyViewHolder) holder).mPartyNameMyanmar.setText(party.getPartyName());
+      List<String> leaders = party.getLeadership();
    /* holder.mPartyLeader.setText(""); //Reset the textview unless you want some weird shit to happen
     for (String leader : leaders) {
       if (leaders.indexOf(leader) == leaders.size() - 1) {
@@ -49,11 +50,12 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.PartyViewHol
         holder.mPartyLeader.append(leader + "၊ ");
       }
     }*/
-    Glide.with(mContext)
-        .load(party.getPartyFlag())
-        .diskCacheStrategy(DiskCacheStrategy.ALL)
-        .into(holder.mPartyFlag);
-    holder.mPartyFlag.setAdjustViewBounds(true);
+      Glide.with(mContext)
+          .load(party.getPartyFlag())
+          .diskCacheStrategy(DiskCacheStrategy.ALL)
+          .into(((PartyViewHolder) holder).mPartyFlag);
+      ((PartyViewHolder) holder).mPartyFlag.setAdjustViewBounds(true);
+    }
   }
 
   public void setOnItemClickListener(ClickInterface clickInterface) {
