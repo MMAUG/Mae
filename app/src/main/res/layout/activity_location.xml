@@ -83,5 +83,11 @@
             />
       </FrameLayout>
     </LinearLayout>
+      <View
+          android:id="@+id/hidden_view"
+          android:visibility="invisible"
+          android:layout_width="1dp"
+          android:layout_height="1dp"
+          android:layout_gravity="center"/>
   </FrameLayout>
 </LinearLayout>
