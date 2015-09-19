@@ -28,7 +28,7 @@ public class TownshipAdapter extends BaseAdapter<BaseAdapter.BaseViewHolder> {
 
   @Override public BaseAdapter.BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-    View itemView = inflater.inflate(R.layout.row_township, parent, false);
+    View itemView = inflater.inflate(R.layout.item_township, parent, false);
     return new ViewHolder(itemView, this);
   }
 

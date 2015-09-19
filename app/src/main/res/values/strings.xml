@@ -17,5 +17,9 @@
   <string name="ok_myan">ကောင်းပြီ</string>
   <string name="recheck">ပြန်လည်စစ်ဆေးပါ</string>
   <string name="title_activity_candidate">CandidateActivity</string>
+<<<<<<< HEAD
   <string name="tip_location">သင့်မဲဆန္ဒနယ် နယ်မြေဖြစ်ပါသည်</string>
+=======
+  <string name="title_activity_party_detail">PartyDetailActivity</string>
+>>>>>>> e90443aca49439642399dd6b6d3f040ecbf90ae7
 </resources>

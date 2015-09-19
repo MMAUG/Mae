@@ -1,9 +1,11 @@
 package org.mmaug.mae.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.models.Party;
 import org.mmaug.mae.models.PartyReturnObject;
 import org.mmaug.mae.rest.RESTClient;
+import org.mmaug.mae.view.SpacesItemDecoration;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
@@ -26,8 +29,8 @@ import retrofit.Response;
  * Created by indexer on 9/19/15.
  */
 
-public class PartyListActivity extends BaseActivity {
-  String TAG_TOOLBAR = "Party";
+public class PartyListActivity extends BaseActivity implements PartyAdapter.ClickInterface {
+  String TAG_TOOLBAR = "ပါတီစာရင်း";
   Integer currentPage = 1;
   int totalPageCount;
 
@@ -58,13 +61,15 @@ public class PartyListActivity extends BaseActivity {
     ButterKnife.bind(this);
     mPartyAdapter = new PartyAdapter();
     mPartyListRecyclerView.setHasFixedSize(true);
-    mPartyListRecyclerView.setLayoutManager(new LinearLayoutManager(PartyListActivity.this));
+    mPartyListRecyclerView.setLayoutManager(new GridLayoutManager(PartyListActivity.this, 2));
+    mPartyListRecyclerView.addItemDecoration(new SpacesItemDecoration(2));
     endlessRecyclerViewAdapter = new EndlessRecyclerViewAdapter(this, mPartyAdapter,
         new EndlessRecyclerViewAdapter.RequestToLoadMoreListener() {
           @Override public void onLoadMoreRequested() {
             fetchParties();
           }
         });
+    mPartyAdapter.setOnItemClickListener(this);
     mPartyListRecyclerView.setAdapter(endlessRecyclerViewAdapter);
   }
 
@@ -97,5 +102,14 @@ public class PartyListActivity extends BaseActivity {
                       }
 
     );
+  }
+
+  @Override public void onItemClick(View view, int position) {
+    Intent intent = new Intent();
+    intent.setClass(this, PartyDetailActivity.class);
+    Bundle bundle = new Bundle();
+    bundle.putSerializable("party", mParties.get(position));
+    intent.putExtras(bundle);
+    startActivity(intent);
   }
 }

@@ -28,5 +28,7 @@
     <item name="android:textSize">@dimen/text_size_medium</item>
     <item name="android:layout_marginLeft">@dimen/spacing_major</item>
   </style>
+  <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+  <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
 </resources>
