@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -34,7 +35,7 @@ import org.mmaug.mae.utils.MixUtils;
  */
 public class SignUpFragment extends Fragment
     implements com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener,
-    TownshipAdapter.OnItemClick {
+    AdapterView.OnItemClickListener {
 
   @Bind(R.id.date_of_birth) TextView mDateOfBirth;
   @Bind(R.id.user_name) EditText mUserName;
@@ -51,6 +52,8 @@ public class SignUpFragment extends Fragment
   @Bind(R.id.searchFragment) FrameLayout searchView;
 
   private ArrayList<DataUtils.Township> townships;
+  private ArrayList<DataUtils.Township> found = new ArrayList<>();
+
   private TownshipAdapter adapter;
   Calendar now;
   int maxAgeforVote = 18;
@@ -177,7 +180,7 @@ public class SignUpFragment extends Fragment
     mTownshipList.setLayoutManager(
         new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
     adapter = new TownshipAdapter(townships);
-    adapter.setOnItemClick(this);
+    adapter.setOnItemClickListener(this);
     mTownshipList.setAdapter(adapter);
   }
 
@@ -202,12 +205,6 @@ public class SignUpFragment extends Fragment
     });
   }
 
-  //township onitem click
-  @Override public void onItemClick(DataUtils.Township township) {
-    showHidSearchView(true);
-    mTownship.setText(township.getTowhshipNameBurmese());
-  }
-
   private void showHidSearchView(boolean visibility) {
     mainView.setVisibility(visibility ? View.VISIBLE : View.GONE);
     searchView.setVisibility(visibility ? View.GONE : View.VISIBLE);
@@ -216,10 +213,11 @@ public class SignUpFragment extends Fragment
   private void searchTownship(String township, ArrayList<DataUtils.Township> listToSearch) {
     final Pattern pattern = Pattern.compile("^[A-Za-z, ]++$");
     if (pattern.matcher(township).matches()) {
-      adapter.setTownships(searchTownshipInEng(township, listToSearch));
+      found = searchTownshipInEng(township, listToSearch);
     } else {
-      adapter.setTownships(searchTownshipMya(township, listToSearch));
+      found = searchTownshipMya(township, listToSearch);
     }
+    adapter.setTownships(found);
   }
 
   private ArrayList<DataUtils.Township> searchTownshipInEng(String input,
@@ -244,5 +242,10 @@ public class SignUpFragment extends Fragment
       }
     }
     return found;
+  }
+
+  @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    showHidSearchView(true);
+    mTownship.setText(found.get(position).getTowhshipNameBurmese());
   }
 }
