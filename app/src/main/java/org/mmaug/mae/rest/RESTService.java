@@ -3,6 +3,7 @@ package org.mmaug.mae.rest;
 import com.google.gson.JsonObject;
 import java.util.Map;
 import org.mmaug.mae.Config;
+import org.mmaug.mae.models.CandidateListReturnObject;
 import org.mmaug.mae.models.GeoReturnObject;
 import org.mmaug.mae.models.PartyReturnObject;
 import org.mmaug.mae.models.User;
@@ -32,7 +33,7 @@ public interface RESTService {
    **/
 
   //candidate
-  @GET(Config.CANDIDATE_LIST_URL) Call<JsonObject> getCandidateList(
+  @GET(Config.CANDIDATE_LIST_URL) Call<CandidateListReturnObject> getCandidateList(
       @QueryMap Map<String, String> optionalQueries);
 
   @GET(Config.CANDIDATE_URL + "{/id}") Call<JsonObject> getCandidate(@Path("id") String id,

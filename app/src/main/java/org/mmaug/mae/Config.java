@@ -34,8 +34,9 @@ public class Config {
   public static final String UNICODE = "unicode";
 
   public static final String LEGISLATURE = "legislature";
-  public static final String PYITHU_HLUTTAW = "ပ\u103Cည\u103Aသူ့လ\u103D\u103Eတ\u103Aတော\u103A ";
-  public static final String AMYOTHAE_HLUTTAW = "အမ\u103Bိုးသားလ\u103D\u103Eတ\u103Aတော\u103A";
+  public static final String PYITHU_HLUTTAW = "ပြည်သူ့လွှတ်တော်";
+  public static final String AMYOTHAE_HLUTTAW = "အမျိုးသားလွှတ်တော်";
+  public static final String TINEDAYTHA_HLUTTAW = "တိုင်းဒေသကြီး/ပြည်နယ် လွှတ်တော်";
 
   public static final String CONSTITUENCY_ST_PCODE = "constituency_st_pcode";
   public static final String CONSTITUENCY_DT_PCODE = "constituency_dt_pcode";
@@ -61,6 +62,8 @@ public class Config {
   public static final String OBJECT_ID = "object_id";
   public static final String ST_NAME = "st_name";
   public static final String DT_NAME = "dt_name";
+  public static final String ST_PCODE = "st_pcode";
+  public static final String TS_PCODE = "ts_pcode";
   public static final String DT_PCODE = "dt_pcode";
   public static final String LNG = "lon";
   public static final String LAT = "lat";
