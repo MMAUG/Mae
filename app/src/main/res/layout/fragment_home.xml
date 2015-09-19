@@ -143,7 +143,7 @@
         <TextView
             android:layout_margin="@dimen/default_padding_medium"
             android:gravity="center_vertical"
-            android:id="@+id/tvThumb_party"
+            android:id="@+id/tv_place_to_vote"
             android:drawableRight="@drawable/ic_cast_light"
             android:text="ဘယ်မှာ မဲပေးရမှာလဲ"
             android:layout_width="match_parent"
@@ -172,7 +172,7 @@
         <TextView
             android:layout_margin="@dimen/default_padding_medium"
             android:gravity="center_vertical"
-            android:id="@+id/tvThumb_party_condition"
+            android:id="@+id/tv_candidate_list"
             android:drawableRight="@drawable/ic_cast_light"
             android:text="ဘယ်သူ့ မဲပေးရမှာလဲ"
             android:layout_width="match_parent"
@@ -201,7 +201,7 @@
         <TextView
             android:layout_margin="@dimen/default_padding_medium"
             android:gravity="center_vertical"
-            android:id="@+id/party_condition"
+            android:id="@+id/tv_party_list"
             android:drawableRight="@drawable/ic_cast_light"
             android:text="ပါတီတွေရဲ့ အခြေအနေ"
             android:layout_width="match_parent"

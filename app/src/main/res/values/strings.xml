@@ -16,4 +16,5 @@
   <string name="recheck_data">အချက်အလက်ပြန်ကြည့်မည်</string>
   <string name="ok_myan">ကောင်းပြီ</string>
   <string name="recheck">ပြန်လည်စစ်ဆေးပါ</string>
+  <string name="title_activity_candidate">CandidateActivity</string>
 </resources>

@@ -22,6 +22,7 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Random;
 import org.mmaug.mae.R;
+import org.mmaug.mae.activities.CandidateActivity;
 import org.mmaug.mae.activities.LocationActivity;
 import org.mmaug.mae.activities.PartyListActivity;
 import org.mmaug.mae.utils.MixUtils;
@@ -44,7 +45,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
   @Bind(R.id.hour_minute_left) TextView hourMinuteLeft;
   @Bind(R.id.to_vote) TextView toVote;
   @Bind(R.id.tvThumb) TextView tvThumb;
-  @Bind(R.id.tvThumb_party_condition) TextView tvThumb_party_condition;
+  @Bind(R.id.tv_candidate_list) TextView tvThumb_party_condition;
 
   // TODO: Rename and change types of parameters
   private String mParam1;
@@ -137,7 +138,12 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     startActivity(mapIntent);
   }
 
-  @OnClick(R.id.tvThumb_party_condition) public void partyCondition(TextView cardView) {
+  @OnClick(R.id.tv_candidate_list) public void candidateList(TextView cardView) {
+    Intent mapIntent = new Intent(getActivity(), CandidateActivity.class);
+    startActivity(mapIntent);
+  }
+
+  @OnClick(R.id.tv_party_list) public void partyList(TextView cardView) {
     Intent mapIntent = new Intent(getActivity(), PartyListActivity.class);
     startActivity(mapIntent);
   }
