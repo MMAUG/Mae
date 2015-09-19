@@ -71,6 +71,16 @@ public class PartyListActivity extends BaseActivity implements PartyAdapter.Clic
         });
     mPartyAdapter.setOnItemClickListener(this);
     mPartyListRecyclerView.setAdapter(endlessRecyclerViewAdapter);
+    ((GridLayoutManager)mPartyListRecyclerView.getLayoutManager())
+        .setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+          @Override public int getSpanSize(int position) {
+            if(endlessRecyclerViewAdapter.getItemViewType(position) == EndlessRecyclerViewAdapter.TYPE_PENDING){
+              return 2;
+            }else{
+              return 1;
+            }
+          }
+        });
   }
 
   private void fetchParties() {
