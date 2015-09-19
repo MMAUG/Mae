@@ -13,10 +13,7 @@
       android:label="@string/app_name"
       android:theme="@style/AppTheme"
       >
-    <activity
-        android:name=".activities.LocationActivity"
-        android:label="@string/app_name"
-        />
+
     <activity
         android:name=".activities.MainActivity"
         android:label="@string/app_name"
@@ -28,9 +25,20 @@
       </intent-filter>
     </activity>
 
+    <activity
+        android:name=".activities.LocationActivity"
+        android:label="@string/app_name"
+        />
+
+    <activity
+        android:name=".activities.PartyListActivity"
+        android:label="@string/app_name"
+        />
+
     <meta-data
         android:name="com.google.android.maps.v2.API_KEY"
-        android:value="@string/google_map_key"/>
+        android:value="@string/google_map_key"
+        />
   </application>
 
 </manifest>

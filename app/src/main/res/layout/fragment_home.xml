@@ -187,7 +187,7 @@
           xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:app="http://schemas.android.com/apk/res-auto"
           xmlns:card_view="http://schemas.android.com/tools"
-          android:id="@+id/cardview_how_vote"
+          android:id="@+id/tvThumb_how_vote"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_margin="@dimen/default_padding_medium"
@@ -201,7 +201,7 @@
         <TextView
             android:layout_margin="@dimen/default_padding_medium"
             android:gravity="center_vertical"
-            android:id="@+id/tvThumb_how_vote"
+            android:id="@+id/party_condition"
             android:drawableRight="@drawable/ic_cast_light"
             android:text="ပါတီတွေရဲ့ အခြေအနေ"
             android:layout_width="match_parent"

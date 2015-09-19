@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Random;
 import org.mmaug.mae.R;
 import org.mmaug.mae.activities.LocationActivity;
+import org.mmaug.mae.activities.PartyListActivity;
 import org.mmaug.mae.utils.MixUtils;
 
 /**
@@ -43,6 +44,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
   @Bind(R.id.hour_minute_left) TextView hourMinuteLeft;
   @Bind(R.id.to_vote) TextView toVote;
   @Bind(R.id.tvThumb) TextView tvThumb;
+  @Bind(R.id.tvThumb_party_condition) TextView tvThumb_party_condition;
 
   // TODO: Rename and change types of parameters
   private String mParam1;
@@ -79,8 +81,6 @@ public class HomeFragment extends android.support.v4.app.Fragment {
       mParam1 = getArguments().getString(ARG_PARAM1);
       mParam2 = getArguments().getString(ARG_PARAM2);
     }
-
-
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -132,9 +132,13 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     super.onDetach();
   }
 
-  @OnClick(R.id.cardview_party)
-  public void whereToVote(CardView cardView){
+  @OnClick(R.id.cardview_party) public void whereToVote(CardView cardView) {
     Intent mapIntent = new Intent(getActivity(), LocationActivity.class);
+    startActivity(mapIntent);
+  }
+
+  @OnClick(R.id.tvThumb_party_condition) public void partyCondition(TextView cardView) {
+    Intent mapIntent = new Intent(getActivity(), PartyListActivity.class);
     startActivity(mapIntent);
   }
 
@@ -142,8 +146,9 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     //// TODO: 9/15/15 Handle the NOT OK result <Ye Myat Thu>
     boolean ok = new Random().nextBoolean();
     View view;
-    voteResultDialog = new Dialog(getActivity(), android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
-    if(ok) {
+    voteResultDialog =
+        new Dialog(getActivity(), android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
+    if (ok) {
       view = getActivity().getLayoutInflater().inflate(R.layout.dialog_voter_check_ok, null);
       View myTargetView = view.findViewById(R.id.circle_full);
       View mySourceView = view.findViewById(R.id.circle_empty);
@@ -167,7 +172,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
           }
         }
       });
-    }else{
+    } else {
       view = getActivity().getLayoutInflater().inflate(R.layout.dialog_voter_check_not_ok, null);
       View okBtn = view.findViewById(R.id.voter_check_ok_btn);
       voteResultDialog.setContentView(view);
@@ -180,8 +185,6 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         }
       });
     }
-
-
   }
 
   /**

@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import java.util.Map;
 import org.mmaug.mae.Config;
 import org.mmaug.mae.models.GeoReturnObject;
+import org.mmaug.mae.models.PartyReturnObject;
 import org.mmaug.mae.models.User;
 import retrofit.Call;
 import retrofit.http.FieldMap;
@@ -11,7 +12,6 @@ import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
-import retrofit.http.Query;
 import retrofit.http.QueryMap;
 
 /**
@@ -54,7 +54,8 @@ public interface RESTService {
       @QueryMap Map<String, String> optionalQueries);
 
   //party
-  @GET(Config.PARTY_LIST_URL) Call<JsonObject> getPartyList(@Query("token") String user_token);
+  @GET(Config.PARTY_LIST_URL) Call<PartyReturnObject> getPartyList(
+      @QueryMap Map<String, String> optionalQueries);
 
   @GET(Config.PARTY_LIST_URL + "{/id}") Call<JsonObject> getPartyDetail(@Path("id") String id);
 }
