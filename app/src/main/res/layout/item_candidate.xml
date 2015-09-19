@@ -21,11 +21,12 @@
         android:layout_height="wrap_content"
         >
 
-      <ImageView
-          android:id="@+id/iv_candidate_pic"
+      <org.mmaug.mae.view.AspectRatioImageView
+          android:id="@+id/iv_candidate"
           android:background="@color/geojson_background_color"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:adjustViewBounds="true"
           />
 
       <TextView

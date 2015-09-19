@@ -5,11 +5,11 @@ import java.io.Serializable;
 /**
  * Created by Ye Lin Aung on 15/08/03.
  */
-public class Father implements Serializable {
+public class FatherMother implements Serializable {
   private String name;
   private String religion;
 
-  public Father() {
+  public FatherMother() {
   }
 
   /**
