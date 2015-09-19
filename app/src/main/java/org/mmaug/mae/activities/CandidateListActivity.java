@@ -10,6 +10,7 @@ public class CandidateListActivity extends BaseActivity {
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     ButterKnife.bind(this);
+
   }
 
   @Override protected int getLayoutResource() {
