@@ -16,12 +16,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="2"
         >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="@dimen/spacing_minor"
+            >
+          <TextView
+              android:id="@+id/to_vote"
+              android:gravity="center_horizontal|center|center_vertical"
+              android:textColor="@color/black"
+              android:textSize="20sp"
+              android:text="@string/mm_toVote"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:padding="@dimen/spacing_minor"
+              />
+
+          <TextView
+              android:gravity="center_horizontal|center|center_vertical"
+              android:textColor="@color/mdtp_light_gray"
+              android:textStyle="bold"
+              android:textSize="36sp"
+              tools:text="၂လ ၂၁ရက်"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/month_day_left"
+              android:padding="@dimen/spacing_minor"
+              />
+          <TextView
+              android:gravity="center_horizontal|center|center_vertical"
+              android:textColor="@color/black"
+              android:textSize="18sp"
+              android:text="လိုပါသေးသည်\nမဲပေးရက်နီးကပ်လာပါက မဲရုံများနေရာကို အောက်ပါမြေပုံတွင် ဖေါ်ပြပေးသွားပါမည်"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/hour_minute_left"
+              android:padding="@dimen/spacing_minor"
+              />
+        </LinearLayout>
+
       <FrameLayout
           android:layout_width="match_parent"
-          android:layout_height="0dp"
-          android:layout_weight="1"
+          android:layout_height="match_parent"
           >
         <fragment
             android:layout_width="match_parent"

@@ -18,6 +18,7 @@ import com.google.maps.android.geojson.GeoJsonGeometry;
 import com.google.maps.android.geojson.GeoJsonLayer;
 import com.google.maps.android.geojson.GeoJsonPointStyle;
 import com.google.maps.android.geojson.GeoJsonPolygonStyle;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import org.json.JSONException;
@@ -27,6 +28,7 @@ import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.models.Geo;
 import org.mmaug.mae.models.GeoReturnObject;
 import org.mmaug.mae.rest.RESTClient;
+import org.mmaug.mae.utils.MixUtils;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
@@ -36,6 +38,7 @@ import retrofit.Response;
  */
 public class LocationActivity extends BaseActivity{
   @Bind(R.id.location_name) TextView mLocationName;
+  @Bind(R.id.month_day_left) TextView monthDayLef;
 
   private GoogleMap mMap;
   @Override protected int getLayoutResource() {
@@ -132,5 +135,18 @@ public class LocationActivity extends BaseActivity{
     } catch (JSONException e) {
       e.printStackTrace();
     }
+  }
+
+  @Override protected void onResume() {
+    super.onResume();
+    HashMap<String, String> values = null;
+    try {
+      values = MixUtils.formatTime(MixUtils.calculateTimeLeftToVote());
+      String monthDay = MixUtils.convertToBurmese(values.get("month_day"));
+      monthDayLef.setText(monthDay);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+
   }
 }
