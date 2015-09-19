@@ -2,8 +2,8 @@ package org.mmaug.mae.activities;
 
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
@@ -28,13 +28,13 @@ import retrofit.Response;
 public class PartyListActivity extends BaseActivity
     implements EndlessRecyclerViewAdapter.RequestToLoadMoreListener {
   String TAG_TOOLBAR = "Party";
-  Integer page = 1;
+  Integer page = 0;
 
   @Bind(R.id.party_list_recycler_view) RecyclerView mPartyListRecyclerView;
   PartyAdapter mPartyAdapter;
   private EndlessRecyclerViewAdapter endlessRecyclerViewAdapter;
   private List<Party> mParties;
-  private List<Party> mPartiesDemo;
+  private List<Party> mPartiesDemo = new ArrayList<>();
 
   @Override protected int getLayoutResource() {
     return R.layout.activity_party;
@@ -58,7 +58,7 @@ public class PartyListActivity extends BaseActivity
     mPartyAdapter = new PartyAdapter();
     mPartyAdapter.setParties(mParties);
     mPartyListRecyclerView.setHasFixedSize(true);
-    mPartyListRecyclerView.setLayoutManager(new GridLayoutManager(PartyListActivity.this, 2));
+    mPartyListRecyclerView.setLayoutManager(new LinearLayoutManager(PartyListActivity.this));
     endlessRecyclerViewAdapter = new EndlessRecyclerViewAdapter(this, mPartyAdapter, this);
     mPartyListRecyclerView.setAdapter(endlessRecyclerViewAdapter);
   }
@@ -66,23 +66,21 @@ public class PartyListActivity extends BaseActivity
   private void fetchParties() {
     Map<String, String> params = new HashMap<>();
     params.put("page", page.toString());
+    params.put("per_page", "20");
     params.put("token", "3db8827d-2521-57be-987a-e9e366874d4b");
     final Call<PartyReturnObject> partyCall = RESTClient.getMPSService().getPartyList(params);
     partyCall.enqueue(new Callback<PartyReturnObject>() {
       @Override public void onResponse(Response<PartyReturnObject> response) {
         if (response.body().getData().size() > 0) {
-
+          if (mPartiesDemo.size() > 0) {
+            mPartiesDemo.clear();
+          }
           mPartiesDemo = response.body().getData();
           mParties = new ArrayList<Party>();
-          for (int i = 0; i < mPartiesDemo.size(); i++) {
-            Party party = new Party();
-            party = mPartiesDemo.get(i);
-            mParties.add(party);
-          }
+          mParties.addAll(mPartiesDemo);
           mPartyAdapter.setParties(mParties);
           if (mPartyAdapter.getItemCount() >= 20) {
             // load 100 items for demo only
-            Log.e("Current page",""+page);
             endlessRecyclerViewAdapter.onDataReady(false);
           } else {
             // notify the data is ready
@@ -98,6 +96,7 @@ public class PartyListActivity extends BaseActivity
   }
 
   @Override public void onLoadMoreRequested() {
+    page = page + 1;
     fetchParties();
   }
 }
