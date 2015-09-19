@@ -1,6 +1,8 @@
 package org.mmaug.mae.adapter;
 
+import android.view.View;
 import android.view.ViewGroup;
+import butterknife.ButterKnife;
 import org.mmaug.mae.base.BaseAdapter;
 
 /**
@@ -18,5 +20,15 @@ public class CandidateAdapter extends BaseAdapter<BaseAdapter.BaseViewHolder> {
 
   @Override public int getItemCount() {
     return 0;
+  }
+
+  class CandidateViewHolder extends BaseViewHolder {
+
+    public CandidateViewHolder(View itemView, CandidateAdapter adapter) {
+      super(itemView);
+      ButterKnife.bind(this, itemView);
+      itemView.setOnClickListener(this);
+      mAdapter = adapter;
+    }
   }
 }

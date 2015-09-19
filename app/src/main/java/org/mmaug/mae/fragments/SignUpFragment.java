@@ -177,9 +177,10 @@ public class SignUpFragment extends Fragment
 
   private void initRecyclerView() {
     townships = DataUtils.getInstance(getContext()).loadTownship();
+    found = townships;
     mTownshipList.setLayoutManager(
         new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-    adapter = new TownshipAdapter(townships);
+    adapter = new TownshipAdapter(found);
     adapter.setOnItemClickListener(this);
     mTownshipList.setAdapter(adapter);
   }
@@ -197,6 +198,7 @@ public class SignUpFragment extends Fragment
       @Override public void afterTextChanged(Editable s) {
 
         if (s.length() == 0) {
+          found = townships;
           adapter.setTownships(townships);
         } else {
           searchTownship(s.toString().toLowerCase(), townships);

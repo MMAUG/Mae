@@ -29,7 +29,7 @@ public class TownshipAdapter extends BaseAdapter<BaseAdapter.BaseViewHolder> {
   @Override public BaseAdapter.BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
     View itemView = inflater.inflate(R.layout.row_township, parent, false);
-    return new ViewHolder(itemView);
+    return new ViewHolder(itemView, this);
   }
 
   @Override public void onBindViewHolder(BaseViewHolder holder, int position) {
@@ -44,10 +44,11 @@ public class TownshipAdapter extends BaseAdapter<BaseAdapter.BaseViewHolder> {
   class ViewHolder extends BaseAdapter.BaseViewHolder {
     @Bind(R.id.tv_township) TextView mText;
 
-    public ViewHolder(View itemView) {
+    public ViewHolder(View itemView, TownshipAdapter adapter) {
       super(itemView);
       ButterKnife.bind(this, itemView);
       itemView.setOnClickListener(this);
+      mAdapter = adapter;
     }
   }
 }

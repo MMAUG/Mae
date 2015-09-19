@@ -1,7 +1,6 @@
 package org.mmaug.mae.activities;
 
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import butterknife.Bind;
@@ -10,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.adapter.EndlessRecyclerViewAdapter;
 import org.mmaug.mae.adapter.PartyAdapter;
@@ -65,9 +65,8 @@ public class PartyListActivity extends BaseActivity
 
   private void fetchParties() {
     Map<String, String> params = new HashMap<>();
-    params.put("page", page.toString());
-    params.put("per_page", "20");
-    params.put("token", "3db8827d-2521-57be-987a-e9e366874d4b");
+    params.put(Config.PAGE, page.toString());
+    params.put(Config.PER_PAGE, "20");
     final Call<PartyReturnObject> partyCall = RESTClient.getMPSService().getPartyList(params);
     partyCall.enqueue(new Callback<PartyReturnObject>() {
       @Override public void onResponse(Response<PartyReturnObject> response) {
