@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import java.util.concurrent.atomic.AtomicBoolean;
-import org.maepaysoh.maepaysoh.R;
+import org.mmaug.mae.R;
 
 import static android.support.v7.widget.RecyclerView.Adapter;
 import static android.support.v7.widget.RecyclerView.ViewHolder;
