@@ -6,13 +6,16 @@ import android.view.View;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.maps.android.geojson.GeoJsonFeature;
 import com.google.maps.android.geojson.GeoJsonGeometry;
 import com.google.maps.android.geojson.GeoJsonLayer;
@@ -112,24 +115,29 @@ public class LocationActivity extends BaseActivity{
         geoJsonFeature.setPolygonStyle(geoJsonPolygonStyle);
         layer.addFeature(geoJsonFeature);
       }
-      JsonArray jsonElements = geo.getGeometry().getCoordinates().getAsJsonArray();
-      JsonArray latLangArray =
-          jsonElements.getAsJsonArray().get(0).getAsJsonArray().get(0).getAsJsonArray();
-      double lon;
-      double lat;
-      try {
+      JsonArray jsonElements = geo.
+          getGeometry().getCoordinates().getAsJsonArray();
+      //JsonArray latLangArray =
+      //    jsonElements.getAsJsonArray().get(0).getAsJsonArray().get(0).getAsJsonArray();
 
-        lat = latLangArray.get(1).getAsDouble();
-        lon = latLangArray.get(0).getAsDouble();
-      } catch (IllegalStateException e) {
-        lat = latLangArray.get(0).getAsJsonArray().get(1).getAsDouble();
-        lon = latLangArray.get(0).getAsJsonArray().get(0).getAsDouble();
+      LatLngBounds.Builder builder = new LatLngBounds.Builder();
+      for (JsonElement element : jsonElements) {
+        JsonArray latlng = element.getAsJsonArray();
+        for (JsonElement element1 : latlng) {
+          builder.include(new LatLng(element1.getAsJsonArray().get(1).getAsDouble(),
+              element1.getAsJsonArray().get(0).getAsDouble()));
+        }
       }
+
       if (mMap == null) {
         mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(
             R.id.location_detail_map)).getMap();
       }
-      mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon), 8));
+
+      LatLngBounds bounds = builder.build();
+      int padding = (int) getResources().getDimension(R.dimen.spacing_minor);
+      CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+      mMap.moveCamera(cu);
 
       layer.addLayerToMap();
     } catch (JSONException e) {
