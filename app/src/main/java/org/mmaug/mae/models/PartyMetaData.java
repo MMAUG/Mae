@@ -11,6 +11,7 @@ public class PartyMetaData {
   @SerializedName("api_version") private int apiVersion;
   private boolean unicode;
   private String format;
+  private int total_pages;
 
   public boolean isUnicode() {
     return unicode;
@@ -50,6 +51,14 @@ public class PartyMetaData {
 
   public void setApiVersion(int apiVersion) {
     this.apiVersion = apiVersion;
+  }
+
+  public int getTotal_pages() {
+    return total_pages;
+  }
+
+  public void setTotal_pages(int total_pages) {
+    this.total_pages = total_pages;
   }
 }
 
