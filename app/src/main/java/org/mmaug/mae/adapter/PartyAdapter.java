@@ -53,6 +53,7 @@ public class PartyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
       Glide.with(mContext)
           .load(party.getPartyFlag())
           .diskCacheStrategy(DiskCacheStrategy.ALL)
+          .centerCrop()
           .into(((PartyViewHolder) holder).mPartyFlag);
       ((PartyViewHolder) holder).mPartyFlag.setAdjustViewBounds(true);
     }

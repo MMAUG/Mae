@@ -24,10 +24,9 @@
 
       <org.mmaug.mae.view.AspectRatioImageView
           android:id="@+id/party_image"
-          android:background="@color/geojson_background_color"
-          android:layout_width="wrap_content"
+          android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:adjustViewBounds="true"
+          android:scaleType="centerCrop"
           />
     </FrameLayout>
 
