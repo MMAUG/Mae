@@ -22,7 +22,7 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Random;
 import org.mmaug.mae.R;
-import org.mmaug.mae.activities.CandidateActivity;
+import org.mmaug.mae.activities.CandidateListActivity;
 import org.mmaug.mae.activities.LocationActivity;
 import org.mmaug.mae.activities.PartyListActivity;
 import org.mmaug.mae.utils.MixUtils;
@@ -139,7 +139,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
   }
 
   @OnClick(R.id.tv_candidate_list) public void candidateList(TextView cardView) {
-    Intent mapIntent = new Intent(getActivity(), CandidateActivity.class);
+    Intent mapIntent = new Intent(getActivity(), CandidateListActivity.class);
     startActivity(mapIntent);
   }
 

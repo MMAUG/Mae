@@ -42,7 +42,7 @@
         android:value="@string/google_map_key"/>
 
     <activity
-        android:name=".activities.CandidateActivity"
+        android:name=".activities.CandidateListActivity"
         android:label="@string/title_activity_candidate"
         android:parentActivityName=".activities.MainActivity">
       <meta-data

@@ -5,7 +5,7 @@ import butterknife.ButterKnife;
 import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseActivity;
 
-public class CandidateActivity extends BaseActivity {
+public class CandidateListActivity extends BaseActivity {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
