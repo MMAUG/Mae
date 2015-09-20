@@ -53,6 +53,15 @@
   <dimen name="textsize_small">16sp</dimen>
   <dimen name="imageview_in_list_height">100dp</dimen>
 
+
+  <!-- collapsing toolbar-->
+  <dimen name="default_collapsed_padding">72dp</dimen>
+  <dimen name="default_expanded_padding">16dp</dimen>
+  <dimen name="default_collapsed_image_size">40dp</dimen>
+  <dimen name="default_expanded_image_size">80dp</dimen>
+  <dimen name="default_collapsed_text_size">20sp</dimen>
+  <dimen name="default_expanded_text_size">24sp</dimen>
+
   <!--http://stackoverflow.com/questions/30643081/nestedscrollview-and-webview-height-issue-->
   <dimen name="linearlayout_fix">500dp</dimen>
 </resources>
