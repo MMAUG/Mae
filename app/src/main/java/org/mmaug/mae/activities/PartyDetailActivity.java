@@ -1,7 +1,10 @@
 package org.mmaug.mae.activities;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
+import android.util.Log;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
@@ -18,10 +21,17 @@ public class PartyDetailActivity extends AppCompatActivity {
     setContentView(R.layout.activity_party_detail);
     ButterKnife.bind(this);
 
-    Party party = (Party) getIntent().getSerializableExtra("party");
+    final Party party = (Party) getIntent().getSerializableExtra("party");
     Glide.with(this)
         .load(party.getPartyFlag())
         .bitmapTransform(new BlurTransformation(getApplicationContext(), 8, 1))
         .into(party_image);
+
+    Glide.with(this)
+        .load(party.getPartyFlag())
+        .bitmapTransform(new BlurTransformation(getApplicationContext(), 8, 1))
+        .into(party_image);
+
+
   }
 }

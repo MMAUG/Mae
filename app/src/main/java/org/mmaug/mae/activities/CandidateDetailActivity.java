@@ -1,14 +1,19 @@
 package org.mmaug.mae.activities;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import org.mmaug.mae.Config;
@@ -46,5 +51,32 @@ public class CandidateDetailActivity extends AppCompatActivity {
 
     candidateName.setText(candidate.getName());
 
+    Glide.with(this)
+        .load(candidate.getPhotoUrl())
+        .asBitmap()
+        .into(new BitmapImageViewTarget(candidateImage) {
+          @Override protected void setResource(Bitmap resource) {
+            // Do bitmap magic here
+            super.setResource(resource);
+            Palette.from(resource).generate(new Palette.PaletteAsyncListener() {
+              public void onGenerated(Palette p) {
+                // Use generated instance
+                Palette.Swatch vibrantSwatch = p.getVibrantSwatch();
+                float[] vibrant = vibrantSwatch.getHsl();
+                Log.e("Color", "code" + Color.HSVToColor(vibrant));
+                candidateName.setTextColor(Color.HSVToColor(vibrant));
+              }
+            });
+          }
+        });
+/*
+    Palette.from(drawable.getBitmap()).generate(new Palette.PaletteAsyncListener() {
+      public void onGenerated(Palette p) {
+        // Use generated instance
+        Palette.Swatch vibrantSwatch = p.getVibrantSwatch();
+        float[] vibrant = vibrantSwatch.getHsl();
+        Log.e("Color", "code" + Color.HSVToColor(vibrant));
+      }
+    });*/
   }
 }
