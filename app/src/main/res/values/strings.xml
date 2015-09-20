@@ -25,4 +25,5 @@
   <string name="mother_name">အမိအမည်:</string>
   <string name="father_name">အဖအမည်:</string>
   <string name="candidate_bio">ကိုယ်ရေးအကျဥ်း</string>
+  <string name="motion_header">တင်သွင်းခဲ့သည့်အဆိုများ</string>
 </resources>
