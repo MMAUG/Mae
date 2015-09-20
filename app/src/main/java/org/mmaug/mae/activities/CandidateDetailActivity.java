@@ -103,7 +103,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
         .into(mCandidatePartyFlag);
 
     mCandidateConstituency.setText(candidate.getConstituency().getName());
-    mCandidateDateOfBirth.setText(String.valueOf(candidate.getBirthdate()));
+    mCandidateDateOfBirth.setText(String.valueOf(candidate.getBirthDateString()));
     mCandidateEducation.setText(candidate.getEducation());
     mCandidateFather.setText(candidate.getFather().getName());
     mCandidateMother.setText(candidate.getMother().getName());

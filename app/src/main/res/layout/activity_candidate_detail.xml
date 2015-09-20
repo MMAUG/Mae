@@ -304,7 +304,7 @@
           />
         <View android:layout_width="0.5dp"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/spacing_microgit"
+            android:layout_margin="@dimen/spacing_micro"
             android:background="#AECACE"/>
       <org.mmaug.mae.view.AspectRatioImageView
           android:id="@+id/candidate_detail_party_flag"
