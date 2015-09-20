@@ -39,13 +39,7 @@
             app:layout_collapseMode="parallax"
             android:fitsSystemWindows="true"
             />
-        <org.mmaug.mae.view.AspectRatioImageView
-            android:id="@+id/candidate_image"
-            android:layout_centerInParent="true"
-            android:src="@drawable/candidate"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            />
+
       </RelativeLayout>
 
       <android.support.v7.widget.Toolbar
@@ -57,7 +51,15 @@
           app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
           android:minHeight="?android:attr/actionBarSize"
           app:layout_collapseMode="pin"
-          />
+          >
+        <org.mmaug.mae.view.AspectRatioImageView
+            android:id="@+id/candidate_image"
+            android:layout_centerInParent="true"
+            android:src="@drawable/candidate"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            />
+          </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.CollapsingToolbarLayout>
   </android.support.design.widget.AppBarLayout>
