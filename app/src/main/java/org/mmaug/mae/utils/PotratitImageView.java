@@ -23,7 +23,7 @@ public class PotratitImageView extends ImageView {
 
   @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     int width = View.MeasureSpec.getSize(widthMeasureSpec);
-    int height = width;
+    int height = (int) (width*1.3);
     setMeasuredDimension(width,height);
   }
 }
