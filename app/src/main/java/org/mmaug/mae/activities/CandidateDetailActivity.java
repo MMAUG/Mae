@@ -1,5 +1,6 @@
 package org.mmaug.mae.activities;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -17,9 +18,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import org.eazegraph.lib.charts.PieChart;
+import org.eazegraph.lib.models.PieModel;
 import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.models.Candidate;
+import org.mmaug.mae.rest.RESTClient;
+import org.mmaug.mae.rest.RESTService;
 import org.mmaug.mae.view.ZoomAspectRatioImageView;
 
 public class CandidateDetailActivity extends AppCompatActivity {
@@ -42,7 +47,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.legalslature)  TextView mCandidateLegalSlature;
   @Bind(R.id.appbar) AppBarLayout appbar;
   AppBarLayout.OnOffsetChangedListener mListener;
-
+  private RESTService mMotionService;
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_candidate_detail);
@@ -111,5 +116,12 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mCandidateRace.setText(candidate.getEthnicity());
     mCandidateReligion.setText(candidate.getReligion());
     mCandidateLegalSlature.setText(candidate.getLegislature());
+    mMotionService = RESTClient.getService();
+    PieChart mPieChart = (PieChart) findViewById(R.id.motion_piechart);
+    mPieChart.addPieSlice(new PieModel("Freetime", 15, Color.parseColor("#FE6DA8")));
+    mPieChart.addPieSlice(new PieModel("Sleep", 25, Color.parseColor("#56B7F1")));
+    mPieChart.addPieSlice(new PieModel("Work", 35, Color.parseColor("#CDA67F")));
+    mPieChart.addPieSlice(new PieModel("Eating", 9, Color.parseColor("#FED70E")));
+    mPieChart.startAnimation();
   }
 }

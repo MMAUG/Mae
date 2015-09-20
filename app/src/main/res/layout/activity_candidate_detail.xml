@@ -113,7 +113,7 @@
           android:orientation="horizontal"
           android:padding="@dimen/spacing_major"
           android:background="@color/white"
-          android:id="@+id/candidate_detail_card"
+          android:id="@+id/candidate_question_card"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_margin="@dimen/default_padding_large"
@@ -261,15 +261,38 @@
             android:layout_marginRight="@dimen/default_padding_large"
             android:layout_marginTop="@dimen/default_padding_large"
             android:text="@string/motion_header"/>
+        <android.support.v7.widget.CardView
+            android:orientation="horizontal"
+            android:padding="@dimen/spacing_major"
+            android:background="@color/white"
+            android:id="@+id/candidate_detail_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_padding_large"
+            app:layout_anchor="@id/appbar"
+            app:layout_anchorGravity="bottom|right|end"
+            app:cardElevation="5dp"
+            app:pressedTranslationZ="16dp"
+            app:borderWidth="0dp"
+            app:elevation="@dimen/fab_elevation"
+            app:rippleColor="@color/primary_dark"
+            card_view:cardCornerRadius="@dimen/default_padding_small"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
         <org.eazegraph.lib.charts.PieChart
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/stackedbarchart"
+            android:id="@+id/motion_piechart"
             android:layout_width="match_parent"
             android:layout_height="256dp"
-            android:padding="10dp"/>
-            <!--app:egFixedBarWidth="true"-->
-            <!--app:egBarWidth="20dp"-->
-            <!--app:egLegendHeight="40dp"/>-->
+            android:padding="10dp"
+            app:egFixedBarWidth="true"
+            app:egBarWidth="20dp"
+            app:egLegendHeight="40dp"/>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
     </LinearLayout>
 
   </android.support.v4.widget.NestedScrollView>
