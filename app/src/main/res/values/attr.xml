@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <declare-styleable name="AutofitTextView">
+    <attr name="minTextSize"
+        format="dimension|reference"/>
+    <attr name="precision"
+        format="float|reference"/>
+    <attr name="sizeToFit"
+        format="boolean|reference"/>
+  </declare-styleable>
+</resources>
