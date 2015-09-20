@@ -1,5 +1,6 @@
 package org.mmaug.mae.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -72,8 +73,9 @@ public class CandidateListActivity extends BaseActivity
   private void fetchCandidate() {
     showHideProgressBar(true);
     Map<String, String> pyithuParams = new HashMap<>();
-    //Probably, there won't be much more than 25 candidates for a township for the same legislature
-    pyithuParams.put(Config.PER_PAGE, "100");
+    //Probably, there won't be much more than 200 candidates for a township for the same legislature
+    pyithuParams.put(Config.PER_PAGE, "200");
+    //TODO remove hardcoded PCODE
     pyithuParams.put(Config.CONSTITUENCY_ST_PCODE, "MMR013");
     pyithuParams.put(Config.CONSTITUENCY_DT_PCODE, "MMR013D001");
     pyithuParams.put(Config.CONSTITUENCY_TS_PCODE, "MMR013001");
@@ -125,5 +127,7 @@ public class CandidateListActivity extends BaseActivity
 
   @Override public void onItemClick(Candidate candidate) {
     //list item click
+    Intent intent = new Intent(this, CandidateDetailActivity.class);
+    startActivity(intent);
   }
 }
