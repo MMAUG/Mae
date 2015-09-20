@@ -37,10 +37,6 @@
                 android:value="org.mmaug.mae.activities.MainActivity" />
         </activity>
 
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="@string/google_map_key" />
-
         <activity
             android:name=".activities.CandidateListActivity"
             android:label="@string/title_activity_candidate"
@@ -54,6 +50,17 @@
             android:label="@string/title_activity_party_detail"
             android:theme="@style/AppTheme" >
         </activity>
+
+      <activity
+          android:name=".activities.CandidateDetailActivity"
+          android:label="@string/title_activity_party_detail"
+          android:theme="@style/AppTheme" >
+      </activity>
+
+      <meta-data
+          android:name="com.google.android.maps.v2.API_KEY"
+          android:value="@string/google_map_key" />
+
     </application>
 
 </manifest>
