@@ -13,6 +13,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.ArrayList;
 import org.mmaug.mae.R;
 import org.mmaug.mae.models.Candidate;
+import org.mmaug.mae.view.AutofitTextView;
 
 /**
  * Created by poepoe on 19/9/15.
@@ -65,11 +66,11 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.Cand
 
   class CandidateViewHolder extends RecyclerView.ViewHolder {
 
-    @Bind(R.id.tv_candidate_name) public TextView tvCandidateName;
-    @Bind(R.id.tv_candidate_degree) public TextView tvCandidateDegree;
-    @Bind(R.id.tv_candidate_job) public TextView tvCandidateJob;
-    @Bind(R.id.iv_candidate) public ImageView ivCandidateProfile;
-    @Bind(R.id.iv_candidate_party_flag) public ImageView ivPartyFlag;
+    @Bind(R.id.tv_candidate_name) AutofitTextView tvCandidateName;
+    @Bind(R.id.tv_candidate_degree) TextView tvCandidateDegree;
+    @Bind(R.id.tv_candidate_job) TextView tvCandidateJob;
+    @Bind(R.id.iv_candidate_party_flag) ImageView ivPartyFlag;
+    @Bind(R.id.iv_candidate) ImageView ivCandidateProfile;
 
     public CandidateViewHolder(View itemView) {
       super(itemView);
@@ -78,6 +79,7 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.Cand
 
     private void bindCandidate(Candidate candidate) {
       tvCandidateName.setText(candidate.getName());
+      tvCandidateName.setSizeToFit(true);
       tvCandidateDegree.setText(candidate.getEducation());
       tvCandidateJob.setText(candidate.getOccupation());
       Glide.with(itemView.getContext())
