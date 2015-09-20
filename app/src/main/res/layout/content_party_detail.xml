@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -10,13 +11,13 @@
     tools:showIn="@layout/activity_party_detail"
     tools:context="org.mmaug.mae.activities.PartyDetailActivity"
     >
-  <org.mmaug.mae.view.AspectRatioImageView
+  <org.mmaug.mae.view.ZoomAspectRatioImageView
       android:src="@drawable/flag"
       android:adjustViewBounds="true"
       android:scaleType="centerCrop"
+      android:layout_height="200dp"
+      android:layout_width="200dp"
       android:id="@+id/party_image_demo"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
       />
 
 </RelativeLayout>
