@@ -8,8 +8,6 @@ import android.widget.ProgressBar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +24,8 @@ import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 
-public class CandidateListActivity extends BaseActivity {
+public class CandidateListActivity extends BaseActivity
+    implements CandidateAdapter.OnItemClickListener {
 
   @Bind(R.id.rv_candidate_list) RecyclerView mRecyclerView;
   @Bind(R.id.pb_candidate_list) ProgressBar mProgressBar;
@@ -60,6 +59,7 @@ public class CandidateListActivity extends BaseActivity {
   private void initRecyclerView() {
     mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
     candidateAdapter = new CandidateAdapter();
+    candidateAdapter.setOnItemClickListener(this);
     sectionAdapter =
         new SectionHeaderAdapter(this, R.layout.item_candidate_header, R.id.tv_candidate_header,
             mRecyclerView, candidateAdapter);
@@ -81,12 +81,6 @@ public class CandidateListActivity extends BaseActivity {
     pyithuCall.enqueue(new Callback<CandidateListReturnObject>() {
       @Override public void onResponse(Response<CandidateListReturnObject> response) {
         List<Candidate> candidates = response.body().getData();
-        //sort array by type
-        Collections.sort(candidates, new Comparator<Candidate>() {
-          @Override public int compare(Candidate lhs, Candidate rhs) {
-            return lhs.getLegislature().compareTo(rhs.getLegislature());
-          }
-        });
 
         //header section
         List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
@@ -125,5 +119,9 @@ public class CandidateListActivity extends BaseActivity {
       if (s.equalsIgnoreCase(sections.get(i).getTitle())) return true;
     }
     return false;
+  }
+
+  @Override public void onItemClick(Candidate candidate) {
+    //list item click
   }
 }
