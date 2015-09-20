@@ -102,4 +102,6 @@ dependencies {
   compile 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
   //blury
   compile 'jp.wasabeef:glide-transformations:1.2.1'
+  compile 'com.github.blackfizz:eazegraph:1.2.2@aar'
+  compile 'com.nineoldandroids:library:2.4.0'
 }
