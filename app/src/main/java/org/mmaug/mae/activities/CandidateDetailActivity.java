@@ -69,14 +69,9 @@ public class CandidateDetailActivity extends AppCompatActivity {
             });
           }
         });
-/*
-    Palette.from(drawable.getBitmap()).generate(new Palette.PaletteAsyncListener() {
-      public void onGenerated(Palette p) {
-        // Use generated instance
-        Palette.Swatch vibrantSwatch = p.getVibrantSwatch();
-        float[] vibrant = vibrantSwatch.getHsl();
-        Log.e("Color", "code" + Color.HSVToColor(vibrant));
-      }
-    });*/
+    Glide.with(this)
+        .load(candidate.getPhotoUrl())
+        .bitmapTransform(new CropCircleTransformation(this))
+        .into(candidateImage);
   }
 }

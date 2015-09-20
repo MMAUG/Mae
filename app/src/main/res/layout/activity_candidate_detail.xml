@@ -53,20 +53,24 @@
       <org.mmaug.mae.view.CollapsingAvatarToolbar
           android:id="@+id/stuff_container"
           android:layout_width="wrap_content"
-          android:layout_height="?attr/actionBarSize">
+          android:layout_height="?attr/actionBarSize"
+          >
 
         <ImageView
             android:id="@+id/candidate_avatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/profile_placeholder"/>
+            android:src="@drawable/profile_placeholder"
+            />
 
-        <LinearLayout android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="16dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
           <TextView
               android:id="@+id/candidate_name"
@@ -75,7 +79,8 @@
               android:fontFamily="sans-serif-medium"
               android:text="Title"
               android:textColor="@android:color/white"
-              android:textSize="18dp"/>
+              android:textSize="18dp"
+              />
 
         </LinearLayout>
       </org.mmaug.mae.view.CollapsingAvatarToolbar>
@@ -119,7 +124,7 @@
       android:orientation="horizontal"
       android:padding="@dimen/spacing_major"
       android:background="@color/white"
-      android:id="@+id/share_fab"
+      android:id="@+id/candidate_card"
       android:layout_width="match_parent"
       android:layout_height="@dimen/home_card"
       android:layout_margin="@dimen/default_padding_large"
