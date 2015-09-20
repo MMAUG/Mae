@@ -303,10 +303,6 @@
           android:maxLines="1"
           android:layout_weight="2"
           />
-        <View android:layout_width="0.5dp"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/spacing_micro"
-            android:background="#AECACE"/>
       <FrameLayout
           android:layout_width="0dp"
           android:layout_height="match_parent"
