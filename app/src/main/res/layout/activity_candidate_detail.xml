@@ -129,47 +129,39 @@
                 android:orientation="horizontal"
                 android:padding="@dimen/spacing_minor"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/home_card"
-                android:weightSum="3"
+                android:layout_height="wrap_content"
+                android:weightSum="5"
                 >
-                <org.mmaug.mae.view.AutofitTextView
+                <TextView
                     android:id="@+id/candidate_detail_education"
                     card_view:text="ကော့မှူး"
                     android:gravity="center"
                     android:src="@drawable/flag"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     />
                 <View android:layout_width="0.5dp"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/spacing_minor"
-                    android:layout_marginBottom="@dimen/spacing_minor"
+                    android:layout_margin="@dimen/spacing_micro"
                     android:background="#AECACE"/>
-                <org.mmaug.mae.view.AutofitTextView
+                <TextView
                     android:id="@+id/candidate_detail_occupation"
                     android:gravity="center"
                     card_view:text="ဥက္ကဌ"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     />
                 <View android:layout_width="0.5dp"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/spacing_minor"
-                    android:layout_marginBottom="@dimen/spacing_minor"
+                    android:layout_margin="@dimen/spacing_micro"
                     android:background="#AECACE"/>
-                <org.mmaug.mae.view.AutofitTextView
+                <TextView
                     android:id="@+id/candidate_detail_race"
                     card_view:text="WOWOW"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:lines="1"
-                    android:maxLines="1"
                     android:gravity="center"
                     android:layout_weight="1"
                     />
@@ -283,7 +275,7 @@
         android:padding="@dimen/spacing_minor"
         android:layout_width="match_parent"
         android:layout_height="@dimen/home_card"
-        android:weightSum="3"
+        android:weightSum="5"
         >
       <org.mmaug.mae.view.AutofitTextView
           android:id="@+id/candidate_detail_constituency_pl"
@@ -294,12 +286,11 @@
           android:layout_height="match_parent"
           android:lines="1"
           android:maxLines="1"
-          android:layout_weight="1"
+          android:layout_weight="2"
           />
         <View android:layout_width="0.5dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/spacing_minor"
-            android:layout_marginBottom="@dimen/spacing_minor"
+            android:layout_margin="@dimen/spacing_micro"
             android:background="#AECACE"/>
       <org.mmaug.mae.view.AutofitTextView
           android:id="@+id/legalslature"
@@ -309,14 +300,13 @@
           android:layout_height="match_parent"
           android:lines="1"
           android:maxLines="1"
-          android:layout_weight="1"
+          android:layout_weight="2"
           />
         <View android:layout_width="0.5dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/spacing_minor"
-            android:layout_marginBottom="@dimen/spacing_minor"
+            android:layout_margin="@dimen/spacing_microgit"
             android:background="#AECACE"/>
-      <ImageView
+      <org.mmaug.mae.view.AspectRatioImageView
           android:id="@+id/candidate_detail_party_flag"
           android:layout_width="0dp"
           android:layout_height="match_parent"

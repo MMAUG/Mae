@@ -3,16 +3,11 @@ package org.mmaug.mae.activities;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,6 +39,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.candidate_detail_party_flag) ImageView mCandidatePartyFlag;
   @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingAvatarToolbar;
   @Bind(R.id.candidate_card) CardView cardView;
+  @Bind(R.id.legalslature)  TextView mCandidateLegalSlature;
   @Bind(R.id.appbar) AppBarLayout appbar;
   AppBarLayout.OnOffsetChangedListener mListener;
 
@@ -114,5 +110,6 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mCandidateOccupation.setText(candidate.getOccupation());
     mCandidateRace.setText(candidate.getEthnicity());
     mCandidateReligion.setText(candidate.getReligion());
+    mCandidateLegalSlature.setText(candidate.getLegislature());
   }
 }
