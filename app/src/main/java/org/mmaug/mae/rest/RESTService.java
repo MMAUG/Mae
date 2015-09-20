@@ -3,6 +3,9 @@ package org.mmaug.mae.rest;
 import com.google.gson.JsonObject;
 import java.util.Map;
 import org.mmaug.mae.Config;
+import org.mmaug.mae.models.CandidateListReturnObject;
+import org.mmaug.mae.models.GeoReturnObject;
+import org.mmaug.mae.models.PartyReturnObject;
 import org.mmaug.mae.models.User;
 import retrofit.Call;
 import retrofit.http.FieldMap;
@@ -10,7 +13,6 @@ import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
-import retrofit.http.Query;
 import retrofit.http.QueryMap;
 
 /**
@@ -31,7 +33,7 @@ public interface RESTService {
    **/
 
   //candidate
-  @GET(Config.CANDIDATE_LIST_URL) Call<JsonObject> getCandidateList(
+  @GET(Config.CANDIDATE_LIST_URL) Call<CandidateListReturnObject> getCandidateList(
       @QueryMap Map<String, String> optionalQueries);
 
   @GET(Config.CANDIDATE_URL + "{/id}") Call<JsonObject> getCandidate(@Path("id") String id,
@@ -46,14 +48,15 @@ public interface RESTService {
   @GET(Config.FAQ_SEARCH) Call<JsonObject> serchFaq(@QueryMap Map<String, String> optionalQueries);
 
   //geo location
-  @GET(Config.GEO_LOCATION_URL) Call<JsonObject> getLocationList(
+  @GET(Config.GEO_LOCATION_URL) Call<GeoReturnObject> getLocationList(
       @QueryMap Map<String, String> optionalQueries);
 
   @GET(Config.GEO_LOCATION_SEARCH) Call<JsonObject> searchLocation(
       @QueryMap Map<String, String> optionalQueries);
 
   //party
-  @GET(Config.PARTY_LIST_URL) Call<JsonObject> getPartyList(@Query("token") String user_token);
+  @GET(Config.PARTY_LIST_URL) Call<PartyReturnObject> getPartyList(
+      @QueryMap Map<String, String> optionalQueries);
 
   @GET(Config.PARTY_LIST_URL + "{/id}") Call<JsonObject> getPartyDetail(@Path("id") String id);
 }

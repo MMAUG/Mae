@@ -1,0 +1,83 @@
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardUseCompatPadding="true"
+    >
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      >
+    <FrameLayout
+        android:id="@+id/image_frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+      <ImageView
+          android:id="@+id/iv_candidate"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:scaleType="centerCrop"
+          />
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:layout_gravity="bottom"
+          android:padding="@dimen/spacing_minor">
+        <TextView
+            android:id="@+id/tv_candidate_name"
+            tools:text="Aung San Suu Kyi"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/spacing_minor"
+            style="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:layout_weight="1"
+            />
+        <ImageView
+            android:id="@+id/iv_candidate_party_flag"
+            android:layout_width="32dp"
+            android:layout_height="24dp"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center_vertical"
+            />
+      </LinearLayout>
+
+    </FrameLayout>
+
+    <TextView
+        android:layout_marginTop="@dimen/spacing_major"
+        android:id="@+id/tv_candidate_degree"
+        android:layout_gravity="bottom"
+        tools:text="Aung San Suu Kyi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="1.2"
+        android:fontFamily="sans-serif-condensed"
+        style="@style/Base.TextAppearance.AppCompat.Body1"
+        android:layout_marginBottom="@dimen/spacing_minor"
+        android:layout_marginLeft="@dimen/spacing_minor"
+        />
+
+    <TextView
+        android:layout_below="@+id/tv_candidate_degree"
+        android:id="@+id/tv_candidate_job"
+        android:layout_gravity="bottom"
+        tools:text="Aung San Suu Kyi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="1.2"
+        android:fontFamily="sans-serif-condensed"
+        style="@style/Base.TextAppearance.AppCompat.Body1"
+        android:layout_marginLeft="@dimen/spacing_minor"
+        android:layout_marginBottom="@dimen/spacing_major"
+        />
+
+  </LinearLayout>
+</android.support.v7.widget.CardView>

@@ -1,61 +1,54 @@
 package org.mmaug.mae.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
 import org.mmaug.mae.R;
+import org.mmaug.mae.base.BaseAdapter;
 import org.mmaug.mae.utils.DataUtils;
 
 /**
  * Created by poepoe on 16/9/15.
  */
-public class TownshipAdapter extends BaseAdapter {
-  private Context mContext;
+public class TownshipAdapter extends BaseAdapter<BaseAdapter.BaseViewHolder> {
   private ArrayList<DataUtils.Township> townships;
 
-  public TownshipAdapter(Context context, ArrayList<DataUtils.Township> townships) {
-    mContext = context;
+  public TownshipAdapter(ArrayList<DataUtils.Township> townships) {
     this.townships = townships;
   }
 
-  @Override public int getCount() {
+  public void setTownships(ArrayList<DataUtils.Township> townships) {
+    this.townships = townships;
+    notifyDataSetChanged();
+  }
+
+  @Override public BaseAdapter.BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+    View itemView = inflater.inflate(R.layout.item_township, parent, false);
+    return new ViewHolder(itemView, this);
+  }
+
+  @Override public void onBindViewHolder(BaseViewHolder holder, int position) {
+    String townshipName = townships.get(position).getTowhshipNameBurmese();
+    ((ViewHolder)holder).mText.setText(townshipName);
+  }
+
+  @Override public int getItemCount() {
     return townships.size();
   }
 
-  @Override public DataUtils.Township getItem(int i) {
-    return townships.get(i);
-  }
-
-  @Override public long getItemId(int i) {
-    return i;
-  }
-
-  @Override public View getView(int i, View view, ViewGroup viewGroup) {
-
-    ViewHolder holder;
-    if (view != null) {
-      holder = (ViewHolder) view.getTag();
-    } else {
-      view = ((LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(
-          R.layout.row_township, viewGroup, false);
-      holder = new ViewHolder(view);
-      view.setTag(holder);
-    }
-    holder.mText.setText(getItem(i).getTowhshipNameBurmese());
-    return view;
-  }
-
-  static class ViewHolder {
+  class ViewHolder extends BaseAdapter.BaseViewHolder {
     @Bind(R.id.tv_township) TextView mText;
 
-    ViewHolder(View view) {
-      ButterKnife.bind(this, view);
+    public ViewHolder(View itemView, TownshipAdapter adapter) {
+      super(itemView);
+      ButterKnife.bind(this, itemView);
+      itemView.setOnClickListener(this);
+      mAdapter = adapter;
     }
   }
 }
