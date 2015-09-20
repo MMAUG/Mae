@@ -64,6 +64,7 @@ public class CandidateListActivity extends BaseActivity
         new SectionHeaderAdapter(this, R.layout.item_candidate_header, R.id.tv_candidate_header,
             mRecyclerView, candidateAdapter);
     int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing_micro);
+    mRecyclerView.setHasFixedSize(true);
     mRecyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
     mRecyclerView.setAdapter(sectionAdapter);
   }
@@ -76,6 +77,7 @@ public class CandidateListActivity extends BaseActivity
     pyithuParams.put(Config.CONSTITUENCY_ST_PCODE, "MMR013");
     pyithuParams.put(Config.CONSTITUENCY_DT_PCODE, "MMR013D001");
     pyithuParams.put(Config.CONSTITUENCY_TS_PCODE, "MMR013001");
+    pyithuParams.put(Config.WITH, Config.PARTY);
     Call<CandidateListReturnObject> pyithuCall =
         RESTClient.getMPSService().getCandidateList(pyithuParams);
     pyithuCall.enqueue(new Callback<CandidateListReturnObject>() {

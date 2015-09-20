@@ -23,6 +23,7 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.Cand
   private OnItemClickListener onItemClickListener;
 
   public CandidateAdapter() {
+
     this.candidates = new ArrayList<>();
   }
 
@@ -68,6 +69,7 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.Cand
     @Bind(R.id.tv_candidate_degree) public TextView tvCandidateDegree;
     @Bind(R.id.tv_candidate_job) public TextView tvCandidateJob;
     @Bind(R.id.iv_candidate) public ImageView ivCandidateProfile;
+    @Bind(R.id.iv_candidate_party_flag) public ImageView ivPartyFlag;
 
     public CandidateViewHolder(View itemView) {
       super(itemView);
@@ -83,6 +85,10 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.Cand
           .diskCacheStrategy(DiskCacheStrategy.ALL)
           .into(ivCandidateProfile);
       ivCandidateProfile.setAdjustViewBounds(true);
+      Glide.with(itemView.getContext())
+          .load(candidate.getParty().getPartyFlag())
+          .diskCacheStrategy(DiskCacheStrategy.ALL)
+          .into(ivPartyFlag);
     }
   }
 

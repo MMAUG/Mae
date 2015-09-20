@@ -53,8 +53,8 @@ public class Config {
   public static final String MALE = "M";
 
   //http://api.maepaysoh.org/party?token=user-token-key
-  public static final String PARTY = "http://api.maepaysoh.org/party";
-  public static final String CANDIDATE = "http://api.maepaysoh.org/candidate";
+  public static final String PARTY = "party";
+  public static final String CANDIDATE = "candidate";
 
   public static final String FAQ = "faq";
   public static final String LIST = "list";
