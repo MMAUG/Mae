@@ -35,4 +35,5 @@ public abstract class BaseAdapter<VH extends BaseAdapter.BaseViewHolder> extends
       mAdapter.onItemHolderClickListener(this);
     }
   }
+
 }

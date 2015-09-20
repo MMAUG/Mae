@@ -1,93 +1,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="org.mmaug.mae.activities.CandidateListActivity">
 
   <include layout="@layout/toolbar"/>
-    <ScrollView android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-           >
-  <TextView
-      xmlns:android="http://schemas.android.com/apk/res/android"
+
+  <FrameLayout
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:gravity="center_vertical"
-      android:padding="16dp"
-      android:singleLine="true"
-      android:textAllCaps="true"
-      android:background="@android:color/transparent"
-      style="@style/Base.TextAppearance.AppCompat.Headline"
-      android:id="@+id/section_text_pyithu"
-      android:textStyle="bold" />
-  <FrameLayout android:layout_width="match_parent"
-      android:layout_height="wrap_content">
-  <GridLayout
-      android:id="@+id/pyithu_hluttaw_grid"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:columnCount="2"/>
+      android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_candidate_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
     <ProgressBar
-        android:id="@+id/pyithu_hluttaw_progesss"
+        android:id="@+id/pb_candidate_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
+
   </FrameLayout>
-          <TextView
-              xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:padding="16dp"
-              android:singleLine="true"
-              android:textAllCaps="true"
-              android:background="@android:color/transparent"
-              style="@style/Base.TextAppearance.AppCompat.Headline"
-              android:id="@+id/section_text_amyothar"
-              android:textStyle="bold" />
-          <FrameLayout android:layout_width="match_parent"
-              android:layout_height="wrap_content">
-            <GridLayout
-                android:id="@+id/pyithu_amyothar_grid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnCount="2"/>
-            <ProgressBar
-                android:id="@+id/pyithu_amyothar_progesss"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"/>
-          </FrameLayout>
-          <TextView
-              xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:padding="16dp"
-              android:singleLine="true"
-              android:textAllCaps="true"
-              android:background="@android:color/transparent"
-              style="@style/Base.TextAppearance.AppCompat.Headline"
-              android:id="@+id/section_text_tinedaytha"
-              android:textStyle="bold" />
-          <FrameLayout android:layout_width="match_parent"
-              android:layout_height="wrap_content">
-            <GridLayout
-                android:id="@+id/pyithu_tinedaytha_grid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnCount="2"/>
-            <ProgressBar
-                android:id="@+id/pyithu_tinedaytha_progesss"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"/>
-          </FrameLayout>
-        </LinearLayout>
-    </ScrollView>
 </LinearLayout>

@@ -1,6 +1,7 @@
 package org.mmaug.mae.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -9,12 +10,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import java.util.Arrays;
 import java.util.Comparator;
-import org.mmaug.mae.base.BaseAdapter;
 
 /**
  * Created by poepoe on 19/9/15.
  */
-public class SectionHeaderAdapter extends BaseAdapter<BaseAdapter.BaseViewHolder> {
+public class SectionHeaderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
   private final Context mContext;
   private static final int SECTION_TYPE = 0;
@@ -22,18 +22,20 @@ public class SectionHeaderAdapter extends BaseAdapter<BaseAdapter.BaseViewHolder
   private boolean mValid = true;
   private int mSectionResourceId;
   private int mTextResourceId;
-  //private LayoutInflater mLayoutInflater;
-  private BaseAdapter mBaseAdapter;
-  private SparseArray<Section> mSections = new SparseArray<Section>();
+  private RecyclerView.Adapter mBaseAdapter;
+  private SparseArray<Section> mSections = new SparseArray<>();
+  private RecyclerView mRecyclerView;
 
   public SectionHeaderAdapter(Context context, int sectionResourceId, int textResourceId,
-      BaseAdapter baseAdapter) {
+      RecyclerView recyclerView, RecyclerView.Adapter baseAdapter) {
 
-    //mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    LayoutInflater mLayoutInflater =
+        (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     mSectionResourceId = sectionResourceId;
     mTextResourceId = textResourceId;
     mBaseAdapter = baseAdapter;
     mContext = context;
+    mRecyclerView = recyclerView;
 
     mBaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
       @Override public void onChanged() {
@@ -56,9 +58,16 @@ public class SectionHeaderAdapter extends BaseAdapter<BaseAdapter.BaseViewHolder
         notifyItemRangeRemoved(positionStart, itemCount);
       }
     });
+
+    final GridLayoutManager layoutManager = (GridLayoutManager) (mRecyclerView.getLayoutManager());
+    layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+      @Override public int getSpanSize(int position) {
+        return (isSectionHeaderPosition(position)) ? layoutManager.getSpanCount() : 1;
+      }
+    });
   }
 
-  public static class SectionViewHolder extends BaseViewHolder {
+  public static class SectionViewHolder extends RecyclerView.ViewHolder {
 
     public TextView title;
 
@@ -68,16 +77,16 @@ public class SectionHeaderAdapter extends BaseAdapter<BaseAdapter.BaseViewHolder
     }
   }
 
-  @Override public BaseAdapter.BaseViewHolder onCreateViewHolder(ViewGroup parent, int typeView) {
+  @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int typeView) {
     if (typeView == SECTION_TYPE) {
       final View view = LayoutInflater.from(mContext).inflate(mSectionResourceId, parent, false);
       return new SectionViewHolder(view, mTextResourceId);
     } else {
-      return (BaseViewHolder) mBaseAdapter.onCreateViewHolder(parent, typeView - 1);
+      return mBaseAdapter.onCreateViewHolder(parent, typeView - 1);
     }
   }
 
-  @Override public void onBindViewHolder(BaseViewHolder sectionViewHolder, int position) {
+  @Override public void onBindViewHolder(RecyclerView.ViewHolder sectionViewHolder, int position) {
     if (isSectionHeaderPosition(position)) {
       ((SectionViewHolder) sectionViewHolder).title.setText(mSections.get(position).title);
     } else {
