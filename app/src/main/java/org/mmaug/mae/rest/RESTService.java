@@ -13,6 +13,7 @@ import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
+import retrofit.http.Query;
 import retrofit.http.QueryMap;
 
 /**
@@ -59,4 +60,9 @@ public interface RESTService {
       @QueryMap Map<String, String> optionalQueries);
 
   @GET(Config.PARTY_LIST_URL + "{/id}") Call<JsonObject> getPartyDetail(@Path("id") String id);
-}
+
+  //OMI service
+  @GET(Config.MOTION_DETAIL_URL) Call<JsonObject> getMotionDetail (@Query("mpid") String mpId);
+
+  @GET(Config.MOTION_COUNT) Call<JsonObject> getMotionCount(@Query("mpid") String mpId);
+ }
