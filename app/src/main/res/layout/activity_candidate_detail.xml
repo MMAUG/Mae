@@ -108,6 +108,7 @@
             android:layout_marginLeft="@dimen/default_padding_large"
             android:layout_marginRight="@dimen/default_padding_large"
             android:layout_marginTop="@dimen/default_padding_large"
+            android:textStyle="bold"
             android:text="@string/candidate_bio"/>
       <android.support.v7.widget.CardView
           android:orientation="horizontal"
@@ -178,79 +179,129 @@
               android:layout_marginRight="@dimen/spacing_minor"
               android:layout_marginLeft="@dimen/spacing_minor"
               android:background="#AECACE"/>
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/spacing_minor"
+                android:weightSum="2">
+                <TextView
+                    android:text="@string/party"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/spacing_minor"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/candidate_detail_party"
+                    android:text="WOWOW"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:padding="@dimen/spacing_minor"/>
+            </LinearLayout>
           <LinearLayout android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
               android:padding="@dimen/spacing_minor"
-              android:weightSum="3">
+              android:weightSum="2">
             <TextView
                 android:text="@string/date_of_birth"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="@dimen/spacing_minor"/>
+                android:gravity="center_vertical"
+                android:padding="@dimen/spacing_minor"
+                android:layout_weight="1"/>
             <TextView
                 android:id="@+id/candidate_detail_dob"
                 android:text="WOWOW"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:layout_weight="1"
                 android:padding="@dimen/spacing_minor"/>
           </LinearLayout>
           <LinearLayout android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
               android:padding="@dimen/spacing_minor"
-              android:weightSum="3">
+              android:weightSum="2">
             <TextView
                 android:text="@string/religion"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="@dimen/spacing_minor"/>
+                android:gravity="center_vertical"
+                android:padding="@dimen/spacing_minor"
+                android:layout_weight="1"/>
             <TextView
                 android:id="@+id/candidate_detail_religion"
                 android:text="WOWOW"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:padding="@dimen/spacing_minor"/>
-          </LinearLayout>
-          <LinearLayout android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal"
-              android:padding="@dimen/spacing_minor">
-            <TextView
-                android:text="@string/father_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="@dimen/spacing_minor"/>
-            <TextView
-                android:id="@+id/candidate_detail_father"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
+                android:layout_weight="1"
                 android:padding="@dimen/spacing_minor"/>
           </LinearLayout>
           <LinearLayout android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
               android:padding="@dimen/spacing_minor"
-              android:weightSum="3">
+              android:weightSum="2">
+            <TextView
+                android:text="@string/father_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:padding="@dimen/spacing_minor"/>
+            <TextView
+                android:id="@+id/candidate_detail_father"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:padding="@dimen/spacing_minor"/>
+          </LinearLayout>
+          <LinearLayout android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:padding="@dimen/spacing_minor"
+              android:weightSum="2">
             <TextView
                 android:text="@string/mother_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
                 android:padding="@dimen/spacing_minor"/>
             <TextView
                 android:id="@+id/candidate_detail_mother"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:layout_weight="1"
                 android:padding="@dimen/spacing_minor"/>
           </LinearLayout>
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/spacing_minor"
+                android:weightSum="2">
+                <TextView
+                    android:text="@string/candidate_address"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:padding="@dimen/spacing_minor"/>
+                <TextView
+                    android:id="@+id/candidate_detail_address"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:padding="@dimen/spacing_minor"/>
+            </LinearLayout>
         </LinearLayout>
       </android.support.v7.widget.CardView>
         <TextView

@@ -1,6 +1,9 @@
 package org.mmaug.mae.activities;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -10,9 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -68,6 +68,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.motion_pie_cont) LinearLayout motionPieCont;
   @Bind(R.id.question_count) TextView mQuestionCount;
   @Bind(R.id.question_pie_cont)LinearLayout mQuestionPieCont;
+  @Bind(R.id.candidate_detail_party) TextView mCandidateParty;
+  @Bind(R.id.candidate_detail_address) TextView mCandidateAddress;
   AppBarLayout.OnOffsetChangedListener mListener;
   private RESTService mRESTService;
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -83,18 +85,44 @@ public class CandidateDetailActivity extends AppCompatActivity {
     actionBar.setTitle("");
 
 
-
     mListener = new AppBarLayout.OnOffsetChangedListener() {
       @Override public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
         if (collapsingAvatarToolbar.getHeight() + verticalOffset < 2 * ViewCompat.getMinimumHeight(
             collapsingAvatarToolbar)) {
-          //TODO does not work well
-          /*Animation animationFadeOut = AnimationUtils.loadAnimation(CandidateDetailActivity.this, R.anim.fadeout);
-          cardView.startAnimation(animationFadeOut);*/
+          //TODO does not work well //STILL NOT WORKING PERFECTLY
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            if (cardView.getAnimation()==null) {
+              cardView.animate()
+                  .setDuration(1000)
+                  .alpha(0)
+                  .setListener(new AnimatorListenerAdapter() {
+                    @Override public void onAnimationEnd(Animator animation) {
+                      cardView.setVisibility(View.GONE);
+                      cardView.setAnimation(null);
+                    }
+                  });
+            }
+          } else {
+            cardView.setVisibility(View.GONE);
+          }
         } else {
-         /* Animation animationFadeIn = AnimationUtils.loadAnimation(CandidateDetailActivity.this, R.anim.fadein);
-          cardView.startAnimation(animationFadeIn);*/
-        }
+            //TODO does not work well
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+              if (cardView.getAnimation()==null) {
+                cardView.animate()
+                    .setDuration(1000)
+                    .alpha(1)
+                    .setListener(new AnimatorListenerAdapter() {
+                      @Override public void onAnimationEnd(Animator animation) {
+                        cardView.setVisibility(View.VISIBLE);
+                        cardView.setAnimation(null);
+                      }
+                    });
+              }
+            } else {
+              cardView.setVisibility(View.VISIBLE);
+            }
+          }
       }
     };
 
@@ -137,7 +165,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
         .into(mCandidatePartyFlag);
 
     mCandidateConstituency.setText(candidate.getConstituency().getName());
-    mCandidateDateOfBirth.setText(String.valueOf(candidate.getBirthDateString()));
+    mCandidateDateOfBirth.setText(
+        MixUtils.convertToBurmese(String.valueOf(candidate.getBirthDateString())));
     mCandidateEducation.setText(candidate.getEducation());
     mCandidateFather.setText(candidate.getFather().getName());
     mCandidateMother.setText(candidate.getMother().getName());
@@ -145,6 +174,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mCandidateRace.setText(candidate.getEthnicity());
     mCandidateReligion.setText(candidate.getReligion());
     mCandidateLegalSlature.setText(candidate.getLegislature());
+    mCandidateParty.setText(candidate.getParty().getPartyName());
+    mCandidateAddress.setText(candidate.getWardVillage());
     mRESTService = RESTClient.getService();
     //if(candidate.getMpid()!=null) {
       // TODO: 9/21/15 REMOVE HARDCODED MPID

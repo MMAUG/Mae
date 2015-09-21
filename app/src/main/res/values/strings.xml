@@ -20,11 +20,13 @@
   <string name="title_activity_candidate">CandidateActivity</string>
   <string name="tip_location">သင့်မဲဆန္ဒနယ် နယ်မြေဖြစ်ပါသည်</string>
   <string name="title_activity_party_detail">PartyDetailActivity</string>
-  <string name="date_of_birth">မွေးသက္ကရာဇ်:</string>
-  <string name="religion">ကိုးကွယ်သည့်ဘာသာ:</string>
-  <string name="mother_name">အမိအမည်:</string>
-  <string name="father_name">အဖအမည်:</string>
+  <string name="date_of_birth">မွေးသက္ကရာဇ်</string>
+  <string name="religion">ကိုးကွယ်သည့်ဘာသာ</string>
+  <string name="mother_name">အမိအမည်</string>
+  <string name="father_name">အဖအမည်</string>
   <string name="candidate_bio">ကိုယ်ရေးအကျဥ်း</string>
   <string name="motion_header">တင်သွင်းခဲ့သည့်အဆိုများ</string>
   <string name="question_header">မေးခဲဖူးသည့် ကဏ္ဍများ</string>
+  <string name="candidate_address">နေရပ်</string>
+  <string name="party">ပါတီ</string>
 </resources>
