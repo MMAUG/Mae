@@ -63,23 +63,18 @@ public class CandidateDetailActivity extends AppCompatActivity {
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setTitle("");
 
-    Animation animation = new TranslateAnimation(-100, 0,0, 0);
-    animation.setDuration(100);
-    animation.setFillAfter(true);
-
-
-
 
 
     mListener = new AppBarLayout.OnOffsetChangedListener() {
       @Override public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
         if (collapsingAvatarToolbar.getHeight() + verticalOffset < 2 * ViewCompat.getMinimumHeight(
             collapsingAvatarToolbar)) {
-          Animation animationFadeIn = AnimationUtils.loadAnimation(CandidateDetailActivity.this, R.anim.fadein);
-          cardView.startAnimation(animationFadeIn);
+          //TODO does not work well
+          /*Animation animationFadeOut = AnimationUtils.loadAnimation(CandidateDetailActivity.this, R.anim.fadeout);
+          cardView.startAnimation(animationFadeOut);*/
         } else {
-          Animation animationFadeOut = AnimationUtils.loadAnimation(CandidateDetailActivity.this, R.anim.fadeout);
-          cardView.startAnimation(animationFadeOut);
+         /* Animation animationFadeIn = AnimationUtils.loadAnimation(CandidateDetailActivity.this, R.anim.fadein);
+          cardView.startAnimation(animationFadeIn);*/
         }
       }
     };
