@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -79,18 +82,25 @@ public class CandidateDetailActivity extends AppCompatActivity {
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setTitle("");
 
+
+
     mListener = new AppBarLayout.OnOffsetChangedListener() {
       @Override public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
         if (collapsingAvatarToolbar.getHeight() + verticalOffset < 2 * ViewCompat.getMinimumHeight(
             collapsingAvatarToolbar)) {
-          cardView.setVisibility(View.INVISIBLE);
+          //TODO does not work well
+          /*Animation animationFadeOut = AnimationUtils.loadAnimation(CandidateDetailActivity.this, R.anim.fadeout);
+          cardView.startAnimation(animationFadeOut);*/
         } else {
-          cardView.setVisibility(View.VISIBLE);
+         /* Animation animationFadeIn = AnimationUtils.loadAnimation(CandidateDetailActivity.this, R.anim.fadein);
+          cardView.startAnimation(animationFadeIn);*/
         }
       }
     };
 
     appbar.addOnOffsetChangedListener(mListener);
+
+
 
     Candidate candidate = (Candidate) getIntent().getSerializableExtra(Config.CANDIDATE);
     Glide.with(this).load(candidate.getParty().getPartyFlag()).
