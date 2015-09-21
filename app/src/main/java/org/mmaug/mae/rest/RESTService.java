@@ -65,4 +65,8 @@ public interface RESTService {
   @GET(Config.MOTION_DETAIL_URL) Call<JsonObject> getMotionDetail (@Query("mpid") String mpId);
 
   @GET(Config.MOTION_COUNT) Call<JsonObject> getMotionCount(@Query("mpid") String mpId);
- }
+
+  @GET(Config.QUESTION_DETAIL_URL) Call<JsonObject> getQuestionDetail (@Query("mpid") String mpId);
+
+  @GET(Config.QUESTION_COUNT) Call<JsonObject> getQuestionCount(@Query("mpid") String mpId);
+}

@@ -35,6 +35,8 @@ import org.mmaug.mae.R;
 import org.mmaug.mae.models.Candidate;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.rest.RESTService;
+import org.mmaug.mae.utils.MixUtils;
+import org.mmaug.mae.view.CircleView;
 import org.mmaug.mae.view.ZoomAspectRatioImageView;
 import retrofit.Call;
 import retrofit.Callback;
@@ -60,9 +62,11 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.legalslature)  TextView mCandidateLegalSlature;
   @Bind(R.id.appbar) AppBarLayout appbar;
   @Bind(R.id.motion_count) TextView mMotionCount;
-  @Bind(R.id.question_pie_cont) LinearLayout questionPieCont;
+  @Bind(R.id.motion_pie_cont) LinearLayout motionPieCont;
+  @Bind(R.id.question_count) TextView mQuestionCount;
+  @Bind(R.id.question_pie_cont)LinearLayout mQuestionPieCont;
   AppBarLayout.OnOffsetChangedListener mListener;
-  private RESTService mMotionService;
+  private RESTService mRESTService;
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_candidate_detail);
@@ -131,21 +135,22 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mCandidateRace.setText(candidate.getEthnicity());
     mCandidateReligion.setText(candidate.getReligion());
     mCandidateLegalSlature.setText(candidate.getLegislature());
-    mMotionService = RESTClient.getService();
+    mRESTService = RESTClient.getService();
     //if(candidate.getMpid()!=null) {
       // TODO: 9/21/15 REMOVE HARDCODED MPID
-      Call<JsonObject> motionCountCall = mMotionService.getMotionCount("UPMP-01-0142");
+      Call<JsonObject> motionCountCall = mRESTService.getMotionCount("UPMP-01-0142");
       motionCountCall.enqueue(new Callback<JsonObject>() {
         @Override public void onResponse(Response<JsonObject> response) {
           int motionCount = response.body().get("count").getAsInt();
-          mMotionCount.setText(String.valueOf(motionCount) + "\nIssues ");
+          mMotionCount.setText(MixUtils.convertToBurmese(String.valueOf(motionCount)) + "\nအဆို ");
+
         }
 
         @Override public void onFailure(Throwable t) {
 
         }
       });
-      Call<JsonObject> motionCall = mMotionService.getMotionDetail("UPMP-01-0142");
+      Call<JsonObject> motionCall = mRESTService.getMotionDetail("UPMP-01-0142");
       motionCall.enqueue(new Callback<JsonObject>() {
         @Override public void onResponse(Response<JsonObject> response) {
           JsonArray datas = response.body().get("data").getAsJsonArray();
@@ -163,12 +168,16 @@ public class CandidateDetailActivity extends AppCompatActivity {
             int count = Collections.frequency(titles, key);
             PieModel pieModel = new PieModel(key,count,color);
             mPieChart.addPieSlice(pieModel);
-            View piechartLegend = getLayoutInflater().inflate(R.layout.piechart_legend_layout,questionPieCont,false);
-            View piechartIndicator =piechartLegend.findViewById(R.id.legend_indicator);
-            piechartIndicator.setBackgroundColor(color);
+            View piechartLegend = getLayoutInflater().inflate(R.layout.piechart_legend_layout,
+                motionPieCont,false);
+            CircleView piechartIndicator =
+                (CircleView) piechartLegend.findViewById(R.id.legend_indicator);
+            piechartIndicator.setColorHex(color);
             TextView piechartText = (TextView) piechartLegend.findViewById(R.id.legend_text);
             piechartText.setText(key);
-            questionPieCont.addView(piechartLegend);
+            TextView piechartCount = (TextView) piechartLegend.findViewById(R.id.legend_count);
+            piechartCount.setText(MixUtils.convertToBurmese(String.valueOf(count)));
+            motionPieCont.addView(piechartLegend);
           }
           mPieChart.startAnimation();
         }
@@ -177,7 +186,54 @@ public class CandidateDetailActivity extends AppCompatActivity {
 
         }
       });
+    Call<JsonObject> questionCountCall = mRESTService.getQuestionCount("UPMP-01-0142");
+    questionCountCall.enqueue(new Callback<JsonObject>() {
+      @Override public void onResponse(Response<JsonObject> response) {
+        int questionCount = response.body().get("count").getAsInt();
+        mQuestionCount.setText(MixUtils.convertToBurmese(String.valueOf(questionCount)) + "\nမေးခွန်း ");
 
+      }
+
+      @Override public void onFailure(Throwable t) {
+
+      }
+    });
+    Call<JsonObject> questionCall = mRESTService.getQuestionDetail("UPMP-01-0142");
+    questionCall.enqueue(new Callback<JsonObject>() {
+      @Override public void onResponse(Response<JsonObject> response) {
+        JsonArray datas = response.body().get("data").getAsJsonArray();
+        List<String> titles = new ArrayList<String>();
+        for (JsonElement element:datas){
+          String title = element.getAsJsonObject().get("issue").getAsString();
+          titles.add(title);
+        }
+        Set<String> unique = new HashSet<String>(titles);
+        PieChart mPieChart = (PieChart) findViewById(R.id.question_piechart);
+        for (String key : unique) {
+          System.out.println(key + ": " + Collections.frequency(titles, key));
+          Random rnd = new Random();
+          int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+          int count = Collections.frequency(titles, key);
+          PieModel pieModel = new PieModel(key,count,color);
+          mPieChart.addPieSlice(pieModel);
+          View piechartLegend = getLayoutInflater().inflate(R.layout.piechart_legend_layout,
+              mQuestionPieCont,false);
+          CircleView piechartIndicator =
+              (CircleView) piechartLegend.findViewById(R.id.legend_indicator);
+          piechartIndicator.setColorHex(color);
+          TextView piechartText = (TextView) piechartLegend.findViewById(R.id.legend_text);
+          piechartText.setText(key);
+          TextView piechartCount = (TextView) piechartLegend.findViewById(R.id.legend_count);
+          piechartCount.setText(MixUtils.convertToBurmese(String.valueOf(count)));
+          mQuestionPieCont.addView(piechartLegend);
+        }
+        mPieChart.startAnimation();
+      }
+
+      @Override public void onFailure(Throwable t) {
+
+      }
+    });
     //}else{
     //
     //}

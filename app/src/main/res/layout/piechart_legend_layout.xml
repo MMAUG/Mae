@@ -6,17 +6,24 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/spacing_major"
     android:gravity="left">
-    <View
+    <org.mmaug.mae.view.CircleView
         android:id="@+id/legend_indicator"
         android:layout_margin="@dimen/spacing_major"
         android:layout_width="24dp"
-        android:layout_height="24dp"
-        tools:background='@color/orange'/>
+        android:layout_height="24dp"/>
     <TextView
         android:id="@+id/legend_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_major"
         tools:text="blah blah"/>
+    <TextView
+        android:id="@+id/legend_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_margin="@dimen/spacing_major"
+        android:layout_gravity="center_vertical"
+        tools:text="1"/>
 
 </LinearLayout>
