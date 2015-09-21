@@ -52,7 +52,7 @@
 
       <org.mmaug.mae.view.CollapsingAvatarToolbar
           android:id="@+id/stuff_container"
-          android:layout_width="wrap_content"
+          android:layout_width="match_parent"
           android:layout_height="?attr/actionBarSize"
           >
 
@@ -60,7 +60,7 @@
             android:id="@+id/candidate_avatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center_vertical|center_horizontal"
             android:src="@drawable/profile_placeholder"
             />
 

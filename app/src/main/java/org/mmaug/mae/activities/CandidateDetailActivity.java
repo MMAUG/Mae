@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.Bind;
@@ -60,18 +63,30 @@ public class CandidateDetailActivity extends AppCompatActivity {
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setTitle("");
 
+    Animation animation = new TranslateAnimation(-100, 0,0, 0);
+    animation.setDuration(100);
+    animation.setFillAfter(true);
+
+
+
+
+
     mListener = new AppBarLayout.OnOffsetChangedListener() {
       @Override public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
         if (collapsingAvatarToolbar.getHeight() + verticalOffset < 2 * ViewCompat.getMinimumHeight(
             collapsingAvatarToolbar)) {
-          cardView.setVisibility(View.INVISIBLE);
+          Animation animationFadeIn = AnimationUtils.loadAnimation(CandidateDetailActivity.this, R.anim.fadein);
+          cardView.startAnimation(animationFadeIn);
         } else {
-          cardView.setVisibility(View.VISIBLE);
+          Animation animationFadeOut = AnimationUtils.loadAnimation(CandidateDetailActivity.this, R.anim.fadeout);
+          cardView.startAnimation(animationFadeOut);
         }
       }
     };
 
     appbar.addOnOffsetChangedListener(mListener);
+
+
 
     Candidate candidate = (Candidate) getIntent().getSerializableExtra(Config.CANDIDATE);
     Glide.with(this).load(candidate.getParty().getPartyFlag()).
