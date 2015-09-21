@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ProgressBar
+    android:layout_marginTop="@dimen/spacing_major"
     xmlns:android="http://schemas.android.com/apk/res/android"
     style="?android:progressBarStyle"
     android:layout_width="match_parent"

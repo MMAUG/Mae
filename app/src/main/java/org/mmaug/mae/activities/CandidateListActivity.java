@@ -128,6 +128,7 @@ public class CandidateListActivity extends BaseActivity
   @Override public void onItemClick(Candidate candidate) {
     //list item click
     Intent intent = new Intent(this, CandidateDetailActivity.class);
+    intent.putExtra(Config.CANDIDATE, candidate);
     startActivity(intent);
   }
 }

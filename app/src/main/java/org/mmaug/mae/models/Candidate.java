@@ -3,6 +3,9 @@ package org.mmaug.mae.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Ye Lin Aung on 15/08/03.
@@ -20,6 +23,7 @@ public class Candidate implements Serializable {
   private String occupation;
   private String ethnicity;
   private String religion;
+  private String birthDateString;
   @SerializedName("ward_village") @Expose private String wardVillage;
   @SerializedName("constituency") @Expose private Constituency constituency;
   @SerializedName("party_id") @Expose private Integer partyId;
@@ -162,4 +166,17 @@ public class Candidate implements Serializable {
   public void setParty(Party party) {
     this.party = party;
   }
+
+
+  public String getBirthDateString() {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy", Locale.getDefault());
+    Date date = new Date(getBirthdate());
+    String birthDateString = dateFormat.format(date);
+    return birthDateString;
+  }
+
+  public void setBirthDateString(String birthDateString) {
+    this.birthDateString = birthDateString;
+  }
+
 }

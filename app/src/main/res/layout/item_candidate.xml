@@ -18,9 +18,9 @@
         android:layout_height="wrap_content"
         >
 
-      <ImageView
+      <org.mmaug.mae.utils.PotratitImageView
           android:id="@+id/iv_candidate"
-          android:layout_width="wrap_content"
+          android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:scaleType="centerCrop"
           />
@@ -30,10 +30,7 @@
           android:layout_height="wrap_content"
           android:orientation="horizontal"
           android:layout_gravity="bottom"
-          android:paddingLeft="@dimen/spacing_minor"
-          android:paddingRight="@dimen/spacing_minor"
-          android:paddingBottom="@dimen/spacing_major"
-          android:paddingTop="@dimen/spacing_major"
+          android:padding="@dimen/spacing_minor"
           android:background="@color/party_candidate"
           >
         <org.mmaug.mae.view.AutofitTextView
@@ -46,11 +43,12 @@
             android:textColor="@color/white"
             android:layout_weight="1"
             android:maxLines="1"
+            android:layout_gravity="center"
             />
         <ImageView
             android:id="@+id/iv_candidate_party_flag"
-            android:layout_width="32dp"
-            android:layout_height="24dp"
+            android:layout_width="60dp"
+            android:layout_height="36dp"
             android:scaleType="centerCrop"
             android:layout_gravity="center_vertical"
             />

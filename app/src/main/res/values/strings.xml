@@ -1,7 +1,8 @@
 <resources>
   <string name="app_name">Mae</string>
   <string name="hello_world">Hello world!</string>
-  <string name="action_settings">Settings</string>
+  <string name="action_settings"
+      >Settings</string>
   <string name="user_name">User Name</string>
   <string name="user_dob">Date Of Birth</string>
   <string name="choose_avatar">Choose One Avater</string>
@@ -19,4 +20,10 @@
   <string name="title_activity_candidate">CandidateActivity</string>
   <string name="tip_location">သင့်မဲဆန္ဒနယ် နယ်မြေဖြစ်ပါသည်</string>
   <string name="title_activity_party_detail">PartyDetailActivity</string>
+  <string name="date_of_birth">မွေးသက္ကရာဇ်:</string>
+  <string name="religion">ကိုးကွယ်သည့်ဘာသာ:</string>
+  <string name="mother_name">အမိအမည်:</string>
+  <string name="father_name">အဖအမည်:</string>
+  <string name="candidate_bio">ကိုယ်ရေးအကျဥ်း</string>
+  <string name="motion_header">တင်သွင်းခဲ့သည့်အဆိုများ</string>
 </resources>

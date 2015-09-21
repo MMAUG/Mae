@@ -2,9 +2,9 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:card_view="http://schemas.android.com/tools"
     >
 
   <android.support.design.widget.AppBarLayout
@@ -21,9 +21,6 @@
         android:fitsSystemWindows="true"
         app:contentScrim="?attr/colorPrimary"
         app:layout_scrollFlags="scroll|exitUntilCollapsed"
-        app:expandedTitleMarginBottom="@dimen/collapsingtoolbar_expanded_title_margin_bottom"
-        app:expandedTitleMarginEnd="@dimen/collapsingtoolbar_expanded_title_margin_end"
-        app:expandedTitleMarginStart="@dimen/collapsingtoolbar_expanded_title_margin_start"
         >
       <RelativeLayout
           android:layout_width="match_parent"
@@ -51,15 +48,42 @@
           app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
           android:minHeight="?android:attr/actionBarSize"
           app:layout_collapseMode="pin"
+          />
+
+      <org.mmaug.mae.view.CollapsingAvatarToolbar
+          android:id="@+id/stuff_container"
+          android:layout_width="wrap_content"
+          android:layout_height="?attr/actionBarSize"
           >
-        <org.mmaug.mae.view.AspectRatioImageView
-            android:id="@+id/candidate_image"
-            android:layout_centerInParent="true"
-            android:src="@drawable/candidate"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+
+        <ImageView
+            android:id="@+id/candidate_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/profile_placeholder"
             />
-          </android.support.v7.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:orientation="vertical"
+            >
+
+          <TextView
+              android:id="@+id/candidate_name"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:fontFamily="sans-serif-medium"
+              android:text="Title"
+              android:textColor="@android:color/white"
+              android:textSize="18dp"
+              />
+
+        </LinearLayout>
+      </org.mmaug.mae.view.CollapsingAvatarToolbar>
 
     </android.support.design.widget.CollapsingToolbarLayout>
   </android.support.design.widget.AppBarLayout>
@@ -75,24 +99,200 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:minHeight="@dimen/linearlayout_fix"
+        android:layout_marginTop="23dp"
         >
-
-      <TextView
-          android:id="@+id/desc"
+        <TextView
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_padding_large"
+            android:layout_marginRight="@dimen/default_padding_large"
+            android:layout_marginTop="@dimen/default_padding_large"
+            android:text="@string/candidate_bio"/>
+      <android.support.v7.widget.CardView
+          android:orientation="horizontal"
+          android:padding="@dimen/spacing_major"
+          android:background="@color/white"
+          android:id="@+id/candidate_question_card"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:padding="@dimen/default_padding_large"
-          android:textSize="@dimen/textsize_medium"
-          />
-
-      <TextView
-          android:id="@+id/subtitle"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:padding="@dimen/default_padding_large"
-          android:textSize="@dimen/textsize_small"
-          />
-
+          android:layout_margin="@dimen/default_padding_large"
+          android:clickable="true"
+          app:layout_anchor="@id/appbar"
+          app:layout_anchorGravity="bottom|right|end"
+          android:foreground="?selectableItemBackground"
+          app:cardElevation="5dp"
+          app:pressedTranslationZ="16dp"
+          app:borderWidth="0dp"
+          app:elevation="@dimen/fab_elevation"
+          app:rippleColor="@color/primary_dark"
+          card_view:cardCornerRadius="@dimen/default_padding_small"
+          >
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+          <LinearLayout
+              android:orientation="horizontal"
+              android:padding="@dimen/spacing_minor"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:weightSum="5"
+              >
+            <TextView
+                android:id="@+id/candidate_detail_education"
+                card_view:text="ကော့မှူး"
+                android:gravity="center"
+                android:src="@drawable/flag"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                />
+            <View android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/spacing_micro"
+                android:background="#AECACE"/>
+            <TextView
+                android:id="@+id/candidate_detail_occupation"
+                android:gravity="center"
+                card_view:text="ဥက္ကဌ"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                />
+            <View android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/spacing_micro"
+                android:background="#AECACE"/>
+            <TextView
+                android:id="@+id/candidate_detail_race"
+                card_view:text="WOWOW"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="1"
+                />
+          </LinearLayout>
+          <View android:layout_width="match_parent"
+              android:layout_height="0.5dp"
+              android:layout_marginRight="@dimen/spacing_minor"
+              android:layout_marginLeft="@dimen/spacing_minor"
+              android:background="#AECACE"/>
+          <LinearLayout android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:padding="@dimen/spacing_minor"
+              android:weightSum="3">
+            <TextView
+                android:text="@string/date_of_birth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/spacing_minor"/>
+            <TextView
+                android:id="@+id/candidate_detail_dob"
+                android:text="WOWOW"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="@dimen/spacing_minor"/>
+          </LinearLayout>
+          <LinearLayout android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:padding="@dimen/spacing_minor"
+              android:weightSum="3">
+            <TextView
+                android:text="@string/religion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/spacing_minor"/>
+            <TextView
+                android:id="@+id/candidate_detail_religion"
+                android:text="WOWOW"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="@dimen/spacing_minor"/>
+          </LinearLayout>
+          <LinearLayout android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:padding="@dimen/spacing_minor">
+            <TextView
+                android:text="@string/father_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/spacing_minor"/>
+            <TextView
+                android:id="@+id/candidate_detail_father"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="@dimen/spacing_minor"/>
+          </LinearLayout>
+          <LinearLayout android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:padding="@dimen/spacing_minor"
+              android:weightSum="3">
+            <TextView
+                android:text="@string/mother_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/spacing_minor"/>
+            <TextView
+                android:id="@+id/candidate_detail_mother"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="@dimen/spacing_minor"/>
+          </LinearLayout>
+        </LinearLayout>
+      </android.support.v7.widget.CardView>
+        <TextView
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_padding_large"
+            android:layout_marginRight="@dimen/default_padding_large"
+            android:layout_marginTop="@dimen/default_padding_large"
+            android:text="@string/motion_header"/>
+        <android.support.v7.widget.CardView
+            android:orientation="horizontal"
+            android:padding="@dimen/spacing_major"
+            android:background="@color/white"
+            android:id="@+id/candidate_detail_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_padding_large"
+            app:layout_anchor="@id/appbar"
+            app:layout_anchorGravity="bottom|right|end"
+            app:cardElevation="5dp"
+            app:pressedTranslationZ="16dp"
+            app:borderWidth="0dp"
+            app:elevation="@dimen/fab_elevation"
+            app:rippleColor="@color/primary_dark"
+            card_view:cardCornerRadius="@dimen/default_padding_small"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+        <org.eazegraph.lib.charts.PieChart
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/motion_piechart"
+            android:layout_width="match_parent"
+            android:layout_height="256dp"
+            android:padding="10dp"
+            app:egFixedBarWidth="true"
+            app:egBarWidth="20dp"
+            app:egLegendHeight="40dp"/>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
     </LinearLayout>
 
   </android.support.v4.widget.NestedScrollView>
@@ -100,7 +300,7 @@
       android:orientation="horizontal"
       android:padding="@dimen/spacing_major"
       android:background="@color/white"
-      android:id="@+id/share_fab"
+      android:id="@+id/candidate_card"
       android:layout_width="match_parent"
       android:layout_height="@dimen/home_card"
       android:layout_margin="@dimen/default_padding_large"
@@ -114,36 +314,57 @@
       app:elevation="@dimen/fab_elevation"
       app:rippleColor="@color/primary_dark"
       card_view:cardCornerRadius="@dimen/default_padding_small"
+      app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
       >
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="horizontal"
         android:padding="@dimen/spacing_minor"
         android:layout_width="match_parent"
         android:layout_height="@dimen/home_card"
-        >
-    <TextView
-        android:layout_centerInParent="true"
-        android:layout_alignParentLeft="true"
-        android:text="ကော့မှူး"
+        android:weightSum="5"
+        android:divider="@drawable/divider"
+        android:showDividers="middle"
+        android:dividerPadding="@dimen/spacing_micro"
         android:gravity="center"
-        android:src="@drawable/flag"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        />
-    <TextView
-        android:layout_centerInParent="true"
-        android:text="ဥက္ကဌ"
-        android:gravity="center|center_vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-    <TextView
-        android:layout_centerInParent="true"
-        android:layout_alignParentRight="true"
-        android:text="WOWOW"
-        android:gravity="center|center_vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-    </RelativeLayout>
+        >
+      <org.mmaug.mae.view.AutofitTextView
+          android:id="@+id/candidate_detail_constituency_pl"
+          card_view:text="ကော့မှူး"
+          android:gravity="center"
+          android:src="@drawable/flag"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:lines="1"
+          android:maxLines="1"
+          android:layout_weight="2"
+          />
+
+      <org.mmaug.mae.view.AutofitTextView
+          android:id="@+id/legalslature"
+          android:gravity="center"
+          card_view:text="ပြည်သူ့လွျတ်တော်"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:lines="1"
+          android:maxLines="1"
+          android:layout_weight="2"
+          />
+      <FrameLayout
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:padding="@dimen/spacing_micro"
+          android:layout_weight="1">
+
+        <org.mmaug.mae.view.AspectRatioImageView
+            android:id="@+id/candidate_detail_party_flag"
+            android:layout_width="60dp"
+            android:layout_height="36dp"
+            android:scaleType="centerCrop"
+            card_view:src="@mipmap/ic_launcher"
+            android:layout_gravity="center"
+            />
+      </FrameLayout>
+    </LinearLayout>
   </android.support.v7.widget.CardView>
+
 </android.support.design.widget.CoordinatorLayout>
