@@ -1,5 +1,6 @@
 package org.mmaug.mae.rest;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.Map;
 import org.mmaug.mae.Config;
@@ -13,6 +14,7 @@ import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
+import retrofit.http.Query;
 import retrofit.http.QueryMap;
 
 /**
@@ -59,4 +61,16 @@ public interface RESTService {
       @QueryMap Map<String, String> optionalQueries);
 
   @GET(Config.PARTY_LIST_URL + "{/id}") Call<JsonObject> getPartyDetail(@Path("id") String id);
+
+  //OMI service
+  @GET(Config.MOTION_DETAIL_URL) Call<JsonObject> getMotionDetail(@Query("mpid") String mpId);
+
+  @GET(Config.MOTION_COUNT) Call<JsonObject> getMotionCount(@Query("mpid") String mpId);
+
+  @GET(Config.QUESTION_DETAIL_URL) Call<JsonObject> getQuestionDetail(@Query("mpid") String mpId);
+
+  @GET(Config.QUESTION_COUNT) Call<JsonObject> getQuestionCount(@Query("mpid") String mpId);
+
+  @GET(Config.COMPARE_QUESTION) Call<JsonElement> getCompareQuestion(
+      @Query("first") String first_candidate_id, @Query("second") String second_candidate_id);
 }
