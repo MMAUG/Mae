@@ -22,8 +22,13 @@ public class HowToVoteTimelineAdapter extends BaseAdapter<BaseAdapter.BaseViewHo
 
   ArrayList<HTVObject> htvObjectList;
 
-  public HowToVoteTimelineAdapter(ArrayList<HTVObject> htvObjectList) {
+  public HowToVoteTimelineAdapter() {
+    this.htvObjectList = new ArrayList<>();
+  }
+
+  public void setHtvObjectList(ArrayList<HTVObject> htvObjectList) {
     this.htvObjectList = htvObjectList;
+    notifyDataSetChanged();
   }
 
   @Override public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -53,12 +58,14 @@ public class HowToVoteTimelineAdapter extends BaseAdapter<BaseAdapter.BaseViewHo
 
     //show hide message view
     if (object.getMessage() != null) {
+      viewHolder.mTvMessage.setVisibility(View.VISIBLE);
       viewHolder.mTvMessage.setText(object.getMessage());
     } else {
       viewHolder.mTvMessage.setVisibility(View.GONE);
     }
 
     if (object.getDrawable() != 0) {
+      viewHolder.mIvMessage.setVisibility(View.VISIBLE);
       viewHolder.mIvMessage.setImageResource(object.getDrawable());
     } else {
       viewHolder.mIvMessage.setVisibility(View.GONE);

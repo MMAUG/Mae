@@ -5,7 +5,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import java.util.ArrayList;
 import org.mmaug.mae.R;
+import org.mmaug.mae.adapter.HowToVoteTimelineAdapter;
 import org.mmaug.mae.base.BaseActivity;
 
 /**
@@ -14,12 +16,16 @@ import org.mmaug.mae.base.BaseActivity;
 public class HowToVoteActivity extends BaseActivity {
 
   @Bind(R.id.rv_how_to_vote) RecyclerView mRecyclerView;
+  private HowToVoteTimelineAdapter adapter;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     ButterKnife.bind(this);
     mRecyclerView.setLayoutManager(
         new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+    adapter = new HowToVoteTimelineAdapter();
+    mRecyclerView.setAdapter(adapter);
+    fakeData();
 
   }
 
@@ -37,5 +43,18 @@ public class HowToVoteActivity extends BaseActivity {
 
   @Override protected String getToolbarText() {
     return "မဲပေးရာတွင်သိသင့်သည်များ";
+  }
+
+  private void fakeData() {
+    ArrayList<HowToVoteTimelineAdapter.HTVObject> objects = new ArrayList<>();
+    for (int i = 0; i < 5; i++) {
+      HowToVoteTimelineAdapter.HTVObject object = new HowToVoteTimelineAdapter.HTVObject();
+      object.setTitle("မဲရုံဖွင့်ချိန်");
+      object.setMessage("နံနက်၆နာရီ−ညနေ၆နာရီ");
+      object.setWarning(
+          "မဲရုံပိတ\u103Aခ\u103Bိန\u103A မတိုင\u103Aမီ မဲရုံသို့ သ\u103Dားရောက\u103A မဲပေးရန\u103A လိုအပ\u103Aပ\u102Bသည\u103A။");
+      objects.add(object);
+    }
+    adapter.setHtvObjectList(objects);
   }
 }

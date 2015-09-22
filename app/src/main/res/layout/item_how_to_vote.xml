@@ -3,10 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
   <FrameLayout
       android:layout_width="wrap_content"
-      android:layout_height="match_parent">
+      android:layout_height="match_parent"
+      android:layout_marginLeft="@dimen/spacing_major">
     <View
         android:layout_gravity="center_horizontal"
         android:background="@color/secondary_text_color"
@@ -15,13 +16,13 @@
     <ImageView
         android:layout_gravity="center_vertical"
         android:id="@+id/iv_step"
-        android:layout_width="48dp"
-        android:layout_height="48dp"/>
+        android:layout_width="32dp"
+        android:layout_height="32dp"/>
   </FrameLayout>
   <LinearLayout
       android:layout_weight="1"
       android:layout_width="0dp"
-      android:layout_height="match_parent"
+      android:layout_height="wrap_content"
       android:orientation="vertical">
     <TextView
         android:id="@+id/tv_htv_title"
@@ -53,5 +54,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/TextAppearance.AppCompat.Small"/>
+    <View
+        android:background="@color/secondary_text_color"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacing_minute"/>
   </LinearLayout>
 </LinearLayout>
