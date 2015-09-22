@@ -1,6 +1,10 @@
 package org.mmaug.mae.activities;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -63,8 +68,13 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.appbar) AppBarLayout appbar;
   @Bind(R.id.motion_count) TextView mMotionCount;
   @Bind(R.id.motion_pie_cont) LinearLayout motionPieCont;
+  @Bind(R.id.motion_middle_text) TextView motionMiddleText;
+  @Bind(R.id.question_middle_text) TextView mQuestionMiddleText;
   @Bind(R.id.question_count) TextView mQuestionCount;
   @Bind(R.id.question_pie_cont)LinearLayout mQuestionPieCont;
+  @Bind(R.id.candidate_detail_party) TextView mCandidateParty;
+  @Bind(R.id.candidate_detail_address) TextView mCandidateAddress;
+  @Bind(R.id.compare_candidate_card) CardView mCompareCandidate;
   AppBarLayout.OnOffsetChangedListener mListener;
   private RESTService mRESTService;
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -80,18 +90,44 @@ public class CandidateDetailActivity extends AppCompatActivity {
     actionBar.setTitle("");
 
 
-
     mListener = new AppBarLayout.OnOffsetChangedListener() {
       @Override public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
         if (collapsingAvatarToolbar.getHeight() + verticalOffset < 2 * ViewCompat.getMinimumHeight(
             collapsingAvatarToolbar)) {
-          //TODO does not work well
-          /*Animation animationFadeOut = AnimationUtils.loadAnimation(CandidateDetailActivity.this, R.anim.fadeout);
-          cardView.startAnimation(animationFadeOut);*/
+          //TODO does not work well //STILL NOT WORKING PERFECTLY
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            if (cardView.getAnimation()==null) {
+              cardView.animate()
+                  .setDuration(1000)
+                  .alpha(0)
+                  .setListener(new AnimatorListenerAdapter() {
+                    @Override public void onAnimationEnd(Animator animation) {
+                      cardView.setVisibility(View.GONE);
+                      cardView.setAnimation(null);
+                    }
+                  });
+            }
+          } else {
+            cardView.setVisibility(View.GONE);
+          }
         } else {
-         /* Animation animationFadeIn = AnimationUtils.loadAnimation(CandidateDetailActivity.this, R.anim.fadein);
-          cardView.startAnimation(animationFadeIn);*/
-        }
+            //TODO does not work well
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+              if (cardView.getAnimation()==null) {
+                cardView.animate()
+                    .setDuration(1000)
+                    .alpha(1)
+                    .setListener(new AnimatorListenerAdapter() {
+                      @Override public void onAnimationEnd(Animator animation) {
+                        cardView.setVisibility(View.VISIBLE);
+                        cardView.setAnimation(null);
+                      }
+                    });
+              }
+            } else {
+              cardView.setVisibility(View.VISIBLE);
+            }
+          }
       }
     };
 
@@ -134,7 +170,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
         .into(mCandidatePartyFlag);
 
     mCandidateConstituency.setText(candidate.getConstituency().getName());
-    mCandidateDateOfBirth.setText(String.valueOf(candidate.getBirthDateString()));
+    mCandidateDateOfBirth.setText(
+        MixUtils.convertToBurmese(String.valueOf(candidate.getBirthDateString())));
     mCandidateEducation.setText(candidate.getEducation());
     mCandidateFather.setText(candidate.getFather().getName());
     mCandidateMother.setText(candidate.getMother().getName());
@@ -142,6 +179,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mCandidateRace.setText(candidate.getEthnicity());
     mCandidateReligion.setText(candidate.getReligion());
     mCandidateLegalSlature.setText(candidate.getLegislature());
+    mCandidateParty.setText(candidate.getParty().getPartyName());
+    mCandidateAddress.setText(candidate.getWardVillage());
     mRESTService = RESTClient.getService();
     //if(candidate.getMpid()!=null) {
       // TODO: 9/21/15 REMOVE HARDCODED MPID
@@ -149,7 +188,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
       motionCountCall.enqueue(new Callback<JsonObject>() {
         @Override public void onResponse(Response<JsonObject> response) {
           int motionCount = response.body().get("count").getAsInt();
-          mMotionCount.setText(MixUtils.convertToBurmese(String.valueOf(motionCount)) + "\nအဆို ");
+          motionMiddleText.setText("အဆို");
+          mMotionCount.setText(MixUtils.convertToBurmese(String.valueOf(motionCount)) + " ခု");
 
         }
 
@@ -197,7 +237,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
     questionCountCall.enqueue(new Callback<JsonObject>() {
       @Override public void onResponse(Response<JsonObject> response) {
         int questionCount = response.body().get("count").getAsInt();
-        mQuestionCount.setText(MixUtils.convertToBurmese(String.valueOf(questionCount)) + "\nမေးခွန်း ");
+        mQuestionMiddleText.setText("ကဏ္ဍ");
+        mQuestionCount.setText(MixUtils.convertToBurmese(String.valueOf(questionCount)) + " ခု");
 
       }
 
@@ -244,5 +285,22 @@ public class CandidateDetailActivity extends AppCompatActivity {
     //}else{
     //
     //}
+
+    mCompareCandidate.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        Intent i = new Intent(CandidateDetailActivity.this,CandidateCompareActivity.class);
+        startActivity(i);
+      }
+    });
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()){
+      case android.R.id.home:
+        finish();
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
+    }
   }
 }
