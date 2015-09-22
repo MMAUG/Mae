@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseAdapter;
+import org.mmaug.mae.utils.MixUtils;
 import org.mmaug.mae.view.CustomCircleDrawable;
 
 /**
@@ -46,7 +47,8 @@ public class HowToVoteTimelineAdapter extends BaseAdapter<BaseAdapter.BaseViewHo
     int step = position + 1;
     Random rnd = new Random();
     int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-    viewHolder.mIvStep.setImageDrawable(new CustomCircleDrawable.Builder(step + "", color).build());
+    viewHolder.mIvStep.setImageDrawable(
+        new CustomCircleDrawable.Builder(MixUtils.convertToBurmese(step + ""), color).build());
 
     //title text
     viewHolder.mTvTitle.setText(object.getTitle());
