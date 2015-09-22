@@ -89,13 +89,13 @@ public class SignUpFragment extends Fragment
     mainView.setVisibility(View.GONE);
     MixUtils.makeSlide(contenFragment);
     contenFragment.setVisibility(View.VISIBLE);
-    /*HomeFragment homeFragment = new HomeFragment();
+    HomeFragment homeFragment = new HomeFragment();
     FragmentManager fm = getActivity().getSupportFragmentManager();
     FragmentTransaction transaction = fm.beginTransaction();
     transaction.replace(R.id.contentFragment, homeFragment);
-    transaction.commit();*/
-    Intent intentToCompre = new Intent(getActivity(), CandidateCompareActivity.class);
-    startActivity(intentToCompre);
+    transaction.commit();
+  /*  Intent intentToCompre = new Intent(getActivity(), CandidateCompareActivity.class);
+    startActivity(intentToCompre);*/
 
     /***
      * UNCOMMENT THIS CODES
