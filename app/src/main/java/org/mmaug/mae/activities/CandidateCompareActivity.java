@@ -2,7 +2,6 @@ package org.mmaug.mae.activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -10,6 +9,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import java.util.Map;
+import java.util.Set;
 import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.rest.RESTClient;
@@ -27,13 +29,24 @@ public class CandidateCompareActivity extends BaseActivity {
         RESTClient.getService().getCompareQuestion("LWMP-01-0063", "LWMP-01-0064");
     compareQuestionCall.enqueue(new Callback<JsonElement>() {
       @Override public void onResponse(Response<JsonElement> response) {
-        Log.e("JsonObject", response.body()
-            .getAsJsonObject()
-            .get("questions")
-            .getAsJsonObject()
-            .get("အဆောက်အအုံဖွံ့ဖြိုးတိုးတက်မှု")
-            .toString());
-        for (int i = 0; i < 10; i++) {
+        JsonObject question = response.body().getAsJsonObject().get("questions").getAsJsonObject();
+
+        Set<Map.Entry<String, JsonElement>> entries =
+            question.entrySet();//will return members of your object
+        for (Map.Entry<String, JsonElement> entry : entries) {
+
+          int obtainScrollOne = entry.getValue().getAsJsonObject().get("LWMP-01-0064").getAsInt();
+          int obtainScrollTwo = entry.getValue().getAsJsonObject().get("LWMP-01-0063").getAsInt();
+
+          Float PercentageOne;
+          Float PercentageTwo;
+          int TotalScore = entry.getValue().getAsJsonObject().get("LWMP-01-0064").getAsInt() + entry
+              .getValue()
+              .getAsJsonObject()
+              .get("LWMP-01-0063")
+              .getAsInt();
+          PercentageOne = Float.valueOf((obtainScrollOne * 100 / TotalScore));
+          PercentageTwo = Float.valueOf((obtainScrollTwo * 100 / TotalScore));
           View question_indicator =
               getLayoutInflater().inflate(R.layout.question_compare_layout, question_showcase,
                   false);
@@ -42,13 +55,13 @@ public class CandidateCompareActivity extends BaseActivity {
               (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate1);
           RoundCornerProgressBar roundCornerProgressBarTwo =
               (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate2);
-          roundCornerProgressBar.setProgress(30);
+          roundCornerProgressBar.setProgress(PercentageOne);
           roundCornerProgressBar.setProgressColor(Color.RED);
           roundCornerProgressBar.setRotation(180);
 
-          roundCornerProgressBarTwo.setProgress(30);
+          roundCornerProgressBarTwo.setProgress(PercentageTwo);
           roundCornerProgressBarTwo.setProgressColor(Color.GREEN);
-          questionText.setText("အဆောက်အအုံဖွံ့ဖြိုးတိုးတက်မှု");
+          questionText.setText(entry.getKey());
           question_showcase.addView(question_indicator);
         }
       }
