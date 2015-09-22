@@ -159,7 +159,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
     //      }
     //    });
     Glide.with(this)
-        .load(candidate.getPhotoUrl())
+        .load(candidate.getPhotoUrl()).diskCacheStrategy(DiskCacheStrategy.ALL)
         .bitmapTransform(new CropCircleTransformation(this))
         .into(candidateImage);
     candidateName.setText(candidate.getName());
