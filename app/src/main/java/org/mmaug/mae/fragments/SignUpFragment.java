@@ -94,7 +94,7 @@ public class SignUpFragment extends Fragment
     FragmentTransaction transaction = fm.beginTransaction();
     transaction.replace(R.id.contentFragment, homeFragment);
     transaction.commit();
-  /*  Intent intentToCompre = new Intent(getActivity(), CandidateCompareActivity.class);
+   /*Intent intentToCompre = new Intent(getActivity(), CandidateCompareActivity.class);
     startActivity(intentToCompre);*/
 
     /***

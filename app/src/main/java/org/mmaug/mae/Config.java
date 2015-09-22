@@ -87,4 +87,7 @@ public class Config {
   public static final String MOTION_COUNT = BASE_URL + "history/motion_count";
   public static final String QUESTION_DETAIL_URL = BASE_URL + "history/questions";
   public static final String QUESTION_COUNT = BASE_URL + "history/question_count";
+
+  //candidatecompare
+  public static final String COMPARE_QUESTION = BASE_URL + "compare";
 }
