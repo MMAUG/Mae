@@ -2,6 +2,7 @@ package org.mmaug.mae.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -72,6 +73,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.question_pie_cont)LinearLayout mQuestionPieCont;
   @Bind(R.id.candidate_detail_party) TextView mCandidateParty;
   @Bind(R.id.candidate_detail_address) TextView mCandidateAddress;
+  @Bind(R.id.compare_candidate_card) CardView mCompareCandidate;
   AppBarLayout.OnOffsetChangedListener mListener;
   private RESTService mRESTService;
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -282,5 +284,12 @@ public class CandidateDetailActivity extends AppCompatActivity {
     //}else{
     //
     //}
+
+    mCompareCandidate.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        Intent i = new Intent(CandidateDetailActivity.this,CandidateCompareActivity.class);
+        startActivity(i);
+      }
+    });
   }
 }
