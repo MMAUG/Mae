@@ -2,6 +2,7 @@ package org.mmaug.mae.activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -86,5 +87,13 @@ public class CandidateCompareActivity extends BaseActivity {
 
   @Override protected String getToolbarText() {
     return getResources().getString(R.string.compare_candidate);
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == android.R.id.home) {
+      super.onBackPressed();
+      return true;
+    }
+    return false;
   }
 }

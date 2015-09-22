@@ -2,6 +2,7 @@ package org.mmaug.mae.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
@@ -28,5 +29,13 @@ public class PartyDetailActivity extends AppCompatActivity {
         .load(party.getPartyFlag())
         .bitmapTransform(new BlurTransformation(getApplicationContext(), 8, 1))
         .into(party_image);
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == android.R.id.home) {
+      super.onBackPressed();
+      return true;
+    }
+    return false;
   }
 }

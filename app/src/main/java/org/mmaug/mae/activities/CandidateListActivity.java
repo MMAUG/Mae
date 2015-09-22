@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import butterknife.Bind;
@@ -131,4 +132,13 @@ public class CandidateListActivity extends BaseActivity
     intent.putExtra(Config.CANDIDATE, candidate);
     startActivity(intent);
   }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == android.R.id.home) {
+      super.onBackPressed();
+      return true;
+    }
+    return false;
+  }
+
 }
