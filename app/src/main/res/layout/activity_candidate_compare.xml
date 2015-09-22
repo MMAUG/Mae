@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="org.mmaug.mae.activities.CandidateCompareActivity"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    >
+  <RelativeLayout
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      tools:context="org.mmaug.mae.activities.CandidateCompareActivity"
+      android:layout_height="match_parent"
+      android:layout_width="match_parent"
+      >
+    <include layout="@layout/toolbar"/>
+
+    <android.support.v7.widget.CardView
+        android:layout_below="@+id/toolbar"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?selectableItemBackground"
+        app:cardElevation="5dp"
+        android:id="@+id/personal_view"
+        app:pressedTranslationZ="16dp"
+        app:borderWidth="0dp"
+        app:elevation="@dimen/fab_elevation"
+        >
+      <android.support.design.widget.CoordinatorLayout
+          android:layout_width="match_parent"
+          android:layout_below="@+id/toolbar"
+          android:layout_height="match_parent"
+          >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+          <RelativeLayout
+              android:layout_marginTop="@dimen/spacing_major"
+              android:layout_marginBottom="@dimen/spacing_major"
+              android:id="@+id/tv_candidate_header_image"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              >
+            <com.github.siyamed.shapeimageview.CircularImageView
+                android:layout_width="100dp"
+                android:id="@+id/candidate_one"
+                android:layout_height="match_parent"
+                android:src="@drawable/candidate"
+                app:siBorderWidth="6dp"
+                android:layout_marginLeft="@dimen/spacing_major"
+                app:siBorderColor="@color/primary_dark"
+                />
+
+            <org.mmaug.mae.view.AutofitTextView
+                android:gravity="center"
+                android:layout_marginTop="@dimen/spacing_minor"
+                android:layout_marginBottom="@dimen/spacing_minor"
+                android:padding="@dimen/spacing_minor"
+                android:layout_below="@+id/candidate_one"
+                android:hint="@string/mm_toVote"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:text="နှင့်"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+            <com.github.siyamed.shapeimageview.CircularImageView
+                android:layout_marginRight="@dimen/spacing_major"
+                android:id="@+id/candidate_two"
+                android:layout_alignParentRight="true"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/candidate"
+                app:siBorderWidth="6dp"
+                app:siBorderColor="@color/primary"
+                />
+
+            <org.mmaug.mae.view.AutofitTextView
+                android:layout_marginTop="@dimen/spacing_minor"
+                android:layout_marginBottom="@dimen/spacing_minor"
+                android:gravity="center"
+                android:padding="@dimen/spacing_minor"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/candidate_two"
+                android:hint="@string/mm_toVote"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                />
+
+          </RelativeLayout>
+          <View
+              android:layout_marginTop="@dimen/spacing_major"
+              android:layout_marginBottom="@dimen/spacing_major"
+              android:id="@+id/party_flag_divider"
+              android:layout_below="@+id/tv_candidate_header_image"
+              android:background="@android:color/darker_gray"
+              android:layout_width="fill_parent"
+              android:layout_height="2dp"
+              />
+          <RelativeLayout
+              android:id="@+id/party_flag_header"
+              android:padding="@dimen/spacing_minor"
+              android:layout_below="@+id/party_flag_divider"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              >
+            <org.mmaug.mae.view.AspectRatioImageView
+                android:id="@+id/party_flag_one"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/flag"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                />
+
+            <org.mmaug.mae.view.AspectRatioImageView
+                android:id="@+id/party_flag_two"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/flag"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                />
+          </RelativeLayout>
+
+          <View
+              android:layout_marginTop="@dimen/spacing_major"
+              android:layout_marginBottom="@dimen/spacing_major"
+              android:id="@+id/party_edu_divider"
+              android:layout_below="@+id/party_flag_header"
+              android:background="@android:color/darker_gray"
+              android:layout_width="fill_parent"
+              android:layout_height="2dp"
+              />
+
+          <RelativeLayout
+              android:id="@+id/party_edu_header"
+              android:padding="@dimen/spacing_major"
+              android:layout_below="@+id/party_edu_divider"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              >
+            <TextView
+                android:text="Bsc(Maths)"
+                android:id="@+id/party_edu_one"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                android:text="MA(Oxford)"
+                android:id="@+id/party_edu_two"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+          </RelativeLayout>
+
+          <View
+              android:layout_marginTop="@dimen/spacing_major"
+              android:layout_marginBottom="@dimen/spacing_major"
+              android:id="@+id/party_job_divider"
+              android:layout_below="@+id/party_edu_header"
+              android:background="@android:color/darker_gray"
+              android:layout_width="fill_parent"
+              android:layout_height="2dp"
+              />
+
+          <RelativeLayout
+              android:padding="@dimen/spacing_major"
+              android:id="@+id/party_job_header"
+              android:layout_marginBottom="@dimen/spacing_major"
+              android:layout_below="@+id/party_job_divider"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              >
+            <TextView
+                android:text="Bsc(Maths)"
+                android:id="@+id/party_job_one"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                android:text="MA(Oxford)"
+                android:id="@+id/party_job_two"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+          </RelativeLayout>
+
+
+        </RelativeLayout>
+        <TextView
+            android:gravity="center"
+            android:padding="@dimen/spacing_minor"
+            android:background="@drawable/bg_header"
+            app:layout_anchor="@id/party_flag_divider"
+            app:layout_anchorGravity="center_horizontal|center|center_vertical"
+            android:foreground="?selectableItemBackground"
+            android:text="ကိုယ်စားပြု ပါတီ"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            />
+
+        <TextView
+            android:gravity="center"
+            android:padding="@dimen/spacing_minor"
+            android:background="@drawable/bg_header"
+            app:layout_anchor="@id/party_edu_divider"
+            app:layout_anchorGravity="center_horizontal|center|center_vertical"
+            android:foreground="?selectableItemBackground"
+            android:text="ပညာအရည်အချင်း"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            />
+
+        <TextView
+            android:gravity="center"
+            android:padding="@dimen/spacing_minor"
+            android:background="@drawable/bg_header"
+            app:layout_anchor="@id/party_job_divider"
+            app:layout_anchorGravity="center_horizontal|center|center_vertical"
+            android:foreground="?selectableItemBackground"
+            android:text="အလုပ်အကိုင်"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            />
+      </android.support.design.widget.CoordinatorLayout>
+    </android.support.v7.widget.CardView>
+    <TextView
+        android:padding="@dimen/spacing_major"
+        android:layout_below="@+id/personal_view"
+        android:textStyle="bold"
+        android:text="ယခင်အမတ်သက်တမ်းတွင် ဆွေးနွေးခဲ့သည့်ကဏ္ဍများ"
+        android:id="@+id/title_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+
+  </RelativeLayout>
+</ScrollView>

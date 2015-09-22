@@ -1,5 +1,6 @@
 package org.mmaug.mae.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -26,6 +27,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
+import org.mmaug.mae.activities.CandidateCompareActivity;
 import org.mmaug.mae.adapter.TownshipAdapter;
 import org.mmaug.mae.utils.DataUtils;
 import org.mmaug.mae.utils.MixUtils;
@@ -87,11 +89,13 @@ public class SignUpFragment extends Fragment
     mainView.setVisibility(View.GONE);
     MixUtils.makeSlide(contenFragment);
     contenFragment.setVisibility(View.VISIBLE);
-    HomeFragment homeFragment = new HomeFragment();
+    /*HomeFragment homeFragment = new HomeFragment();
     FragmentManager fm = getActivity().getSupportFragmentManager();
     FragmentTransaction transaction = fm.beginTransaction();
     transaction.replace(R.id.contentFragment, homeFragment);
-    transaction.commit();
+    transaction.commit();*/
+    Intent intentToCompre = new Intent(getActivity(), CandidateCompareActivity.class);
+    startActivity(intentToCompre);
 
     /***
      * UNCOMMENT THIS CODES
