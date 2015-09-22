@@ -26,6 +26,7 @@
   <string name="father_name">အဖအမည်</string>
   <string name="candidate_bio">ကိုယ်ရေးအကျဥ်း</string>
   <string name="motion_header">တင်သွင်းခဲ့သည့်အဆိုများ</string>
+  <string name="compare_candidate">အမတ်လောင်း နှိုင်းယှဉ်ချက်</string>
   <string name="question_header">မေးခဲဖူးသည့် ကဏ္ဍများ</string>
   <string name="candidate_address">နေရပ်</string>
   <string name="party">ပါတီ</string>

@@ -66,6 +66,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.appbar) AppBarLayout appbar;
   @Bind(R.id.motion_count) TextView mMotionCount;
   @Bind(R.id.motion_pie_cont) LinearLayout motionPieCont;
+  @Bind(R.id.motion_middle_text) TextView motionMiddleText;
+  @Bind(R.id.question_middle_text) TextView mQuestionMiddleText;
   @Bind(R.id.question_count) TextView mQuestionCount;
   @Bind(R.id.question_pie_cont)LinearLayout mQuestionPieCont;
   @Bind(R.id.candidate_detail_party) TextView mCandidateParty;
@@ -183,7 +185,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
       motionCountCall.enqueue(new Callback<JsonObject>() {
         @Override public void onResponse(Response<JsonObject> response) {
           int motionCount = response.body().get("count").getAsInt();
-          mMotionCount.setText(MixUtils.convertToBurmese(String.valueOf(motionCount)) + "\nအဆို ");
+          motionMiddleText.setText("အဆို");
+          mMotionCount.setText(MixUtils.convertToBurmese(String.valueOf(motionCount)) + " ခု");
 
         }
 
@@ -231,7 +234,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
     questionCountCall.enqueue(new Callback<JsonObject>() {
       @Override public void onResponse(Response<JsonObject> response) {
         int questionCount = response.body().get("count").getAsInt();
-        mQuestionCount.setText(MixUtils.convertToBurmese(String.valueOf(questionCount)) + "\nမေးခွန်း ");
+        mQuestionMiddleText.setText("ကဏ္ဍ");
+        mQuestionCount.setText(MixUtils.convertToBurmese(String.valueOf(questionCount)) + " ခု");
 
       }
 
