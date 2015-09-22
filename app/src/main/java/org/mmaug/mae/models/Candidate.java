@@ -14,7 +14,7 @@ public class Candidate implements Serializable {
 
   private String id;
   private String name;
-  private Object mpid;
+  private String mpid;
   private String gender;
   @SerializedName("photo_url") private String photoUrl;
   private String legislature;
@@ -47,11 +47,11 @@ public class Candidate implements Serializable {
     this.name = name;
   }
 
-  public Object getMpid() {
+  public String getMpid() {
     return mpid;
   }
 
-  public void setMpid(Object mpid) {
+  public void setMpid(String mpid) {
     this.mpid = mpid;
   }
 
