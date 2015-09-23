@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
@@ -75,6 +76,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.candidate_detail_address) TextView mCandidateAddress;
   @Bind(R.id.compare_candidate_card) CardView mCompareCandidate;
   AppBarLayout.OnOffsetChangedListener mListener;
+  Candidate candidate;
   private RESTService mRESTService;
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -134,7 +136,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
 
 
 
-    Candidate candidate = (Candidate) getIntent().getSerializableExtra(Config.CANDIDATE);
+    candidate = (Candidate) getIntent().getSerializableExtra(Config.CANDIDATE);
     Glide.with(this).load(candidate.getParty().getPartyFlag()).
         bitmapTransform(new BlurTransformation(getApplicationContext(), 8, 1)).into(partyImage);
     candidateName.setText(candidate.getName());
@@ -287,8 +289,12 @@ public class CandidateDetailActivity extends AppCompatActivity {
 
     mCompareCandidate.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        Intent i = new Intent(CandidateDetailActivity.this,CandidateCompareActivity.class);
-        startActivity(i);
+        Toast.makeText(CandidateDetailActivity.this,"MPID"+candidate.getMpid(),Toast.LENGTH_LONG).show();
+        if(candidate.getMpid() != null){
+          Intent i = new Intent(CandidateDetailActivity.this,CandidateListActivity.class);
+          startActivity(i);
+        }
+
       }
     });
   }

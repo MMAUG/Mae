@@ -45,8 +45,8 @@ public class CandidateCompareActivity extends BaseActivity {
               .getAsJsonObject()
               .get("LWMP-01-0063")
               .getAsInt();
-          PercentageOne = Float.valueOf((obtainScrollOne * 100 / TotalScore));
-          PercentageTwo = Float.valueOf((obtainScrollTwo * 100 / TotalScore));
+          PercentageOne = Float.valueOf((obtainScrollOne* 100 / TotalScore));
+          PercentageTwo = Float.valueOf((obtainScrollTwo* 100 / TotalScore));
           View question_indicator =
               getLayoutInflater().inflate(R.layout.question_compare_layout, question_showcase,
                   false);
@@ -58,6 +58,7 @@ public class CandidateCompareActivity extends BaseActivity {
           roundCornerProgressBar.setProgress(PercentageOne);
           roundCornerProgressBar.setProgressColor(Color.RED);
           roundCornerProgressBar.setRotation(180);
+          roundCornerProgressBar.setBackgroundColor(Color.WHITE);
 
           roundCornerProgressBarTwo.setProgress(PercentageTwo);
           roundCornerProgressBarTwo.setProgressColor(Color.GREEN);
