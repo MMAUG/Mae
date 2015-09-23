@@ -34,7 +34,7 @@
         android:background="@android:color/transparent"
         android:id="@+id/candidate1"
         app:rcBackgroundRadius="1dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="10dp"
         />
 
@@ -43,7 +43,7 @@
         android:layout_weight="1"
         android:background="@android:color/transparent"
         app:rcBackgroundRadius="2dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="10dp"
         />
 
