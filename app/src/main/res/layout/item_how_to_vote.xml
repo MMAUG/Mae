@@ -27,7 +27,8 @@
     <TextView
         android:id="@+id/tv_htv_title"
         tools:text="မဲရုံဖွင့်ချိန်"
-        android:padding="@dimen/spacing_major"
+        android:padding="@dimen/spacing_minor"
+        android:layout_marginLeft="@dimen/spacing_minor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
@@ -36,7 +37,8 @@
     <TextView
         android:id="@+id/tv_htv_message"
         tools:text="မဲရုံဖွင့်ချိန်"
-        android:padding="@dimen/spacing_major"
+        android:padding="@dimen/spacing_minor"
+        android:layout_marginLeft="@dimen/spacing_minor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/TextAppearance.AppCompat.Medium"
@@ -50,7 +52,8 @@
     <TextView
         android:id="@+id/tv_htv_warning"
         tools:text="@string/how_to_vote_placeholder_text"
-        android:padding="@dimen/spacing_major"
+        android:padding="@dimen/spacing_minor"
+        android:layout_marginLeft="@dimen/spacing_minor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/TextAppearance.AppCompat.Small"/>

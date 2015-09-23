@@ -31,5 +31,5 @@
   <string name="candidate_address">နေရပ်</string>
   <string name="party">ပါတီ</string>
   <string name="how_to_vote_placeholder_text">
-    <![CDATA[ <b><font color=#CC0033>*</b>%s]]></string>
+    <![CDATA[ <b><font color=#CC0033>*</b> %s]]></string>
 </resources>
