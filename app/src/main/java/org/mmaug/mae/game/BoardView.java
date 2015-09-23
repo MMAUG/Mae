@@ -50,35 +50,30 @@ public class BoardView extends View {
   private void drawBoard() {
     super.invalidate();
 
-    //background canvas
+    //background rect paint
     background.setColor(res.getColor(R.color.board_background));
     canvas.drawRect(0, 0, getWidth(), getHeight(), background);
 
+    //rect paint
     gridPaint.setColor(res.getColor(R.color.secondary_text_color));
     gridPaint.setStyle(Paint.Style.STROKE);
     gridPaint.setStrokeWidth(2);
 
     int x = canvas.getWidth();
     int y = canvas.getHeight();
-    // 5 row : 3 column row > 1 column row > 3 column row > 1 column row > 3 column row
+
     int height;
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 3; i++) {
       switch (i) {
         case 0:
           height = 0;
-          addFirstRow(height, x, y);
+          addRow(height, x, y);
         case 1:
-          height = getBigCellHeight(y);
-          addSecondRow(height, x, y);
-        case 2:
           height = getBigCellHeight(y) + getSmallCellHeight(y);
-          addFirstRow(height, x, y);
-        case 3:
-          height = (getBigCellHeight(y) * 2) + getSmallCellHeight(y);
-          addSecondRow(height, x, y);
-        case 4:
+          addRow(height, x, y);
+        case 2:
           height = (getBigCellHeight(y) * 2) + (getSmallCellHeight(y) * 2);
-          addFirstRow(height, x, y);
+          addRow(height, x, y);
       }
     }
   }
@@ -92,7 +87,7 @@ public class BoardView extends View {
     return super.onTouchEvent(event);
   }
 
-  private void addFirstRow(int height, int x, int y) {
+  private void addRow(int height, int x, int y) {
     for (int j = 0; j < 3; j++) {
       int left, right, top, bottom;
       top = height;
@@ -109,11 +104,5 @@ public class BoardView extends View {
       }
       canvas.drawRect(left, top, right, bottom, gridPaint);
     }
-  }
-
-  private void addSecondRow(int height, int x, int y) {
-    int top = height;
-    int bottom = top + getSmallCellHeight(y);
-    canvas.drawRect(0, top, x, bottom, gridPaint);
   }
 }
