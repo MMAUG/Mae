@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -160,7 +161,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
     //      }
     //    });
     Glide.with(this)
-        .load(candidate.getPhotoUrl())
+        .load(candidate.getPhotoUrl()).diskCacheStrategy(DiskCacheStrategy.ALL)
         .bitmapTransform(new CropCircleTransformation(this))
         .into(candidateImage);
     candidateName.setText(candidate.getName());
@@ -297,5 +298,15 @@ public class CandidateDetailActivity extends AppCompatActivity {
 
       }
     });
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case android.R.id.home:
+        finish();
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
+    }
   }
 }
