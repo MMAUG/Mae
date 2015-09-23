@@ -88,24 +88,29 @@ public class CustomCircleDrawable extends ShapeDrawable {
       this.color = color;
     }
 
-    public void setFont(Typeface font) {
+    public Builder setFont(Typeface font) {
       this.font = font;
+      return this;
     }
 
-    public void setFontSize(int fontSize) {
+    public Builder setFontSize(int fontSize) {
       this.fontSize = fontSize;
+      return this;
     }
 
-    public void setHeight(int height) {
+    public Builder setHeight(int height) {
       this.height = height;
+      return this;
     }
 
-    public void setWidth(int width) {
+    public Builder setWidth(int width) {
       this.width = width;
+      return this;
     }
 
-    public void setTextColor(int textColor) {
+    public Builder setTextColor(int textColor) {
       this.textColor = textColor;
+      return this;
     }
 
     public CustomCircleDrawable buildRect() {
