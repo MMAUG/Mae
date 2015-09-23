@@ -24,6 +24,8 @@ public class BoardView extends View {
   ArrayList<Rect> rects;
   int marginLeft, marginTop, padding;
 
+  boolean touchMode;
+
   public BoardView(Context context, AttributeSet attrs) {
     super(context, attrs);
     res = getResources();
@@ -34,6 +36,7 @@ public class BoardView extends View {
   }
 
   public void enableTouch(boolean touchMode) {
+    this.touchMode = touchMode;
     setFocusable(touchMode);
     setFocusableInTouchMode(touchMode);
   }
@@ -104,6 +107,20 @@ public class BoardView extends View {
   }
 
   @Override public boolean onTouchEvent(MotionEvent event) {
+    if (touchMode) {
+      switch (event.getAction()) {
+        case MotionEvent.ACTION_DOWN:
+          enableTouch(false);
+          int x = (int) event.getX();
+          int y = (int) event.getY();
+          for (Rect rect : rects) {
+            if (rect.contains(x, y)) return true;
+          }
+          return true;
+        default:
+          return super.onTouchEvent(event);
+      }
+    }
     return super.onTouchEvent(event);
   }
 
@@ -125,7 +142,9 @@ public class BoardView extends View {
       }
 
       Rect rect = new Rect(left, top, right, bottom);
-      rects.add(rect);
+      if (j == 2) {
+        rects.add(rect);
+      }
       canvas.drawRect(rect, gridPaint);
     }
   }
