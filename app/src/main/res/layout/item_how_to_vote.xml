@@ -28,6 +28,7 @@
         android:id="@+id/tv_htv_title"
         tools:text="မဲရုံဖွင့်ချိန်"
         android:padding="@dimen/spacing_minor"
+        android:layout_marginTop="@dimen/spacing_minor"
         android:layout_marginLeft="@dimen/spacing_minor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,7 +57,8 @@
         android:layout_marginLeft="@dimen/spacing_minor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/TextAppearance.AppCompat.Small"/>
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_marginBottom="@dimen/spacing_minor"/>
     <View
         android:background="@color/secondary_text_color"
         android:layout_width="match_parent"
