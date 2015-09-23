@@ -1,7 +1,5 @@
 package org.mmaug.mae.utils;
 
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.transition.Slide;
 import android.transition.TransitionManager;
 import android.view.Gravity;
@@ -14,7 +12,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
-import org.mmaug.mae.R;
 
 /**
  * Created by poepoe on 13/9/15.
@@ -26,16 +23,6 @@ public class MixUtils {
       TransitionManager.beginDelayedTransition((ViewGroup) rootView, new Slide(Gravity.BOTTOM));
     } else {
     }
-  }
-
-  public static final Drawable getImageDrawable(Resources res) {
-    Drawable border;
-    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-      border = res.getDrawable(R.drawable.selector_avatar, null);
-    } else {
-      border = res.getDrawable(R.drawable.selector_avatar);
-    }
-    return border;
   }
 
   public static long calculateTimeLeftToVote() throws ParseException {

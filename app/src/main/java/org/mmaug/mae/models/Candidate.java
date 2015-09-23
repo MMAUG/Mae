@@ -18,14 +18,14 @@ public class Candidate implements Serializable {
   private String gender;
   @SerializedName("photo_url") private String photoUrl;
   private String legislature;
-  private Integer birthdate;
+  private Long birthdate;
   private String education;
   private String occupation;
   private String ethnicity;
   private String religion;
   private String birthDateString;
   @SerializedName("ward_village") @Expose private String wardVillage;
-  @SerializedName("constituency") @Expose private Constituency constituency;
+  private Constituency constituency;
   @SerializedName("party_id") @Expose private Integer partyId;
   private FatherMother mother;
   private FatherMother father;
@@ -79,11 +79,11 @@ public class Candidate implements Serializable {
     this.legislature = legislature;
   }
 
-  public Integer getBirthdate() {
+  public Long getBirthdate() {
     return birthdate;
   }
 
-  public void setBirthdate(Integer birthdate) {
+  public void setBirthdate(Long birthdate) {
     this.birthdate = birthdate;
   }
 

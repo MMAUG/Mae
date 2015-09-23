@@ -265,12 +265,12 @@ public class Party implements Serializable {
 
   public String getEstablishmentDateString() {
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy", Locale.getDefault());
-    if(getEstablishmentDate()!=null){
+    if (getEstablishmentDate() != null) {
       Calendar calender = Calendar.getInstance();
       calender.setTimeInMillis(Long.parseLong(getEstablishmentDate()));
       Date date = calender.getTime();
       return dateFormat.format(date);
-    }else{
+    } else {
       return "-";
     }
   }

@@ -2,12 +2,12 @@ package org.mmaug.mae.activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.Map;
@@ -15,12 +15,14 @@ import java.util.Set;
 import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.rest.RESTClient;
+import org.mmaug.mae.view.RoundCornerProgressBar;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 
 public class CandidateCompareActivity extends BaseActivity {
   @Bind(R.id.question_showcase) LinearLayout question_showcase;
+  @Bind(R.id.motion_view)LinearLayout motion_view;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -30,6 +32,45 @@ public class CandidateCompareActivity extends BaseActivity {
     compareQuestionCall.enqueue(new Callback<JsonElement>() {
       @Override public void onResponse(Response<JsonElement> response) {
         JsonObject question = response.body().getAsJsonObject().get("questions").getAsJsonObject();
+
+        JsonObject motion =
+            response.body().getAsJsonObject().getAsJsonObject("motions").getAsJsonObject();
+
+        Set<Map.Entry<String, JsonElement>> entriesMotions = motion.entrySet();//
+
+        for (Map.Entry<String, JsonElement> entry : entriesMotions) {
+          {
+            int obtainScrollOne = entry.getValue().getAsJsonObject().get("LWMP-01-0064").getAsInt();
+            int obtainScrollTwo = entry.getValue().getAsJsonObject().get("LWMP-01-0063").getAsInt();
+
+            Float PercentageOne;
+            Float PercentageTwo;
+            int TotalScore =
+                entry.getValue().getAsJsonObject().get("LWMP-01-0064").getAsInt() + entry.getValue()
+                    .getAsJsonObject()
+                    .get("LWMP-01-0063")
+                    .getAsInt();
+            PercentageOne = Float.valueOf((obtainScrollOne * 100 / TotalScore));
+            PercentageTwo = Float.valueOf((obtainScrollTwo * 100 / TotalScore));
+            View question_indicator =
+                getLayoutInflater().inflate(R.layout.question_compare_layout, motion_view,
+                    false);
+            TextView questionText = (TextView) question_indicator.findViewById(R.id.question_title);
+            RoundCornerProgressBar roundCornerProgressBar =
+                (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate1);
+            RoundCornerProgressBar roundCornerProgressBarTwo =
+                (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate2);
+            roundCornerProgressBar.setProgress(PercentageOne);
+            roundCornerProgressBar.setProgressColor(Color.RED);
+            roundCornerProgressBar.setRotation(180);
+            roundCornerProgressBar.setBackgroundColor(Color.WHITE);
+
+            roundCornerProgressBarTwo.setProgress(PercentageTwo);
+            roundCornerProgressBarTwo.setProgressColor(Color.GREEN);
+            questionText.setText(entry.getKey());
+            motion_view.addView(question_indicator);
+          }
+        }
 
         Set<Map.Entry<String, JsonElement>> entries =
             question.entrySet();//will return members of your object
@@ -58,6 +99,7 @@ public class CandidateCompareActivity extends BaseActivity {
           roundCornerProgressBar.setProgress(PercentageOne);
           roundCornerProgressBar.setProgressColor(Color.RED);
           roundCornerProgressBar.setRotation(180);
+          roundCornerProgressBar.setBackgroundColor(Color.WHITE);
 
           roundCornerProgressBarTwo.setProgress(PercentageTwo);
           roundCornerProgressBarTwo.setProgressColor(Color.GREEN);
@@ -86,5 +128,13 @@ public class CandidateCompareActivity extends BaseActivity {
 
   @Override protected String getToolbarText() {
     return getResources().getString(R.string.compare_candidate);
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == android.R.id.home) {
+      super.onBackPressed();
+      return true;
+    }
+    return false;
   }
 }

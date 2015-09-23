@@ -3,6 +3,7 @@ package org.mmaug.mae.activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
+import android.view.MenuItem;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,12 +30,10 @@ public class PartyDetailActivity extends AppCompatActivity {
     ButterKnife.bind(this);
 
     final Party party = (Party) getIntent().getSerializableExtra("party");
-    Glide.with(this)
-        .load(party.getPartyFlag())
-        .into(party_image);
-    if(party.getMemberCount()!=null && party.getMemberCount().length()>0) {
+    Glide.with(this).load(party.getPartyFlag()).into(party_image);
+    if (party.getMemberCount() != null && party.getMemberCount().length() > 0) {
       mPartyCount.setText(MixUtils.convertToBurmese(String.valueOf(party.getMemberCount())));
-    }else{
+    } else {
       mPartyCount.setText("-");
     }
     mPartyDate.setText(MixUtils.convertToBurmese(party.getEstablishmentDateString()));
@@ -58,5 +57,13 @@ public class PartyDetailActivity extends AppCompatActivity {
         mPartyLeader.append(contact+"\n");
       }
     }
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == android.R.id.home) {
+      super.onBackPressed();
+      return true;
+    }
+    return false;
   }
 }

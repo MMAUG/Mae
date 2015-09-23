@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,6 +89,13 @@ public class CandidateListActivity extends BaseActivity
       @Override public void onResponse(Response<CandidateListReturnObject> response) {
         List<Candidate> candidates = response.body().getData();
 
+        //sort
+        Collections.sort(candidates, new Comparator<Candidate>() {
+          @Override public int compare(Candidate lhs, Candidate rhs) {
+            return rhs.getLegislature().compareTo(lhs.getLegislature());
+          }
+        });
+
         //header section
         List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
 
@@ -109,6 +119,7 @@ public class CandidateListActivity extends BaseActivity
       }
 
       @Override public void onFailure(Throwable t) {
+        t.printStackTrace();
         showHideProgressBar(false);
       }
     });
@@ -130,5 +141,13 @@ public class CandidateListActivity extends BaseActivity
     Intent intent = new Intent(this, CandidateDetailActivity.class);
     intent.putExtra(Config.CANDIDATE, candidate);
     startActivity(intent);
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == android.R.id.home) {
+      super.onBackPressed();
+      return true;
+    }
+    return false;
   }
 }

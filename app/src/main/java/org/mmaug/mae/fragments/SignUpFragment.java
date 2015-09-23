@@ -50,17 +50,15 @@ public class SignUpFragment extends Fragment
   @Bind(R.id.et_search_township) EditText searchTownship;
   @Bind(R.id.rv_search_township) RecyclerView mTownshipList;
   @Bind(R.id.searchFragment) FrameLayout searchView;
-
-  private ArrayList<DataUtils.Township> townships;
-  private ArrayList<DataUtils.Township> found = new ArrayList<>();
-
-  private TownshipAdapter adapter;
   Calendar now;
   int maxAgeforVote = 18;
   int defaultYear;
   int defaultMonth;
   int defaultDate;
   String DATE_TAG = "Datepickerdialog";
+  private ArrayList<DataUtils.Township> townships;
+  private ArrayList<DataUtils.Township> found = new ArrayList<>();
+  private TownshipAdapter adapter;
 
   @OnClick(R.id.sign_up_card) void checkVote() {
 
