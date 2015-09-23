@@ -1,7 +1,10 @@
 package org.mmaug.mae.utils;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.transition.Slide;
 import android.transition.TransitionManager;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,5 +102,12 @@ public class MixUtils {
       return input;
     }
     return "";
+  }
+
+  public static float convertDpToPixel(Context context, float dp) {
+    Resources resources = context.getResources();
+    DisplayMetrics metrics = resources.getDisplayMetrics();
+    float px = dp * (metrics.densityDpi / 160f);
+    return px;
   }
 }

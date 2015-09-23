@@ -10,38 +10,37 @@ import android.view.MotionEvent;
 import android.view.View;
 import java.util.ArrayList;
 import org.mmaug.mae.R;
+import org.mmaug.mae.utils.MixUtils;
 
 /**
  * Created by poepoe on 24/9/15.
  */
 public class BoardView extends View {
 
-  boolean reset;
   Resources res;
   Canvas canvas;
   Paint background = new Paint();
   Paint gridPaint = new Paint();
   ArrayList<Rect> rects;
+  int marginLeft, marginTop, padding;
 
   public BoardView(Context context, AttributeSet attrs) {
     super(context, attrs);
     res = getResources();
-    reset = true;
-    setFocusable(true);
-    setFocusableInTouchMode(true);
+    marginLeft = (int) MixUtils.convertDpToPixel(context, 16);
+    marginTop = (int) MixUtils.convertDpToPixel(context, 130);
+    padding = (int) MixUtils.convertDpToPixel(context, 4);
+
   }
 
-  //spacing between rows
-  private int getSmallCellHeight(int y) {
-    int ratio = y / 30;
-    return ratio / 2;
+  public void enableTouch(boolean touchMode) {
+    setFocusable(touchMode);
+    setFocusableInTouchMode(touchMode);
   }
 
   //height of the row
   private int getBigCellHeight(int y) {
-    int ratio = y / 30;
-    int cellHeight = y - ratio;
-    return cellHeight / 3;
+    return y / 3;
   }
 
   // first column width for candidate name
@@ -72,27 +71,27 @@ public class BoardView extends View {
     gridPaint.setColor(res.getColor(R.color.secondary_text_color));
     gridPaint.setStyle(Paint.Style.STROKE);
     gridPaint.setStrokeWidth(4);
+    canvas.drawRect(0, 0, getWidth(), getHeight(), gridPaint);
 
-    //get height and widht of the canvas
-    int x = canvas.getWidth();
-    int y = canvas.getHeight();
+    //set height and width of table
+    int x = canvas.getWidth() - (marginLeft * 2);
+    int y = getSmallCellWidth(x) * 3; // to get square for second & third cell
 
     //this is the top point of the rectangle and it will need to be recalculated
     //when rows are added
     int top = 0;
-
     for (int i = 0; i < 3; i++) {
       switch (i) {
         case 0:
-          top = 0;
+          top = marginTop;
           break;
         case 1:
           //first row's height plus spacing between rows
-          top = getBigCellHeight(y) + getSmallCellHeight(y);
+          top = marginTop + getBigCellHeight(y) + padding;
           break;
         case 2:
           //first and second row's height plus spacing between rows
-          top = (getBigCellHeight(y) * 2) + (getSmallCellHeight(y) * 2);
+          top = marginTop + (getBigCellHeight(y) * 2) + (padding * 2);
           break;
       }
       addRow(top, x, y);
@@ -115,13 +114,13 @@ public class BoardView extends View {
 
     for (int j = 0; j < 3; j++) {
       if (j == 0) {
-        left = 0;
-        right = getBigCellWith(x);
+        left = marginLeft;
+        right = left + getBigCellWith(x);
       } else if (j == 1) {
-        left = getBigCellWith(x);
+        left = marginLeft + getBigCellWith(x);
         right = left + getSmallCellWidth(x);
       } else {
-        left = getBigCellWith(x) + getSmallCellWidth(x);
+        left = marginLeft + getBigCellWith(x) + getSmallCellWidth(x);
         right = left + getSmallCellWidth(x);
       }
 
