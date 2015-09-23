@@ -106,5 +106,4 @@ dependencies {
   compile 'jp.wasabeef:glide-transformations:1.2.1'
   compile 'com.github.blackfizz:eazegraph:1.2.5l@aar'
   //progress
-  compile 'com.akexorcist:RoundCornerProgressBar:1.2.2'
 }
