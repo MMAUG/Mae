@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import java.util.ArrayList;
 import org.mmaug.mae.R;
 
 /**
@@ -19,6 +21,7 @@ public class BoardView extends View {
   Canvas canvas;
   Paint background = new Paint();
   Paint gridPaint = new Paint();
+  ArrayList<Rect> rects;
 
   public BoardView(Context context, AttributeSet attrs) {
     super(context, attrs);
@@ -28,27 +31,38 @@ public class BoardView extends View {
     setFocusableInTouchMode(true);
   }
 
+  //spacing between rows
   private int getSmallCellHeight(int y) {
     int ratio = y / 30;
     return ratio / 2;
   }
 
+  //height of the row
   private int getBigCellHeight(int y) {
     int ratio = y / 30;
     int cellHeight = y - ratio;
     return cellHeight / 3;
   }
 
+  // first column width for candidate name
   private int getBigCellWith(int x) {
-    return x / 2;
+    int ratio = x / 4;
+    return ratio * 2;
   }
 
+  //small column for party flag and stamp
   private int getSmallCellWidth(int x) {
-    return x / 4;
+    int ratio = x / 4;
+    return ratio;
   }
 
+  //draw grid table
   private void drawBoard() {
     super.invalidate();
+
+    //list of rectangles drawn on canvas, we will use their boundary to check the stamp is valid
+    // or not
+    rects = new ArrayList<>();
 
     //background rect paint
     background.setColor(res.getColor(R.color.board_background));
@@ -57,24 +71,31 @@ public class BoardView extends View {
     //rect paint
     gridPaint.setColor(res.getColor(R.color.secondary_text_color));
     gridPaint.setStyle(Paint.Style.STROKE);
-    gridPaint.setStrokeWidth(2);
+    gridPaint.setStrokeWidth(4);
 
+    //get height and widht of the canvas
     int x = canvas.getWidth();
     int y = canvas.getHeight();
 
-    int height;
+    //this is the top point of the rectangle and it will need to be recalculated
+    //when rows are added
+    int top = 0;
+
     for (int i = 0; i < 3; i++) {
       switch (i) {
         case 0:
-          height = 0;
-          addRow(height, x, y);
+          top = 0;
+          break;
         case 1:
-          height = getBigCellHeight(y) + getSmallCellHeight(y);
-          addRow(height, x, y);
+          //first row's height plus spacing between rows
+          top = getBigCellHeight(y) + getSmallCellHeight(y);
+          break;
         case 2:
-          height = (getBigCellHeight(y) * 2) + (getSmallCellHeight(y) * 2);
-          addRow(height, x, y);
+          //first and second row's height plus spacing between rows
+          top = (getBigCellHeight(y) * 2) + (getSmallCellHeight(y) * 2);
+          break;
       }
+      addRow(top, x, y);
     }
   }
 
@@ -87,11 +108,12 @@ public class BoardView extends View {
     return super.onTouchEvent(event);
   }
 
-  private void addRow(int height, int x, int y) {
+  private void addRow(int topStart, int x, int y) {
+    int left, right, top, bottom;
+    top = topStart;
+    bottom = top + getBigCellHeight(y);
+
     for (int j = 0; j < 3; j++) {
-      int left, right, top, bottom;
-      top = height;
-      bottom = height + getBigCellHeight(y);
       if (j == 0) {
         left = 0;
         right = getBigCellWith(x);
@@ -102,7 +124,10 @@ public class BoardView extends View {
         left = getBigCellWith(x) + getSmallCellWidth(x);
         right = left + getSmallCellWidth(x);
       }
-      canvas.drawRect(left, top, right, bottom, gridPaint);
+
+      Rect rect = new Rect(left, top, right, bottom);
+      rects.add(rect);
+      canvas.drawRect(rect, gridPaint);
     }
   }
 }
