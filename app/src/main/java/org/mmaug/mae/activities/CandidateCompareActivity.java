@@ -10,20 +10,19 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.florent37.glidepalette.GlidePalette;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.pkmmte.view.CircularImageView;
 import java.util.Map;
 import java.util.Set;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.models.Candidate;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.view.AspectRatioImageView;
+import org.mmaug.mae.view.AutofitTextView;
+import org.mmaug.mae.view.CircularImageView;
 import org.mmaug.mae.view.RoundCornerProgressBar;
 import retrofit.Call;
 import retrofit.Callback;
@@ -38,6 +37,10 @@ public class CandidateCompareActivity extends BaseActivity {
   @Bind(R.id.party_flag_two) AspectRatioImageView party_flag_two;
   @Bind(R.id.candidate_one) CircularImageView candidateOneView;
   @Bind(R.id.candidate_two) CircularImageView candidateTwoView;
+  @Bind(R.id.party_edu_one) AutofitTextView candidateEduOne;
+  @Bind(R.id.party_edu_two) AutofitTextView candidateEduTwo;
+  @Bind(R.id.party_job_one) TextView partyJobOne;
+  @Bind(R.id.party_job_two) TextView partyJobTwo;
   Candidate candidate;
   Candidate candidateCompare;
   float[] hslValues = new float[3];
@@ -165,20 +168,10 @@ public class CandidateCompareActivity extends BaseActivity {
     candidateCompare = (Candidate) getIntent().getSerializableExtra(Config.CANDIDATE_COMPARE);
     candidateOne.setText(candidateCompare.getName());
     candidateTwo.setText(candidate.getName());
-
-    Glide.with(this)
-        .load(candidateCompare.getPhotoUrl())
-        .diskCacheStrategy(DiskCacheStrategy.ALL)
-        .bitmapTransform(new CropCircleTransformation(this))
-        .into(candidateOneView);
-    candidateOneView.setBorderColor(Color.HSVToColor(hslValues));
-
-    Glide.with(this)
-        .load(candidate.getPhotoUrl())
-        .diskCacheStrategy(DiskCacheStrategy.ALL)
-        .bitmapTransform(new CropCircleTransformation(this))
-        .into(candidateTwoView);
-    candidateTwoView.setBorderColor(Color.HSVToColor(darkValue));
+    candidateEduOne.setText(candidateCompare.getEducation());
+    candidateEduTwo.setText(candidate.getEducation());
+    partyJobOne.setText(candidateCompare.getOccupation());
+    partyJobTwo.setText(candidate.getOccupation());
 
     Glide.with(this)
         .load(candidateCompare.getParty().getPartyFlag())
@@ -208,13 +201,25 @@ public class CandidateCompareActivity extends BaseActivity {
             .use(GlidePalette.Profile.MUTED_DARK)
             .use(GlidePalette.Profile.MUTED_LIGHT)
             .intoCallBack(new GlidePalette.CallBack() {
-
               @Override public void onPaletteLoaded(Palette palette) {
                 //specific task
                 Palette.Swatch darkSwatch = palette.getLightVibrantSwatch();
-                darkValue = darkSwatch.getHsl();
+                if (darkSwatch != null) {
+                  darkValue = darkSwatch.getHsl();
+                }
               }
             }))
         .into(party_flag_two);
+
+    Glide.with(this).load(candidateCompare.getPhotoUrl()).into(candidateOneView);
+/*    candidateOneView.setBorderColor(Color.HSVToColor(hslValues));*/
+    candidateOneView.setBorderWidth(3);
+    candidateOneView.setBorderColor(R.color.accent_color);
+
+
+/*    candidateTwoView.setBorderColor(Color.HSVToColor(darkValue));*/
+    candidateTwoView.setBorderWidth(3);
+    candidateTwoView.setBorderColor(R.color.geojson_background_color);
+    Glide.with(this).load(candidate.getPhotoUrl()).into(candidateTwoView);
   }
 }
