@@ -86,6 +86,7 @@ public class CandidateCompareActivity extends BaseActivity {
             roundCornerProgressBar.setProgress(PercentageOne);
             roundCornerProgressBar.setProgressColor(Color.HSVToColor(vibrantOne));
             roundCornerProgressBar.setRotation(180);
+            roundCornerProgressBar.setBackgroundColor(Color.WHITE);
 
             roundCornerProgressBarTwo.setProgress(PercentageTwo);
             roundCornerProgressBarTwo.setProgressColor(Color.HSVToColor(varantTwo));
