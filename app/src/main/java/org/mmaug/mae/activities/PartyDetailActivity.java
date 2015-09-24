@@ -2,8 +2,10 @@ package org.mmaug.mae.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,6 +25,7 @@ public class PartyDetailActivity extends AppCompatActivity {
   @Bind(R.id.party_headquarter) TextView mPartyHeadQuarter;
   @Bind(R.id.party_leader) TextView mPartyLeader;
   @Bind(R.id.party_phone) TextView mPartyPhone;
+  @Bind(R.id.this_year_toys) LinearLayout mThisYearToys;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -57,6 +60,8 @@ public class PartyDetailActivity extends AppCompatActivity {
         mPartyLeader.append(contact+"\n");
       }
     }
+    // TODO: 9/24/15 REMOVE HARDCODED VALUE
+    colorFilterImageViews(mThisYearToys,1400/400);
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
@@ -65,5 +70,15 @@ public class PartyDetailActivity extends AppCompatActivity {
       return true;
     }
     return false;
+  }
+
+  private void colorFilterImageViews(ViewGroup parent,int countToColor){
+    for(int i=0;i<parent.getChildCount();i++){
+      if(i<countToColor-1){
+        ((ImageView)parent.getChildAt(i)).setColorFilter(getResources().getColor(R.color.red));
+      }else{
+        ((ImageView)parent.getChildAt(i)).setColorFilter(getResources().getColor(R.color.mdtp_light_gray));
+      }
+    }
   }
 }

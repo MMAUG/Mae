@@ -7,8 +7,10 @@ import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -26,16 +28,22 @@ public class VoteGameActivity extends BaseActivity implements BoardView.GameList
 
   @Bind(R.id.board) BoardView mBoardView;
   @Bind(R.id.ll_board_frame) LinearLayout mBoardFame;
+  @Bind(R.id.scrollView) ScrollView mScrollView;
+  @Bind(R.id.tv_start_game) TextView mTextView;
+
+  int y = 0, scrollTo = 1, spacingMajor = 0;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     ButterKnife.bind(this);
 
+    spacingMajor = (int) MixUtils.convertDpToPixel(this, 16);
+
     // set height for paper
     ViewGroup.LayoutParams params = mBoardFame.getLayoutParams();
 
     //top and bottom margin
-    int margin = (int) MixUtils.convertDpToPixel(this, 24) * 3;
+    int margin = spacingMajor * 3;
     //actionbar size to subtract too
     int actionBarSzie = (int) MixUtils.convertDpToPixel(this, 56);
 
@@ -45,9 +53,29 @@ public class VoteGameActivity extends BaseActivity implements BoardView.GameList
 
     //listener for game play
     mBoardView.setGameListener(this);
+
+    //to check scrollview is at board
+    mScrollView.post(new Runnable() {
+      @Override public void run() {
+        ViewTreeObserver observer = mScrollView.getViewTreeObserver();
+        observer.addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+          @Override public void onScrollChanged() {
+            y = mScrollView.getScrollY();
+          }
+        });
+      }
+    });
   }
 
   @OnClick(R.id.cardview_start_game) void startGame() {
+    if (y != scrollTo) {
+      scrollTo = mBoardFame.getTop() - spacingMajor;
+      ObjectAnimator objectAnimator =
+          ObjectAnimator.ofInt(mScrollView, "scrollY", y, scrollTo).setDuration(500);
+      objectAnimator.start();
+    }
+    //start the game
+    mTextView.setText("ဆန္ဒပြုပါ");
     mBoardView.enableTouch(true);
   }
 
@@ -76,6 +104,7 @@ public class VoteGameActivity extends BaseActivity implements BoardView.GameList
   }
 
   @Override public void checkValidity(BoardView.ValidityStatus status) {
+    mTextView.setText(getString(R.string.check));
     final Dialog voteResultDialog =
         new Dialog(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
     View view;

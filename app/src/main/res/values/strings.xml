@@ -44,7 +44,8 @@
     ဖြစ်သည်။ ထိုစာရွက်ပေါ်တွင် တံဆိပ်တုံး ရိုက်နှိပ်သကဲ့သို့ မိမိလက်ဖြင့်
     နှိပ်ကြည့်ခြင်းဖြင့် မည်သို့သောမဲများသည် ခိုင်လုံမဲ၊ ပယ်မဲဖြစ်သည်ကို စမ်းသပ်ပါ။</string>
 
-  <!-- how to vote dialog strings-->
+  <!-- vote validity dialog strings-->
+  <string name="check">စစ်မည်</string>
   <string name="correct">မှန်ပါသည်။</string>
   <string name="correct_vote">ပေးခဲ့သောမဲသည် ခိုင်လုံမဲဖြစ်ပါသည်။</string>
   <string name="correct_vote_message">မဲဆန္ဒရှင်တိုင်းသည် အမှန်ခြစ်တံဆိပ်ကို မိမိဆန္ဒပြုလိုသော
@@ -58,5 +59,19 @@
   <string name="stamp_warning">အထူးသတိပြုရန်။ ။ တံဆိပ်တုံးနှိပ်ရာတွင်
     မထင်ရှားမှာစိုးသည့်စိတ်ဖြင့် တံဆိပ်တုံးအား တစ်ကြိမ်ထက် ပို၍ မနှိပ်မိရန် ဂရုစိုက်ပါ။
   </string>
->>>>>>> b26e0b0b959648e6aeaf86bdbbf940076a26c94f
+  <!-- ballot paper strings-->
+  <string name="example_state_legislature">သစ်သီးတိုင်း ဒေသကြီး ပြည်သူ့လွှတ်တော်</string>
+  <string name="example_township">ညောင်သီးမြို့နယ် မဲဆန္ဒနယ်</string>
+  <string name="example_voting_step_1">(က) မဲပေးလိုသော ကိုယ်စားလှယ်လောင်း၏ အမည်တည့်တည့်
+    လေးထောင့်အကွက်ထဲတွင် အမှန်အမှတ်အသား \"u2713\" တံဆိပ်တုံးဖြင့် ရိုက်နှိပ်ပေးပါ။
+  </string>
+  <string name="example_voting_step_2">(ခ) ကြိုတင်မဲပေးလိုသော ကိုယ်စားလှယ်လောင်း၏ အမည်တည့်တည့်
+    လေးထောင့်အကွက်ထဲတွင် အမှန်အမှတ်အသား \"u2713\" တံဆိပ်တုံးဖြင့် ရိုက်နှိပ်ပေးပါ။
+  </string>
+  <string name="example_voting_step_3">(ဂ) ကိုယ်စားလှယ်လောင်း တစ်ဦးထက်ပို၍ မဲမပေးရပါ။</string>
+  <string name="example_candidate_1">ဦးငှက်ပျောသီး</string>
+  <string name="example_candidate_2">ဒေါ်ဖရဲသီး</string>
+  <string name="example_candidate_3">ဦ:ပန်းသီး</string>
+  <string name="signature_line_1">ဤနေရာတွင် မဲရုံမှူးလက်မှတ်</string>
+  <string name="signature_line_2">ပါမပါ စစ်ပါ။</string>
 </resources>
