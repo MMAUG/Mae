@@ -113,9 +113,7 @@ public class BoardView extends View {
 
     //set height and width of table
     int x = canvas.getWidth() - (margin * 2);
-    int y = canvas.getHeight() - (marginTop + (margin * 4)); // to get square for second &
-    // third
-    // cell
+    int y = canvas.getHeight() - (marginTop + (margin * 4));
 
     //this is the top point of the rectangle and it will need to be recalculated
     //when rows are added
