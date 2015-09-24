@@ -71,7 +71,7 @@ public class VoteGameActivity extends BaseActivity implements BoardView.GameList
     if (y != scrollTo) {
       scrollTo = mBoardFame.getTop() - spacingMajor;
       ObjectAnimator objectAnimator =
-          ObjectAnimator.ofInt(mScrollView, "scrollY", 0, scrollTo).setDuration(500);
+          ObjectAnimator.ofInt(mScrollView, "scrollY", y, scrollTo).setDuration(500);
       objectAnimator.start();
     }
     //start the game

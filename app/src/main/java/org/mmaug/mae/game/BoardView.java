@@ -21,19 +21,40 @@ public class BoardView extends View {
   private Canvas canvas;
   private Paint background = new Paint();
   private Paint gridPaint = new Paint();
+  private Paint textPaint = new Paint();
   private ArrayList<Rect> rects; //List of rectangles where the touch of the user needs to be
   // checked
-  private int marginLeft, marginTop, padding; //boundaries of table
+  private int margin;
+  private int padding;
+  private int marginSmall; //boundaries of table
   private boolean touchMode; //control touch mode by button
   private GameListener listener;
 
+  private int titleTextSize, normalTextSize;
 
   public BoardView(Context context, AttributeSet attrs) {
     super(context, attrs);
     res = getResources();
-    marginLeft = (int) MixUtils.convertDpToPixel(context, 16);
-    marginTop = (int) MixUtils.convertDpToPixel(context, 140);
+
+    margin = (int) MixUtils.convertDpToPixel(context, 16);
+    marginSmall = (int) MixUtils.convertDpToPixel(context, 12);
     padding = (int) MixUtils.convertDpToPixel(context, 4);
+
+    titleTextSize = (int) MixUtils.convertDpToPixel(context, 14);
+    normalTextSize = (int) MixUtils.convertDpToPixel(context, 10);
+    //background rect paint
+    background.setColor(res.getColor(R.color.board_background));
+
+    //cell rect paint
+    gridPaint.setColor(res.getColor(R.color.secondary_text_color));
+    gridPaint.setStyle(Paint.Style.STROKE);
+    gridPaint.setStrokeWidth(4);
+
+    //text paint
+    textPaint.setColor(res.getColor(R.color.secondary_text_color));
+    textPaint.setAntiAlias(true);
+    textPaint.setTextAlign(Paint.Align.LEFT);
+    textPaint.setStyle(Paint.Style.FILL);
 
   }
 
@@ -71,19 +92,29 @@ public class BoardView extends View {
     // or not
     rects = new ArrayList<>();
 
-    //background rect paint
-    background.setColor(res.getColor(R.color.board_background));
+    //draw bg
     canvas.drawRect(0, 0, getWidth(), getHeight(), background);
-
-    //rect paint
-    gridPaint.setColor(res.getColor(R.color.secondary_text_color));
-    gridPaint.setStyle(Paint.Style.STROKE);
-    gridPaint.setStrokeWidth(4);
+    //draw boundary
     canvas.drawRect(0, 0, getWidth(), getHeight(), gridPaint);
 
+    //draw text
+    textPaint.setTextSize(titleTextSize);
+    canvas.drawText(res.getString(R.string.example_state_legislature), margin, marginSmall * 2,
+        textPaint);
+    canvas.drawText(res.getString(R.string.example_township), margin, marginSmall * 4, textPaint);
+    textPaint.setTextSize(normalTextSize);
+    canvas.drawText(res.getString(R.string.example_voting_step_1), margin, marginSmall * 6,
+        textPaint);
+    canvas.drawText(res.getString(R.string.example_voting_step_2), margin, marginSmall * 8,
+        textPaint);
+    canvas.drawText(res.getString(R.string.example_voting_step_3), margin, marginSmall * 10,
+        textPaint);
+    int marginTop = marginSmall * 11;
+
     //set height and width of table
-    int x = canvas.getWidth() - (marginLeft * 2);
-    int y = getSmallCellWidth(x) * 3; // to get square for second & third cell
+    int x = canvas.getWidth() - (margin * 2);
+    int y = canvas.getHeight() - (marginTop + margin + margin); // to get square for second & third
+    // cell
 
     //this is the top point of the rectangle and it will need to be recalculated
     //when rows are added
@@ -138,13 +169,13 @@ public class BoardView extends View {
 
     for (int j = 0; j < 3; j++) {
       if (j == 0) {
-        left = marginLeft;
+        left = margin;
         right = left + getBigCellWith(x);
       } else if (j == 1) {
-        left = marginLeft + getBigCellWith(x);
+        left = margin + getBigCellWith(x);
         right = left + getSmallCellWidth(x);
       } else {
-        left = marginLeft + getBigCellWith(x) + getSmallCellWidth(x);
+        left = margin + getBigCellWith(x) + getSmallCellWidth(x);
         right = left + getSmallCellWidth(x);
       }
 
