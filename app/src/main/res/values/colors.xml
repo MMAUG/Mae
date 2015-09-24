@@ -20,4 +20,6 @@
   <color name="round_corner_progress_bar_secondary_progress_default">@android:color/transparent
   </color>
 
+  <color name="board_background">#E6D3B5</color>
+
 </resources>
