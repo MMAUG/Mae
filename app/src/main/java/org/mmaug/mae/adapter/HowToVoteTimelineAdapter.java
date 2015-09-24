@@ -78,6 +78,45 @@ public class HowToVoteTimelineAdapter extends BaseAdapter<BaseAdapter.BaseViewHo
     return htvObjectList.size();
   }
 
+  public static class HTVObject {
+    private String title;
+    private String message;
+    private String warning;
+    private int drawable;
+
+    public int getDrawable() {
+      return drawable;
+    }
+
+    public void setDrawable(int drawable) {
+      this.drawable = drawable;
+    }
+
+    public String getMessage() {
+      return message;
+    }
+
+    public void setMessage(String message) {
+      this.message = message;
+    }
+
+    public String getTitle() {
+      return title;
+    }
+
+    public void setTitle(String title) {
+      this.title = title;
+    }
+
+    public String getWarning() {
+      return warning;
+    }
+
+    public void setWarning(String warning) {
+      this.warning = warning;
+    }
+  }
+
   class ViewHolder extends BaseAdapter.BaseViewHolder {
     @Bind(R.id.tv_htv_title) TextView mTvTitle;
     @Bind(R.id.tv_htv_message) TextView mTvMessage;
@@ -90,45 +129,6 @@ public class HowToVoteTimelineAdapter extends BaseAdapter<BaseAdapter.BaseViewHo
       ButterKnife.bind(this, itemView);
       itemView.setOnClickListener(this);
       mAdapter = adapter;
-    }
-  }
-
-  public static class HTVObject {
-    private String title;
-    private String message;
-    private String warning;
-    private int drawable;
-
-    public void setTitle(String title) {
-      this.title = title;
-    }
-
-    public void setDrawable(int drawable) {
-      this.drawable = drawable;
-    }
-
-    public void setMessage(String message) {
-      this.message = message;
-    }
-
-    public void setWarning(String warning) {
-      this.warning = warning;
-    }
-
-    public int getDrawable() {
-      return drawable;
-    }
-
-    public String getMessage() {
-      return message;
-    }
-
-    public String getTitle() {
-      return title;
-    }
-
-    public String getWarning() {
-      return warning;
     }
   }
 }

@@ -41,12 +41,13 @@ import retrofit.Response;
 /**
  * Created by yemyatthu on 9/18/15.
  */
-public class LocationActivity extends BaseActivity{
+public class LocationActivity extends BaseActivity {
   @Bind(R.id.location_name) TextView mLocationName;
   @Bind(R.id.month_day_left) TextView monthDayLef;
   @Bind(R.id.hidden_view) View hiddenView;
 
   private GoogleMap mMap;
+
   @Override protected int getLayoutResource() {
     return R.layout.activity_location;
   }
@@ -72,16 +73,16 @@ public class LocationActivity extends BaseActivity{
     if (mMap != null) {
       mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(16.8000, 96.1500), 4));
     }
-    Map<String,String> params = new HashMap<>();
+    Map<String, String> params = new HashMap<>();
 
     // TODO: 9/18/15 Insert Choosen DT_PCODE here
     params.put("dt_pcode", "MMR017D002");
-    params.put("token","3db8827d-2521-57be-987a-e9e366874d4b");
+    params.put("token", "3db8827d-2521-57be-987a-e9e366874d4b");
     final Call<GeoReturnObject> geoCall = RESTClient.getMPSService().getLocationList(params);
     geoCall.enqueue(new Callback<GeoReturnObject>() {
       @Override public void onResponse(Response<GeoReturnObject> response) {
         Geo geo = response.body().getData().get(0);
-        setUpMap(LocationActivity.this,geo);
+        setUpMap(LocationActivity.this, geo);
       }
 
       @Override public void onFailure(Throwable t) {
@@ -89,6 +90,7 @@ public class LocationActivity extends BaseActivity{
       }
     });
   }
+
   private void setUpMap(AppCompatActivity activity, Geo geo) {
     Gson gson = new GsonBuilder().create();
     String object = gson.toJson(geo);
@@ -143,10 +145,9 @@ public class LocationActivity extends BaseActivity{
       mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
         @Override public void onMapClick(LatLng latLng) {
           if (bounds.contains(latLng)) {
-            new EasyDialog(LocationActivity.this)
-                .setLayoutResourceId(R.layout.tip_layout)//layout resource id
-                .setBackgroundColor(
-                    LocationActivity.this.getResources().getColor(R.color.primary))
+            new EasyDialog(LocationActivity.this).setLayoutResourceId(
+                R.layout.tip_layout)//layout resource id
+                .setBackgroundColor(LocationActivity.this.getResources().getColor(R.color.primary))
                 .setLocationByAttachedView(hiddenView)
                 .setAnimationAlphaShow(1000, 0.0f, 1.0f)
                 .setAnimationAlphaDismiss(500, 1.0f, 0.0f)
@@ -158,7 +159,6 @@ public class LocationActivity extends BaseActivity{
       });
       mMap.moveCamera(cu);
       layer.addLayerToMap();
-
     } catch (JSONException e) {
       e.printStackTrace();
     }

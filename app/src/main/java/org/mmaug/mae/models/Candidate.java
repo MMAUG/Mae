@@ -167,7 +167,6 @@ public class Candidate implements Serializable {
     this.party = party;
   }
 
-
   public String getBirthDateString() {
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy", Locale.getDefault());
     Date date = new Date(getBirthdate());
@@ -178,5 +177,4 @@ public class Candidate implements Serializable {
   public void setBirthDateString(String birthDateString) {
     this.birthDateString = birthDateString;
   }
-
 }

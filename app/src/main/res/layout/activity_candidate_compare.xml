@@ -56,11 +56,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 >
-              <ImageView
+              <org.mmaug.mae.view.CircularImageView
                   android:layout_width="100dp"
                   android:id="@+id/candidate_one"
                   android:layout_height="100dp"
-                  android:layout_marginLeft="@dimen/spacing_major"
+                  android:layout_gravity="center_horizontal"
+                  android:layout_margin="8dp"
+                  android:clickable="true"
                   />
 
               <org.mmaug.mae.view.AutofitTextView
@@ -85,12 +87,13 @@
                   android:layout_height="wrap_content"
                   />
 
-              <ImageView
+              <org.mmaug.mae.view.CircularImageView
                   android:layout_marginRight="@dimen/spacing_major"
                   android:id="@+id/candidate_two"
                   android:layout_alignParentRight="true"
                   android:layout_width="100dp"
                   android:layout_height="100dp"
+                  app:border="true"
                   />
 
               <org.mmaug.mae.view.AutofitTextView
@@ -148,29 +151,36 @@
                 android:layout_height="2dp"
                 />
 
-            <RelativeLayout
+            <LinearLayout
+                android:weightSum="2"
                 android:id="@+id/party_edu_header"
                 android:padding="@dimen/spacing_major"
                 android:layout_below="@+id/party_edu_divider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 >
-              <TextView
+              <org.mmaug.mae.view.AutofitTextView
+                  android:textStyle="bold"
+                  android:gravity="left"
+                  android:layout_weight="1"
                   android:text="Bsc(Maths)"
                   android:id="@+id/party_edu_one"
                   android:layout_alignParentLeft="true"
-                  android:layout_width="wrap_content"
+                  android:layout_width="100dp"
                   android:layout_height="wrap_content"
                   />
 
-              <TextView
+              <org.mmaug.mae.view.AutofitTextView
+                  android:textStyle="bold"
+                  android:gravity="right"
+                  android:layout_weight="1"
                   android:text="MA(Oxford)"
                   android:id="@+id/party_edu_two"
                   android:layout_alignParentRight="true"
-                  android:layout_width="wrap_content"
+                  android:layout_width="100dp"
                   android:layout_height="wrap_content"
                   />
-            </RelativeLayout>
+            </LinearLayout>
 
             <View
                 android:layout_marginTop="@dimen/spacing_major"
@@ -182,30 +192,36 @@
                 android:layout_height="2dp"
                 />
 
-            <RelativeLayout
-                android:padding="@dimen/spacing_major"
+            <LinearLayout
+                android:weightSum="2"
                 android:id="@+id/party_job_header"
                 android:layout_marginBottom="@dimen/spacing_major"
                 android:layout_below="@+id/party_job_divider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 >
-              <TextView
+              <org.mmaug.mae.view.AutofitTextView
+                  android:textStyle="bold"
                   android:text="Bsc(Maths)"
+                  android:gravity="center"
+                  android:layout_weight="1"
                   android:id="@+id/party_job_one"
                   android:layout_alignParentLeft="true"
-                  android:layout_width="wrap_content"
+                  android:layout_width="100dp"
                   android:layout_height="wrap_content"
                   />
 
-              <TextView
+              <org.mmaug.mae.view.AutofitTextView
+                  android:textStyle="bold"
+                  android:gravity="center"
+                  android:layout_weight="1"
                   android:text="MA(Oxford)"
                   android:id="@+id/party_job_two"
                   android:layout_alignParentRight="true"
-                  android:layout_width="wrap_content"
+                  android:layout_width="100dp"
                   android:layout_height="wrap_content"
                   />
-            </RelativeLayout>
+            </LinearLayout>
 
 
           </RelativeLayout>

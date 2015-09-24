@@ -34,7 +34,7 @@ public class TownshipAdapter extends BaseAdapter<BaseAdapter.BaseViewHolder> {
 
   @Override public void onBindViewHolder(BaseViewHolder holder, int position) {
     String townshipName = townships.get(position).getTowhshipNameBurmese();
-    ((ViewHolder)holder).mText.setText(townshipName);
+    ((ViewHolder) holder).mText.setText(townshipName);
   }
 
   @Override public int getItemCount() {

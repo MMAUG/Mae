@@ -25,7 +25,7 @@ public class PartyDetailActivity extends AppCompatActivity {
   @Bind(R.id.party_date) TextView mPartyDate;
   @Bind(R.id.party_number) TextView mPartyNumber;
   @Bind(R.id.party_name) TextView mPartyName;
-  @Bind(R.id.constituency)TextView mConstituency;
+  @Bind(R.id.constituency) TextView mConstituency;
   @Bind(R.id.party_headquarter) TextView mPartyHeadQuarter;
   @Bind(R.id.party_leader) TextView mPartyLeader;
   @Bind(R.id.current_year_tab) TabLayout mCurrentTabLayout;
@@ -50,20 +50,20 @@ public class PartyDetailActivity extends AppCompatActivity {
     mPartyName.setText(party.getPartyName());
     mConstituency.setText(party.getRegion());
     List<String> leaders = party.getLeadership();
-    for(String leader:leaders){
-      if(leaders.indexOf(leader)+1==leaders.size()){
+    for (String leader : leaders) {
+      if (leaders.indexOf(leader) + 1 == leaders.size()) {
         mPartyLeader.append(leader);
-      }else{
-        mPartyLeader.append(leader+"\n");
+      } else {
+        mPartyLeader.append(leader + "\n");
       }
     }
     mPartyHeadQuarter.setText(party.getHeadquarters());
     List<String> contacts = party.getContact();
-    for(String contact:contacts){
-      if(leaders.indexOf(contact)+1==leaders.size()){
+    for (String contact : contacts) {
+      if (leaders.indexOf(contact) + 1 == leaders.size()) {
         mPartyLeader.append(contact);
-      }else{
-        mPartyLeader.append(contact+"\n");
+      } else {
+        mPartyLeader.append(contact + "\n");
       }
     }
     ToyFigurePagerAdapter currentPagerAdapter = new ToyFigurePagerAdapter();
@@ -88,8 +88,6 @@ public class PartyDetailActivity extends AppCompatActivity {
     mPrevTabLayout.setTabMode(TabLayout.MODE_FIXED);
     mPrevTabLayout.setupWithViewPager(mPrevViewPager);
 
-    // TODO: 9/24/15 REMOVE HARDCODED VALUE
-    //colorFilterImageViews(mThisYearToys,1400/400);
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {

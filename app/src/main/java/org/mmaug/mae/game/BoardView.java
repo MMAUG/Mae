@@ -37,11 +37,11 @@ public class BoardView extends View {
     res = getResources();
 
     margin = (int) MixUtils.convertDpToPixel(context, 16);
-    marginSmall = (int) MixUtils.convertDpToPixel(context, 12);
+    marginSmall = (int) MixUtils.convertDpToPixel(context, 11);
     padding = (int) MixUtils.convertDpToPixel(context, 4);
 
     titleTextSize = (int) MixUtils.convertDpToPixel(context, 14);
-    normalTextSize = (int) MixUtils.convertDpToPixel(context, 10);
+    normalTextSize = (int) MixUtils.convertDpToPixel(context, 11);
     //background rect paint
     background.setColor(res.getColor(R.color.board_background));
 
@@ -101,19 +101,24 @@ public class BoardView extends View {
     textPaint.setTextSize(titleTextSize);
     canvas.drawText(res.getString(R.string.example_state_legislature), margin, marginSmall * 2,
         textPaint);
-    canvas.drawText(res.getString(R.string.example_township), margin, marginSmall * 4, textPaint);
+    canvas.drawText(res.getString(R.string.example_township), margin, margin * 3, textPaint);
+
     textPaint.setTextSize(normalTextSize);
-    canvas.drawText(res.getString(R.string.example_voting_step_1), margin, marginSmall * 6,
+    canvas.drawText(res.getString(R.string.example_voting_step_1), margin, margin * 4 + padding,
         textPaint);
-    canvas.drawText(res.getString(R.string.example_voting_step_2), margin, marginSmall * 8,
+    canvas.drawText(res.getString(R.string.sub_string), margin + margin + padding,
+        margin * 5 + padding, textPaint);
+    canvas.drawText(res.getString(R.string.example_voting_step_2), margin, margin * 6 + padding,
         textPaint);
-    canvas.drawText(res.getString(R.string.example_voting_step_3), margin, marginSmall * 10,
+    canvas.drawText(res.getString(R.string.sub_string), margin + margin + padding,
+        margin * 7 + padding, textPaint);
+    canvas.drawText(res.getString(R.string.example_voting_step_3), margin, margin * 8 + padding,
         textPaint);
-    int marginTop = marginSmall * 11;
+    int marginTop = margin * 9;
 
     //set height and width of table
     int x = canvas.getWidth() - (margin * 2);
-    int y = canvas.getHeight() - (marginTop + (margin * 4));
+    int y = canvas.getHeight() - (marginTop + (margin * 3));
 
     //this is the top point of the rectangle and it will need to be recalculated
     //when rows are added
@@ -137,11 +142,11 @@ public class BoardView extends View {
 
     //align left for the signature text
     textPaint.setTextAlign(Paint.Align.RIGHT);
-    int signatureTop = marginTop + (getBigCellHeight(y) * 3) + (padding * 2) + (marginSmall * 2);
+    int signatureTop = marginTop + (getBigCellHeight(y) * 3) + (padding * 2) + margin;
     canvas.drawText(res.getString(R.string.signature_line_1), canvas.getWidth() - margin,
         signatureTop, textPaint);
     canvas.drawText(res.getString(R.string.signature_line_2), canvas.getWidth() - margin,
-        signatureTop + marginSmall * 2, textPaint);
+        signatureTop + margin, textPaint);
   }
 
   @Override protected void onDraw(Canvas canvas) {
@@ -208,5 +213,4 @@ public class BoardView extends View {
   public interface GameListener {
     void checkValidity(ValidityStatus status);
   }
-
 }
