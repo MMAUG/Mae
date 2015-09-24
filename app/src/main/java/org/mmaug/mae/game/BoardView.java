@@ -17,14 +17,16 @@ import org.mmaug.mae.utils.MixUtils;
  */
 public class BoardView extends View {
 
-  Resources res;
-  Canvas canvas;
-  Paint background = new Paint();
-  Paint gridPaint = new Paint();
-  ArrayList<Rect> rects;
-  int marginLeft, marginTop, padding;
+  private Resources res;
+  private Canvas canvas;
+  private Paint background = new Paint();
+  private Paint gridPaint = new Paint();
+  private ArrayList<Rect> rects; //List of rectangles where the touch of the user needs to be
+  // checked
+  private int marginLeft, marginTop, padding; //boundaries of table
+  private boolean touchMode; //control touch mode by button
+  private GameListener listener;
 
-  boolean touchMode;
 
   public BoardView(Context context, AttributeSet attrs) {
     super(context, attrs);
@@ -41,6 +43,10 @@ public class BoardView extends View {
     setFocusableInTouchMode(touchMode);
   }
 
+  public void setGameListener(GameListener listener) {
+    this.listener = listener;
+  }
+
   //height of the row
   private int getBigCellHeight(int y) {
     return y / 3;
@@ -54,8 +60,7 @@ public class BoardView extends View {
 
   //small column for party flag and stamp
   private int getSmallCellWidth(int x) {
-    int ratio = x / 4;
-    return ratio;
+    return x / 4;
   }
 
   //draw grid table
@@ -113,8 +118,10 @@ public class BoardView extends View {
           enableTouch(false);
           int x = (int) event.getX();
           int y = (int) event.getY();
-          for (Rect rect : rects) {
-            if (rect.contains(x, y)) return true;
+          if (checkWithinBounds(x, y)) {
+            listener.checkValidity(ValidityStatus.valid);
+          } else {
+            listener.checkValidity(ValidityStatus.invalid);
           }
           return true;
         default:
@@ -148,4 +155,20 @@ public class BoardView extends View {
       canvas.drawRect(rect, gridPaint);
     }
   }
+
+  private boolean checkWithinBounds(int x, int y) {
+    for (Rect rect : rects) {
+      if (rect.contains(x, y)) return true;
+    }
+    return false;
+  }
+
+  public enum ValidityStatus {
+    valid, invalid
+  }
+
+  public interface GameListener {
+    void checkValidity(ValidityStatus status);
+  }
+
 }

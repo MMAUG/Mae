@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_centerInParent="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+  <TextView android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      style="@style/TextAppearance.AppCompat.Headline"
+      android:padding="@dimen/spacing_major"
+      android:text="@string/be_careful"
+      android:textColor="@color/yellow"/>
+  <TextView
+      style="@style/TextAppearance.AppCompat.Subhead"
+      android:padding="@dimen/spacing_minor"
+      android:textColor="@color/mdtp_light_gray"
+      android:layout_marginLeft="@dimen/spacing_major"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/incorrect_vote"/>
+  <TextView
+      android:id="@+id/tv_vote_message"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:lineSpacingMultiplier="1.3"
+      android:padding="@dimen/spacing_major"
+      android:textColor="@android:color/holo_red_dark"
+      android:text="@string/incorrect_vote_message"/>
+
+  <TextView
+      android:id="@+id/voter_check_ok_btn"
+      style="@style/TextAppearance.AppCompat.Button"
+      android:textColor="@color/white"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:padding="@dimen/spacing_major"
+      android:background="@color/accent_color"
+      android:foreground="?attr/selectableItemBackground"
+      android:text="@string/ok_myan"/>
+</LinearLayout>
