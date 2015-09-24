@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+  <include layout="@layout/toolbar"/>
+
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+      <TextView
+          style="@style/Base.TextAppearance.AppCompat.Medium"
+          android:padding="@dimen/spacing_minor"
+          android:layout_marginLeft="@dimen/spacing_minor"
+          android:layout_marginRight="@dimen/spacing_minor"
+          android:layout_marginTop="@dimen/spacing_major"
+          android:text="@string/game_rule"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:lineSpacingMultiplier="1.3"
+          android:gravity="center"/>
+
+      <LinearLayout
+          android:id="@+id/ll_board_frame"
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="100dp"
+          android:layout_marginTop="@dimen/spacing_massive"
+          android:layout_marginBottom="@dimen/spacing_massive"
+          android:layout_marginRight="@dimen/spacing_major"
+          android:layout_marginLeft="@dimen/spacing_major">
+
+        <android.support.v7.widget.CardView
+            android:orientation="horizontal"
+            android:padding="@dimen/spacing_major"
+            android:background="@color/white"
+            android:id="@+id/cardview_start_game"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:minWidth="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_massive"
+            app:layout_anchorGravity="bottom|right|end"
+            android:foreground="?selectableItemBackground"
+            app:cardElevation="5dp"
+            app:pressedTranslationZ="16dp"
+            app:borderWidth="0dp"
+            app:elevation="@dimen/fab_elevation"
+            app:rippleColor="@color/primary_dark"
+            app:cardBackgroundColor="@color/accent_color"
+            card_view:cardCornerRadius="@dimen/default_padding_small"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+            >
+          <TextView
+              android:id="@+id/mCandidateCompareResult"
+              style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+              android:fontFamily="sans-serif-condensed"
+              android:layout_margin="@dimen/spacing_major"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:text="စမည်။"
+              android:gravity="center"/>
+        </android.support.v7.widget.CardView>
+
+        <org.mmaug.mae.game.BoardView
+            android:id="@+id/board"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp"/>
+
+      </LinearLayout>
+
+      <TextView
+          android:gravity="center"
+          android:id="@+id/tv_validity_warning"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:lineSpacingMultiplier="1.3"
+          android:layout_marginLeft="@dimen/spacing_major"
+          android:layout_marginRight="@dimen/spacing_major"
+          android:textColor="@android:color/holo_red_dark"
+          android:text="@string/stamp_warning"/>
+
+      <TextView
+          android:gravity="center"
+          style="@style/TextAppearance.AppCompat.Subhead"
+          android:layout_marginLeft="@dimen/spacing_major"
+          android:layout_marginRight="@dimen/spacing_major"
+          android:layout_marginTop="@dimen/spacing_major"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textColor="@android:color/holo_red_dark"
+          android:text="@string/stamp_title"
+          android:layout_marginBottom="@dimen/spacing_massive"/>
+
+
+    </LinearLayout>
+
+  </ScrollView>
+
+
+</LinearLayout>

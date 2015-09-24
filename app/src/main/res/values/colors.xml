@@ -4,6 +4,7 @@
   <color name="primary_dark">#5653A5</color>
   <color name="primary_light">#C5CAE9</color>
   <color name="accent_color">#4CAF50</color>
+  <color name="accent_color_error">#FF4081</color>
   <color name="primary_text_color">#212121</color>
   <color name="secondary_text_color">#727272</color>
   <color name="divider">#B6B6B6</color>
@@ -13,10 +14,13 @@
   <color name="white">#FFFFFF</color>
   <color name="black">#000000</color>
   <color name="party_candidate">#cc6D60E7</color>
+  <color name="yellow">#FBC02D</color>
 
   <color name="round_corner_progress_bar_background_default">#645f5f5f</color>
   <color name="round_corner_progress_bar_progress_default">#647f7f7f</color>
   <color name="round_corner_progress_bar_secondary_progress_default">@android:color/transparent
   </color>
+
+  <color name="board_background">#E6D3B5</color>
 
 </resources>

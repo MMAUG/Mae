@@ -56,18 +56,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 >
-              <com.github.siyamed.shapeimageview.CircularImageView
+              <ImageView
                   android:layout_width="100dp"
                   android:id="@+id/candidate_one"
-                  android:layout_height="match_parent"
-                  android:src="@drawable/candidate"
-                  app:siBorderWidth="6dp"
+                  android:layout_height="100dp"
                   android:layout_marginLeft="@dimen/spacing_major"
-                  app:siBorderColor="@color/primary_dark"
                   />
 
               <org.mmaug.mae.view.AutofitTextView
                   android:gravity="center"
+                  android:id="@+id/candidateOne_Name"
                   android:layout_marginTop="@dimen/spacing_minor"
                   android:layout_marginBottom="@dimen/spacing_minor"
                   android:padding="@dimen/spacing_minor"
@@ -87,18 +85,16 @@
                   android:layout_height="wrap_content"
                   />
 
-              <com.github.siyamed.shapeimageview.CircularImageView
+              <ImageView
                   android:layout_marginRight="@dimen/spacing_major"
                   android:id="@+id/candidate_two"
                   android:layout_alignParentRight="true"
                   android:layout_width="100dp"
-                  android:layout_height="match_parent"
-                  android:src="@drawable/candidate"
-                  app:siBorderWidth="6dp"
-                  app:siBorderColor="@color/primary"
+                  android:layout_height="100dp"
                   />
 
               <org.mmaug.mae.view.AutofitTextView
+                  android:id="@+id/candidateTwoName"
                   android:layout_marginTop="@dimen/spacing_minor"
                   android:layout_marginBottom="@dimen/spacing_minor"
                   android:gravity="center"
@@ -130,7 +126,6 @@
               <org.mmaug.mae.view.AspectRatioImageView
                   android:id="@+id/party_flag_one"
                   android:layout_alignParentLeft="true"
-                  android:background="@drawable/flag"
                   android:layout_width="80dp"
                   android:layout_height="80dp"
                   />
@@ -138,7 +133,6 @@
               <org.mmaug.mae.view.AspectRatioImageView
                   android:id="@+id/party_flag_two"
                   android:layout_alignParentRight="true"
-                  android:background="@drawable/flag"
                   android:layout_width="80dp"
                   android:layout_height="80dp"
                   />

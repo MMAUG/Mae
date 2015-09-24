@@ -1,10 +1,16 @@
 package org.mmaug.mae.utils;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Point;
 import android.transition.Slide;
 import android.transition.TransitionManager;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -99,5 +105,19 @@ public class MixUtils {
       return input;
     }
     return "";
+  }
+
+  public static float convertDpToPixel(Context context, float dp) {
+    Resources resources = context.getResources();
+    DisplayMetrics metrics = resources.getDisplayMetrics();
+    float px = dp * (metrics.densityDpi / 160f);
+    return px;
+  }
+
+  public static int calculateHeight(WindowManager w) {
+    Display d = w.getDefaultDisplay();
+    Point point = new Point();
+    d.getSize(point);
+    return point.y;
   }
 }
