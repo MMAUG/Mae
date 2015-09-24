@@ -1,6 +1,5 @@
 package org.mmaug.mae.activities;
 
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
@@ -13,7 +12,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.github.florent37.glidepalette.GlidePalette;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.Map;
@@ -41,8 +40,8 @@ public class CandidateCompareActivity extends BaseActivity {
   @Bind(R.id.candidate_two) ImageView candidateTwoView;
   Candidate candidate;
   Candidate candidateCompare;
-  float[] vibrantOne;
-  float[] varantTwo;
+  float[] hslValues = new float[3];
+  float[] darkValue = new float[3];
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -84,12 +83,12 @@ public class CandidateCompareActivity extends BaseActivity {
             RoundCornerProgressBar roundCornerProgressBarTwo =
                 (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate2);
             roundCornerProgressBar.setProgress(PercentageOne);
-            roundCornerProgressBar.setProgressColor(Color.HSVToColor(vibrantOne));
+            roundCornerProgressBar.setProgressColor(Color.HSVToColor(hslValues));
             roundCornerProgressBar.setRotation(180);
             roundCornerProgressBar.setBackgroundColor(Color.WHITE);
 
             roundCornerProgressBarTwo.setProgress(PercentageTwo);
-            roundCornerProgressBarTwo.setProgressColor(Color.HSVToColor(varantTwo));
+            roundCornerProgressBarTwo.setProgressColor(Color.HSVToColor(darkValue));
             questionText.setText(entry.getKey());
             motion_view.addView(question_indicator);
           }
@@ -120,12 +119,12 @@ public class CandidateCompareActivity extends BaseActivity {
           RoundCornerProgressBar roundCornerProgressBarTwo =
               (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate2);
           roundCornerProgressBar.setProgress(PercentageOne);
-          roundCornerProgressBar.setProgressColor(Color.HSVToColor(vibrantOne));
+          roundCornerProgressBar.setProgressColor(Color.HSVToColor(hslValues));
           roundCornerProgressBar.setRotation(180);
           roundCornerProgressBar.setBackgroundColor(Color.WHITE);
 
           roundCornerProgressBarTwo.setProgress(PercentageTwo);
-          roundCornerProgressBarTwo.setProgressColor(Color.HSVToColor(varantTwo));
+          roundCornerProgressBarTwo.setProgressColor(Color.HSVToColor(darkValue));
           questionText.setText(entry.getKey());
           question_showcase.addView(question_indicator);
         }
@@ -181,36 +180,39 @@ public class CandidateCompareActivity extends BaseActivity {
 
     Glide.with(this)
         .load(candidateCompare.getParty().getPartyFlag())
-        .asBitmap()
-        .into(new BitmapImageViewTarget(party_flag_one) {
-          @Override protected void setResource(Bitmap resource) {
-            // Do bitmap magic here
-            super.setResource(resource);
-            Palette.from(resource).generate(new Palette.PaletteAsyncListener() {
-              public void onGenerated(Palette p) {
-                // Use generated instance
-                Palette.Swatch vibrantSwatch = p.getVibrantSwatch();
-                vibrantOne = vibrantSwatch.getHsl();
+        .listener(GlidePalette.with(candidateCompare.getParty().getPartyFlag())
+            .use(GlidePalette.Profile.VIBRANT)
+            .use(GlidePalette.Profile.VIBRANT_DARK)
+            .use(GlidePalette.Profile.VIBRANT_LIGHT)
+            .use(GlidePalette.Profile.MUTED)
+            .use(GlidePalette.Profile.MUTED_DARK)
+            .use(GlidePalette.Profile.MUTED_LIGHT)
+            .intoCallBack(new GlidePalette.CallBack() {
+              @Override public void onPaletteLoaded(Palette palette) {
+                //specific task
+                Palette.Swatch vibrantSwatch = palette.getVibrantSwatch();
+                hslValues = vibrantSwatch.getHsl();
               }
-            });
-          }
-        });
+            }))
+        .into(party_flag_one);
 
     Glide.with(this)
         .load(candidate.getParty().getPartyFlag())
-        .asBitmap()
-        .into(new BitmapImageViewTarget(party_flag_two) {
-          @Override protected void setResource(Bitmap resource) {
-            // Do bitmap magic here
-            super.setResource(resource);
-            Palette.from(resource).generate(new Palette.PaletteAsyncListener() {
-              public void onGenerated(Palette p) {
-                // Use generated instance
-                Palette.Swatch vibrantSwatch = p.getVibrantSwatch();
-                varantTwo = vibrantSwatch.getHsl();
+        .listener(GlidePalette.with(candidate.getParty().getPartyFlag())
+            .use(GlidePalette.Profile.VIBRANT)
+            .use(GlidePalette.Profile.VIBRANT_DARK)
+            .use(GlidePalette.Profile.VIBRANT_LIGHT)
+            .use(GlidePalette.Profile.MUTED)
+            .use(GlidePalette.Profile.MUTED_DARK)
+            .use(GlidePalette.Profile.MUTED_LIGHT)
+            .intoCallBack(new GlidePalette.CallBack() {
+
+              @Override public void onPaletteLoaded(Palette palette) {
+                //specific task
+                Palette.Swatch darkSwatch = palette.getDarkVibrantSwatch();
+                darkValue = darkSwatch.getHsl();
               }
-            });
-          }
-        });
+            }))
+        .into(party_flag_two);
   }
 }
