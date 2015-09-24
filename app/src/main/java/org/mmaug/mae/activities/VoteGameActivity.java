@@ -45,10 +45,10 @@ public class VoteGameActivity extends BaseActivity implements BoardView.GameList
     //top and bottom margin
     int margin = spacingMajor * 3;
     //actionbar size to subtract too
-    int actionBarSzie = (int) MixUtils.convertDpToPixel(this, 56);
+    int actionBarSize = (int) MixUtils.convertDpToPixel(this, 56);
 
     // subtract margin to fix the screen
-    params.height = MixUtils.calculateHeight(getWindowManager()) - (margin + actionBarSzie);
+    params.height = MixUtils.calculateHeight(getWindowManager()) - (margin + actionBarSize);
     mBoardFame.setLayoutParams(params);
 
     //listener for game play

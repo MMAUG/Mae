@@ -22,7 +22,6 @@ public class BoardView extends View {
   private Paint background = new Paint();
   private Paint gridPaint = new Paint();
   private Paint textPaint = new Paint();
-  private Paint signaturePaint = new Paint();
   private ArrayList<Rect> rects; //List of rectangles where the touch of the user needs to be
   // checked
   private int margin;
@@ -54,15 +53,7 @@ public class BoardView extends View {
     //text paint
     textPaint.setColor(res.getColor(R.color.secondary_text_color));
     textPaint.setAntiAlias(true);
-    textPaint.setTextAlign(Paint.Align.LEFT);
     textPaint.setStyle(Paint.Style.FILL);
-
-    signaturePaint.setColor(res.getColor(R.color.secondary_text_color));
-    signaturePaint.setAntiAlias(true);
-    signaturePaint.setTextAlign(Paint.Align.RIGHT);
-    signaturePaint.setTextSize(normalTextSize);
-    signaturePaint.setStyle(Paint.Style.FILL);
-
   }
 
   public void enableTouch(boolean touchMode) {
@@ -99,6 +90,8 @@ public class BoardView extends View {
     // or not
     rects = new ArrayList<>();
 
+    //align left for the top text
+    textPaint.setTextAlign(Paint.Align.LEFT);
     //draw bg
     canvas.drawRect(0, 0, getWidth(), getHeight(), background);
     //draw boundary
@@ -120,9 +113,7 @@ public class BoardView extends View {
 
     //set height and width of table
     int x = canvas.getWidth() - (margin * 2);
-    int y = canvas.getHeight() - (marginTop + (margin * 4)); // to get square for second &
-    // third
-    // cell
+    int y = canvas.getHeight() - (marginTop + (margin * 4));
 
     //this is the top point of the rectangle and it will need to be recalculated
     //when rows are added
@@ -144,11 +135,13 @@ public class BoardView extends View {
       addRow(top, x, y);
     }
 
+    //align left for the signature text
+    textPaint.setTextAlign(Paint.Align.RIGHT);
     int signatureTop = marginTop + (getBigCellHeight(y) * 3) + (padding * 2) + (marginSmall * 2);
     canvas.drawText(res.getString(R.string.signature_line_1), canvas.getWidth() - margin,
-        signatureTop, signaturePaint);
+        signatureTop, textPaint);
     canvas.drawText(res.getString(R.string.signature_line_2), canvas.getWidth() - margin,
-        signatureTop + marginSmall * 2, signaturePaint);
+        signatureTop + marginSmall * 2, textPaint);
   }
 
   @Override protected void onDraw(Canvas canvas) {
