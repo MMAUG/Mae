@@ -32,7 +32,7 @@ public class BoardView extends View {
     super(context, attrs);
     res = getResources();
     marginLeft = (int) MixUtils.convertDpToPixel(context, 16);
-    marginTop = (int) MixUtils.convertDpToPixel(context, 130);
+    marginTop = (int) MixUtils.convertDpToPixel(context, 160);
     padding = (int) MixUtils.convertDpToPixel(context, 4);
 
   }

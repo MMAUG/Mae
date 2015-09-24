@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -15,6 +17,7 @@ import hu.aut.utillib.circular.animation.CircularAnimationUtils;
 import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.game.BoardView;
+import org.mmaug.mae.utils.MixUtils;
 
 /**
  * Created by poepoe on 24/9/15.
@@ -22,10 +25,25 @@ import org.mmaug.mae.game.BoardView;
 public class VoteGameActivity extends BaseActivity implements BoardView.GameListener {
 
   @Bind(R.id.board) BoardView mBoardView;
+  @Bind(R.id.ll_board_frame) LinearLayout mBoardFame;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     ButterKnife.bind(this);
+
+    // set height for paper
+    ViewGroup.LayoutParams params = mBoardFame.getLayoutParams();
+
+    //top and bottom margin
+    int margin = (int) MixUtils.convertDpToPixel(this, 16) * 3;
+    //actionbar size to subtract too
+    int actionBarSzie = (int) MixUtils.convertDpToPixel(this, 56);
+
+    // subtract margin to fix the screen
+    params.height = MixUtils.calculateHeight(getWindowManager()) - (margin + actionBarSzie);
+    mBoardFame.setLayoutParams(params);
+
+    //listener for game play
     mBoardView.setGameListener(this);
   }
 

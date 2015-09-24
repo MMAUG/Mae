@@ -30,45 +30,51 @@
           android:lineSpacingMultiplier="1.3"
           android:gravity="center"/>
 
-      <android.support.v7.widget.CardView
-          android:orientation="horizontal"
-          android:padding="@dimen/spacing_major"
-          android:background="@color/white"
-          android:id="@+id/cardview_start_game"
+      <LinearLayout
+          android:id="@+id/ll_board_frame"
+          android:orientation="vertical"
           android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_margin="@dimen/spacing_major"
-          app:layout_anchorGravity="bottom|right|end"
-          android:foreground="?selectableItemBackground"
-          app:cardElevation="5dp"
-          app:pressedTranslationZ="16dp"
-          app:borderWidth="0dp"
-          app:elevation="@dimen/fab_elevation"
-          app:rippleColor="@color/primary_dark"
-          app:cardBackgroundColor="@color/accent_color"
-          card_view:cardCornerRadius="@dimen/default_padding_small"
-          app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
-          >
-        <TextView
-            android:id="@+id/mCandidateCompareResult"
-            style="@style/TextAppearance.AppCompat.Subhead.Inverse"
-            android:fontFamily="sans-serif-condensed"
-            android:layout_margin="@dimen/spacing_major"
+          android:layout_height="100dp"
+          android:layout_margin="@dimen/spacing_major">
+
+        <android.support.v7.widget.CardView
+            android:orientation="horizontal"
+            android:padding="@dimen/spacing_major"
+            android:background="@color/white"
+            android:id="@+id/cardview_start_game"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="စမည်။"
-            android:gravity="center"/>
-      </android.support.v7.widget.CardView>
+            android:layout_marginBottom="@dimen/spacing_major"
+            app:layout_anchorGravity="bottom|right|end"
+            android:foreground="?selectableItemBackground"
+            app:cardElevation="5dp"
+            app:pressedTranslationZ="16dp"
+            app:borderWidth="0dp"
+            app:elevation="@dimen/fab_elevation"
+            app:rippleColor="@color/primary_dark"
+            app:cardBackgroundColor="@color/accent_color"
+            card_view:cardCornerRadius="@dimen/default_padding_small"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+            >
+          <TextView
+              android:id="@+id/mCandidateCompareResult"
+              style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+              android:fontFamily="sans-serif-condensed"
+              android:layout_margin="@dimen/spacing_major"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:text="စမည်။"
+              android:gravity="center"/>
+        </android.support.v7.widget.CardView>
 
-      <org.mmaug.mae.game.BoardView
-          android:id="@+id/board"
-          android:layout_marginTop="@dimen/spacing_minor"
-          android:layout_marginLeft="@dimen/spacing_major"
-          android:layout_marginRight="@dimen/spacing_major"
-          android:layout_marginBottom="@dimen/spacing_massive"
-          android:layout_width="match_parent"
-          android:layout_height="500dp"/>
+        <org.mmaug.mae.game.BoardView
+            android:id="@+id/board"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp"/>
+
+      </LinearLayout>
 
     </LinearLayout>
 
