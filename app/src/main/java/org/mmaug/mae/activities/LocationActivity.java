@@ -2,6 +2,7 @@ package org.mmaug.mae.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.Bind;
@@ -173,6 +174,13 @@ public class LocationActivity extends BaseActivity{
     } catch (ParseException e) {
       e.printStackTrace();
     }
+  }
 
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == android.R.id.home) {
+      super.onBackPressed();
+      return true;
+    }
+    return false;
   }
 }

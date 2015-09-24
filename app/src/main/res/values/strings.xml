@@ -30,4 +30,26 @@
   <string name="question_header">မေးခဲဖူးသည့် ကဏ္ဍများ</string>
   <string name="candidate_address">နေရပ်</string>
   <string name="party">ပါတီ</string>
+  <string name="party_leader">ပါတီခေါင်းဆောင်ပိုင်း</string>
+  <string name="leader">ဥက္ကဌ</string>
+  <string name="party_contact">ဆက်သွယ်ရန်</string>
+  <string name="head_quarter">ရုံးချုပ်</string>
+  <string name="phone">ဖုန်း</string>
+  <string name="first_time_candidate">ပထမဆုံး အကြိမ်ဝင်ရောက်ယှဉ်ပြိုင်ချင်းဖြစ်ပါသည်</string>
+  <string name="how_to_vote_placeholder_text">
+    <![CDATA[ <b><font color=#CC0033>*</b> %s]]></string>
+  <string name="game_rule">အောက်ပါစာရွက်အညိုသည် မဲပေးရန် စာရွက်အတိုင်း ပုံစံချထားခြင်း
+    ဖြစ်သည်။ ထိုစာရွက်ပေါ်တွင် တံဆိပ်တုံး ရိုက်နှိပ်သကဲ့သို့ မိမိလက်ဖြင့်
+    နှိပ်ကြည့်ခြင်းဖြင့် မည်သို့သောမဲများသည် ခိုင်လုံမဲ၊ ပယ်မဲဖြစ်သည်ကို စမ်းသပ်ပါ။</string>
+
+  <!-- how to vote dialog strings-->
+  <string name="correct">မှန်ပါသည်။</string>
+  <string name="correct_vote">ပေးခဲ့သောမဲသည် ခိုင်လုံမဲဖြစ်ပါသည်။</string>
+  <string name="correct_vote_message">မဲဆန္ဒရှင်တိုင်းသည် အမှန်ခြစ်တံဆိပ်ကို မိမိဆန္ဒပြုလိုသော
+    ကိုယ်စားလှယ်လောင်း၏ ညာဘက်ရှိအကွက်တွင် လုံးဝဝင်နေအောင် နှိပ်လိုက်ခြင်းသာ
+    အကောင်းဆုံးဖြစ်သည်။
+  </string>
+  <string name="be_careful">သေချာဂရုစိုက်ပါ</string>
+  <string name="incorrect_vote">မိမိ၏ အဖိုးတန်မဲအား ပယ်မဲမဖြစ်စေရန် သေချာဂရုစိုက်ပါ။</string>
+  <string name="incorrect_vote_message">* %s</string>
 </resources>

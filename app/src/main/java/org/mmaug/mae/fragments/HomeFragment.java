@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Random;
 import org.mmaug.mae.R;
 import org.mmaug.mae.activities.CandidateListActivity;
+import org.mmaug.mae.activities.HowToVoteActivity;
 import org.mmaug.mae.activities.LocationActivity;
 import org.mmaug.mae.activities.PartyListActivity;
 import org.mmaug.mae.utils.MixUtils;
@@ -89,7 +90,6 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_home, container, false);
     ButterKnife.bind(this, view);
-
     try {
 
       new CountDownTimer(MixUtils.calculateTimeLeftToVote(), 1000) {
@@ -144,8 +144,13 @@ public class HomeFragment extends android.support.v4.app.Fragment {
   }
 
   @OnClick(R.id.tv_party_list) public void partyList(TextView cardView) {
-    Intent mapIntent = new Intent(getActivity(), PartyListActivity.class);
-    startActivity(mapIntent);
+    Intent intent = new Intent(getActivity(), PartyListActivity.class);
+    startActivity(intent);
+  }
+
+  @OnClick(R.id.cardview_how_to_vote) public void howToVote() {
+    Intent intent = new Intent(getActivity(), HowToVoteActivity.class);
+    startActivity(intent);
   }
 
   @OnClick(R.id.tvThumb) public void showVoteResult(TextView textView) {

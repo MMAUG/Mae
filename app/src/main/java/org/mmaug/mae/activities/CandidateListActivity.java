@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +33,7 @@ public class CandidateListActivity extends BaseActivity
 
   @Bind(R.id.rv_candidate_list) RecyclerView mRecyclerView;
   @Bind(R.id.pb_candidate_list) ProgressBar mProgressBar;
-
+  Candidate candidateFromDetail;
   private CandidateAdapter candidateAdapter;
   private SectionHeaderAdapter sectionAdapter;
 
@@ -55,6 +58,7 @@ public class CandidateListActivity extends BaseActivity
     ButterKnife.bind(this);
     initRecyclerView();
     fetchCandidate();
+    candidateFromDetail = (Candidate) getIntent().getSerializableExtra(Config.CANDIDATE);
   }
 
   private void initRecyclerView() {
@@ -86,6 +90,13 @@ public class CandidateListActivity extends BaseActivity
       @Override public void onResponse(Response<CandidateListReturnObject> response) {
         List<Candidate> candidates = response.body().getData();
 
+        //sort
+        Collections.sort(candidates, new Comparator<Candidate>() {
+          @Override public int compare(Candidate lhs, Candidate rhs) {
+            return rhs.getLegislature().compareTo(lhs.getLegislature());
+          }
+        });
+
         //header section
         List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
 
@@ -109,6 +120,7 @@ public class CandidateListActivity extends BaseActivity
       }
 
       @Override public void onFailure(Throwable t) {
+        t.printStackTrace();
         showHideProgressBar(false);
       }
     });
@@ -127,8 +139,23 @@ public class CandidateListActivity extends BaseActivity
 
   @Override public void onItemClick(Candidate candidate) {
     //list item click
-    Intent intent = new Intent(this, CandidateDetailActivity.class);
-    intent.putExtra(Config.CANDIDATE, candidate);
-    startActivity(intent);
+    if (candidateFromDetail != null) {
+      Intent intent = new Intent(this, CandidateCompareActivity.class);
+      intent.putExtra(Config.CANDIDATE, candidate);
+      intent.putExtra(Config.CANDIDATE_COMPARE, candidateFromDetail);
+      startActivity(intent);
+    } else {
+      Intent intent = new Intent(this, CandidateDetailActivity.class);
+      intent.putExtra(Config.CANDIDATE, candidate);
+      startActivity(intent);
+    }
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == android.R.id.home) {
+      super.onBackPressed();
+      return true;
+    }
+    return false;
   }
 }
