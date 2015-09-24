@@ -52,4 +52,8 @@
   <string name="be_careful">သေချာဂရုစိုက်ပါ</string>
   <string name="incorrect_vote">မိမိ၏ အဖိုးတန်မဲအား ပယ်မဲမဖြစ်စေရန် သေချာဂရုစိုက်ပါ။</string>
   <string name="incorrect_vote_message">* %s</string>
+  <string name="stamp_title">တံဆိပ်တုံးအား တစ်ကြိမ်သာ နှိပ်ပါရန်</string>
+  <string name="stamp_warning">အထူးသတိပြုရန်။ ။ တံဆိပ်တုံးနှိပ်ရာတွင်
+    မထင်ရှားမှာစိုးသည့်စိတ်ဖြင့် တံဆိပ်တုံးအား တစ်ကြိမ်ထက် ပို၍ မနှိပ်မိရန် ဂရုစိုက်ပါ။
+  </string>
 </resources>
