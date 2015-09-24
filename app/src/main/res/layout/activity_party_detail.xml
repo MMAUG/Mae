@@ -290,7 +290,7 @@
                 android:layout_marginLeft="@dimen/default_padding_large"
                 android:layout_marginRight="@dimen/default_padding_large"
                 android:layout_marginTop="@dimen/default_padding_large"
-                android:text="ယခုနှစ်ဝင်ဘောက်ပြိုင်သည့်ဦးရေ"/>
+                android:text="@string/current_count_header"/>
             <android.support.v7.widget.CardView
                 android:orientation="horizontal"
                 android:padding="@dimen/spacing_major"
@@ -313,7 +313,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-                    <include layout="@layout/toy_figure"/>
+                    <
+                    <TextView
+                        android:text="ဝင်ရောက်အရွေးခံသည့်လူ စုစုပေါင်း ၁၄၀၀ တွင်"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/spacing_minor"/>
+                    <include
+                        android:id="@+id/this_year_toys"
+                        layout="@layout/toy_figure"/>
+                    <TextView
+                        android:text="ဤပါတီမှ ၂၀ဦး ဝင်ယောက်ယှဥ်ပြိုင်မည် ဖြစ်ပါသည်"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/spacing_minor"/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -324,7 +339,7 @@
                 android:layout_marginLeft="@dimen/default_padding_large"
                 android:layout_marginRight="@dimen/default_padding_large"
                 android:layout_marginTop="@dimen/default_padding_large"
-                android:text="ယခင်နှစ်ဝင်ဘောက်ပြိုင်သည့်ဦးရေ"/>
+                android:text="@string/previous_count_header"/>
             <android.support.v7.widget.CardView
                 android:orientation="horizontal"
                 android:padding="@dimen/spacing_major"
