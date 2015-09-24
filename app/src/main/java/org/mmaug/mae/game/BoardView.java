@@ -5,9 +5,11 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 import java.util.ArrayList;
 import org.mmaug.mae.R;
 import org.mmaug.mae.utils.MixUtils;
@@ -17,11 +19,12 @@ import org.mmaug.mae.utils.MixUtils;
  */
 public class BoardView extends View {
 
+  private Context mContext;
   private Resources res;
   private Canvas canvas;
   private Paint background = new Paint();
   private Paint gridPaint = new Paint();
-  private Paint textPaint = new Paint();
+  private TextPaint textPaint = new TextPaint();
   private ArrayList<Rect> rects; //List of rectangles where the touch of the user needs to be
   // checked
   private int margin;
@@ -34,14 +37,16 @@ public class BoardView extends View {
 
   public BoardView(Context context, AttributeSet attrs) {
     super(context, attrs);
+
+    mContext = context;
     res = getResources();
 
     margin = (int) MixUtils.convertDpToPixel(context, 16);
-    marginSmall = (int) MixUtils.convertDpToPixel(context, 11);
+    marginSmall = (int) MixUtils.convertDpToPixel(context, 12);
     padding = (int) MixUtils.convertDpToPixel(context, 4);
 
     titleTextSize = (int) MixUtils.convertDpToPixel(context, 14);
-    normalTextSize = (int) MixUtils.convertDpToPixel(context, 11);
+    normalTextSize = (int) MixUtils.convertDpToPixel(context, 12);
     //background rect paint
     background.setColor(res.getColor(R.color.board_background));
 
@@ -97,28 +102,18 @@ public class BoardView extends View {
     //draw boundary
     canvas.drawRect(0, 0, getWidth(), getHeight(), gridPaint);
 
-    //draw text
-    textPaint.setTextSize(titleTextSize);
-    canvas.drawText(res.getString(R.string.example_state_legislature), margin, marginSmall * 2,
-        textPaint);
-    canvas.drawText(res.getString(R.string.example_township), margin, margin * 3, textPaint);
+    //textPaint.setTextSize(titleTextSize);
+    String title = res.getString(R.string.example_state_legislature);
+    drawTextOnCanvas(title, margin, marginSmall, 14);
 
-    textPaint.setTextSize(normalTextSize);
-    canvas.drawText(res.getString(R.string.example_voting_step_1), margin, margin * 4 + padding,
-        textPaint);
-    canvas.drawText(res.getString(R.string.sub_string), margin + margin + padding,
-        margin * 5 + padding, textPaint);
-    canvas.drawText(res.getString(R.string.example_voting_step_2), margin, margin * 6 + padding,
-        textPaint);
-    canvas.drawText(res.getString(R.string.sub_string), margin + margin + padding,
-        margin * 7 + padding, textPaint);
-    canvas.drawText(res.getString(R.string.example_voting_step_3), margin, margin * 8 + padding,
-        textPaint);
-    int marginTop = margin * 9;
+    char c = '\u2713';
+    String votingMessage = res.getString(R.string.example_voting_step_1, c, c);
+    drawTextOnCanvas(votingMessage, margin, margin * 3 + marginSmall, 12);
 
+    int marginTop = margin * 12;
     //set height and width of table
     int x = canvas.getWidth() - (margin * 2);
-    int y = canvas.getHeight() - (marginTop + (margin * 3));
+    int y = getSmallCellWidth(x) * 3;
 
     //this is the top point of the rectangle and it will need to be recalculated
     //when rows are added
@@ -141,12 +136,23 @@ public class BoardView extends View {
     }
 
     //align left for the signature text
+    textPaint.setTextSize(normalTextSize);
     textPaint.setTextAlign(Paint.Align.RIGHT);
-    int signatureTop = marginTop + (getBigCellHeight(y) * 3) + (padding * 2) + margin;
+    int signatureTop = marginTop + (getBigCellHeight(y) * 3) + marginSmall + margin;
     canvas.drawText(res.getString(R.string.signature_line_1), canvas.getWidth() - margin,
         signatureTop, textPaint);
     canvas.drawText(res.getString(R.string.signature_line_2), canvas.getWidth() - margin,
         signatureTop + margin, textPaint);
+  }
+
+  /**
+   * @return text height
+   */
+  private float getTextHeight(String text, Paint paint) {
+
+    Rect rect = new Rect();
+    paint.getTextBounds(text, 0, text.length(), rect);
+    return rect.height();
   }
 
   @Override protected void onDraw(Canvas canvas) {
@@ -212,5 +218,28 @@ public class BoardView extends View {
 
   public interface GameListener {
     void checkValidity(ValidityStatus status);
+  }
+
+  private void drawTextOnCanvas(String text, int x, int y, int textSize) {
+    TextView tv = new TextView(mContext);
+    // setup text
+    tv.setText(text);
+    tv.setTextColor(res.getColor(R.color.secondary_text_color));
+    tv.setTextSize(textSize);
+    tv.setSingleLine(false);
+    tv.setLineSpacing(0.0f, 1.2f);
+    tv.setDrawingCacheEnabled(true);
+
+    // we need to setup how big the view should be..which is exactly as big as the canvas
+    tv.measure(MeasureSpec.makeMeasureSpec(canvas.getWidth(), MeasureSpec.EXACTLY),
+        MeasureSpec.makeMeasureSpec(canvas.getHeight(), MeasureSpec.EXACTLY));
+
+    // assign the layout values to the textview
+    tv.layout(0, 0, tv.getMeasuredWidth(), tv.getMeasuredHeight());
+
+    // draw the bitmap from the drawingcache to the canvas
+    canvas.drawBitmap(tv.getDrawingCache(), x, y, background);
+    // disable drawing cache
+    tv.setDrawingCacheEnabled(false);
   }
 }

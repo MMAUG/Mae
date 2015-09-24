@@ -2,7 +2,8 @@
   <string name="app_name">Mae</string>
   <string name="hello_world">Hello world!</string>
   <string name="action_settings"
-      >Settings</string>
+      >Settings
+  </string>
   <string name="user_name">User Name</string>
   <string name="user_dob">Date Of Birth</string>
   <string name="choose_avatar">Choose One Avater</string>
@@ -13,7 +14,9 @@
   <string name="check_voter">မဲစာရင်းစစ်ရန်\nအချက်အလက်ထည့်ပါ</string>
   <string name="congrat">ဂုဏ်ယူပါတယ်</string>
   <string name="voter_check_ok">မဲပေးခွင့်ရှိသူတစ်ယောက်အဖြစ် မဲစာရင်းတွင် ပါ၀င်ပါသည်</string>
-  <string name="voter_check_not_ok">သင့်နာမည်အား အွန်လိုင်းရှိ မဲဆန္ဒရှင်စာရင်းတွင် ရှာမတွေ့ပါ။ မိမိမြို့နယ်ရှိ မဲဆန္ဒရှင်စာရင်းတွင် ပြန်လည် သွားရောက်စစ်ဆေးရန် အကြံပြုပါသည်</string>
+  <string name="voter_check_not_ok">သင့်နာမည်အား အွန်လိုင်းရှိ မဲဆန္ဒရှင်စာရင်းတွင် ရှာမတွေ့ပါ။
+    မိမိမြို့နယ်ရှိ မဲဆန္ဒရှင်စာရင်းတွင် ပြန်လည် သွားရောက်စစ်ဆေးရန် အကြံပြုပါသည်
+  </string>
   <string name="recheck_data">အချက်အလက်ပြန်ကြည့်မည်</string>
   <string name="ok_myan">ကောင်းပြီ</string>
   <string name="recheck">ပြန်လည်စစ်ဆေးပါ</string>
@@ -42,7 +45,8 @@
   <string name="current_count_header">ယခုနှစ်ဝင်ယောက်ပြိုင်သည့်ဦးရေ</string>
   <string name="game_rule">အောက်ပါစာရွက်အညိုသည် မဲပေးရန် စာရွက်အတိုင်း ပုံစံချထားခြင်း
     ဖြစ်သည်။ ထိုစာရွက်ပေါ်တွင် တံဆိပ်တုံး ရိုက်နှိပ်သကဲ့သို့ မိမိလက်ဖြင့်
-    နှိပ်ကြည့်ခြင်းဖြင့် မည်သို့သောမဲများသည် ခိုင်လုံမဲ၊ ပယ်မဲဖြစ်သည်ကို စမ်းသပ်ပါ။</string>
+    နှိပ်ကြည့်ခြင်းဖြင့် မည်သို့သောမဲများသည် ခိုင်လုံမဲ၊ ပယ်မဲဖြစ်သည်ကို စမ်းသပ်ပါ။
+  </string>
 
   <!-- vote validity dialog strings-->
   <string name="check">စစ်မည်</string>
@@ -60,17 +64,14 @@
     မထင်ရှားမှာစိုးသည့်စိတ်ဖြင့် တံဆိပ်တုံးအား တစ်ကြိမ်ထက် ပို၍ မနှိပ်မိရန် ဂရုစိုက်ပါ။
   </string>
   <!-- ballot paper strings-->
-  <string name="example_state_legislature">သစ်သီးတိုင်း ဒေသကြီး ပြည်သူ့လွှတ်တော်</string>
-  <string name="example_township">ညောင်သီးမြို့နယ် မဲဆန္ဒနယ်</string>
-  <string name="example_voting_step_1">(က) မဲပေးလိုသော ကိုယ်စားလှယ်လောင်း၏ အမည်တည့်တည့်
-    လေးထောင့်
+  <string name="example_state_legislature">သစ်သီးတိုင်း ဒေသကြီး ပြည်သူ့လွှတ်တော်\nညောင်သီးမြို့နယ်
+    မဲဆန္ဒနယ်
   </string>
-  <string name="example_voting_step_2">(ခ) ကြိုတင်မဲပေးလိုသော ကိုယ်စားလှယ်လောင်း၏ အမည်တည့်တည့်
-    လေးထောင့်
+  <string name="example_voting_step_1">(က) မဲပေးလိုသော ကိုယ်စားလှယ်လောင်း၏အမည် တည့်တည့်
+    လေးထောင့်အကွက်ထဲတွင် အမှန်အမှတ်အသား %1$s တံဆိပ်တုံးဖြင့် ရိုက်နှိပ်ပေးပါ။\n (ခ)
+    ကြိုတင်မဲပေးလိုသော ကိုယ်စားလှယ်လောင်း၏ အမည်တည့်တည့် လေးထောင့်အကွက်ထဲတွင် အမှန်အမှတ်အသား %2$s
+    တံဆိပ်တုံးဖြင့် ရိုက်နှိပ်ပေးပါ။ \n(ဂ) ကိုယ်စားလှယ်လောင်း တစ်ဦးထက်ပို၍ မဲမပေးရပါ။
   </string>
-  <string name="sub_string">အကွက်ထဲတွင် အမှန်အမှတ်အသား \"u2713\" တံဆိပ်တုံးဖြင့် ရိုက်နှိပ်ပေးပါ။
-  </string>
-  <string name="example_voting_step_3">(ဂ) ကိုယ်စားလှယ်လောင်း တစ်ဦးထက်ပို၍ မဲမပေးရပါ။</string>
   <string name="example_candidate_1">ဦးငှက်ပျောသီး</string>
   <string name="example_candidate_2">ဒေါ်ဖရဲသီး</string>
   <string name="example_candidate_3">ဦ:ပန်းသီး</string>
