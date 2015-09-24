@@ -33,7 +33,7 @@ public class CandidateListActivity extends BaseActivity
 
   @Bind(R.id.rv_candidate_list) RecyclerView mRecyclerView;
   @Bind(R.id.pb_candidate_list) ProgressBar mProgressBar;
-
+  Candidate candidateFromDetail;
   private CandidateAdapter candidateAdapter;
   private SectionHeaderAdapter sectionAdapter;
 
@@ -58,6 +58,7 @@ public class CandidateListActivity extends BaseActivity
     ButterKnife.bind(this);
     initRecyclerView();
     fetchCandidate();
+    candidateFromDetail = (Candidate) getIntent().getSerializableExtra(Config.CANDIDATE);
   }
 
   private void initRecyclerView() {
@@ -138,9 +139,16 @@ public class CandidateListActivity extends BaseActivity
 
   @Override public void onItemClick(Candidate candidate) {
     //list item click
-    Intent intent = new Intent(this, CandidateDetailActivity.class);
-    intent.putExtra(Config.CANDIDATE, candidate);
-    startActivity(intent);
+    if (candidateFromDetail != null) {
+      Intent intent = new Intent(this, CandidateCompareActivity.class);
+      intent.putExtra(Config.CANDIDATE, candidate);
+      intent.putExtra(Config.CANDIDATE_COMPARE, candidateFromDetail);
+      startActivity(intent);
+    } else {
+      Intent intent = new Intent(this, CandidateDetailActivity.class);
+      intent.putExtra(Config.CANDIDATE, candidate);
+      startActivity(intent);
+    }
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {

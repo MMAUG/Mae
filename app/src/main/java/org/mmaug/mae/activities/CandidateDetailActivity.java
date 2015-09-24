@@ -76,6 +76,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.candidate_detail_party) TextView mCandidateParty;
   @Bind(R.id.candidate_detail_address) TextView mCandidateAddress;
   @Bind(R.id.compare_candidate_card) CardView mCompareCandidate;
+  @Bind(R.id.mCandidateCompareResult) TextView mCandidateCompareResult;
   AppBarLayout.OnOffsetChangedListener mListener;
   Candidate candidate;
   private RESTService mRESTService;
@@ -139,6 +140,10 @@ public class CandidateDetailActivity extends AppCompatActivity {
     Glide.with(this).load(candidate.getParty().getPartyFlag()).
         bitmapTransform(new BlurTransformation(getApplicationContext(), 8, 1)).into(partyImage);
     candidateName.setText(candidate.getName());
+    if (candidate.getMpid() == null) {
+      mCompareCandidate.setBackgroundColor(getResources().getColor(R.color.accent_color_error));
+      mCandidateCompareResult.setText(getResources().getString(R.string.first_time_candidate));
+    }
 
     //Glide.with(this)
     //    .load(candidate.getPhotoUrl())
@@ -289,7 +294,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
       @Override public void onClick(View view) {
         Toast.makeText(CandidateDetailActivity.this, "MPID" + candidate.getMpid(),
             Toast.LENGTH_LONG).show();
-        Intent i = new Intent(CandidateDetailActivity.this, CandidateCompareActivity.class);
+        Intent i = new Intent(CandidateDetailActivity.this, CandidateListActivity.class);
+        i.putExtra(Config.CANDIDATE, candidate);
         startActivity(i);
       }
     });

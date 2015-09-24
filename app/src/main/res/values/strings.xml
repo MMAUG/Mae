@@ -35,6 +35,7 @@
   <string name="party_contact">ဆက်သွယ်ရန်</string>
   <string name="head_quarter">ရုံးချုပ်</string>
   <string name="phone">ဖုန်း</string>
+  <string name="first_time_candidate">ပထမဆုံး အကြိမ်ဝင်ရောက်ယှဉ်ပြိုင်ချင်းဖြစ်ပါသည်</string>
   <string name="how_to_vote_placeholder_text">
     <![CDATA[ <b><font color=#CC0033>*</b> %s]]></string>
 </resources>
