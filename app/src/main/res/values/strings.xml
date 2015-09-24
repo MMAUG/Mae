@@ -43,6 +43,7 @@
     နှိပ်ကြည့်ခြင်းဖြင့် မည်သို့သောမဲများသည် ခိုင်လုံမဲ၊ ပယ်မဲဖြစ်သည်ကို စမ်းသပ်ပါ။</string>
 
   <!-- how to vote dialog strings-->
+  <string name="check">စစ်မည်</string>
   <string name="correct">မှန်ပါသည်။</string>
   <string name="correct_vote">ပေးခဲ့သောမဲသည် ခိုင်လုံမဲဖြစ်ပါသည်။</string>
   <string name="correct_vote_message">မဲဆန္ဒရှင်တိုင်းသည် အမှန်ခြစ်တံဆိပ်ကို မိမိဆန္ဒပြုလိုသော
