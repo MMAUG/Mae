@@ -16,9 +16,8 @@ import java.util.Comparator;
  */
 public class SectionHeaderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-  private final Context mContext;
   private static final int SECTION_TYPE = 0;
-
+  private final Context mContext;
   private boolean mValid = true;
   private int mSectionResourceId;
   private int mTextResourceId;
@@ -67,16 +66,6 @@ public class SectionHeaderAdapter extends RecyclerView.Adapter<RecyclerView.View
     });
   }
 
-  public static class SectionViewHolder extends RecyclerView.ViewHolder {
-
-    public TextView title;
-
-    public SectionViewHolder(View view, int mTextResourceid) {
-      super(view);
-      title = (TextView) view.findViewById(mTextResourceid);
-    }
-  }
-
   @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int typeView) {
     if (typeView == SECTION_TYPE) {
       final View view = LayoutInflater.from(mContext).inflate(mSectionResourceId, parent, false);
@@ -97,21 +86,6 @@ public class SectionHeaderAdapter extends RecyclerView.Adapter<RecyclerView.View
   @Override public int getItemViewType(int position) {
     return isSectionHeaderPosition(position) ? SECTION_TYPE
         : mBaseAdapter.getItemViewType(sectionedPositionToPosition(position)) + 1;
-  }
-
-  public static class Section {
-    int firstPosition;
-    int sectionedPosition;
-    String title;
-
-    public Section(int firstPosition, String title) {
-      this.firstPosition = firstPosition;
-      this.title = title;
-    }
-
-    public String getTitle() {
-      return title;
-    }
   }
 
   public void setSections(Section[] sections) {
@@ -171,5 +145,30 @@ public class SectionHeaderAdapter extends RecyclerView.Adapter<RecyclerView.View
 
   @Override public int getItemCount() {
     return (mValid ? mBaseAdapter.getItemCount() + mSections.size() : 0);
+  }
+
+  public static class SectionViewHolder extends RecyclerView.ViewHolder {
+
+    public TextView title;
+
+    public SectionViewHolder(View view, int mTextResourceid) {
+      super(view);
+      title = (TextView) view.findViewById(mTextResourceid);
+    }
+  }
+
+  public static class Section {
+    int firstPosition;
+    int sectionedPosition;
+    String title;
+
+    public Section(int firstPosition, String title) {
+      this.firstPosition = firstPosition;
+      this.title = title;
+    }
+
+    public String getTitle() {
+      return title;
+    }
   }
 }

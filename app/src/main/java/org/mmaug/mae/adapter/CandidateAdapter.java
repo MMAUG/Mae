@@ -64,6 +64,10 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.Cand
     return candidates.size();
   }
 
+  public interface OnItemClickListener {
+    void onItemClick(Candidate candidate);
+  }
+
   class CandidateViewHolder extends RecyclerView.ViewHolder {
 
     @Bind(R.id.tv_candidate_name) AutofitTextView tvCandidateName;
@@ -92,9 +96,5 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.Cand
           .diskCacheStrategy(DiskCacheStrategy.ALL)
           .into(ivPartyFlag);
     }
-  }
-
-  public interface OnItemClickListener {
-    void onItemClick(Candidate candidate);
   }
 }

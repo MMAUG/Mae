@@ -38,7 +38,7 @@ public class PartyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
   }
 
   @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-    if(holder instanceof PartyViewHolder) {
+    if (holder instanceof PartyViewHolder) {
       Party party = mParties.get(position);
       ((PartyViewHolder) holder).mPartyNameMyanmar.setText(party.getPartyName());
       List<String> leaders = party.getLeadership();

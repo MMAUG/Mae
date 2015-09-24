@@ -24,7 +24,7 @@ public class AspectRatioImageView extends ImageView {
 
   @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     int width = View.MeasureSpec.getSize(widthMeasureSpec);
-    int height = width/2;
-    setMeasuredDimension(width,height);
+    int height = width / 2;
+    setMeasuredDimension(width, height);
   }
 }

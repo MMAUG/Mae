@@ -12,16 +12,9 @@ import android.view.ViewTreeObserver;
 
 public class CircleView extends View {
 
-  private int color = Color.parseColor("#dfdfdf");
   private final Paint drawPaint;
+  private int color = Color.parseColor("#dfdfdf");
   private float size;
-
-  public void setColorHex(int color) {
-    this.color = color;
-    drawPaint.setColor(this.color);
-    drawPaint.setAntiAlias(true);
-    invalidate();
-  }
 
   public CircleView(final Context context, final AttributeSet attrs) {
     super(context, attrs);
@@ -29,6 +22,13 @@ public class CircleView extends View {
     drawPaint.setColor(color);
     drawPaint.setAntiAlias(true);
     setOnMeasureCallback();
+  }
+
+  public void setColorHex(int color) {
+    this.color = color;
+    drawPaint.setColor(this.color);
+    drawPaint.setAntiAlias(true);
+    invalidate();
   }
 
   @Override protected void onDraw(final Canvas canvas) {

@@ -21,7 +21,7 @@ public class PartyDetailActivity extends AppCompatActivity {
   @Bind(R.id.party_date) TextView mPartyDate;
   @Bind(R.id.party_number) TextView mPartyNumber;
   @Bind(R.id.party_name) TextView mPartyName;
-  @Bind(R.id.constituency)TextView mConstituency;
+  @Bind(R.id.constituency) TextView mConstituency;
   @Bind(R.id.party_headquarter) TextView mPartyHeadQuarter;
   @Bind(R.id.party_leader) TextView mPartyLeader;
   @Bind(R.id.party_phone) TextView mPartyPhone;
@@ -44,24 +44,24 @@ public class PartyDetailActivity extends AppCompatActivity {
     mPartyName.setText(party.getPartyName());
     mConstituency.setText(party.getRegion());
     List<String> leaders = party.getLeadership();
-    for(String leader:leaders){
-      if(leaders.indexOf(leader)+1==leaders.size()){
+    for (String leader : leaders) {
+      if (leaders.indexOf(leader) + 1 == leaders.size()) {
         mPartyLeader.append(leader);
-      }else{
-        mPartyLeader.append(leader+"\n");
+      } else {
+        mPartyLeader.append(leader + "\n");
       }
     }
     mPartyHeadQuarter.setText(party.getHeadquarters());
     List<String> contacts = party.getContact();
-    for(String contact:contacts){
-      if(leaders.indexOf(contact)+1==leaders.size()){
+    for (String contact : contacts) {
+      if (leaders.indexOf(contact) + 1 == leaders.size()) {
         mPartyLeader.append(contact);
-      }else{
-        mPartyLeader.append(contact+"\n");
+      } else {
+        mPartyLeader.append(contact + "\n");
       }
     }
     // TODO: 9/24/15 REMOVE HARDCODED VALUE
-    colorFilterImageViews(mThisYearToys,1400/400);
+    colorFilterImageViews(mThisYearToys, 1400 / 400);
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
@@ -72,12 +72,13 @@ public class PartyDetailActivity extends AppCompatActivity {
     return false;
   }
 
-  private void colorFilterImageViews(ViewGroup parent,int countToColor){
-    for(int i=0;i<parent.getChildCount();i++){
-      if(i<countToColor-1){
-        ((ImageView)parent.getChildAt(i)).setColorFilter(getResources().getColor(R.color.red));
-      }else{
-        ((ImageView)parent.getChildAt(i)).setColorFilter(getResources().getColor(R.color.mdtp_light_gray));
+  private void colorFilterImageViews(ViewGroup parent, int countToColor) {
+    for (int i = 0; i < parent.getChildCount(); i++) {
+      if (i < countToColor - 1) {
+        ((ImageView) parent.getChildAt(i)).setColorFilter(getResources().getColor(R.color.red));
+      } else {
+        ((ImageView) parent.getChildAt(i)).setColorFilter(
+            getResources().getColor(R.color.mdtp_light_gray));
       }
     }
   }

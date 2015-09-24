@@ -213,5 +213,4 @@ public class BoardView extends View {
   public interface GameListener {
     void checkValidity(ValidityStatus status);
   }
-
 }
