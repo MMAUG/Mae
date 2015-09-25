@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.graphics.Palette;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.Bind;
@@ -15,6 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.florent37.glidepalette.GlidePalette;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.pkmmte.view.CircularImageView;
 import java.util.Map;
 import java.util.Set;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -36,8 +36,8 @@ public class CandidateCompareActivity extends BaseActivity {
   @Bind(R.id.candidateTwoName) TextView candidateTwo;
   @Bind(R.id.party_flag_one) AspectRatioImageView party_flag_one;
   @Bind(R.id.party_flag_two) AspectRatioImageView party_flag_two;
-  @Bind(R.id.candidate_one) ImageView candidateOneView;
-  @Bind(R.id.candidate_two) ImageView candidateTwoView;
+  @Bind(R.id.candidate_one) CircularImageView candidateOneView;
+  @Bind(R.id.candidate_two) CircularImageView candidateTwoView;
   Candidate candidate;
   Candidate candidateCompare;
   float[] hslValues = new float[3];
@@ -171,12 +171,14 @@ public class CandidateCompareActivity extends BaseActivity {
         .diskCacheStrategy(DiskCacheStrategy.ALL)
         .bitmapTransform(new CropCircleTransformation(this))
         .into(candidateOneView);
+    candidateOneView.setBorderColor(Color.HSVToColor(hslValues));
 
     Glide.with(this)
         .load(candidate.getPhotoUrl())
         .diskCacheStrategy(DiskCacheStrategy.ALL)
         .bitmapTransform(new CropCircleTransformation(this))
         .into(candidateTwoView);
+    candidateTwoView.setBorderColor(Color.HSVToColor(darkValue));
 
     Glide.with(this)
         .load(candidateCompare.getParty().getPartyFlag())
@@ -209,7 +211,7 @@ public class CandidateCompareActivity extends BaseActivity {
 
               @Override public void onPaletteLoaded(Palette palette) {
                 //specific task
-                Palette.Swatch darkSwatch = palette.getDarkVibrantSwatch();
+                Palette.Swatch darkSwatch = palette.getLightVibrantSwatch();
                 darkValue = darkSwatch.getHsl();
               }
             }))
