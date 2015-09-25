@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
@@ -146,7 +147,7 @@ public class CandidateListActivity extends BaseActivity
     //list item click
     if (candidateFromDetail != null) {
 
-      /*if (candidate.getId().equals(candidateFromDetail.getId())) {
+      if (candidate.getId().equals(candidateFromDetail.getId())) {
         candidateResultDialog =
             new Dialog(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
         View view = this.getLayoutInflater().inflate(R.layout.dialog_candidate_check, null);
@@ -183,12 +184,13 @@ public class CandidateListActivity extends BaseActivity
               candidateResultDialog.dismiss();
             }
           }
-        });*/
-
-      Intent intent = new Intent(this, CandidateCompareActivity.class);
-      intent.putExtra(Config.CANDIDATE, candidate);
-      intent.putExtra(Config.CANDIDATE_COMPARE, candidateFromDetail);
-      startActivity(intent);
+        });
+      } else {
+        Intent intent = new Intent(this, CandidateCompareActivity.class);
+        intent.putExtra(Config.CANDIDATE, candidate);
+        intent.putExtra(Config.CANDIDATE_COMPARE, candidateFromDetail);
+        startActivity(intent);
+      }
     } else {
       Intent intent = new Intent(this, CandidateDetailActivity.class);
       intent.putExtra(Config.CANDIDATE, candidate);
