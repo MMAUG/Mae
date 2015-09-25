@@ -41,6 +41,7 @@ public class PartyDetailActivity extends AppCompatActivity {
   @Bind(R.id.current_year_view_pager) ViewPager mCurrentViewPager;
   @Bind(R.id.prev_year_tab) TabLayout mPrevTabLayout;
   @Bind(R.id.prev_year_view_pager) ViewPager mPrevViewPager;
+  @Bind(R.id.party_phone) TextView mPartyPhone;
 
   private RESTService partyDetailRestService;
   private int currentAmyotharCount;
@@ -78,9 +79,9 @@ public class PartyDetailActivity extends AppCompatActivity {
     List<String> contacts = party.getContact();
     for (String contact : contacts) {
       if (contacts.indexOf(contact) + 1 == contacts.size()) {
-        mPartyLeader.append(contact);
+        mPartyPhone.append(contact);
       } else {
-        mPartyLeader.append(contact + "\n");
+        mPartyPhone.append(contact + "\n");
       }
     }
 
@@ -103,14 +104,15 @@ public class PartyDetailActivity extends AppCompatActivity {
                 currentCandidateCount.clear();
                 final ToyFigurePagerAdapter currentPagerAdapter = new ToyFigurePagerAdapter();
                 if(currentAmyotharCount>0) {
-                  currentCandidateCount.put(Config.AMYOTHAE_HLUTTAW,
-                      (currentAmyotharCount/mAmyothaCurrentCollection.getSeats())*100);
+
+                  currentCandidateCount.put(Config.AMYOTHAE_HLUTTAW,(int)
+                      ((((double) currentAmyotharCount) / mAmyothaCurrentCollection.getSeats()) * 10));
                 }else{
                   currentCandidateCount.put(Config.AMYOTHAE_HLUTTAW,0);
                 }
                 if(currentPyithuHlutaw>0) {
-                  currentCandidateCount.put(Config.PYITHU_HLUTTAW,
-                      (currentPyithuHlutaw/mPyithuCurrentCollection.getSeats())*100);
+                  currentCandidateCount.put(Config.PYITHU_HLUTTAW,(int)(
+                      ((double)currentPyithuHlutaw/mPyithuCurrentCollection.getSeats())*10));
                 }else{
                   currentCandidateCount.put(Config.PYITHU_HLUTTAW,0);
                 }
