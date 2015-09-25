@@ -176,17 +176,12 @@ public class CandidateCompareActivity extends BaseActivity {
     Glide.with(this)
         .load(candidateCompare.getParty().getPartyFlag())
         .listener(GlidePalette.with(candidateCompare.getParty().getPartyFlag())
-            .use(GlidePalette.Profile.VIBRANT)
-            .use(GlidePalette.Profile.VIBRANT_DARK)
-            .use(GlidePalette.Profile.VIBRANT_LIGHT)
-            .use(GlidePalette.Profile.MUTED)
-            .use(GlidePalette.Profile.MUTED_DARK)
-            .use(GlidePalette.Profile.MUTED_LIGHT)
             .intoCallBack(new GlidePalette.CallBack() {
               @Override public void onPaletteLoaded(Palette palette) {
                 //specific task
                 Palette.Swatch vibrantSwatch = palette.getVibrantSwatch();
                 hslValues = vibrantSwatch.getHsl();
+                candidateOneView.setBorderColor(Color.HSVToColor(hslValues));
               }
             }))
         .into(party_flag_one);
@@ -194,32 +189,21 @@ public class CandidateCompareActivity extends BaseActivity {
     Glide.with(this)
         .load(candidate.getParty().getPartyFlag())
         .listener(GlidePalette.with(candidate.getParty().getPartyFlag())
-            .use(GlidePalette.Profile.VIBRANT)
-            .use(GlidePalette.Profile.VIBRANT_DARK)
-            .use(GlidePalette.Profile.VIBRANT_LIGHT)
-            .use(GlidePalette.Profile.MUTED)
-            .use(GlidePalette.Profile.MUTED_DARK)
-            .use(GlidePalette.Profile.MUTED_LIGHT)
             .intoCallBack(new GlidePalette.CallBack() {
               @Override public void onPaletteLoaded(Palette palette) {
                 //specific task
                 Palette.Swatch darkSwatch = palette.getLightVibrantSwatch();
                 if (darkSwatch != null) {
                   darkValue = darkSwatch.getHsl();
+                  candidateTwoView.setBorderColor(Color.HSVToColor(darkValue));
                 }
               }
             }))
         .into(party_flag_two);
 
     Glide.with(this).load(candidateCompare.getPhotoUrl()).into(candidateOneView);
-/*    candidateOneView.setBorderColor(Color.HSVToColor(hslValues));*/
-    candidateOneView.setBorderWidth(3);
-    candidateOneView.setBorderColor(R.color.accent_color);
-
-
-/*    candidateTwoView.setBorderColor(Color.HSVToColor(darkValue));*/
-    candidateTwoView.setBorderWidth(3);
-    candidateTwoView.setBorderColor(R.color.geojson_background_color);
+    candidateOneView.setBorderWidth(5);
     Glide.with(this).load(candidate.getPhotoUrl()).into(candidateTwoView);
+    candidateTwoView.setBorderWidth(5);
   }
 }

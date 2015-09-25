@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
@@ -143,31 +142,10 @@ public class CandidateListActivity extends BaseActivity
   @Override public void onItemClick(Candidate candidate) {
     //list item click
     if (candidateFromDetail != null) {
-      if (candidate.getMpid() == null) {
-        candidateResultDialog =
-            new Dialog(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
-        View view = this.getLayoutInflater().inflate(R.layout.dialog_candidate_check, null);
-        View okBtn = view.findViewById(R.id.voter_check_ok_btn);
-        TextView textView = (TextView)view.findViewById(R.id.tv_vote_message);
-        TextView canCompare = (TextView)view.findViewById(R.id.incorrect_vote);
-        canCompare.setText(candidate.getName()+" နှင့် "+candidateFromDetail.getName() + getResources().getString(R.string.cannot_compare_candidate));
-        textView.setText(candidate.getName()+getResources().getString(
-            R.string.incrroect_candidate_compare));
-        candidateResultDialog.setContentView(view);
-        candidateResultDialog.show();
-        okBtn.setOnClickListener(new View.OnClickListener() {
-          @Override public void onClick(View view) {
-            if (candidateResultDialog.isShowing()) {
-              candidateResultDialog.dismiss();
-            }
-          }
-        });
-      } else {
-        Intent intent = new Intent(this, CandidateCompareActivity.class);
-        intent.putExtra(Config.CANDIDATE, candidate);
-        intent.putExtra(Config.CANDIDATE_COMPARE, candidateFromDetail);
-        startActivity(intent);
-      }
+      Intent intent = new Intent(this, CandidateCompareActivity.class);
+      intent.putExtra(Config.CANDIDATE, candidate);
+      intent.putExtra(Config.CANDIDATE_COMPARE, candidateFromDetail);
+      startActivity(intent);
     } else {
       Intent intent = new Intent(this, CandidateDetailActivity.class);
       intent.putExtra(Config.CANDIDATE, candidate);
