@@ -256,7 +256,10 @@ public class BoardView extends View {
 
   private boolean checkWithinBounds(int x, int y) {
     for (Rect rect : rects) {
-      if (rect.left < (x - (stamp.getWidth() / 2)) && rect.top < (y - (stamp.getHeight() / 2))) {
+      if (rect.left < (x - (stamp.getWidth() / 2))
+          && rect.top < (y - (stamp.getHeight() / 2))
+          && rect.right > (x + (stamp.getWidth() / 2))
+          && rect.bottom > (y + (stamp.getHeight() / 2))) {
         return true;
       }
     }
