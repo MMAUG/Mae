@@ -99,46 +99,7 @@ public class CandidateListActivity extends BaseActivity
     pyithuParams.put(Config.CONSTITUENCY_DT_PCODE, "MMR013D001");
     pyithuParams.put(Config.CONSTITUENCY_TS_PCODE, "MMR013001");
     pyithuParams.put(Config.WITH, Config.PARTY);
-    Call<CandidateListReturnObject> pyithuCall =
-        RESTClient.getMPSService().getCandidateList(pyithuParams);
-    pyithuCall.enqueue(new Callback<CandidateListReturnObject>() {
-      @Override public void onResponse(Response<CandidateListReturnObject> response) {
-        List<Candidate> candidates = response.body().getData();
-
-        //sort
-        Collections.sort(candidates, new Comparator<Candidate>() {
-          @Override public int compare(Candidate lhs, Candidate rhs) {
-            return rhs.getLegislature().compareTo(lhs.getLegislature());
-          }
-        });
-
-        //header section
-        List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
-
-        for (int i = 0; i < candidates.size(); i++) {
-          Candidate location = candidates.get(i);
-          //get type from the array
-          if (sections.size() > 0) {
-            if (!checkSection(sections, location.getLegislature())) {
-              sections.add(new SectionHeaderAdapter.Section(i, location.getLegislature()));
-            }
-          } else {
-            //add first type
-            sections.add(new SectionHeaderAdapter.Section(0, location.getLegislature()));
-          }
-        }
-
-        SectionHeaderAdapter.Section[] dummy = new SectionHeaderAdapter.Section[sections.size()];
-        sectionAdapter.setSections(sections.toArray(dummy));
-        candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
-        showHideProgressBar(false);
-      }
-
-      @Override public void onFailure(Throwable t) {
-        t.printStackTrace();
-        showHideProgressBar(false);
-      }
-    });
+   inflateCandiateAdapter(pyithuParams);
   }
 
   private void showHideProgressBar(boolean visibility) {
@@ -306,5 +267,59 @@ public class CandidateListActivity extends BaseActivity
   @Override public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
     showHidSearchView(true);
     mTownShip.setText(found.get(i).getTowhshipNameBurmese());
+    showHideProgressBar(true);
+    Map<String, String> pyithuParams = new HashMap<>();
+    //Probably, there won't be much more than 200 candidates for a township for the same legislature
+    pyithuParams.put(Config.PER_PAGE, "200");
+    //TODO remove hardcoded PCODE
+    pyithuParams.put(Config.CONSTITUENCY_ST_PCODE,found.get(i).getSRPcode());
+    pyithuParams.put(Config.CONSTITUENCY_DT_PCODE, found.get(i).getDPcode());
+    pyithuParams.put(Config.CONSTITUENCY_TS_PCODE, found.get(i).getTSPcode());
+    pyithuParams.put(Config.WITH, Config.PARTY);
+    inflateCandiateAdapter(pyithuParams);
+
+  }
+
+  private void inflateCandiateAdapter(Map<String,String> params){
+    Call<CandidateListReturnObject> pyithuCall =
+        RESTClient.getMPSService().getCandidateList(params);
+    pyithuCall.enqueue(new Callback<CandidateListReturnObject>() {
+      @Override public void onResponse(Response<CandidateListReturnObject> response) {
+        List<Candidate> candidates = response.body().getData();
+
+        //sort
+        Collections.sort(candidates, new Comparator<Candidate>() {
+          @Override public int compare(Candidate lhs, Candidate rhs) {
+            return rhs.getLegislature().compareTo(lhs.getLegislature());
+          }
+        });
+
+        //header section
+        List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
+
+        for (int i = 0; i < candidates.size(); i++) {
+          Candidate location = candidates.get(i);
+          //get type from the array
+          if (sections.size() > 0) {
+            if (!checkSection(sections, location.getLegislature())) {
+              sections.add(new SectionHeaderAdapter.Section(i, location.getLegislature()));
+            }
+          } else {
+            //add first type
+            sections.add(new SectionHeaderAdapter.Section(0, location.getLegislature()));
+          }
+        }
+
+        SectionHeaderAdapter.Section[] dummy = new SectionHeaderAdapter.Section[sections.size()];
+        sectionAdapter.setSections(sections.toArray(dummy));
+        candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
+        showHideProgressBar(false);
+      }
+
+      @Override public void onFailure(Throwable t) {
+        t.printStackTrace();
+        showHideProgressBar(false);
+      }
+    });
   }
 }
