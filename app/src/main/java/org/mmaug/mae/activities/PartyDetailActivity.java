@@ -5,6 +5,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,6 +45,7 @@ public class PartyDetailActivity extends AppCompatActivity {
   @Bind(R.id.prev_year_view_pager) ViewPager mPrevViewPager;
   @Bind(R.id.party_phone) TextView mPartyPhone;
   @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
+  @Bind(R.id.toolbar) Toolbar mToolbar;
 
   private RESTService partyDetailRestService;
   private int currentAmyotharCount;
@@ -60,8 +62,12 @@ public class PartyDetailActivity extends AppCompatActivity {
 
     final Party party = (Party) getIntent().getSerializableExtra("party");
     mCollapsingToolbarLayout.setTitle(party.getPartyName());
-    mCollapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+    setSupportActionBar(mToolbar);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    mCollapsingToolbarLayout.setExpandedTitleColor(
+        getResources().getColor(android.R.color.transparent));
     mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
+
     Glide.with(this).load(party.getPartyFlag()).into(party_image);
     if (party.getMemberCount() != null && party.getMemberCount().length() > 0) {
       mPartyCount.setText(MixUtils.convertToBurmese(String.valueOf(party.getMemberCount())));
