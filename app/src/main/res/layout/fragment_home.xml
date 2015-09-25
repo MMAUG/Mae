@@ -1,264 +1,248 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-  <android.support.design.widget.AppBarLayout
-      android:id="@+id/appbar"
+  <RelativeLayout
+      android:layout_alignParentTop="true"
       android:layout_width="match_parent"
       android:layout_height="@dimen/appbarlayout_height"
-      android:fitsSystemWindows="true"
       >
-
-    <android.support.design.widget.CollapsingToolbarLayout
-        android:id="@+id/collapsing_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        app:contentScrim="?attr/colorPrimary"
-        app:layout_scrollFlags="scroll|exitUntilCollapsed"
-        app:expandedTitleMarginBottom="@dimen/collapsingtoolbar_expanded_title_margin_bottom"
-        app:expandedTitleMarginEnd="@dimen/collapsingtoolbar_expanded_title_margin_end"
-        app:expandedTitleMarginStart="@dimen/collapsingtoolbar_expanded_title_margin_start"
-        >
-      <RelativeLayout
-          app:layout_scrollFlags="scroll|enterAlways"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          app:layout_collapseMode="parallax"
-          >
-        <ImageView
-            android:id="@+id/backdrop"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            >
-          <TextView
-              android:id="@+id/to_vote"
-              android:gravity="center_horizontal|center|center_vertical"
-              android:textColor="@color/white"
-              android:textStyle="bold"
-              android:textSize="20sp"
-              android:text="@string/mm_toVote"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:padding="@dimen/spacing_minor"
-              />
-
-          <TextView
-              android:gravity="center_horizontal|center|center_vertical"
-              android:textColor="@color/white"
-              android:textStyle="bold"
-              android:textSize="36sp"
-              android:text="@string/mm_toVote"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:id="@+id/month_day_left"
-              android:padding="@dimen/spacing_minor"
-              />
-          <TextView
-              android:gravity="center_horizontal|center|center_vertical"
-              android:textColor="@color/white"
-              android:textStyle="bold"
-              android:textSize="18sp"
-              android:text="@string/mm_toVote"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:id="@+id/hour_minute_left"
-              android:padding="@dimen/spacing_minor"
-              />
-        </LinearLayout>
-
-      </RelativeLayout>
-
-    </android.support.design.widget.CollapsingToolbarLayout>
-  </android.support.design.widget.AppBarLayout>
-
-  <!--http://stackoverflow.com/questions/30643081/nestedscrollview-and-webview-height-issue-->
-  <android.support.v4.widget.NestedScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="fill_vertical"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    >
-
-
     <LinearLayout
+        android:background="@color/primary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/appbarlayout_height"
         android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
         >
-      <android.support.v7.widget.CardView
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:app="http://schemas.android.com/apk/res-auto"
-          xmlns:card_view="http://schemas.android.com/tools"
-          android:id="@+id/cardview"
-          android:layout_width="match_parent"
+      <TextView
+          android:id="@+id/to_vote"
+          android:gravity="center_horizontal|center|center_vertical"
+          android:textColor="@color/white"
+          android:textStyle="bold"
+          android:textSize="20sp"
+          android:text="@string/mm_toVote"
+          android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_margin="@dimen/default_padding_medium"
-          android:foreground="?selectableItemBackground"
-          app:cardElevation="5dp"
-          card_view:cardCornerRadius="@dimen/default_padding_small"
-          >
+          android:padding="@dimen/spacing_minor"
+          />
 
-        <TextView
-            android:layout_margin="@dimen/default_padding_medium"
-            android:gravity="center_vertical"
-            android:id="@+id/tvThumb"
-            android:drawableRight="@drawable/ic_exclamation_mark"
-            android:text="မဲစာရင်းမှာ နာမည်မှပါရဲ့လား"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/home_card"
-            />
-
-
-      </android.support.v7.widget.CardView>
-
-      <android.support.v7.widget.CardView
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:app="http://schemas.android.com/apk/res-auto"
-          xmlns:card_view="http://schemas.android.com/tools"
-          android:id="@+id/cardview_party"
-          android:layout_width="match_parent"
+      <TextView
+          android:gravity="center_horizontal|center|center_vertical"
+          android:textColor="@color/white"
+          android:textStyle="bold"
+          android:textSize="36sp"
+          android:text="@string/mm_toVote"
+          android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_margin="@dimen/default_padding_medium"
-          android:foreground="?selectableItemBackground"
-          app:cardElevation="5dp"
-          card_view:cardCornerRadius="@dimen/default_padding_small"
-          >
-
-        <TextView
-            android:layout_margin="@dimen/default_padding_medium"
-            android:gravity="center_vertical"
-            android:id="@+id/tv_place_to_vote"
-            android:drawableRight="@drawable/ic_exclamation_mark"
-            android:text="ဘယ်မှာ မဲပေးရမှာလဲ"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/home_card"
-            />
-
-
-      </android.support.v7.widget.CardView>
-
-
-      <android.support.v7.widget.CardView
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:app="http://schemas.android.com/apk/res-auto"
-          xmlns:card_view="http://schemas.android.com/tools"
-          android:id="@+id/cardview_party_condtion"
-          android:layout_width="match_parent"
+          android:id="@+id/month_day_left"
+          android:padding="@dimen/spacing_minor"
+          />
+      <TextView
+          android:gravity="center_horizontal|center|center_vertical"
+          android:textColor="@color/white"
+          android:textStyle="bold"
+          android:textSize="18sp"
+          android:text="@string/mm_toVote"
+          android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_margin="@dimen/default_padding_medium"
-          android:foreground="?selectableItemBackground"
-          app:cardElevation="5dp"
-          card_view:cardCornerRadius="@dimen/default_padding_small"
-          >
-
-        <TextView
-            android:layout_margin="@dimen/default_padding_medium"
-            android:gravity="center_vertical"
-            android:id="@+id/tv_candidate_list"
-            android:drawableRight="@drawable/ic_exclamation_mark"
-            android:text="ဘယ်သူ့ မဲပေးရမှာလဲ"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/home_card"
-            />
-
-
-      </android.support.v7.widget.CardView>
-
-
-      <android.support.v7.widget.CardView
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:app="http://schemas.android.com/apk/res-auto"
-          xmlns:card_view="http://schemas.android.com/tools"
-          android:id="@+id/tvThumb_how_vote"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_margin="@dimen/default_padding_medium"
-          android:foreground="?selectableItemBackground"
-          app:cardElevation="5dp"
-          card_view:cardCornerRadius="@dimen/default_padding_small"
-          >
-
-        <TextView
-            android:layout_margin="@dimen/default_padding_medium"
-            android:gravity="center_vertical"
-            android:id="@+id/tv_party_list"
-            android:drawableRight="@drawable/ic_exclamation_mark"
-            android:text="ပါတီတွေရဲ့ အခြေအနေ"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/home_card"
-            />
-
-
-      </android.support.v7.widget.CardView>
-
-      <android.support.v7.widget.CardView
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:app="http://schemas.android.com/apk/res-auto"
-          xmlns:card_view="http://schemas.android.com/tools"
-          android:id="@+id/cardview_how_to_vote"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_margin="@dimen/default_padding_medium"
-          android:foreground="?selectableItemBackground"
-          app:cardElevation="5dp"
-          card_view:cardCornerRadius="@dimen/default_padding_small"
-          >
-
-        <TextView
-            android:layout_margin="@dimen/default_padding_medium"
-            android:gravity="center_vertical"
-            android:id="@+id/tvThumb_how_you_vote"
-            android:drawableRight="@drawable/ic_exclamation_mark"
-            android:text="ဘယ်လို မဲပေးရမှာလဲ"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/home_card"
-            />
-
-
-      </android.support.v7.widget.CardView>
-
-      <android.support.v7.widget.CardView
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:app="http://schemas.android.com/apk/res-auto"
-          xmlns:card_view="http://schemas.android.com/tools"
-          android:id="@+id/cardview_voted"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_margin="@dimen/default_padding_medium"
-          android:foreground="?selectableItemBackground"
-          app:cardElevation="5dp"
-          card_view:cardCornerRadius="@dimen/default_padding_small"
-          >
-
-        <TextView
-            android:layout_margin="@dimen/default_padding_medium"
-            android:gravity="center_vertical"
-            android:id="@+id/tvThumb_voted"
-            android:drawableRight="@drawable/ic_exclamation_mark"
-            android:text="မဲပေးပြီးပြီ"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/home_card"
-            />
-
-
-      </android.support.v7.widget.CardView>
-
+          android:id="@+id/hour_minute_left"
+          android:padding="@dimen/spacing_minor"
+          />
     </LinearLayout>
 
-  </android.support.v4.widget.NestedScrollView>
+  </RelativeLayout>
+  <ScrollView
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      android:id="@+id/scrollView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+      <!--http://stackoverflow.com/questions/30643081/nestedscrollview-and-webview-height-issue-->
+      <LinearLayout
+          android:background="@color/white"
+          android:layout_marginTop="@dimen/appbarlayout_height"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          >
+        <android.support.v7.widget.CardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:card_view="http://schemas.android.com/tools"
+            android:id="@+id/cardview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_padding_medium"
+            android:foreground="?selectableItemBackground"
+            app:cardElevation="5dp"
+            card_view:cardCornerRadius="@dimen/default_padding_small"
+            >
+
+          <TextView
+              android:layout_margin="@dimen/default_padding_medium"
+              android:gravity="center_vertical"
+              android:id="@+id/tvThumb"
+              android:drawableRight="@drawable/ic_exclamation_mark"
+              android:text="မဲစာရင်းမှာ နာမည်မှပါရဲ့လား"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/home_card"
+              />
 
 
-</android.support.design.widget.CoordinatorLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:card_view="http://schemas.android.com/tools"
+            android:id="@+id/cardview_party"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_padding_medium"
+            android:foreground="?selectableItemBackground"
+            app:cardElevation="5dp"
+            card_view:cardCornerRadius="@dimen/default_padding_small"
+            >
+
+          <TextView
+              android:layout_margin="@dimen/default_padding_medium"
+              android:gravity="center_vertical"
+              android:id="@+id/tv_place_to_vote"
+              android:drawableRight="@drawable/ic_exclamation_mark"
+              android:text="ဘယ်မှာ မဲပေးရမှာလဲ"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/home_card"
+              />
+
+
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:card_view="http://schemas.android.com/tools"
+            android:id="@+id/cardview_party_condtion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_padding_medium"
+            android:foreground="?selectableItemBackground"
+            app:cardElevation="5dp"
+            card_view:cardCornerRadius="@dimen/default_padding_small"
+            >
+
+          <TextView
+              android:layout_margin="@dimen/default_padding_medium"
+              android:gravity="center_vertical"
+              android:id="@+id/tv_candidate_list"
+              android:drawableRight="@drawable/ic_exclamation_mark"
+              android:text="ဘယ်သူ့ မဲပေးရမှာလဲ"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/home_card"
+              />
+
+
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:card_view="http://schemas.android.com/tools"
+            android:id="@+id/tvThumb_how_vote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_padding_medium"
+            android:foreground="?selectableItemBackground"
+            app:cardElevation="5dp"
+            card_view:cardCornerRadius="@dimen/default_padding_small"
+            >
+
+          <TextView
+              android:layout_margin="@dimen/default_padding_medium"
+              android:gravity="center_vertical"
+              android:id="@+id/tv_party_list"
+              android:drawableRight="@drawable/ic_exclamation_mark"
+              android:text="ပါတီတွေရဲ့ အခြေအနေ"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/home_card"
+              />
+
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:card_view="http://schemas.android.com/tools"
+            android:id="@+id/cardview_how_to_vote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_padding_medium"
+            android:foreground="?selectableItemBackground"
+            app:cardElevation="5dp"
+            card_view:cardCornerRadius="@dimen/default_padding_small"
+            >
+
+          <TextView
+              android:layout_margin="@dimen/default_padding_medium"
+              android:gravity="center_vertical"
+              android:id="@+id/tvThumb_how_you_vote"
+              android:drawableRight="@drawable/ic_exclamation_mark"
+              android:text="ဘယ်လို မဲပေးရမှာလဲ"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/home_card"
+              />
+
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:card_view="http://schemas.android.com/tools"
+            android:id="@+id/cardview_voted"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_padding_medium"
+            android:foreground="?selectableItemBackground"
+            app:cardElevation="5dp"
+            card_view:cardCornerRadius="@dimen/default_padding_small"
+            >
+
+          <TextView
+              android:layout_margin="@dimen/default_padding_medium"
+              android:gravity="center_vertical"
+              android:id="@+id/tvThumb_voted"
+              android:drawableRight="@drawable/ic_exclamation_mark"
+              android:text="မဲပေးပြီးပြီ"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/home_card"
+              />
+        </android.support.v7.widget.CardView>
+        <LinearLayout
+            android:layout_below="@+id/cardview_voted"
+            android:id="@+id/upperView"
+            android:background="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            >
+        </LinearLayout>
+      </LinearLayout>
+
+    </RelativeLayout>
+  </ScrollView>
+
+
+
+</RelativeLayout>
