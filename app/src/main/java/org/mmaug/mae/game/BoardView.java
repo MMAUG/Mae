@@ -25,6 +25,8 @@ public class BoardView extends View {
   private Paint background = new Paint();
   private Paint gridPaint = new Paint();
   private TextPaint textPaint = new TextPaint();
+  private Paint partyFlagPaint = new Paint();
+
   private ArrayList<Rect> rects; //List of rectangles where the touch of the user needs to be
   // checked
   private int margin;
@@ -58,6 +60,11 @@ public class BoardView extends View {
     textPaint.setColor(res.getColor(R.color.secondary_text_color));
     textPaint.setAntiAlias(true);
     textPaint.setStyle(Paint.Style.FILL);
+
+    //text paint
+    partyFlagPaint.setColor(res.getColor(R.color.divider));
+    partyFlagPaint.setAntiAlias(true);
+    partyFlagPaint.setStyle(Paint.Style.FILL);
   }
 
   public void enableTouch(boolean touchMode) {
@@ -214,6 +221,10 @@ public class BoardView extends View {
         rects.add(rect);
       }
       canvas.drawRect(rect, gridPaint);
+      if (j == 1) {
+        canvas.drawRect(left + marginSmall, top + marginSmall, right - marginSmall,
+            bottom - marginSmall, partyFlagPaint);
+      }
     }
   }
 
