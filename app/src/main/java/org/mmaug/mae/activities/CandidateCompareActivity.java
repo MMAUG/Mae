@@ -204,7 +204,9 @@ public class CandidateCompareActivity extends BaseActivity {
               @Override public void onPaletteLoaded(Palette palette) {
                 //specific task
                 Palette.Swatch darkSwatch = palette.getLightVibrantSwatch();
-                darkValue = darkSwatch.getHsl();
+                if (darkSwatch != null) {
+                  darkValue = darkSwatch.getHsl();
+                }
               }
             }))
         .into(party_flag_two);
