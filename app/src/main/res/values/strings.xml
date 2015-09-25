@@ -38,6 +38,7 @@
   <string name="party_contact">ဆက်သွယ်ရန်</string>
   <string name="head_quarter">ရုံးချုပ်</string>
   <string name="phone">ဖုန်း</string>
+  <string name="cannot_compare">နှိုင်းယှဉ်၍ မရပါ</string>
   <string name="first_time_candidate">ပထမဆုံး အကြိမ်ဝင်ရောက်ယှဉ်ပြိုင်ချင်းဖြစ်ပါသည်</string>
   <string name="how_to_vote_placeholder_text">
     <![CDATA[ <b><font color=#CC0033>*</b> %s]]></string>
@@ -59,6 +60,8 @@
   <string name="be_careful">သေချာဂရုစိုက်ပါ</string>
   <string name="incorrect_vote">မိမိ၏ အဖိုးတန်မဲအား ပယ်မဲမဖြစ်စေရန် သေချာဂရုစိုက်ပါ။</string>
   <string name="incorrect_vote_message">* %s</string>
+  <string name="cannot_compare_candidate"> အားနှိုင်းယှဉ်၍ မရနိုင်ပါ</string>
+  <string name="incrroect_candidate_compare">သည် ယခင်က လွှတ်တော်တွင် အမတ်အဖြစ်တာဝန်ထမ်းဆောင်ခဲ့ဖူးခြင်း မရှိသေး၍ဖြစ်ပါသည်</string>
   <string name="stamp_title">တံဆိပ်တုံးအား တစ်ကြိမ်သာ နှိပ်ပါရန်</string>
   <string name="stamp_warning">အထူးသတိပြုရန်။ ။ တံဆိပ်တုံးနှိပ်ရာတွင်
     မထင်ရှားမှာစိုးသည့်စိတ်ဖြင့် တံဆိပ်တုံးအား တစ်ကြိမ်ထက် ပို၍ မနှိပ်မိရန် ဂရုစိုက်ပါ။
