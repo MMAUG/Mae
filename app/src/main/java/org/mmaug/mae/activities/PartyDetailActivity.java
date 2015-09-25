@@ -1,6 +1,7 @@
 package org.mmaug.mae.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -42,6 +43,7 @@ public class PartyDetailActivity extends AppCompatActivity {
   @Bind(R.id.prev_year_tab) TabLayout mPrevTabLayout;
   @Bind(R.id.prev_year_view_pager) ViewPager mPrevViewPager;
   @Bind(R.id.party_phone) TextView mPartyPhone;
+  @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
 
   private RESTService partyDetailRestService;
   private int currentAmyotharCount;
@@ -57,6 +59,9 @@ public class PartyDetailActivity extends AppCompatActivity {
     ButterKnife.bind(this);
 
     final Party party = (Party) getIntent().getSerializableExtra("party");
+    mCollapsingToolbarLayout.setTitle(party.getPartyName());
+    mCollapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+    mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
     Glide.with(this).load(party.getPartyFlag()).into(party_image);
     if (party.getMemberCount() != null && party.getMemberCount().length() > 0) {
       mPartyCount.setText(MixUtils.convertToBurmese(String.valueOf(party.getMemberCount())));
@@ -161,6 +166,8 @@ public class PartyDetailActivity extends AppCompatActivity {
       }
     });
   }
+
+
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() == android.R.id.home) {
