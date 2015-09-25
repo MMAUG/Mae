@@ -2,9 +2,12 @@ package org.mmaug.mae.game;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -26,6 +29,9 @@ public class BoardView extends View {
   private Paint gridPaint = new Paint();
   private TextPaint textPaint = new TextPaint();
   private Paint partyFlagPaint = new Paint();
+  private Bitmap stamp;
+  private int stampX, stampY;
+  private boolean alredyDrawn = false;
 
   private ArrayList<Rect> rects; //List of rectangles where the touch of the user needs to be
   // checked
@@ -97,12 +103,10 @@ public class BoardView extends View {
 
   //draw grid table
   private void drawBoard() {
-    super.invalidate();
-
+    invalidate();
     //list of rectangles drawn on canvas, we will use their boundary to check the stamp is valid
     // or not
     rects = new ArrayList<>();
-
     //align left for the top text
     textPaint.setTextAlign(Paint.Align.LEFT);
     //draw bg
@@ -122,6 +126,8 @@ public class BoardView extends View {
     int titleHeight = marginTop / 4;
     int paraHeight = 3 * (marginTop / 4);
     int paraMargin;
+
+    if (stamp == null) stamp = getStamp(getSmallCellWidth(x), getBigCellHeight(y));
 
     int signatureTextSize;
     int smallTextSize, titleTextSize;
@@ -179,8 +185,16 @@ public class BoardView extends View {
         signatureTop, textPaint);
     canvas.drawText(res.getString(R.string.signature_line_2), canvas.getWidth() - margin,
         signatureTop + margin, textPaint);
+
+    if (alredyDrawn) {
+      drawStamp(stampX - (stamp.getWidth() / 2), stampY - (stamp.getHeight() / 2));
+    }
   }
 
+  public void reset() {
+    alredyDrawn = false;
+    invalidate();
+  }
   @Override protected void onDraw(Canvas canvas) {
     this.canvas = canvas;
     drawBoard();
@@ -190,10 +204,11 @@ public class BoardView extends View {
     if (touchMode) {
       switch (event.getAction()) {
         case MotionEvent.ACTION_DOWN:
+          alredyDrawn = true;
           enableTouch(false);
-          int x = (int) event.getX();
-          int y = (int) event.getY();
-          if (checkWithinBounds(x, y)) {
+          stampX = (int) event.getX();
+          stampY = (int) event.getY();
+          if (checkWithinBounds(stampX, stampY)) {
             listener.checkValidity(ValidityStatus.valid);
           } else {
             listener.checkValidity(ValidityStatus.invalid);
@@ -240,7 +255,9 @@ public class BoardView extends View {
 
   private boolean checkWithinBounds(int x, int y) {
     for (Rect rect : rects) {
-      if (rect.contains(x, y)) return true;
+      if (rect.left < (x - (stamp.getWidth() / 2)) && rect.top < (y - (stamp.getHeight() / 2))) {
+        return true;
+      }
     }
     return false;
   }
@@ -251,6 +268,17 @@ public class BoardView extends View {
 
   public interface GameListener {
     void checkValidity(ValidityStatus status);
+  }
+
+  private Bitmap getStamp(int width, int height) {
+    Drawable drawable = res.getDrawable(R.drawable.ic_stamp);
+    assert drawable != null;
+    Bitmap b = ((BitmapDrawable) drawable).getBitmap();
+    return Bitmap.createScaledBitmap(b, width - margin, height - margin, false);
+  }
+
+  private void drawStamp(int x, int y) {
+    canvas.drawBitmap(stamp, x, y, null);
   }
 
   private void drawTextOnCanvas(String text, int y, int textSize, int width, int height) {
