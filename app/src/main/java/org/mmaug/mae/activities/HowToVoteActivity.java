@@ -31,7 +31,6 @@ public class HowToVoteActivity extends BaseActivity implements AdapterView.OnIte
     adapter.setOnItemClickListener(this);
     mRecyclerView.setAdapter(adapter);
     fakeData();
-
   }
 
   @Override protected int getLayoutResource() {

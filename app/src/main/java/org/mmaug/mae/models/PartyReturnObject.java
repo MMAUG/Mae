@@ -1,9 +1,8 @@
 package org.mmaug.mae.models;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import java.io.Serializable;
 import java.util.List;
+
 /**
  * Created by yemyatthu on 8/4/15.
  */

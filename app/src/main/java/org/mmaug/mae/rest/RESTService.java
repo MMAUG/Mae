@@ -73,4 +73,9 @@ public interface RESTService {
 
   @GET(Config.COMPARE_QUESTION) Call<JsonElement> getCompareQuestion(
       @Query("first") String first_candidate_id, @Query("second") String second_candidate_id);
+
+  @GET(Config.CANDIDATE_COUNT) Call<JsonObject> getCandidateCount(
+      @Query("party") String party_id);
+
+  @GET(Config.CURRENT_COUNT) Call<JsonObject> getCurrentCount();
 }

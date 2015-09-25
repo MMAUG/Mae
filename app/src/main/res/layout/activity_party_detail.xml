@@ -290,30 +290,34 @@
                 android:layout_marginLeft="@dimen/default_padding_large"
                 android:layout_marginRight="@dimen/default_padding_large"
                 android:layout_marginTop="@dimen/default_padding_large"
-                android:text="ယခုနှစ်ဝင်ဘောက်ပြိုင်သည့်ဦးရေ"/>
+                android:text="@string/current_count_header"/>
             <android.support.v7.widget.CardView
-                android:orientation="horizontal"
                 android:padding="@dimen/spacing_major"
-                android:background="@color/white"
-                android:id="@+id/prev_election_status_card"
+                android:id="@+id/current_election_status_card"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="@dimen/default_padding_large"
-                app:layout_anchor="@id/appbar"
-                app:layout_anchorGravity="bottom|right|end"
                 app:cardElevation="5dp"
                 app:pressedTranslationZ="16dp"
                 app:borderWidth="0dp"
                 app:elevation="@dimen/fab_elevation"
                 app:rippleColor="@color/primary_dark"
                 tools:cardCornerRadius="@dimen/default_padding_small"
+                android:minHeight="180dp"
                 >
                 <LinearLayout
                     android:id="@+id/current_election_status"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
-                    <include layout="@layout/toy_figure"/>
+                    <android.support.design.widget.TabLayout
+                        android:id="@+id/current_year_tab"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                    <org.mmaug.mae.view.WrappingViewPager
+                        android:id="@+id/current_year_view_pager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -324,30 +328,34 @@
                 android:layout_marginLeft="@dimen/default_padding_large"
                 android:layout_marginRight="@dimen/default_padding_large"
                 android:layout_marginTop="@dimen/default_padding_large"
-                android:text="ယခင်နှစ်ဝင်ဘောက်ပြိုင်သည့်ဦးရေ"/>
+                android:text="@string/previous_count_header"/>
             <android.support.v7.widget.CardView
-                android:orientation="horizontal"
                 android:padding="@dimen/spacing_major"
-                android:background="@color/white"
-                android:id="@+id/previous_election_status_card"
+                android:id="@+id/prev_election_status_card"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="@dimen/default_padding_large"
-                app:layout_anchor="@id/appbar"
-                app:layout_anchorGravity="bottom|right|end"
                 app:cardElevation="5dp"
                 app:pressedTranslationZ="16dp"
                 app:borderWidth="0dp"
                 app:elevation="@dimen/fab_elevation"
                 app:rippleColor="@color/primary_dark"
                 tools:cardCornerRadius="@dimen/default_padding_small"
+                android:minHeight="180dp"
                 >
                 <LinearLayout
-                    android:id="@+id/previous_election_status"
+                    android:id="@+id/prev_election_status"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
-                    <include layout="@layout/toy_figure"/>
+                    <android.support.design.widget.TabLayout
+                        android:id="@+id/prev_year_tab"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                    <org.mmaug.mae.view.WrappingViewPager
+                        android:id="@+id/prev_year_view_pager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView

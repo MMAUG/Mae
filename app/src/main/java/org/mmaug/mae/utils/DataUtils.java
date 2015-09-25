@@ -17,10 +17,9 @@ import java.util.ArrayList;
  */
 public class DataUtils {
 
+  private static DataUtils instance;
   private Context mContext;
   private Gson gson = new Gson();
-
-  private static DataUtils instance;
 
   public DataUtils(Context context) {
     this.mContext = context;

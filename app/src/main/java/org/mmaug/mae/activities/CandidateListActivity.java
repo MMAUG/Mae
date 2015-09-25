@@ -1,5 +1,6 @@
 package org.mmaug.mae.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -7,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ public class CandidateListActivity extends BaseActivity
   Candidate candidateFromDetail;
   private CandidateAdapter candidateAdapter;
   private SectionHeaderAdapter sectionAdapter;
+  private Dialog candidateResultDialog;
 
   @Override protected int getLayoutResource() {
     return R.layout.activity_candidate;
@@ -59,6 +62,9 @@ public class CandidateListActivity extends BaseActivity
     initRecyclerView();
     fetchCandidate();
     candidateFromDetail = (Candidate) getIntent().getSerializableExtra(Config.CANDIDATE);
+    if (candidateFromDetail != null) {
+      tvToolbarTitle.setText(getResources().getString(R.string.compare_title));
+    }
   }
 
   private void initRecyclerView() {
@@ -140,10 +146,51 @@ public class CandidateListActivity extends BaseActivity
   @Override public void onItemClick(Candidate candidate) {
     //list item click
     if (candidateFromDetail != null) {
-      Intent intent = new Intent(this, CandidateCompareActivity.class);
-      intent.putExtra(Config.CANDIDATE, candidate);
-      intent.putExtra(Config.CANDIDATE_COMPARE, candidateFromDetail);
-      startActivity(intent);
+
+      if (candidate.getId().equals(candidateFromDetail.getId())) {
+        candidateResultDialog =
+            new Dialog(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
+        View view = this.getLayoutInflater().inflate(R.layout.dialog_candidate_check, null);
+        View okBtn = view.findViewById(R.id.voter_check_ok_btn);
+        TextView textView = (TextView) view.findViewById(R.id.tv_vote_message);
+        TextView canCompare = (TextView) view.findViewById(R.id.incorrect_vote);
+        canCompare.setText("ကျေးဇူးပြု၍ အခြားအမတ်ကို ရွေးချယ်ပါ");
+        textView.setText(getResources().getString(R.string.duplicate_candidate_choose));
+        candidateResultDialog.setContentView(view);
+        candidateResultDialog.show();
+        okBtn.setOnClickListener(new View.OnClickListener() {
+          @Override public void onClick(View view) {
+            if (candidateResultDialog.isShowing()) {
+              candidateResultDialog.dismiss();
+            }
+          }
+        });
+      } else if (candidate.getMpid() == null) {
+        candidateResultDialog =
+            new Dialog(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
+        View view = this.getLayoutInflater().inflate(R.layout.dialog_candidate_check, null);
+        View okBtn = view.findViewById(R.id.voter_check_ok_btn);
+        TextView textView = (TextView) view.findViewById(R.id.tv_vote_message);
+        TextView canCompare = (TextView) view.findViewById(R.id.incorrect_vote);
+        canCompare.setText(candidate.getName() + " နှင့် " + candidateFromDetail.getName()
+            + getResources().getString(R.string.cannot_compare_candidate));
+        textView.setText(
+            candidate.getName() + getResources().getString(R.string.incrroect_candidate_compare));
+        candidateResultDialog.setContentView(view);
+        candidateResultDialog.show();
+        okBtn.setOnClickListener(new View.OnClickListener() {
+          @Override public void onClick(View view) {
+            if (candidateResultDialog.isShowing()) {
+              candidateResultDialog.dismiss();
+            }
+          }
+        });
+      } else {
+        Intent intent = new Intent(this, CandidateCompareActivity.class);
+        intent.putExtra(Config.CANDIDATE, candidate);
+        intent.putExtra(Config.CANDIDATE_COMPARE, candidateFromDetail);
+        startActivity(intent);
+      }
     } else {
       Intent intent = new Intent(this, CandidateDetailActivity.class);
       intent.putExtra(Config.CANDIDATE, candidate);

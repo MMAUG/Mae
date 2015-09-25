@@ -5,9 +5,11 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 import java.util.ArrayList;
 import org.mmaug.mae.R;
 import org.mmaug.mae.utils.MixUtils;
@@ -17,24 +19,46 @@ import org.mmaug.mae.utils.MixUtils;
  */
 public class BoardView extends View {
 
+  private Context mContext;
   private Resources res;
   private Canvas canvas;
   private Paint background = new Paint();
   private Paint gridPaint = new Paint();
+  private TextPaint textPaint = new TextPaint();
   private ArrayList<Rect> rects; //List of rectangles where the touch of the user needs to be
   // checked
-  private int marginLeft, marginTop, padding; //boundaries of table
+  private int margin;
+  private int padding;
+  private int marginSmall; //boundaries of table
   private boolean touchMode; //control touch mode by button
   private GameListener listener;
 
+  private int titleTextSize, normalTextSize;
 
   public BoardView(Context context, AttributeSet attrs) {
     super(context, attrs);
+
+    mContext = context;
     res = getResources();
-    marginLeft = (int) MixUtils.convertDpToPixel(context, 16);
-    marginTop = (int) MixUtils.convertDpToPixel(context, 130);
+
+    margin = (int) MixUtils.convertDpToPixel(context, 16);
+    marginSmall = (int) MixUtils.convertDpToPixel(context, 12);
     padding = (int) MixUtils.convertDpToPixel(context, 4);
 
+    titleTextSize = (int) MixUtils.convertDpToPixel(context, 14);
+    normalTextSize = (int) MixUtils.convertDpToPixel(context, 12);
+    //background rect paint
+    background.setColor(res.getColor(R.color.board_background));
+
+    //cell rect paint
+    gridPaint.setColor(res.getColor(R.color.secondary_text_color));
+    gridPaint.setStyle(Paint.Style.STROKE);
+    gridPaint.setStrokeWidth(4);
+
+    //text paint
+    textPaint.setColor(res.getColor(R.color.secondary_text_color));
+    textPaint.setAntiAlias(true);
+    textPaint.setStyle(Paint.Style.FILL);
   }
 
   public void enableTouch(boolean touchMode) {
@@ -71,19 +95,25 @@ public class BoardView extends View {
     // or not
     rects = new ArrayList<>();
 
-    //background rect paint
-    background.setColor(res.getColor(R.color.board_background));
+    //align left for the top text
+    textPaint.setTextAlign(Paint.Align.LEFT);
+    //draw bg
     canvas.drawRect(0, 0, getWidth(), getHeight(), background);
-
-    //rect paint
-    gridPaint.setColor(res.getColor(R.color.secondary_text_color));
-    gridPaint.setStyle(Paint.Style.STROKE);
-    gridPaint.setStrokeWidth(4);
+    //draw boundary
     canvas.drawRect(0, 0, getWidth(), getHeight(), gridPaint);
 
+    //textPaint.setTextSize(titleTextSize);
+    String title = res.getString(R.string.example_state_legislature);
+    drawTextOnCanvas(title, margin, marginSmall, 14);
+
+    char c = '\u2713';
+    String votingMessage = res.getString(R.string.example_voting_step_1, c, c);
+    drawTextOnCanvas(votingMessage, margin, margin * 3 + marginSmall, 12);
+
+    int marginTop = margin * 12;
     //set height and width of table
-    int x = canvas.getWidth() - (marginLeft * 2);
-    int y = getSmallCellWidth(x) * 3; // to get square for second & third cell
+    int x = canvas.getWidth() - (margin * 2);
+    int y = getSmallCellWidth(x) * 3;
 
     //this is the top point of the rectangle and it will need to be recalculated
     //when rows are added
@@ -104,6 +134,25 @@ public class BoardView extends View {
       }
       addRow(top, x, y);
     }
+
+    //align left for the signature text
+    textPaint.setTextSize(normalTextSize);
+    textPaint.setTextAlign(Paint.Align.RIGHT);
+    int signatureTop = marginTop + (getBigCellHeight(y) * 3) + marginSmall + margin;
+    canvas.drawText(res.getString(R.string.signature_line_1), canvas.getWidth() - margin,
+        signatureTop, textPaint);
+    canvas.drawText(res.getString(R.string.signature_line_2), canvas.getWidth() - margin,
+        signatureTop + margin, textPaint);
+  }
+
+  /**
+   * @return text height
+   */
+  private float getTextHeight(String text, Paint paint) {
+
+    Rect rect = new Rect();
+    paint.getTextBounds(text, 0, text.length(), rect);
+    return rect.height();
   }
 
   @Override protected void onDraw(Canvas canvas) {
@@ -138,13 +187,13 @@ public class BoardView extends View {
 
     for (int j = 0; j < 3; j++) {
       if (j == 0) {
-        left = marginLeft;
+        left = margin;
         right = left + getBigCellWith(x);
       } else if (j == 1) {
-        left = marginLeft + getBigCellWith(x);
+        left = margin + getBigCellWith(x);
         right = left + getSmallCellWidth(x);
       } else {
-        left = marginLeft + getBigCellWith(x) + getSmallCellWidth(x);
+        left = margin + getBigCellWith(x) + getSmallCellWidth(x);
         right = left + getSmallCellWidth(x);
       }
 
@@ -171,4 +220,26 @@ public class BoardView extends View {
     void checkValidity(ValidityStatus status);
   }
 
+  private void drawTextOnCanvas(String text, int x, int y, int textSize) {
+    TextView tv = new TextView(mContext);
+    // setup text
+    tv.setText(text);
+    tv.setTextColor(res.getColor(R.color.secondary_text_color));
+    tv.setTextSize(textSize);
+    tv.setSingleLine(false);
+    tv.setLineSpacing(0.0f, 1.2f);
+    tv.setDrawingCacheEnabled(true);
+
+    // we need to setup how big the view should be..which is exactly as big as the canvas
+    tv.measure(MeasureSpec.makeMeasureSpec(canvas.getWidth(), MeasureSpec.EXACTLY),
+        MeasureSpec.makeMeasureSpec(canvas.getHeight(), MeasureSpec.EXACTLY));
+
+    // assign the layout values to the textview
+    tv.layout(0, 0, tv.getMeasuredWidth(), tv.getMeasuredHeight());
+
+    // draw the bitmap from the drawingcache to the canvas
+    canvas.drawBitmap(tv.getDrawingCache(), x, y, background);
+    // disable drawing cache
+    tv.setDrawingCacheEnabled(false);
+  }
 }

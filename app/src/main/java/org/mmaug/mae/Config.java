@@ -91,4 +91,10 @@ public class Config {
 
   //candidatecompare
   public static final String COMPARE_QUESTION = BASE_URL + "compare";
+
+  //candidate count
+  public static final String CANDIDATE_COUNT = BASE_URL + "mps/candidate-count";
+
+  //current count
+  public static final String CURRENT_COUNT = BASE_URL+"collection/current";
 }
