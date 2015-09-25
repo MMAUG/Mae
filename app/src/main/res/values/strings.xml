@@ -86,4 +86,5 @@
   <string name="current_compare_head">ဝင်ရောက်အရွေးခံသည့်လူ စုစုပေါင်း %1$s တွင်</string>
   <string name="current_compare_result">ဤပါတီမှ %1$s ဝင်ယောက်ယှဥ်ပြိုင်မည် ဖြစ်ပါသည်</string>
   <string name="current_compare_result_zero">ဤပါတီမှ ဝင်ယောက်ယှဥ်ပြိုင်သူ မရှိပါ</string>
+  <string name="party_policiy_book">ပါတီ၏ မူဝါဒများအကြောင်း စာအုပ်ရယူရန်</string>
 </resources>

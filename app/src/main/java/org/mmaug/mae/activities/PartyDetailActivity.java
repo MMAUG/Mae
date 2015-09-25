@@ -1,14 +1,20 @@
 package org.mmaug.mae.activities;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
@@ -46,6 +52,7 @@ public class PartyDetailActivity extends AppCompatActivity {
   @Bind(R.id.party_phone) TextView mPartyPhone;
   @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
   @Bind(R.id.toolbar) Toolbar mToolbar;
+  @Bind(R.id.party_policy_book_card) CardView mPartyPolicyCard;
 
   private RESTService partyDetailRestService;
   private int currentAmyotharCount;
@@ -95,6 +102,18 @@ public class PartyDetailActivity extends AppCompatActivity {
         mPartyPhone.append(contact + "\n");
       }
     }
+
+    mPartyPolicyCard.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+        browserIntent.setData(Uri.parse(party.getPolicy()));
+        try{
+          startActivity(browserIntent);
+        }catch (ActivityNotFoundException e){
+          Toast.makeText(PartyDetailActivity.this,"Install a browser!",Toast.LENGTH_LONG).show();
+        }
+      }
+    });
 
     partyDetailRestService = RESTClient.getService();
     Call<JsonObject> candidateCountCall = partyDetailRestService.getCandidateCount(party.getPartyId());
