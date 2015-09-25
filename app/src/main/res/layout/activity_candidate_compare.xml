@@ -56,14 +56,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 >
-              <com.pkmmte.view.CircularImageView
+              <org.mmaug.mae.view.CircularImageView
                   android:layout_width="100dp"
                   android:id="@+id/candidate_one"
                   android:layout_height="100dp"
-                  app:border="true"
-                  app:border_color="#EEEEEE"
-                  app:border_width="4dp"
-                  android:layout_marginLeft="@dimen/spacing_major"
+                  android:layout_gravity="center_horizontal"
+                  android:layout_margin="8dp"
+                  android:clickable="true"
                   />
 
               <org.mmaug.mae.view.AutofitTextView
@@ -88,15 +87,13 @@
                   android:layout_height="wrap_content"
                   />
 
-              <com.pkmmte.view.CircularImageView
+              <org.mmaug.mae.view.CircularImageView
                   android:layout_marginRight="@dimen/spacing_major"
                   android:id="@+id/candidate_two"
                   android:layout_alignParentRight="true"
                   android:layout_width="100dp"
                   android:layout_height="100dp"
                   app:border="true"
-                  app:border_color="#EEEEEE"
-                  app:border_width="4dp"
                   />
 
               <org.mmaug.mae.view.AutofitTextView
