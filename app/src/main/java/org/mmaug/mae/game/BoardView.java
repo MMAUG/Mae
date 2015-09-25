@@ -103,7 +103,6 @@ public class BoardView extends View {
 
   //draw grid table
   private void drawBoard() {
-    invalidate();
     //list of rectangles drawn on canvas, we will use their boundary to check the stamp is valid
     // or not
     rects = new ArrayList<>();
@@ -213,6 +212,7 @@ public class BoardView extends View {
           } else {
             listener.checkValidity(ValidityStatus.invalid);
           }
+          invalidate();
           return true;
         default:
           return super.onTouchEvent(event);
@@ -248,7 +248,8 @@ public class BoardView extends View {
             bottom - marginSmall, partyFlagPaint);
       }
       if (j == 0) {
-        canvas.drawText(candidateName[i], rect.width() / 2, top + rect.height() / 2, textPaint);
+        canvas.drawText(candidateName[i], (rect.width() / 2) - (candidateName[i].length() / 2),
+            top + rect.height() / 2, textPaint);
       }
     }
   }
