@@ -78,9 +78,13 @@
     ကြိုတင်မဲပေးလိုသော ကိုယ်စားလှယ်လောင်း၏ အမည်တည့်တည့် လေးထောင့်အကွက်ထဲတွင် အမှန်အမှတ်အသား %2$s
     တံဆိပ်တုံးဖြင့် ရိုက်နှိပ်ပေးပါ။ \n(ဂ) ကိုယ်စားလှယ်လောင်း တစ်ဦးထက်ပို၍ မဲမပေးရပါ။
   </string>
-  <string name="example_candidate_1">ဦးငှက်ပျောသီး</string>
-  <string name="example_candidate_2">ဒေါ်ဖရဲသီး</string>
-  <string name="example_candidate_3">ဦ:ပန်းသီး</string>
+
+  <string-array name="candidate_name">
+    <item>ဦးငှက်ပျောသီး</item>
+    <item>ဒေါ်ဖရဲသီး</item>>
+    <item>ဦ:ပန်းသီး</item>
+  </string-array>
+
   <string name="signature_line_1">ဤနေရာတွင် မဲရုံမှူးလက်မှတ်</string>
   <string name="signature_line_2">ပါမပါ စစ်ပါ။</string>
   <string name="current_compare_head">ဝင်ရောက်အရွေးခံသည့်လူ စုစုပေါင်း %1$s တွင်</string>

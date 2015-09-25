@@ -34,6 +34,7 @@ public class BoardView extends View {
   private int marginSmall; //boundaries of table
   private boolean touchMode; //control touch mode by button
   private GameListener listener;
+  private String[] candidateName;
 
   int normalTextSize;
 
@@ -43,6 +44,7 @@ public class BoardView extends View {
     mContext = context;
     res = getResources();
 
+    candidateName = res.getStringArray(R.array.candidate_name);
     margin = (int) MixUtils.convertDpToPixel(context, 16);
     marginSmall = (int) MixUtils.convertDpToPixel(context, 8);
     padding = (int) MixUtils.convertDpToPixel(context, 4);
@@ -129,10 +131,15 @@ public class BoardView extends View {
       titleHeight = titleHeight + padding;
       paraMargin = titleHeight + marginSmall + padding;
       signatureTextSize = marginSmall;
-    } else {
+    } else if (paraHeight < 350) {
       smallTextSize = 10;
       signatureTextSize = normalTextSize;
       titleTextSize = 12;
+      paraMargin = titleHeight + marginSmall;
+    } else {
+      smallTextSize = 12;
+      signatureTextSize = marginSmall + padding;
+      titleTextSize = 16;
       paraMargin = titleHeight + marginSmall;
     }
 
@@ -161,7 +168,7 @@ public class BoardView extends View {
           top = marginTop + (getBigCellHeight(y) * 2) + (padding * 2);
           break;
       }
-      addRow(top, x, y);
+      addRow(top, x, y, i);
     }
 
     //align left for the signature text
@@ -199,7 +206,7 @@ public class BoardView extends View {
     return super.onTouchEvent(event);
   }
 
-  private void addRow(int topStart, int x, int y) {
+  private void addRow(int topStart, int x, int y, int i) {
     int left, right, top, bottom;
     top = topStart;
     bottom = top + getBigCellHeight(y);
@@ -224,6 +231,9 @@ public class BoardView extends View {
       if (j == 1) {
         canvas.drawRect(left + marginSmall, top + marginSmall, right - marginSmall,
             bottom - marginSmall, partyFlagPaint);
+      }
+      if (j == 0) {
+        canvas.drawText(candidateName[i], rect.width() / 2, top + rect.height() / 2, textPaint);
       }
     }
   }
