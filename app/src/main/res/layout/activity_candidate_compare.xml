@@ -201,6 +201,7 @@
                 android:layout_height="wrap_content"
                 >
               <org.mmaug.mae.view.AutofitTextView
+                  android:padding="@dimen/spacing_major"
                   android:textStyle="bold"
                   android:text="Bsc(Maths)"
                   android:gravity="center"
@@ -212,6 +213,7 @@
                   />
 
               <org.mmaug.mae.view.AutofitTextView
+                  android:padding="@dimen/spacing_major"
                   android:textStyle="bold"
                   android:gravity="center"
                   android:layout_weight="1"

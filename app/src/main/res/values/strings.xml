@@ -39,6 +39,7 @@
   <string name="head_quarter">ရုံးချုပ်</string>
   <string name="phone">ဖုန်း</string>
   <string name="cannot_compare">နှိုင်းယှဉ်၍ မရပါ</string>
+  <string name="compare_title">နှိုင်းယှဉ်ရန် ရွေးချယ်ပါ</string>
   <string name="first_time_candidate">ပထမဆုံး အကြိမ်ဝင်ရောက်ယှဉ်ပြိုင်ချင်းဖြစ်ပါသည်</string>
   <string name="how_to_vote_placeholder_text">
     <![CDATA[ <b><font color=#CC0033>*</b> %s]]></string>
@@ -48,6 +49,8 @@
     ဖြစ်သည်။ ထိုစာရွက်ပေါ်တွင် တံဆိပ်တုံး ရိုက်နှိပ်သကဲ့သို့ မိမိလက်ဖြင့်
     နှိပ်ကြည့်ခြင်းဖြင့် မည်သို့သောမဲများသည် ခိုင်လုံမဲ၊ ပယ်မဲဖြစ်သည်ကို စမ်းသပ်ပါ။
   </string>
+  <string name="duplicate_candidate_choose">မိမိ နှိုင်းယှဉ်ရန် ရွေးထားသော အမတ်ကိုပြန်ရွေးချယ်မိသောကြောင့်ဖြစ်ပါသည်
+</string>
 
   <!-- vote validity dialog strings-->
   <string name="check">စစ်မည်</string>

@@ -145,24 +145,6 @@ public class CandidateDetailActivity extends AppCompatActivity {
       mCandidateCompareResult.setText(getResources().getString(R.string.first_time_candidate));
     }
 
-    //Glide.with(this)
-    //    .load(candidate.getPhotoUrl())
-    //    .asBitmap()
-    //    .into(new BitmapImageViewTarget(candidateImage) {
-    //      @Override protected void setResource(Bitmap resource) {
-    //        // Do bitmap magic here
-    //        super.setResource(resource);
-    //        Palette.from(resource).generate(new Palette.PaletteAsyncListener() {
-    //          public void onGenerated(Palette p) {
-    //            // Use generated instance
-    //            Palette.Swatch vibrantSwatch = p.getVibrantSwatch();
-    //            float[] vibrant = vibrantSwatch.getHsl();
-    //            Log.e("Color", "code" + Color.HSVToColor(vibrant));
-    //            candidateName.setTextColor(Color.HSVToColor(vibrant));
-    //          }
-    //        });
-    //      }
-    //    });
     Glide.with(this)
         .load(candidate.getPhotoUrl())
         .diskCacheStrategy(DiskCacheStrategy.ALL)
