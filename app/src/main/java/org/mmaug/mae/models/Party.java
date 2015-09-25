@@ -11,7 +11,7 @@ import java.util.Locale;
 
 public class Party implements Serializable {
 
-  @SerializedName("_id") private String partyId;
+  @SerializedName("id") private String partyId;
   @SerializedName("party_name") private String PartyName;
   @SerializedName("party_name_english") private String PartyNameEnglish;
   @SerializedName("establishment_date") private String EstablishmentDate;

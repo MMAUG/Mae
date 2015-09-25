@@ -1,12 +1,14 @@
 package org.mmaug.mae.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import java.util.HashMap;
 import java.util.Map;
 import org.mmaug.mae.Config;
@@ -54,22 +56,48 @@ public class ToyFigurePagerAdapter extends PagerAdapter {
         (LinearLayout) LayoutInflater.from(mContext).inflate(R.layout.toy_compare_layout, container,
             false);
     LinearLayout toyImageGroup = (LinearLayout) linearLayout.findViewById(R.id.this_year_toys);
+    TextView compareHeader = (TextView) linearLayout.findViewById(R.id.compare_head_tv);
+    TextView compareResult = (TextView) linearLayout.findViewById(R.id.compare_result_tv);
+    int realCandidateCount;
+    int seatCandidateCount;
     int countToFilter;
     switch (position){
       case 0:
         countToFilter =  candidateCount.get(Config.AMYOTHAE_HLUTTAW);
+        realCandidateCount = candidateCount.get(Config.AMYOTHAR_REAL_COUNT);
+        seatCandidateCount = candidateCount.get(Config.AMYOTHAR_SEAT_COUNT);
         break;
       case 1:
         countToFilter = candidateCount.get(Config.PYITHU_HLUTTAW);
+        realCandidateCount = candidateCount.get(Config.PYITHU_REAL_COUNT);
+        seatCandidateCount = candidateCount.get(Config.PYITHU_SEAT_COUNT);
         break;
       case 2:
         countToFilter = candidateCount.get(Config.TINEDAYTHA_HLUTTAW);
+        realCandidateCount = candidateCount.get(Config.TINE_DAYTHA_REAL_COUNT);
+        seatCandidateCount = candidateCount.get(Config.TINE_DAYTHA_SEAT_COUNT);
         break;
       default:
         countToFilter = candidateCount.get(Config.AMYOTHAE_HLUTTAW);
+        realCandidateCount = candidateCount.get(Config.AMYOTHAR_REAL_COUNT);
+        seatCandidateCount = candidateCount.get(Config.AMYOTHAR_SEAT_COUNT);
         break;
     }
-    colorFilterImageViews(toyImageGroup,countToFilter);
+    Resources res = mContext.getResources();
+    String realCountStr;
+    if(realCandidateCount>0) {
+      realCountStr = String.format(res.getString(R.string.current_compare_result), String.valueOf(realCandidateCount));
+    }else{
+      realCountStr = res.getString(R.string.current_compare_result_zero);
+    }
+    compareResult.setText(realCountStr);
+
+    String seatCountStr;
+    seatCountStr = String.format(res.getString(R.string.current_compare_head), String.valueOf(seatCandidateCount));
+    compareHeader.setText(seatCountStr);
+
+
+    colorFilterImageViews(toyImageGroup, countToFilter);
     container.addView(linearLayout);
     return linearLayout;
   }
