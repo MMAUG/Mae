@@ -1,12 +1,20 @@
 package org.mmaug.mae.activities;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
@@ -41,6 +49,10 @@ public class PartyDetailActivity extends AppCompatActivity {
   @Bind(R.id.current_year_view_pager) ViewPager mCurrentViewPager;
   @Bind(R.id.prev_year_tab) TabLayout mPrevTabLayout;
   @Bind(R.id.prev_year_view_pager) ViewPager mPrevViewPager;
+  @Bind(R.id.party_phone) TextView mPartyPhone;
+  @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
+  @Bind(R.id.toolbar) Toolbar mToolbar;
+  @Bind(R.id.party_policy_book_card) CardView mPartyPolicyCard;
 
   private RESTService partyDetailRestService;
   private int currentAmyotharCount;
@@ -48,6 +60,7 @@ public class PartyDetailActivity extends AppCompatActivity {
   private int currentTineDaythaHlutaw;
   private CurrentCollection mAmyothaCurrentCollection;
   private CurrentCollection mPyithuCurrentCollection;
+  private  Map<String,Integer> currentCandidateCount = new HashMap<>();
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -55,6 +68,13 @@ public class PartyDetailActivity extends AppCompatActivity {
     ButterKnife.bind(this);
 
     final Party party = (Party) getIntent().getSerializableExtra("party");
+    mCollapsingToolbarLayout.setTitle(party.getPartyName());
+    setSupportActionBar(mToolbar);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    mCollapsingToolbarLayout.setExpandedTitleColor(
+        getResources().getColor(android.R.color.transparent));
+    mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
+
     Glide.with(this).load(party.getPartyFlag()).into(party_image);
     if (party.getMemberCount() != null && party.getMemberCount().length() > 0) {
       mPartyCount.setText(MixUtils.convertToBurmese(String.valueOf(party.getMemberCount())));
@@ -76,30 +96,28 @@ public class PartyDetailActivity extends AppCompatActivity {
     mPartyHeadQuarter.setText(party.getHeadquarters());
     List<String> contacts = party.getContact();
     for (String contact : contacts) {
-      if (leaders.indexOf(contact) + 1 == leaders.size()) {
-        mPartyLeader.append(contact);
+      if (contacts.indexOf(contact) + 1 == contacts.size()) {
+        mPartyPhone.append(contact);
       } else {
-        mPartyLeader.append(contact + "\n");
+        mPartyPhone.append(contact + "\n");
       }
     }
-    final ToyFigurePagerAdapter currentPagerAdapter = new ToyFigurePagerAdapter();
-    mCurrentViewPager.setAdapter(currentPagerAdapter);
-    mCurrentViewPager.setCurrentItem(0);
-    mCurrentTabLayout.setTabMode(TabLayout.MODE_FIXED);
-    mCurrentTabLayout.setupWithViewPager(mCurrentViewPager);
 
-    ToyFigurePagerAdapter prevPagerAdapter = new ToyFigurePagerAdapter();
-    mPrevViewPager.setAdapter(prevPagerAdapter);
-    Map<String,Integer> prevCandidateCount = new HashMap<>();
-    prevCandidateCount.put(Config.AMYOTHAE_HLUTTAW,7);
-    prevCandidateCount.put(Config.PYITHU_HLUTTAW,5);
-    prevCandidateCount.put(Config.TINEDAYTHA_HLUTTAW, 4);
-    prevPagerAdapter.setItems(prevCandidateCount);
-    mPrevViewPager.setCurrentItem(0);
-    mPrevTabLayout.setTabMode(TabLayout.MODE_FIXED);
-    mPrevTabLayout.setupWithViewPager(mPrevViewPager);
+    mPartyPolicyCard.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+        browserIntent.setData(Uri.parse(party.getPolicy()));
+        try{
+          startActivity(browserIntent);
+        }catch (ActivityNotFoundException e){
+          Toast.makeText(PartyDetailActivity.this,"Install a browser!",Toast.LENGTH_LONG).show();
+        }
+      }
+    });
+
     partyDetailRestService = RESTClient.getService();
     Call<JsonObject> candidateCountCall = partyDetailRestService.getCandidateCount(party.getPartyId());
+    System.out.println("PARTY ID   "+party.getPartyId());
     final Call<JsonObject> currentCount = partyDetailRestService.getCurrentCount();
     candidateCountCall.enqueue(new Callback<JsonObject>() {
       @Override public void onResponse(Response<JsonObject> response) {
@@ -113,11 +131,51 @@ public class PartyDetailActivity extends AppCompatActivity {
                 Gson gson = new GsonBuilder().create();
                 mAmyothaCurrentCollection = gson.fromJson(response.body().get("amyotha").getAsJsonObject(),CurrentCollection.class);
                 mPyithuCurrentCollection = gson.fromJson(response.body().get("pyithu").getAsJsonObject(),CurrentCollection.class);
-                Map<String,Integer> currentCandidateCount = new HashMap<>();
-                currentCandidateCount.put(Config.AMYOTHAE_HLUTTAW,mAmyothaCurrentCollection.getSeats()/currentAmyotharCount);
-                currentCandidateCount.put(Config.PYITHU_HLUTTAW,mPyithuCurrentCollection.getSeats()/currentPyithuHlutaw);
-                currentCandidateCount.put(Config.TINEDAYTHA_HLUTTAW,9);
+                currentCandidateCount.clear();
+                final ToyFigurePagerAdapter currentPagerAdapter = new ToyFigurePagerAdapter();
+                if(currentAmyotharCount>0) {
+
+                  currentCandidateCount.put(Config.AMYOTHAE_HLUTTAW,(int)
+                      ((((double) currentAmyotharCount) / mAmyothaCurrentCollection.getSeats()) * 10));
+                }else{
+                  currentCandidateCount.put(Config.AMYOTHAE_HLUTTAW,0);
+                }
+                if(currentPyithuHlutaw>0) {
+                  currentCandidateCount.put(Config.PYITHU_HLUTTAW,(int)(
+                      ((double)currentPyithuHlutaw/mPyithuCurrentCollection.getSeats())*10));
+                }else{
+                  currentCandidateCount.put(Config.PYITHU_HLUTTAW,0);
+                }
+                currentCandidateCount.put(Config.TINEDAYTHA_HLUTTAW, 9);
+                currentCandidateCount.put(Config.AMYOTHAR_REAL_COUNT,currentAmyotharCount);
+                currentCandidateCount.put(Config.AMYOTHAR_SEAT_COUNT,mAmyothaCurrentCollection.getSeats());
+                currentCandidateCount.put(Config.PYITHU_REAL_COUNT,currentPyithuHlutaw);
+                currentCandidateCount.put(Config.PYITHU_SEAT_COUNT,mPyithuCurrentCollection.getSeats());
+                currentCandidateCount.put(Config.TINE_DAYTHA_REAL_COUNT,0);
+                currentCandidateCount.put(Config.TINE_DAYTHA_SEAT_COUNT,10);
                 currentPagerAdapter.setItems(currentCandidateCount);
+                mCurrentViewPager.setAdapter(currentPagerAdapter);
+                mCurrentViewPager.setCurrentItem(0);
+                mCurrentTabLayout.setTabMode(TabLayout.MODE_FIXED);
+                mCurrentTabLayout.setupWithViewPager(mCurrentViewPager);
+
+                ToyFigurePagerAdapter prevPagerAdapter = new ToyFigurePagerAdapter();
+                Map<String,Integer> prevCandidateCount = new HashMap<>();
+                prevCandidateCount.put(Config.AMYOTHAE_HLUTTAW,7);
+                prevCandidateCount.put(Config.PYITHU_HLUTTAW,5);
+                prevCandidateCount.put(Config.TINEDAYTHA_HLUTTAW, 4);
+                prevCandidateCount.put(Config.AMYOTHAR_REAL_COUNT,12);
+                prevCandidateCount.put(Config.AMYOTHAR_SEAT_COUNT,10);
+                prevCandidateCount.put(Config.PYITHU_REAL_COUNT,13);
+                prevCandidateCount.put(Config.PYITHU_SEAT_COUNT,20);
+                prevCandidateCount.put(Config.TINE_DAYTHA_REAL_COUNT,0);
+                prevCandidateCount.put(Config.TINE_DAYTHA_SEAT_COUNT,10);
+                prevPagerAdapter.setItems(prevCandidateCount);
+                mPrevViewPager.setAdapter(prevPagerAdapter);
+                mPrevViewPager.setCurrentItem(0);
+                mPrevTabLayout.setTabMode(TabLayout.MODE_FIXED);
+                mPrevTabLayout.setupWithViewPager(mPrevViewPager);
+
               }
             }
 
@@ -133,6 +191,8 @@ public class PartyDetailActivity extends AppCompatActivity {
       }
     });
   }
+
+
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() == android.R.id.home) {

@@ -1,25 +1,20 @@
 package org.mmaug.mae.fragments;
 
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import hu.aut.utillib.circular.animation.CircularAnimationUtils;
 import java.text.ParseException;
 import java.util.HashMap;
-import java.util.Random;
 import org.mmaug.mae.R;
 import org.mmaug.mae.activities.CandidateListActivity;
 import org.mmaug.mae.activities.HowToVoteActivity;
@@ -35,29 +30,19 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
   @Bind(R.id.month_day_left) TextView monthDayLeft;
   @Bind(R.id.hour_minute_left) TextView hourMinuteLeft;
-  @Bind(R.id.to_vote) TextView toVote;
-  @Bind(R.id.tvThumb) TextView tvThumb;
-  @Bind(R.id.tv_candidate_list) TextView tvThumb_party_condition;
+ /* @Bind(R.id.to_vote) TextView toVote;
+  @Bind(R.id.tvThumb) TextView tvThumb;*/
+/*  @Bind(R.id.tv_candidate_list) TextView tvThumb_party_condition;*/
 
   // TODO: Rename and change types of parameters
   private String mParam1;
   private String mParam2;
   private Dialog voteResultDialog;
 
-  private OnFragmentInteractionListener mListener;
-
   public HomeFragment() {
     // Required empty public constructor
   }
 
-  /**
-   * Use this factory method to create a new instance of
-   * this fragment using the provided parameters.
-   *
-   * @param param1 Parameter 1.
-   * @param param2 Parameter 2.
-   * @return A new instance of fragment HomeFragment.
-   */
   // TODO: Rename and change types and number of parameters
   public static HomeFragment newInstance(String param1, String param2) {
     HomeFragment fragment = new HomeFragment();
@@ -70,10 +55,6 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (getArguments() != null) {
-      mParam1 = getArguments().getString(ARG_PARAM1);
-      mParam2 = getArguments().getString(ARG_PARAM2);
-    }
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,7 +78,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         }
 
         @Override public void onFinish() {
-          toVote.setText("ပြောင်းလဲရန်");
+          //toVote.setText("ပြောင်းလဲရန်");
           monthDayLeft.setText("အခ\u103Bိန\u103Aရောက\u103Aပ\u103Cီ");
           monthDayLeft.setVisibility(View.VISIBLE);
           hourMinuteLeft.setVisibility(View.GONE);
@@ -109,13 +90,6 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     return view;
   }
 
-  // TODO: Rename method, update argument and hook method into UI event
-  public void onButtonPressed(Uri uri) {
-    if (mListener != null) {
-      mListener.onFragmentInteraction(uri);
-    }
-  }
-
   @Override public void onAttach(Activity activity) {
     super.onAttach(activity);
   }
@@ -124,27 +98,27 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     super.onDetach();
   }
 
-  @OnClick(R.id.cardview_party) public void whereToVote(CardView cardView) {
+  @OnClick(R.id.cardview_where_can_i_vote) public void whereToVote(CardView cardView) {
     Intent mapIntent = new Intent(getActivity(), LocationActivity.class);
     startActivity(mapIntent);
   }
 
-  @OnClick(R.id.tv_candidate_list) public void candidateList(TextView cardView) {
+  @OnClick(R.id.card_candidate_list) public void candidateList(TextView cardView) {
     Intent mapIntent = new Intent(getActivity(), CandidateListActivity.class);
     startActivity(mapIntent);
   }
 
-  @OnClick(R.id.tv_party_list) public void partyList(TextView cardView) {
+  @OnClick(R.id.cardview_party_condtion_list) public void partyList(TextView cardView) {
     Intent intent = new Intent(getActivity(), PartyListActivity.class);
     startActivity(intent);
   }
 
-  @OnClick(R.id.cardview_how_to_vote) public void howToVote() {
+  @OnClick(R.id.card_how_to_vote) public void howToVote() {
     Intent intent = new Intent(getActivity(), HowToVoteActivity.class);
     startActivity(intent);
   }
 
-  @OnClick(R.id.tvThumb) public void showVoteResult(TextView textView) {
+/*  @OnClick(R.id.tvThumb) public void showVoteResult(TextView textView) {
     //// TODO: 9/15/15 Handle the NOT OK result <Ye Myat Thu>
     boolean ok = new Random().nextBoolean();
     View view;
@@ -187,20 +161,5 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         }
       });
     }
-  }
-
-  /**
-   * This interface must be implemented by activities that contain this
-   * fragment to allow an interaction in this fragment to be communicated
-   * to the activity and potentially other fragments contained in that
-   * activity.
-   * <p>
-   * See the Android Training lesson <a href=
-   * "http://developer.android.com/training/basics/fragments/communicating.html"
-   * >Communicating with Other Fragments</a> for more information.
-   */
-  public interface OnFragmentInteractionListener {
-    // TODO: Update argument type and name
-    public void onFragmentInteraction(Uri uri);
-  }
+  }*/
 }

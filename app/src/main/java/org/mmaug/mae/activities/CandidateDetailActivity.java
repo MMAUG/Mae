@@ -141,7 +141,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
         bitmapTransform(new BlurTransformation(getApplicationContext(), 8, 1)).into(partyImage);
     candidateName.setText(candidate.getName());
     if (candidate.getMpid() == null) {
-      mCompareCandidate.setBackgroundColor(getResources().getColor(R.color.accent_color_error));
+      mCompareCandidate.setCardBackgroundColor(getResources().getColor(R.color.accent_color_error));
       mCandidateCompareResult.setText(getResources().getString(R.string.first_time_candidate));
     }
 
