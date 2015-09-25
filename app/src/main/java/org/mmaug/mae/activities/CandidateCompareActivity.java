@@ -21,6 +21,7 @@ import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.models.Candidate;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.view.AspectRatioImageView;
+import org.mmaug.mae.view.AutofitTextView;
 import org.mmaug.mae.view.CircularImageView;
 import org.mmaug.mae.view.RoundCornerProgressBar;
 import retrofit.Call;
@@ -36,6 +37,10 @@ public class CandidateCompareActivity extends BaseActivity {
   @Bind(R.id.party_flag_two) AspectRatioImageView party_flag_two;
   @Bind(R.id.candidate_one) CircularImageView candidateOneView;
   @Bind(R.id.candidate_two) CircularImageView candidateTwoView;
+  @Bind(R.id.party_edu_one) AutofitTextView candidateEduOne;
+  @Bind(R.id.party_edu_two) AutofitTextView candidateEduTwo;
+  @Bind(R.id.party_job_one) TextView partyJobOne;
+  @Bind(R.id.party_job_two) TextView partyJobTwo;
   Candidate candidate;
   Candidate candidateCompare;
   float[] hslValues = new float[3];
@@ -163,6 +168,10 @@ public class CandidateCompareActivity extends BaseActivity {
     candidateCompare = (Candidate) getIntent().getSerializableExtra(Config.CANDIDATE_COMPARE);
     candidateOne.setText(candidateCompare.getName());
     candidateTwo.setText(candidate.getName());
+    candidateEduOne.setText(candidateCompare.getEducation());
+    candidateEduTwo.setText(candidate.getEducation());
+    partyJobOne.setText(candidateCompare.getOccupation());
+    partyJobTwo.setText(candidate.getOccupation());
 
     Glide.with(this)
         .load(candidateCompare.getParty().getPartyFlag())

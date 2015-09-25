@@ -50,7 +50,12 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.Cand
     notifyItemRangeChanged(startIndex, candidateArrayList.size());
   }
 
-  @Override public void onBindViewHolder(CandidateViewHolder holder, int position) {
+  public void removeCandidate(int position) {
+    this.candidates.remove(position);
+    notifyDataSetChanged();
+  }
+
+  @Override public void onBindViewHolder(CandidateViewHolder holder, final int position) {
     final Candidate candidate = candidates.get(position);
     holder.bindCandidate(candidate);
     holder.itemView.setOnClickListener(new View.OnClickListener() {
