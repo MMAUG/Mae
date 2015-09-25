@@ -97,4 +97,13 @@ public class Config {
 
   //current count
   public static final String CURRENT_COUNT = BASE_URL+"collection/current";
+
+  //static final for party detail compare
+  public static final String AMYOTHAR_REAL_COUNT = "amyothar_real_count";
+  public static final String PYITHU_REAL_COUNT = "pyithu_real_count";
+  public static final String TINE_DAYTHA_REAL_COUNT = "tinedaytha_real_count";
+
+  public static final String AMYOTHAR_SEAT_COUNT = "amyothar_seat_count";
+  public static final String PYITHU_SEAT_COUNT = "pyithu_seat_count";
+  public static final String TINE_DAYTHA_SEAT_COUNT = "tinedaytha_seat_count";
 }

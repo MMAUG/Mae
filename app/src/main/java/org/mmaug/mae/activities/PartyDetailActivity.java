@@ -48,6 +48,7 @@ public class PartyDetailActivity extends AppCompatActivity {
   private int currentTineDaythaHlutaw;
   private CurrentCollection mAmyothaCurrentCollection;
   private CurrentCollection mPyithuCurrentCollection;
+  private  Map<String,Integer> currentCandidateCount = new HashMap<>();
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -76,30 +77,16 @@ public class PartyDetailActivity extends AppCompatActivity {
     mPartyHeadQuarter.setText(party.getHeadquarters());
     List<String> contacts = party.getContact();
     for (String contact : contacts) {
-      if (leaders.indexOf(contact) + 1 == leaders.size()) {
+      if (contacts.indexOf(contact) + 1 == contacts.size()) {
         mPartyLeader.append(contact);
       } else {
         mPartyLeader.append(contact + "\n");
       }
     }
-    final ToyFigurePagerAdapter currentPagerAdapter = new ToyFigurePagerAdapter();
-    mCurrentViewPager.setAdapter(currentPagerAdapter);
-    mCurrentViewPager.setCurrentItem(0);
-    mCurrentTabLayout.setTabMode(TabLayout.MODE_FIXED);
-    mCurrentTabLayout.setupWithViewPager(mCurrentViewPager);
 
-    ToyFigurePagerAdapter prevPagerAdapter = new ToyFigurePagerAdapter();
-    mPrevViewPager.setAdapter(prevPagerAdapter);
-    Map<String,Integer> prevCandidateCount = new HashMap<>();
-    prevCandidateCount.put(Config.AMYOTHAE_HLUTTAW,7);
-    prevCandidateCount.put(Config.PYITHU_HLUTTAW,5);
-    prevCandidateCount.put(Config.TINEDAYTHA_HLUTTAW, 4);
-    prevPagerAdapter.setItems(prevCandidateCount);
-    mPrevViewPager.setCurrentItem(0);
-    mPrevTabLayout.setTabMode(TabLayout.MODE_FIXED);
-    mPrevTabLayout.setupWithViewPager(mPrevViewPager);
     partyDetailRestService = RESTClient.getService();
     Call<JsonObject> candidateCountCall = partyDetailRestService.getCandidateCount(party.getPartyId());
+    System.out.println("PARTY ID   "+party.getPartyId());
     final Call<JsonObject> currentCount = partyDetailRestService.getCurrentCount();
     candidateCountCall.enqueue(new Callback<JsonObject>() {
       @Override public void onResponse(Response<JsonObject> response) {
@@ -113,11 +100,50 @@ public class PartyDetailActivity extends AppCompatActivity {
                 Gson gson = new GsonBuilder().create();
                 mAmyothaCurrentCollection = gson.fromJson(response.body().get("amyotha").getAsJsonObject(),CurrentCollection.class);
                 mPyithuCurrentCollection = gson.fromJson(response.body().get("pyithu").getAsJsonObject(),CurrentCollection.class);
-                Map<String,Integer> currentCandidateCount = new HashMap<>();
-                currentCandidateCount.put(Config.AMYOTHAE_HLUTTAW,mAmyothaCurrentCollection.getSeats()/currentAmyotharCount);
-                currentCandidateCount.put(Config.PYITHU_HLUTTAW,mPyithuCurrentCollection.getSeats()/currentPyithuHlutaw);
-                currentCandidateCount.put(Config.TINEDAYTHA_HLUTTAW,9);
+                currentCandidateCount.clear();
+                final ToyFigurePagerAdapter currentPagerAdapter = new ToyFigurePagerAdapter();
+                if(currentAmyotharCount>0) {
+                  currentCandidateCount.put(Config.AMYOTHAE_HLUTTAW,
+                      (currentAmyotharCount/mAmyothaCurrentCollection.getSeats())*100);
+                }else{
+                  currentCandidateCount.put(Config.AMYOTHAE_HLUTTAW,0);
+                }
+                if(currentPyithuHlutaw>0) {
+                  currentCandidateCount.put(Config.PYITHU_HLUTTAW,
+                      (currentPyithuHlutaw/mPyithuCurrentCollection.getSeats())*100);
+                }else{
+                  currentCandidateCount.put(Config.PYITHU_HLUTTAW,0);
+                }
+                currentCandidateCount.put(Config.TINEDAYTHA_HLUTTAW, 9);
+                currentCandidateCount.put(Config.AMYOTHAR_REAL_COUNT,currentAmyotharCount);
+                currentCandidateCount.put(Config.AMYOTHAR_SEAT_COUNT,mAmyothaCurrentCollection.getSeats());
+                currentCandidateCount.put(Config.PYITHU_REAL_COUNT,currentPyithuHlutaw);
+                currentCandidateCount.put(Config.PYITHU_SEAT_COUNT,mPyithuCurrentCollection.getSeats());
+                currentCandidateCount.put(Config.TINE_DAYTHA_REAL_COUNT,0);
+                currentCandidateCount.put(Config.TINE_DAYTHA_SEAT_COUNT,10);
                 currentPagerAdapter.setItems(currentCandidateCount);
+                mCurrentViewPager.setAdapter(currentPagerAdapter);
+                mCurrentViewPager.setCurrentItem(0);
+                mCurrentTabLayout.setTabMode(TabLayout.MODE_FIXED);
+                mCurrentTabLayout.setupWithViewPager(mCurrentViewPager);
+
+                ToyFigurePagerAdapter prevPagerAdapter = new ToyFigurePagerAdapter();
+                Map<String,Integer> prevCandidateCount = new HashMap<>();
+                prevCandidateCount.put(Config.AMYOTHAE_HLUTTAW,7);
+                prevCandidateCount.put(Config.PYITHU_HLUTTAW,5);
+                prevCandidateCount.put(Config.TINEDAYTHA_HLUTTAW, 4);
+                prevCandidateCount.put(Config.AMYOTHAR_REAL_COUNT,12);
+                prevCandidateCount.put(Config.AMYOTHAR_SEAT_COUNT,10);
+                prevCandidateCount.put(Config.PYITHU_REAL_COUNT,13);
+                prevCandidateCount.put(Config.PYITHU_SEAT_COUNT,20);
+                prevCandidateCount.put(Config.TINE_DAYTHA_REAL_COUNT,0);
+                prevCandidateCount.put(Config.TINE_DAYTHA_SEAT_COUNT,10);
+                prevPagerAdapter.setItems(prevCandidateCount);
+                mPrevViewPager.setAdapter(prevPagerAdapter);
+                mPrevViewPager.setCurrentItem(0);
+                mPrevTabLayout.setTabMode(TabLayout.MODE_FIXED);
+                mPrevTabLayout.setupWithViewPager(mPrevViewPager);
+
               }
             }
 

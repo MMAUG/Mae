@@ -83,4 +83,7 @@
   <string name="example_candidate_3">ဦ:ပန်းသီး</string>
   <string name="signature_line_1">ဤနေရာတွင် မဲရုံမှူးလက်မှတ်</string>
   <string name="signature_line_2">ပါမပါ စစ်ပါ။</string>
+  <string name="current_compare_head">ဝင်ရောက်အရွေးခံသည့်လူ စုစုပေါင်း %1$s တွင်</string>
+  <string name="current_compare_result">ဤပါတီမှ %1$s ဝင်ယောက်ယှဥ်ပြိုင်မည် ဖြစ်ပါသည်</string>
+  <string name="current_compare_result_zero">ဤပါတီမှ ဝင်ယောက်ယှဥ်ပြိုင်သူ မရှိပါ</string>
 </resources>
