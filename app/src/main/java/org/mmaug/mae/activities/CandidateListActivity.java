@@ -83,7 +83,6 @@ public class CandidateListActivity extends BaseActivity
     super.onCreate(savedInstanceState);
     ButterKnife.bind(this);
     initCandidateRecyclerView();
-    fetchCandidate();
     candidateFromDetail = (Candidate) getIntent().getSerializableExtra(Config.CANDIDATE);
     if (candidateFromDetail != null) {
       tvToolbarTitle.setText(getResources().getString(R.string.compare_title));
@@ -96,6 +95,7 @@ public class CandidateListActivity extends BaseActivity
     if(myTownShip!=null) {
       mTownShip.setText(myTownShip.getTowhshipNameBurmese());
     }
+    fetchCandidate();
     initEditText();
     initRecyclerView();
   }
@@ -114,6 +114,7 @@ public class CandidateListActivity extends BaseActivity
       inflateCandiateAdapter(pyithuParams);
     }else{
       showHidSearchView(false);
+      showHideProgressBar(false);
     }
   }
 
@@ -290,6 +291,9 @@ public class CandidateListActivity extends BaseActivity
   @Override public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
     showHidSearchView(true);
     mTownShip.setText(found.get(i).getTowhshipNameBurmese());
+    String townshipString = new Gson().toJson(found.get(i));
+    UserPrefUtils userPrefUtils = new UserPrefUtils(CandidateListActivity.this);
+    userPrefUtils.saveTownShip(townshipString);
     showHideProgressBar(true);
     Map<String, String> pyithuParams = new HashMap<>();
     //Probably, there won't be much more than 200 candidates for a township for the same legislature
