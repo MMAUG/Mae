@@ -334,6 +334,8 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
 
   @Override public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
     showHidSearchView(true);
+    UserPrefUtils prefUtils = new UserPrefUtils(LocationActivity.this);
+    prefUtils.saveTownShip(new Gson().toJson(found.get(i)));
     tvToolbarTitle.setText(found.get(i).getTowhshipNameBurmese());
     Map<String, String> pyithuParams = new HashMap<>();
     //Probably, there won't be much more than 200 candidates for a township for the same legislature
