@@ -9,10 +9,8 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,7 +20,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.github.florent37.glidepalette.GlidePalette;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -95,20 +92,20 @@ public class PartyDetailActivity extends AppCompatActivity {
     Glide.with(this)
         .load(party.getPartyFlag())
         .diskCacheStrategy(DiskCacheStrategy.ALL)
-        .listener(GlidePalette.with(party.getPartyFlag())
-            .intoCallBack(new GlidePalette.CallBack() {
-              @Override public void onPaletteLoaded(Palette palette) {
-                //specific task
-                colorFilter = palette.getMutedColor(getResources().getColor(R.color.primary));
-                Log.d("Run","pallet Run");
-                if (currentPagerAdapter != null) {
-                  currentPagerAdapter.setFilterColor(colorFilter);
-                }
-                if (prevPagerAdapter != null) {
-                  prevPagerAdapter.setFilterColor(colorFilter);
-                }
-              }
-            }))
+        //.listener(GlidePalette.with(party.getPartyFlag())
+        //    .intoCallBack(new GlidePalette.CallBack() {
+        //      @Override public void onPaletteLoaded(Palette palette) {
+        //        //specific task
+        //        colorFilter = palette.getMutedColor(getResources().getColor(R.color.primary));
+        //        Log.d("Run","pallet Run");
+        //        if (currentPagerAdapter != null) {
+        //          currentPagerAdapter.setFilterColor(colorFilter);
+        //        }
+        //        if (prevPagerAdapter != null) {
+        //          prevPagerAdapter.setFilterColor(colorFilter);
+        //        }
+        //      }
+        //    }))
         .into(party_image);
     if (party.getMemberCount() != null && party.getMemberCount().length() > 0) {
       mPartyCount.setText(MixUtils.convertToBurmese(String.valueOf(party.getMemberCount())));
@@ -245,10 +242,10 @@ public class PartyDetailActivity extends AppCompatActivity {
                 prevCandidateCount.put(Config.TINE_DAYTHA_REAL_COUNT,prevTineDaythaHlutaw);
                 prevCandidateCount.put(Config.TINE_DAYTHA_SEAT_COUNT, mTineDayThaGyiCurrentCollection.getSeats());
                 prevPagerAdapter.setItems(prevCandidateCount);
-                if(colorFilter!=-1){
-                  prevPagerAdapter.setFilterColor(colorFilter);
-                  currentPagerAdapter.setFilterColor(colorFilter);
-                }
+                //if(colorFilter!=-1){
+                //  prevPagerAdapter.setFilterColor(colorFilter);
+                //  currentPagerAdapter.setFilterColor(colorFilter);
+                //}
                 mPrevViewPager.setAdapter(prevPagerAdapter);
                 mPrevViewPager.setCurrentItem(0);
                 mPrevTabLayout.setTabMode(TabLayout.MODE_FIXED);
