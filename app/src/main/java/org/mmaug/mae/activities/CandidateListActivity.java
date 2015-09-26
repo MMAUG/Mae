@@ -308,7 +308,7 @@ public class CandidateListActivity extends BaseActivity
 
   private void inflateCandiateAdapter(Map<String, String> params) {
     Call<CandidateListReturnObject> pyithuCall =
-        RESTClient.getMPSService().getCandidateList(params);
+        RESTClient.getMPSService(this).getCandidateList(params);
     pyithuCall.enqueue(new Callback<CandidateListReturnObject>() {
       @Override public void onResponse(Response<CandidateListReturnObject> response) {
         List<Candidate> candidates = response.body().getData();

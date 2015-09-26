@@ -89,7 +89,7 @@ public class SignUpFragment extends Fragment
     params.put(Config.FATHER_NAME, mFatherName.getText().toString());
     params.put(Config.TOWNSHIP, mTownship.getText().toString());
 
-    final Call<User> registerUser = RESTClient.getService().registerUser(params);
+    final Call<User> registerUser = RESTClient.getService(getActivity()).registerUser(params);
     registerUser.enqueue(new Callback<User>() {
       UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
       @Override public void onResponse(Response<User> response) {

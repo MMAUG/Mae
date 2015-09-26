@@ -60,7 +60,7 @@ public class CandidateCompareActivity extends BaseActivity {
     setTypeFace();
 
     Call<JsonElement> compareQuestionCall =
-        RESTClient.getService().getCompareQuestion(candidateCompare.getMpid(), candidate.getMpid());
+        RESTClient.getService(this).getCompareQuestion(candidateCompare.getMpid(), candidate.getMpid());
     compareQuestionCall.enqueue(new Callback<JsonElement>() {
       @Override public void onResponse(Response<JsonElement> response) {
 

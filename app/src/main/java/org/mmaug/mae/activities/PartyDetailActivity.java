@@ -151,7 +151,7 @@ public class PartyDetailActivity extends AppCompatActivity {
       }
     });
 
-    partyDetailRestService = RESTClient.getService();
+    partyDetailRestService = RESTClient.getService(this);
     Call<JsonObject> candidateCountCall =
         partyDetailRestService.getCandidateCount(party.getPartyId());
     System.out.println("PARTY ID   " + party.getPartyId());
