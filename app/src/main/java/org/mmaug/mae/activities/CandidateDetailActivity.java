@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ import org.mmaug.mae.R;
 import org.mmaug.mae.models.Candidate;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.rest.RESTService;
+import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MixUtils;
 import org.mmaug.mae.view.CircleView;
 import org.mmaug.mae.view.ZoomAspectRatioImageView;
@@ -102,6 +104,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
     assert actionBar != null;
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setTitle("");
+    setTypeFace();
 
     mListener = new AppBarLayout.OnOffsetChangedListener() {
       @Override public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -269,8 +272,11 @@ public class CandidateDetailActivity extends AppCompatActivity {
                 (CircleView) piechartLegend.findViewById(R.id.legend_indicator);
             piechartIndicator.setColorHex(color);
             TextView piechartText = (TextView) piechartLegend.findViewById(R.id.legend_text);
+            Typeface typefacelight = FontCache.get("pyidaungsu.ttf", CandidateDetailActivity.this);
             piechartText.setText(key);
+            piechartText.setTypeface(typefacelight);
             TextView piechartCount = (TextView) piechartLegend.findViewById(R.id.legend_count);
+            piechartCount.setTypeface(typefacelight);
             piechartCount.setText(MixUtils.convertToBurmese(String.valueOf(count)));
             mQuestionPieCont.addView(piechartLegend);
           }
@@ -292,6 +298,37 @@ public class CandidateDetailActivity extends AppCompatActivity {
         startActivity(i);
       }
     });
+  }
+
+  void setTypeFace() {
+    Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
+    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
+    mCandidateConstituency.setTypeface(typefacelight);
+    mCandidateCompareResult.setTypeface(typefaceTitle);
+    mCandidateFather.setTypeface(typefacelight);
+    mCandidateAddress.setTypeface(typefacelight);
+    mCandidateOccupation.setTypeface(typefacelight);
+    mCandidateEducation.setTypeface(typefacelight);
+    mCandidateMother.setTypeface(typefacelight);
+    mCandidateParty.setTypeface(typefacelight);
+    mCandidateConstituency.setTypeface(typefacelight);
+    mCandidateDateOfBirth.setTypeface(typefacelight);
+    mCandidateEducation.setTypeface(typefacelight);
+    mCandidateMother.setTypeface(typefacelight);
+    mCandidateFather.setTypeface(typefacelight);
+    mCandidateOccupation.setTypeface(typefacelight);
+    mCandidateRace.setTypeface(typefacelight);
+    mCandidateReligion.setTypeface(typefacelight);
+    mCandidateLegalSlature.setTypeface(typefacelight);
+    mMotionCount.setTypeface(typefacelight);
+    motionMiddleText.setTypeface(typefaceTitle);
+    mQuestionMiddleText.setTypeface(typefaceTitle);
+    mQuestionCount.setTypeface(typefacelight);
+    mCandidateParty.setTypeface(typefacelight);
+    mCandidateAddress.setTypeface(typefacelight);
+    mCandidateCompareResult.setTypeface(typefacelight);
+    mQuestionHeaderTv.setTypeface(typefacelight);
+    mMotionHeaderTv.setTypeface(typefacelight);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
