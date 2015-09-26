@@ -1,0 +1,69 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.maepaysoh.maepaysoh.ui.PartyDetailActivity"
+    >
+
+    <include
+        layout="@layout/toolbar"
+        android:id="@+id/faq_detail_toolbar"
+        />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <ProgressBar
+            android:id="@+id/faq_detail_progress_bar"
+            style="?android:progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            />
+
+        <ScrollView
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_minor"
+                app:cardUseCompatPadding="true"
+                >
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <TextView
+                        android:id="@+id/faq_question"
+                        style="@style/TextAppearance.AppCompat.Title"
+                        android:padding="@dimen/spacing_major"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Can I have Something?"
+                        />
+                    <TextView
+                        android:id="@+id/faq_answer"
+                        style="@style/TextAppearance.AppCompat.Subhead"
+                        android:padding="@dimen/spacing_major"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Can I have Something?"
+                        />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </ScrollView>
+
+
+    </FrameLayout>
+
+</LinearLayout>

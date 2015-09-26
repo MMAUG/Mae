@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.mmaug.mae.R;
 import org.mmaug.mae.adapter.EndlessRecyclerViewAdapter;
 import org.mmaug.mae.adapter.FaqAdapter;
@@ -107,9 +108,12 @@ public class FaqListActivity extends AppCompatActivity
     if (mCurrentPage == 1) {
       viewUtils.showProgress(mFaqListRecyclerView, mProgressView, true);
     }
-
+    Map<String,String> tokenParams = new HashMap<>();
+    tokenParams.put("font","unicode");
+    tokenParams.put("page",String.valueOf(mCurrentPage));
+    tokenParams.put("per_page",String.valueOf(1000));
     if (query != null && query.length() > 0) {
-      Call<FAQListReturnObject> callback = mRESTService.searchFaq(query,new HashMap<String, String>());
+      Call<FAQListReturnObject> callback = mRESTService.searchFaq(query,tokenParams);
       callback.enqueue(new Callback<FAQListReturnObject>() {
         @Override public void onResponse(Response<FAQListReturnObject> response) {
           List<FAQ> faqs = response.body().getData();
@@ -132,20 +136,22 @@ public class FaqListActivity extends AppCompatActivity
         }
       });
     } else {
-      Call<FAQListReturnObject> callback = mRESTService.listFaqs(new HashMap<String, String>());
+      Call<FAQListReturnObject> callback = mRESTService.listFaqs(tokenParams);
       callback.enqueue(new Callback<FAQListReturnObject>() {
         @Override public void onResponse(Response<FAQListReturnObject> response) {
-          List<FAQ> faqs = response.body().getData();
-          if (faqs.size() > 0) {
-            if (mCurrentPage == 1) {
-              viewUtils.showProgress(mFaqListRecyclerView, mProgressView, false);
-              mFaqDatas = faqs;
-            } else {
-              mFaqDatas.addAll(faqs);
+          if(response.isSuccess()) {
+            List<FAQ> faqs = response.body().getData();
+            if (faqs.size() > 0) {
+              if (mCurrentPage == 1) {
+                viewUtils.showProgress(mFaqListRecyclerView, mProgressView, false);
+                mFaqDatas = faqs;
+              } else {
+                mFaqDatas.addAll(faqs);
+              }
+              mFaqAdapter.setFaqs(mFaqDatas);
+              mEndlessRecyclerViewAdapter.onDataReady(true);
+              mCurrentPage++;
             }
-            mFaqAdapter.setFaqs(mFaqDatas);
-            mEndlessRecyclerViewAdapter.onDataReady(true);
-            mCurrentPage++;
           }
           mEndlessRecyclerViewAdapter.onDataReady(false);
         }
@@ -160,8 +166,8 @@ public class FaqListActivity extends AppCompatActivity
 
   @Override public void onItemClick(View view, int position) {
     Intent goToFaqDetailIntent = new Intent();
-    //goToFaqDetailIntent.setClass(FaqListActivity.this, FaqDetailActivity.class);
-    //goToFaqDetailIntent.putExtra(FaqDetailActivity.FAQ_CONSTANT, mFaqDatas.get(position));
+    goToFaqDetailIntent.setClass(FaqListActivity.this, FaqDetailActivity.class);
+    goToFaqDetailIntent.putExtra(FaqDetailActivity.FAQ_CONSTANT, mFaqDatas.get(position));
     startActivity(goToFaqDetailIntent);
   }
 

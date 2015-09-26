@@ -15,7 +15,6 @@ import java.util.Comparator;
  * Created by poepoe on 19/9/15.
  */
 public class SectionHeaderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
   private static final int SECTION_TYPE = 0;
   private final Context mContext;
   private boolean mValid = true;
