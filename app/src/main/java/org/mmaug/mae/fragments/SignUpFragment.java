@@ -21,6 +21,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -33,6 +34,7 @@ import org.mmaug.mae.models.User;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.utils.DataUtils;
 import org.mmaug.mae.utils.FontCache;
+import org.mmaug.mae.utils.UserPrefUtils;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
@@ -59,6 +61,7 @@ public class SignUpFragment extends Fragment
   @Bind(R.id.searchFragment) FrameLayout searchView;
   @Bind(R.id.to_check_mae) TextView toCheckMae;
   @Bind(R.id.check_button) TextView checkButton;
+  @Bind(R.id.myanmarTextPlease) TextView myanmarTextPlease;
   Calendar now;
   int maxAgeforVote = 18;
   int defaultYear;
@@ -68,15 +71,16 @@ public class SignUpFragment extends Fragment
   private ArrayList<DataUtils.Township> townships;
   private ArrayList<DataUtils.Township> found = new ArrayList<>();
   private TownshipAdapter adapter;
+  private String townshipGson;
 
   @OnClick(R.id.sign_up_card) void checkVote() {
 
-    //// FIXME: 9/15/15 If the server return proper api response,uncomment below codes <YE MYAT THU>
+    //// FIXME: 9/15/15 If the server return proper api response,uncomment below codes <YE MYAT THU
 
-    /**
-     * DELETE THIS CODES
+
+    /***
+     * UNCOMMENT THIS CODES
      */
-    //final String voterName = "ရဲမြတ်သူ";
     //StringBuilder stringBuilder = new StringBuilder();
     //stringBuilder.append("၁၂");
     //stringBuilder.append("/");
@@ -116,7 +120,7 @@ public class SignUpFragment extends Fragment
     stringBuilder.append("(နိုင်)");
     stringBuilder.append(mNrcValue.getText());
     String voterNrc = stringBuilder.toString();
-    Map<String, String> params = new HashMap<>();
+    final Map<String, String> params = new HashMap<>();
     params.put(Config.VOTER_NAME, mUserName.getText().toString());
     params.put(Config.DATE_OF_BIRTH, mDateOfBirth.getText().toString());
     params.put(Config.NRC, voterNrc);
@@ -134,7 +138,12 @@ public class SignUpFragment extends Fragment
           FragmentTransaction transaction = fm.beginTransaction();
           transaction.replace(R.id.contentFragment, homeFragment);
           transaction.commit();
-
+          UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
+          userPrefUtils.saveUserName(params.get(Config.VOTER_NAME));
+          userPrefUtils.saveBirthDate(params.get(Config.DATE_OF_BIRTH));
+          userPrefUtils.saveNRC(params.get(Config.NRC));
+          userPrefUtils.saveFatherName(params.get(Config.FATHER_NAME));
+          userPrefUtils.saveTownShip(townshipGson);
         }
         Log.e("Response", response.code() + " " + response.message());
       }
@@ -170,6 +179,12 @@ public class SignUpFragment extends Fragment
     defaultYear = now.get(Calendar.YEAR) - maxAgeforVote;
     defaultMonth = now.get(Calendar.MONTH);
     defaultDate = now.get(Calendar.DAY_OF_MONTH);
+    Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", getActivity());
+    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", getActivity());
+
+    toCheckMae.setTypeface(typefaceTitle);
+    checkButton.setTypeface(typefacelight);
+    myanmarTextPlease.setTypeface(typefacelight);
     return rootView;
   }
 
@@ -264,5 +279,6 @@ public class SignUpFragment extends Fragment
     Typeface typefacelight = FontCache.get("pyidaungsu.ttf",getActivity());
     mTownship.setText(found.get(position).getTowhshipNameBurmese());
     mTownship.setTypeface(typefacelight);
+    townshipGson = new Gson().toJson(found.get(position));
   }
 }

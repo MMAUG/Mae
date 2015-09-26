@@ -18,6 +18,7 @@
   <string name="voter_check_not_ok">သင့်နာမည်အား အွန်လိုင်းရှိ မဲဆန္ဒရှင်စာရင်းတွင် ရှာမတွေ့ပါ။
     မိမိမြို့နယ်ရှိ မဲဆန္ဒရှင်စာရင်းတွင် ပြန်လည် သွားရောက်စစ်ဆေးရန် အကြံပြုပါသည်
   </string>
+  <string name="please_mm">အချက်အလက် များကို မြန်မာလို ဖြည့်စွက်ပေးရန် မေတ္တာရပ်ခံအပ်သည်</string>
   <string name="recheck_data">အချက်အလက်ပြန်ကြည့်မည်</string>
   <string name="ok_myan">ကောင်းပြီ</string>
   <string name="recheck">ပြန်လည်စစ်ဆေးပါ</string>
