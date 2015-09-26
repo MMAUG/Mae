@@ -76,7 +76,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
     String strDefaultTimeZone = defaultTimeZone.getDisplayName(false, TimeZone.SHORT);
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
     formatter.setTimeZone(TimeZone.getTimeZone(strDefaultTimeZone));
-    String electionTime = "2015-11-08 08:00:00";
+    String electionTime = "2015-11-08 06:00:00";
     try {
       Date electionDate = formatter.parse(electionTime);
       am.setRepeating(AlarmManager.RTC_WAKEUP, electionDate.getTime(), 1000 * 3600, pi);

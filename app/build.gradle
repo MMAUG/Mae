@@ -106,7 +106,5 @@ dependencies {
   compile 'com.github.blackfizz:eazegraph:1.2.5l@aar'
   compile 'com.github.florent37:glidepalette:1.0.4@aar'
 
-  //progress
-  compile 'com.facebook.android:facebook-android-sdk:4.6.0'
 
 }
