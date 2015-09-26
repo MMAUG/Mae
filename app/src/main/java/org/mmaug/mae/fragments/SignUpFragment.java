@@ -239,8 +239,9 @@ public class SignUpFragment extends Fragment
     defaultYear = year;
     defaultDate = dayOfMonth;
     defaultMonth = monthOfYear;
+    defaultMonth = defaultMonth +1;
     if ((now.get(Calendar.YEAR) - defaultYear) >= 18) {
-      mDateOfBirth.setText(defaultYear + "-" + defaultMonth + 1 + "-" + defaultDate);
+      mDateOfBirth.setText(defaultYear + "-" + defaultMonth + "-" + defaultDate);
     }
   }
 
