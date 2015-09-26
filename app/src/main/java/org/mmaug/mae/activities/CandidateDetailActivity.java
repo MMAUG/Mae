@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -102,9 +103,6 @@ public class CandidateDetailActivity extends AppCompatActivity {
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setTitle("");
     setTypeFace();
-
-    //shareDialog = new ShareDialog(this);
-    //facebooklogin.setPublishPermissions("publish_stream");
 
     mListener = new AppBarLayout.OnOffsetChangedListener() {
       @Override public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -333,7 +331,6 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mMotionHeaderTv.setTypeface(typefacelight);
   }
 
-
   @Override
   protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
@@ -351,10 +348,12 @@ public class CandidateDetailActivity extends AppCompatActivity {
         return true;
       case R.id.party_detail_action_share:
         Intent i = new Intent(Intent.ACTION_SEND);
+        i.setData(Uri.parse("http://188.166.240.34/share/" + candidate.getId()));
+        startActivity(Intent.createChooser(i, "Share Via"));
         i.setType("text/plain");
-        i.putExtra(Intent.EXTRA_SUBJECT,candidate.getName());
-        i.putExtra(Intent.EXTRA_TEXT,"http://188.166.240.34/share/"+candidate.getId());
-        startActivity(Intent.createChooser(i,"Share Via"));
+        i.putExtra(Intent.EXTRA_SUBJECT, candidate.getName());
+        i.putExtra(Intent.EXTRA_TEXT, "http://188.166.240.34/share/" + candidate.getId());
+        startActivity(Intent.createChooser(i, "Share Via"));
         return true;
       default:
         return super.onOptionsItemSelected(item);

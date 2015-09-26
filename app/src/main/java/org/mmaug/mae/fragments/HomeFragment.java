@@ -29,6 +29,7 @@ import org.mmaug.mae.activities.HowToVoteActivity;
 import org.mmaug.mae.activities.LocationActivity;
 import org.mmaug.mae.activities.MainActivity;
 import org.mmaug.mae.activities.PartyListActivity;
+import org.mmaug.mae.activities.VotedActivity;
 import org.mmaug.mae.services.AlarmManagerBroadcastReceiver;
 import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MixUtils;
@@ -51,6 +52,8 @@ public class HomeFragment extends android.support.v4.app.Fragment {
   @Bind(R.id.valid_sign) ImageView valid_sign;
   @Bind(R.id.to_vote) TextView toVote;
   @Bind(R.id.faq) ImageView faqImg;
+  @Bind(R.id.cardview_voted) CardView cardViewVoted;
+  @Bind(R.id.txt_voted) TextView mVoted;
 
   private AlarmManagerBroadcastReceiver alarm;
   private Dialog voteResultDialog;
@@ -104,11 +107,11 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     });
 
     UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
-    if(userPrefUtils.isValid()){
+    if (userPrefUtils.isValid()) {
       backdrop.setBackgroundColor(getResources().getColor(R.color.accent_color));
       txt_cardview_vote_check.setTextColor(Color.WHITE);
       valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_mark));
-    }else{
+    } else {
       backdrop.setBackgroundColor(Color.parseColor("#FFC107"));
       valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_exclamation_mark));
       txt_cardview_vote_check.setTextColor(Color.WHITE);
@@ -127,6 +130,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     txt_howto_vote.setTypeface(typefacelight);
     card_candidate_list.setTypeface(typefacelight);
     cardview_party_condtion_list.setTypeface(typefacelight);
+    mVoted.setTypeface(typefacelight);
   }
 
   @Override public void onAttach(Activity activity) {
@@ -157,8 +161,12 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     startActivity(intent);
   }
 
-  @OnClick(R.id.cardview_vote_check)
-  public void showVoteResult(CardView textView) {
+  @OnClick(R.id.cardview_voted) void Voted() {
+    Intent intent = new Intent(getActivity(), VotedActivity.class);
+    startActivity(intent);
+  }
+
+  @OnClick(R.id.cardview_vote_check) public void showVoteResult(CardView textView) {
     //// TODO: 9/15/15 Handle the NOT OK result <Ye Myat Thu>
     final UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
     boolean ok = userPrefUtils.isValid();
@@ -166,17 +174,23 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     voteResultDialog =
         new Dialog(getActivity(), android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
     if (ok) {
+      Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", getActivity());
+      Typeface typefacelight = FontCache.get("pyidaungsu.ttf", getActivity());
       view = getActivity().getLayoutInflater().inflate(R.layout.dialog_voter_check_ok, null);
       View myTargetView = view.findViewById(R.id.circle_full);
       View mySourceView = view.findViewById(R.id.circle_empty);
+      TextView okBtn = (TextView) view.findViewById(R.id.voter_check_ok_btn);
+      TextView txt_recheck = (TextView) view.findViewById(R.id.txt_recheck);
+      TextView voter_check_not_ok = (TextView) view.findViewById(R.id.voter_check_not_ok);
+      voter_check_not_ok.setTypeface(typefaceTitle);
+      txt_recheck.setTypeface(typefaceTitle);
+      okBtn.setTypeface(typefaceTitle);
       TextView recheck = (TextView) view.findViewById(R.id.recheck);
-      View okBtn = view.findViewById(R.id.voter_check_ok_btn);
       recheck.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View view) {
           userPrefUtils.setSKIP(false);
           Intent i = new Intent(getActivity(), MainActivity.class);
           startActivity(i);
-
           //SignUpFragment signUpFragment = new SignUpFragment();
           //FragmentManager fm = getActivity().getSupportFragmentManager();
           //FragmentTransaction transaction = fm.beginTransaction();
@@ -207,8 +221,15 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         }
       });
     } else {
+      Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", getActivity());
+      Typeface typefacelight = FontCache.get("pyidaungsu.ttf", getActivity());
       view = getActivity().getLayoutInflater().inflate(R.layout.dialog_voter_check_not_ok, null);
-      View okBtn = view.findViewById(R.id.voter_check_ok_btn);
+      TextView okBtn = (TextView) view.findViewById(R.id.voter_check_ok_btn);
+      TextView txt_recheck = (TextView) view.findViewById(R.id.txt_recheck);
+      TextView voter_check_not_ok = (TextView) view.findViewById(R.id.voter_check_not_ok);
+      voter_check_not_ok.setTypeface(typefaceTitle);
+      txt_recheck.setTypeface(typefaceTitle);
+      okBtn.setTypeface(typefaceTitle);
       voteResultDialog.setContentView(view);
       voteResultDialog.show();
       okBtn.setOnClickListener(new View.OnClickListener() {
