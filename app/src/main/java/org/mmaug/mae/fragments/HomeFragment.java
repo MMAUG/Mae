@@ -22,7 +22,6 @@ import butterknife.OnClick;
 import hu.aut.utillib.circular.animation.CircularAnimationUtils;
 import java.text.ParseException;
 import java.util.HashMap;
-import java.util.Random;
 import org.mmaug.mae.R;
 import org.mmaug.mae.activities.CandidateListActivity;
 import org.mmaug.mae.activities.FaqListActivity;
@@ -32,6 +31,7 @@ import org.mmaug.mae.activities.PartyListActivity;
 import org.mmaug.mae.services.AlarmManagerBroadcastReceiver;
 import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MixUtils;
+import org.mmaug.mae.utils.UserPrefUtils;
 
 public class HomeFragment extends android.support.v4.app.Fragment {
   // TODO: Rename parameter arguments, choose names that match
@@ -101,6 +101,17 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         startActivity(faqIntent);
       }
     });
+
+    UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
+    if(userPrefUtils.isValid()){
+      backdrop.setBackgroundColor(getResources().getColor(R.color.accent_color));
+      txt_cardview_vote_check.setTextColor(Color.WHITE);
+      valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_mark));
+    }else{
+      backdrop.setBackgroundColor(Color.parseColor("#FFC107"));
+      valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_exclamation_mark));
+      txt_cardview_vote_check.setTextColor(Color.WHITE);
+    }
     return view;
   }
 
@@ -145,9 +156,11 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     startActivity(intent);
   }
 
-  @OnClick(R.id.cardview_vote_check) public void showVoteResult(CardView textView) {
+  @OnClick(R.id.cardview_vote_check)
+  public void showVoteResult(CardView textView) {
     //// TODO: 9/15/15 Handle the NOT OK result <Ye Myat Thu>
-    boolean ok = new Random().nextBoolean();
+    UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
+    boolean ok = userPrefUtils.isValid();
     View view;
     voteResultDialog =
         new Dialog(getActivity(), android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
@@ -189,7 +202,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
             voteResultDialog.dismiss();
             backdrop.setBackgroundColor(Color.parseColor("#FFC107"));
             valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_exclamation_mark));
-            txt_cardview_vote_check.setTextColor(Color.BLACK);
+            txt_cardview_vote_check.setTextColor(Color.WHITE);
           }
         }
       });

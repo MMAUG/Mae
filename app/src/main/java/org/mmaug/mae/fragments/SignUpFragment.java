@@ -73,6 +73,7 @@ public class SignUpFragment extends Fragment
   private ArrayList<DataUtils.Township> found = new ArrayList<>();
   private TownshipAdapter adapter;
   private String townshipGson;
+  private boolean isValid;
 
   @OnClick(R.id.sign_up_card) void checkVote() {
     StringBuilder stringBuilder = new StringBuilder();
@@ -148,6 +149,8 @@ public class SignUpFragment extends Fragment
     //search township view
     initRecyclerView();
     initEditText();
+    UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
+    isValid = userPrefUtils.isValid();
 
     mainView.setVisibility(View.VISIBLE);
     now = Calendar.getInstance();
@@ -156,11 +159,19 @@ public class SignUpFragment extends Fragment
     defaultDate = now.get(Calendar.DAY_OF_MONTH);
     Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", getActivity());
     Typeface typefacelight = FontCache.get("pyidaungsu.ttf", getActivity());
-
     toCheckMae.setTypeface(typefaceTitle);
     checkButton.setTypeface(typefacelight);
     myanmarTextPlease.setTypeface(typefacelight);
     skip_card_button.setTypeface(typefacelight);
+    if(isValid){
+      mainView.setVisibility(View.GONE);
+      contenFragment.setVisibility(View.VISIBLE);
+      HomeFragment homeFragment = new HomeFragment();
+      FragmentManager fm = getActivity().getSupportFragmentManager();
+      FragmentTransaction transaction = fm.beginTransaction();
+      transaction.replace(R.id.contentFragment, homeFragment);
+      transaction.commit();
+    }
     return rootView;
   }
 
