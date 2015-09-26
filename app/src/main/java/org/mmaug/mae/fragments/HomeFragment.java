@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.Bind;
@@ -40,6 +41,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
   @Bind(R.id.hour_minute_left) TextView hourMinuteLeft;
   @Bind(R.id.backdrop) LinearLayout backdrop;
   @Bind(R.id.txt_cardview_vote_check) TextView txt_cardview_vote_check;
+  @Bind(R.id.valid_sign) ImageView valid_sign;
   /* @Bind(R.id.to_vote) TextView toVote;
    @Bind(R.id.tvThumb) TextView tvThumb;*/
 /*  @Bind(R.id.tv_candidate_list) TextView tvThumb_party_condition;*/
@@ -144,6 +146,10 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         @Override public void onClick(View view) {
           if (voteResultDialog.isShowing()) {
             voteResultDialog.dismiss();
+            backdrop.setBackgroundColor(getResources().getColor(R.color.accent_color));
+            txt_cardview_vote_check.setTextColor(Color.WHITE);
+            valid_sign.setImageDrawable(
+                getResources().getDrawable(R.drawable.ic_mark));
           }
         }
       });
@@ -156,7 +162,8 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         @Override public void onClick(View view) {
           if (voteResultDialog.isShowing()) {
             voteResultDialog.dismiss();
-            backdrop.setBackgroundColor(Color.YELLOW);
+            backdrop.setBackgroundColor(Color.parseColor("#FFC107"));
+            valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_exclamation_mark));
             txt_cardview_vote_check.setTextColor(Color.BLACK);
           }
         }
