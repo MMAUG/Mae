@@ -1,6 +1,8 @@
 package org.mmaug.mae.adapter;
 
-import android.graphics.Color;
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseAdapter;
+import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MixUtils;
 import org.mmaug.mae.view.AutofitTextView;
 import org.mmaug.mae.view.CustomCircleDrawable;
@@ -23,6 +26,8 @@ import org.mmaug.mae.view.CustomCircleDrawable;
 public class HowToVoteTimelineAdapter extends BaseAdapter<BaseAdapter.BaseViewHolder> {
 
   ArrayList<HTVObject> htvObjectList;
+  int[] colors;
+  Context mContext;
 
   public HowToVoteTimelineAdapter() {
     this.htvObjectList = new ArrayList<>();
@@ -35,6 +40,7 @@ public class HowToVoteTimelineAdapter extends BaseAdapter<BaseAdapter.BaseViewHo
 
   @Override public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+    mContext =parent.getContext();
     View itemView = inflater.inflate(R.layout.item_how_to_vote, parent, false);
     return new ViewHolder(itemView, this);
   }
@@ -46,18 +52,30 @@ public class HowToVoteTimelineAdapter extends BaseAdapter<BaseAdapter.BaseViewHo
 
     //step
     int step = position + 1;
-    Random rnd = new Random();
-    int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+    if (colors == null) {
+      TypedArray ta =
+          viewHolder.itemView.getContext().getResources().obtainTypedArray(R.array.color);
+      colors = new int[ta.length()];
+      for (int i = 0; i < ta.length(); i++) {
+        colors[i] = ta.getColor(i, 0);
+      }
+      ta.recycle();
+    }
+    int color = colors[new Random().nextInt(colors.length)];
     viewHolder.mIvStep.setImageDrawable(
         new CustomCircleDrawable.Builder(MixUtils.convertToBurmese(step + ""), color).build());
-
+    Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf",mContext );
+    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", mContext);
     //title text
     viewHolder.mTvTitle.setText(object.getTitle());
+    viewHolder.mTvTitle.setTypeface(typefaceTitle);
+
 
     //warning text with *
     String warning = viewHolder.itemView.getContext()
         .getString(R.string.how_to_vote_placeholder_text, object.getWarning());
     viewHolder.mTvWarning.setText(Html.fromHtml(warning));
+    viewHolder.mTvWarning.setTypeface(typefacelight);
 
     //show hide message view
     if (object.getMessage() != null) {

@@ -1,5 +1,6 @@
 package org.mmaug.mae.adapter;
 
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.ArrayList;
 import org.mmaug.mae.R;
 import org.mmaug.mae.models.Candidate;
+import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.view.AutofitTextView;
 
 /**
@@ -85,6 +87,7 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.Cand
       super(itemView);
       ButterKnife.bind(this, itemView);
     }
+
 
     private void bindCandidate(Candidate candidate) {
       tvCandidateName.setText(candidate.getName());
