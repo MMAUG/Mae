@@ -1,5 +1,6 @@
 package org.mmaug.mae.fragments;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -28,6 +29,7 @@ import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.adapter.TownshipAdapter;
 import org.mmaug.mae.utils.DataUtils;
+import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MixUtils;
 
 /**
@@ -50,6 +52,8 @@ public class SignUpFragment extends Fragment
   @Bind(R.id.et_search_township) EditText searchTownship;
   @Bind(R.id.rv_search_township) RecyclerView mTownshipList;
   @Bind(R.id.searchFragment) FrameLayout searchView;
+  @Bind(R.id.to_check_mae) TextView toCheckMae;
+  @Bind(R.id.check_button) TextView checkButton;
   Calendar now;
   int maxAgeforVote = 18;
   int defaultYear;
@@ -90,6 +94,12 @@ public class SignUpFragment extends Fragment
     FragmentTransaction transaction = fm.beginTransaction();
     transaction.replace(R.id.contentFragment, homeFragment);
     transaction.commit();
+
+    Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", getActivity());
+    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", getActivity());
+
+    toCheckMae.setTypeface(typefaceTitle);
+    checkButton.setTypeface(typefacelight);
 
     /***
      * UNCOMMENT THIS CODES
@@ -246,6 +256,8 @@ public class SignUpFragment extends Fragment
 
   @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
     showHidSearchView(true);
+    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", parent.getContext());
     mTownship.setText(found.get(position).getTowhshipNameBurmese());
+    mTownship.setTypeface(typefacelight);
   }
 }
