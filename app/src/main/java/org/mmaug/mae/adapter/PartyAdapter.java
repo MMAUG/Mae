@@ -1,6 +1,7 @@
 package org.mmaug.mae.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.mmaug.mae.R;
 import org.mmaug.mae.models.Party;
+import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.view.AspectRatioImageView;
 
 /**
@@ -42,6 +44,9 @@ public class PartyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
       Party party = mParties.get(position);
       ((PartyViewHolder) holder).mPartyNameMyanmar.setText(party.getPartyName());
       List<String> leaders = party.getLeadership();
+      Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf",mContext);
+      Typeface typefacelight = FontCache.get("pyidaungsu.ttf", mContext);
+      ((PartyViewHolder) holder).mPartyNameMyanmar.setTypeface(typefaceTitle);
    /* holder.mPartyLeader.setText(""); //Reset the textview unless you want some weird shit to happen
     for (String leader : leaders) {
       if (leaders.indexOf(leader) == leaders.size() - 1) {

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="@dimen/spacing_minor"
+    android:layout_marginLeft="@dimen/spacing_minor"
+    android:layout_marginTop="@dimen/spacing_micro"
+    android:layout_marginBottom="@dimen/spacing_micro"
+    app:cardUseCompatPadding="true"
+    >
+
+  <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      >
+
+    <TextView
+        android:id="@+id/faq_question"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:padding="@dimen/spacing_minor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        tools:text="Ye Myat Thu"
+        />
+    <!--<org.maepaysoh.maepaysoh.ui.widget.ExpandableTextView-->
+    <!--android:id="@+id/faq_answer"-->
+    <!--style="@style/TextAppearance.AppCompat.Subhead"-->
+    <!--android:background="?attr/selectableItemBackground"-->
+    <!--android:padding="@dimen/spacing_minor"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--tools:text="Programmer, Certified Wizard, Proficient Fiend"-->
+    <!--/>-->
+  </LinearLayout>
+
+</android.support.v7.widget.CardView>

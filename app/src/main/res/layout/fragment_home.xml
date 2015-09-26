@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/appbarlayout_height"
         >
+
       <LinearLayout
           android:background="@color/primary"
           android:layout_width="match_parent"
@@ -61,9 +62,17 @@
             android:padding="@dimen/spacing_minor"
             />
       </LinearLayout>
-
+        <ImageView
+            android:id="@+id/faq"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_margin="@dimen/spacing_minor"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:scaleType="centerCrop"
+            android:background="?attr/selectableItemBackground"
+            android:src="@drawable/faq"/>
     </RelativeLayout>
-
 
     <!--http://stackoverflow.com/questions/30643081/nestedscrollview-and-webview-height-issue-->
     <LinearLayout

@@ -69,7 +69,7 @@ public class HowToVoteActivity extends BaseActivity implements AdapterView.OnIte
     object.setTitle("ခိုင်လုံမဲ နမူနာများအား ကြိုတင်လေ့လာပါ။");
     object.setMessage(null);
     object.setDrawable(R.drawable.ic_uec);
-    object.setWarning("မိမိ၏အဖိုးတန် မဲတစ်ပြားအား အလဟဿ မဖြစ်စေရန် လေ့လာပါ။");
+    object.setWarning("မိမိ၏အဖိုးတန် မဲတစ်ပြားအား အလဟဿ မဖြစ်စေရန် ဤနေရာ ကိုနှိပ်၍ လေ့လာပါ။");
     objects.add(object);
 
     object = new HowToVoteTimelineAdapter.HTVObject();

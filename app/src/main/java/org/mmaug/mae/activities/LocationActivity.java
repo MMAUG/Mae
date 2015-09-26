@@ -1,5 +1,6 @@
 package org.mmaug.mae.activities;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -33,6 +34,7 @@ import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.models.Geo;
 import org.mmaug.mae.models.GeoReturnObject;
 import org.mmaug.mae.rest.RESTClient;
+import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MixUtils;
 import retrofit.Call;
 import retrofit.Callback;
@@ -68,6 +70,7 @@ public class LocationActivity extends BaseActivity {
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     ButterKnife.bind(this);
+    setTypeFace();
     mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(
         R.id.location_detail_map)).getMap();
     if (mMap != null) {
@@ -89,6 +92,13 @@ public class LocationActivity extends BaseActivity {
 
       }
     });
+  }
+
+  void setTypeFace() {
+    Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
+    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
+    mLocationName.setTypeface(typefacelight);
+    monthDayLef.setTypeface(typefaceTitle);
   }
 
   private void setUpMap(AppCompatActivity activity, Geo geo) {

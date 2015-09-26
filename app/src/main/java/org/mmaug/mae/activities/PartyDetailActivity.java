@@ -2,6 +2,7 @@ package org.mmaug.mae.activities;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -31,6 +32,7 @@ import org.mmaug.mae.models.CurrentCollection;
 import org.mmaug.mae.models.Party;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.rest.RESTService;
+import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MixUtils;
 import retrofit.Call;
 import retrofit.Callback;
@@ -53,7 +55,10 @@ public class PartyDetailActivity extends AppCompatActivity {
   @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
   @Bind(R.id.toolbar) Toolbar mToolbar;
   @Bind(R.id.party_policy_book_card) CardView mPartyPolicyCard;
-
+  @Bind(R.id.mPartyLeaderTitle) TextView mPartyLeaderTitle;
+  @Bind(R.id.mContactTitle) TextView mContactTitle;
+  @Bind(R.id.candidateTotalCountLast) TextView candidateTotalCountLast;
+  @Bind(R.id.candidateTotalCountCurrent) TextView candidateTotalCountCurrent;
   private RESTService partyDetailRestService;
   private int currentAmyotharCount;
   private int currentPyithuHlutaw;
@@ -73,8 +78,9 @@ public class PartyDetailActivity extends AppCompatActivity {
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     mCollapsingToolbarLayout.setExpandedTitleColor(
         getResources().getColor(android.R.color.transparent));
+    setTypeFace();
     mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
-
+    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
     Glide.with(this).load(party.getPartyFlag()).into(party_image);
     if (party.getMemberCount() != null && party.getMemberCount().length() > 0) {
       mPartyCount.setText(MixUtils.convertToBurmese(String.valueOf(party.getMemberCount())));
@@ -93,7 +99,9 @@ public class PartyDetailActivity extends AppCompatActivity {
         mPartyLeader.append(leader + "\n");
       }
     }
+
     mPartyHeadQuarter.setText(party.getHeadquarters());
+    mPartyHeadQuarter.setTypeface(typefacelight);
     List<String> contacts = party.getContact();
     for (String contact : contacts) {
       if (contacts.indexOf(contact) + 1 == contacts.size()) {
@@ -198,6 +206,23 @@ public class PartyDetailActivity extends AppCompatActivity {
 
       }
     });
+  }
+
+  void setTypeFace() {
+    Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
+    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
+    mPartyLeaderTitle.setTypeface(typefaceTitle);
+    mPartyCount.setTypeface(typefacelight);
+    mPartyDate.setTypeface(typefacelight);
+    mPartyNumber.setTypeface(typefacelight);
+    mPartyName.setTypeface(typefaceTitle);
+    mConstituency.setTypeface(typefaceTitle);
+    mPartyHeadQuarter.setTypeface(typefacelight);
+    mPartyLeader.setTypeface(typefacelight);
+    mPartyPhone.setTypeface(typefacelight);
+    mContactTitle.setTypeface(typefaceTitle);
+    candidateTotalCountLast.setTypeface(typefaceTitle);
+    candidateTotalCountCurrent.setTypeface(typefaceTitle);
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
