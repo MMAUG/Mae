@@ -18,8 +18,10 @@
         android:layout_marginLeft="@dimen/spacing_major"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
         android:text="@string/voter_check_not_ok"/>
     <TextView
+        android:id="@+id/recheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

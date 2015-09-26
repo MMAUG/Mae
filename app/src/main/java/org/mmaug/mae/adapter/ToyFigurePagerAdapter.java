@@ -23,9 +23,11 @@ public class ToyFigurePagerAdapter extends PagerAdapter {
   private LinearLayout mCurrentItem;
   private Map<String, Integer> candidateCount = new HashMap<>();
   private Context mContext;
+  private int mColor;
 
-  public ToyFigurePagerAdapter() {
-
+  public ToyFigurePagerAdapter(Context context) {
+    mContext = context;
+    mColor = mContext.getResources().getColor(R.color.red);
   }
 
   public void setItems(Map<String, Integer> candidateCount) {
@@ -106,7 +108,7 @@ public class ToyFigurePagerAdapter extends PagerAdapter {
         String.valueOf(seatCandidateCount));
     compareHeader.setText(seatCountStr);
 
-    colorFilterImageViews(toyImageGroup, countToFilter);
+    colorFilterImageViews(toyImageGroup, countToFilter,mColor);
     container.addView(linearLayout);
     return linearLayout;
   }
@@ -124,15 +126,18 @@ public class ToyFigurePagerAdapter extends PagerAdapter {
     return mCurrentItem;
   }
 
-  private void colorFilterImageViews(ViewGroup parent, int countToColor) {
+  private void colorFilterImageViews(ViewGroup parent, int countToColor,int color) {
     for (int i = 0; i < parent.getChildCount(); i++) {
       if (i < countToColor - 1) {
-        ((ImageView) parent.getChildAt(i)).setColorFilter(
-            mContext.getResources().getColor(R.color.red));
+        ((ImageView) parent.getChildAt(i)).setColorFilter(color);
       } else {
         ((ImageView) parent.getChildAt(i)).setColorFilter(
             mContext.getResources().getColor(R.color.mdtp_light_gray));
       }
     }
+  }
+  public void setFilterColor(int color){
+    mColor = color;
+    notifyDataSetChanged();
   }
 }

@@ -59,8 +59,8 @@ public class CandidateCompareActivity extends BaseActivity {
     setupHeader();
     setTypeFace();
 
-    Call<JsonElement> compareQuestionCall =
-        RESTClient.getService().getCompareQuestion(candidateCompare.getMpid(), candidate.getMpid());
+    Call<JsonElement> compareQuestionCall = RESTClient.getService(this)
+        .getCompareQuestion(candidateCompare.getMpid(), candidate.getMpid());
     compareQuestionCall.enqueue(new Callback<JsonElement>() {
       @Override public void onResponse(Response<JsonElement> response) {
 
@@ -100,11 +100,11 @@ public class CandidateCompareActivity extends BaseActivity {
               RoundCornerProgressBar roundCornerProgressBarTwo =
                   (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate2);
               roundCornerProgressBar.setProgress(PercentageOne);
-              roundCornerProgressBar.setProgressColor(Color.HSVToColor(hslValues));
+              roundCornerProgressBar.setProgressColor(Color.parseColor("#9C27B0"));
               roundCornerProgressBar.setRotation(180);
               roundCornerProgressBar.setBackgroundColor(Color.WHITE);
               roundCornerProgressBarTwo.setProgress(PercentageTwo);
-              roundCornerProgressBarTwo.setProgressColor(Color.HSVToColor(darkValue));
+              roundCornerProgressBarTwo.setProgressColor(Color.parseColor("#009688"));
               questionText.setText(entry.getKey());
               motion_view.addView(question_indicator);
             }
@@ -119,6 +119,7 @@ public class CandidateCompareActivity extends BaseActivity {
                 entry.getValue().getAsJsonObject().get(candidate.getMpid()).getAsInt();
             Float PercentageOne;
             Float PercentageTwo;
+            //"#9C27B0", "#673AB7"
             int TotalScore =
                 entry.getValue().getAsJsonObject().get(candidateCompare.getMpid()).getAsInt()
                     + entry.getValue().getAsJsonObject().get(candidate.getMpid()).getAsInt();
@@ -137,11 +138,11 @@ public class CandidateCompareActivity extends BaseActivity {
             RoundCornerProgressBar roundCornerProgressBarTwo =
                 (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate2);
             roundCornerProgressBar.setProgress(PercentageOne);
-            roundCornerProgressBar.setProgressColor(Color.HSVToColor(hslValues));
+            roundCornerProgressBar.setProgressColor(Color.parseColor("#9C27B0"));
             roundCornerProgressBar.setRotation(180);
             roundCornerProgressBar.setBackgroundColor(Color.WHITE);
             roundCornerProgressBarTwo.setProgress(PercentageTwo);
-            roundCornerProgressBarTwo.setProgressColor(Color.HSVToColor(darkValue));
+            roundCornerProgressBarTwo.setProgressColor(Color.parseColor("#009688"));
             questionText.setText(entry.getKey());
             question_showcase.addView(question_indicator);
           }

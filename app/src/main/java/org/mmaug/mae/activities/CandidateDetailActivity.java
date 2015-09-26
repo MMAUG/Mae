@@ -3,6 +3,8 @@ package org.mmaug.mae.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -14,6 +16,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,14 +25,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.login.widget.LoginButton;
+import com.facebook.share.ShareApi;
 import com.facebook.share.Sharer;
-import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareButton;
@@ -94,11 +99,16 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.candate_question_card) CardView mCandidateQuestionCard;
   @Bind(R.id.candate_motion_card) CardView mCandidateMotionCard;
   @Bind(R.id.shape_id) ShareButton shareButton;
+  @Bind(R.id.shape_login) LoginButton facebooklogin;
   AppBarLayout.OnOffsetChangedListener mListener;
   Candidate candidate;
   ShareDialog shareDialog;
   CallbackManager callbackManager;
   private RESTService mRESTService;
+  private String[] colorHexes = new String[] {
+      "#F44336", "#E91E63", "#9C27B0", "#673AB7", "#2196F3", "#009688", "#4CAF50", "#FFC107",
+      "#FF5722"
+  };
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -114,20 +124,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
     setTypeFace();
 
     shareDialog = new ShareDialog(this);
-    callbackManager = CallbackManager.Factory.create();
-    shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
-      @Override public void onSuccess(Sharer.Result result) {
-
-      }
-
-      @Override public void onCancel() {
-
-      }
-
-      @Override public void onError(FacebookException error) {
-
-      }
-    });
+    facebooklogin.setPublishPermissions("publish_stream");
 
     mListener = new AppBarLayout.OnOffsetChangedListener() {
       @Override public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -201,7 +198,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mCandidateLegalSlature.setText(candidate.getLegislature());
     mCandidateParty.setText(candidate.getParty().getPartyName());
     mCandidateAddress.setText(candidate.getWardVillage());
-    mRESTService = RESTClient.getService();
+    mRESTService = RESTClient.getService(this);
     if (candidate.getMpid() == null) {
       mCompareCandidate.setCardBackgroundColor(getResources().getColor(R.color.accent_color_error));
       mCandidateCompareResult.setText(getResources().getString(R.string.first_time_candidate));
@@ -236,7 +233,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
           for (String key : unique) {
             System.out.println(key + ": " + Collections.frequency(titles, key));
             Random rnd = new Random();
-            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+            String hexes = colorHexes[rnd.nextInt(colorHexes.length)];
+            int color = Color.parseColor(hexes);
             int count = Collections.frequency(titles, key);
             PieModel pieModel = new PieModel(key, count, color);
             mPieChart.addPieSlice(pieModel);
@@ -284,7 +282,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
           for (String key : unique) {
             System.out.println(key + ": " + Collections.frequency(titles, key));
             Random rnd = new Random();
-            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+            String hexes = colorHexes[rnd.nextInt(colorHexes.length)];
+            int color = Color.parseColor(hexes);
             int count = Collections.frequency(titles, key);
             PieModel pieModel = new PieModel(key, count, color);
             mPieChart.addPieSlice(pieModel);
@@ -352,14 +351,24 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mCandidateCompareResult.setTypeface(typefacelight);
     mQuestionHeaderTv.setTypeface(typefacelight);
     mMotionHeaderTv.setTypeface(typefacelight);
-    shareButton.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View view) {
-        if (ShareDialog.canShow(ShareLinkContent.class)) {
-          SharePhoto photo =
-              new SharePhoto.Builder().setBitmap(candidateImage.getDrawingCache()).build();
-          SharePhotoContent content = new SharePhotoContent.Builder().addPhoto(photo).build();
-          shareDialog.show(content);
-        }
+  }
+
+  @OnClick(R.id.shape_id) void click() {
+    facebooklogin.performClick();
+    Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.flag);
+    SharePhoto photo = new SharePhoto.Builder().setBitmap(image).build();
+    SharePhotoContent content = new SharePhotoContent.Builder().addPhoto(photo).build();
+    ShareApi.share(content, new FacebookCallback<Sharer.Result>() {
+      @Override public void onSuccess(Sharer.Result result) {
+
+      }
+
+      @Override public void onCancel() {
+
+      }
+
+      @Override public void onError(FacebookException error) {
+        Log.e("Eroor in Facebook", error.toString());
       }
     });
   }
@@ -367,7 +376,6 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Override
   protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    callbackManager.onActivityResult(requestCode, resultCode, data);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
