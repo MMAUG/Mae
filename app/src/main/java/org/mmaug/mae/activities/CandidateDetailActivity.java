@@ -100,6 +100,10 @@ public class CandidateDetailActivity extends AppCompatActivity {
   ShareDialog shareDialog;
   CallbackManager callbackManager;
   private RESTService mRESTService;
+  private String[] colorHexes = new String[] {
+      "#F44336", "#E91E63", "#9C27B0", "#673AB7", "#2196F3", "#009688", "#4CAF50", "#FFC107",
+      "#FF5722"
+  };
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -237,7 +241,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
           for (String key : unique) {
             System.out.println(key + ": " + Collections.frequency(titles, key));
             Random rnd = new Random();
-            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+            String hexes = colorHexes[rnd.nextInt(colorHexes.length)];
+            int color = Color.parseColor(hexes);
             int count = Collections.frequency(titles, key);
             PieModel pieModel = new PieModel(key, count, color);
             mPieChart.addPieSlice(pieModel);
@@ -285,7 +290,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
           for (String key : unique) {
             System.out.println(key + ": " + Collections.frequency(titles, key));
             Random rnd = new Random();
-            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+            String hexes = colorHexes[rnd.nextInt(colorHexes.length)];
+            int color = Color.parseColor(hexes);
             int count = Collections.frequency(titles, key);
             PieModel pieModel = new PieModel(key, count, color);
             mPieChart.addPieSlice(pieModel);
