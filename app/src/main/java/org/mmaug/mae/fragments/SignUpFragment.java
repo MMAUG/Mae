@@ -9,6 +9,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +56,7 @@ public class SignUpFragment extends Fragment
   @Bind(R.id.to_check_mae) TextView toCheckMae;
   @Bind(R.id.check_button) TextView checkButton;
   @Bind(R.id.myanmarTextPlease) TextView myanmarTextPlease;
+  @Bind(R.id.skip_card_button) TextView skip_card_button;
   Calendar now;
   int maxAgeforVote = 18;
   int defaultYear;
@@ -102,6 +104,7 @@ public class SignUpFragment extends Fragment
     toCheckMae.setTypeface(typefaceTitle);
     checkButton.setTypeface(typefacelight);
     myanmarTextPlease.setTypeface(typefacelight);
+    skip_card_button.setTypeface(typefacelight);
 
     /***
      * UNCOMMENT THIS CODES
@@ -177,7 +180,7 @@ public class SignUpFragment extends Fragment
     defaultDate = dayOfMonth;
     defaultMonth = monthOfYear;
     if ((now.get(Calendar.YEAR) - defaultYear) >= 18) {
-      mDateOfBirth.setText(defaultYear + "-" + defaultMonth + "-" + defaultDate);
+      mDateOfBirth.setText(defaultYear + "-" + defaultMonth + 1 + "-" + defaultDate);
     }
   }
 

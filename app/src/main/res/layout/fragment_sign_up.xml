@@ -58,16 +58,16 @@
           android:text="@string/check_voter"
           android:textStyle="bold"
           />
-        <TextView
-            android:gravity="center"
-            android:text="@string/please_mm"
-            android:textColor="@android:color/white"
-            android:layout_gravity="center"
-            android:padding="@dimen/spacing_minor"
-            android:id="@+id/myanmarTextPlease"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+      <TextView
+          android:gravity="center"
+          android:text="@string/please_mm"
+          android:textColor="@android:color/white"
+          android:layout_gravity="center"
+          android:padding="@dimen/spacing_minor"
+          android:id="@+id/myanmarTextPlease"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          />
 
       <android.support.v7.widget.CardView
           android:id="@+id/register_card"
@@ -108,7 +108,8 @@
               android:layout_height="wrap_content"
               android:background="@null"
               android:gravity="center"
-              android:hint="မိမိနာမည်"
+              android:singleLine="true"
+              android:hint="အမည်"
               android:padding="@dimen/spacing_major"
               />
 
@@ -120,11 +121,12 @@
 
           <EditText
               android:id="@+id/father_name"
+              android:singleLine="true"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:background="@null"
               android:gravity="center"
-              android:hint="အဘနာမည်"
+              android:hint="အဖအမည်"
               android:padding="@dimen/spacing_major"
               />
 
@@ -250,6 +252,28 @@
             android:gravity="center"
             android:padding="@dimen/spacing_not_so_major"
             android:text="စစ်မယ်"
+            />
+
+      </android.support.v7.widget.CardView>
+      <android.support.v7.widget.CardView
+          android:id="@+id/skip_card"
+          android:layout_width="180dp"
+          android:layout_height="wrap_content"
+          android:layout_below="@id/register_card"
+          android:layout_centerHorizontal="true"
+          android:foreground="?attr/selectableItemBackground"
+          app:cardBackgroundColor="@color/primary"
+          >
+
+        <TextView
+            android:id="@+id/skip_card_button"
+            style="@style/TextAppearance.AppCompat.Widget.Button.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:padding="@dimen/spacing_not_so_major"
+            android:text="နောက်မှဖြည့်စွက်မည်"
             />
 
       </android.support.v7.widget.CardView>
