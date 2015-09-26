@@ -54,6 +54,7 @@ public class SignUpFragment extends Fragment
   @Bind(R.id.searchFragment) FrameLayout searchView;
   @Bind(R.id.to_check_mae) TextView toCheckMae;
   @Bind(R.id.check_button) TextView checkButton;
+  @Bind(R.id.myanmarTextPlease) TextView myanmarTextPlease;
   Calendar now;
   int maxAgeforVote = 18;
   int defaultYear;
@@ -100,6 +101,7 @@ public class SignUpFragment extends Fragment
 
     toCheckMae.setTypeface(typefaceTitle);
     checkButton.setTypeface(typefacelight);
+    myanmarTextPlease.setTypeface(typefacelight);
 
     /***
      * UNCOMMENT THIS CODES

@@ -1,5 +1,6 @@
 package org.mmaug.mae.activities;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 import org.mmaug.mae.R;
 import org.mmaug.mae.models.FAQ;
+import org.mmaug.mae.utils.FontCache;
 
 /**
  * Created by yemyatthu on 8/6/15.
@@ -40,11 +42,14 @@ public class FaqDetailActivity extends AppCompatActivity {
     mFAQ = (FAQ) getIntent().getSerializableExtra(FAQ_CONSTANT);
     if (mFAQ != null) {
       mActionBar.setTitle(mFAQ.getQuestion());
+      Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
+      Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
       mQuestion.setText(mFAQ.getQuestion());
       mAnswer.setText(mFAQ.getAnswer());
+      mQuestion.setTypeface(typefaceTitle);
+      mAnswer.setTypeface(typefacelight);
     }
   }
-
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
