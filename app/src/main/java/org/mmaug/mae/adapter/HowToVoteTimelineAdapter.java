@@ -28,7 +28,8 @@ public class HowToVoteTimelineAdapter extends BaseAdapter<BaseAdapter.BaseViewHo
   ArrayList<HTVObject> htvObjectList;
   int[] colors;
   Context mContext;
-
+  Typeface typefaceTitle;
+  Typeface typefacelight;
   public HowToVoteTimelineAdapter() {
     this.htvObjectList = new ArrayList<>();
   }
@@ -64,8 +65,8 @@ public class HowToVoteTimelineAdapter extends BaseAdapter<BaseAdapter.BaseViewHo
     int color = colors[new Random().nextInt(colors.length)];
     viewHolder.mIvStep.setImageDrawable(
         new CustomCircleDrawable.Builder(MixUtils.convertToBurmese(step + ""), color).build());
-    Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf",mContext );
-    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", mContext);
+    if (typefaceTitle == null) typefaceTitle = FontCache.get("MyanmarAngoun.ttf", mContext);
+    if (typefacelight == null) typefacelight = FontCache.get("pyidaungsu.ttf", mContext);
     //title text
     viewHolder.mTvTitle.setText(object.getTitle());
     viewHolder.mTvTitle.setTypeface(typefaceTitle);
@@ -82,6 +83,7 @@ public class HowToVoteTimelineAdapter extends BaseAdapter<BaseAdapter.BaseViewHo
       viewHolder.mTvMessage.setVisibility(View.VISIBLE);
       viewHolder.mTvMessage.setText(object.getMessage());
       viewHolder.mTvMessage.setSizeToFit(true);
+      viewHolder.mTvMessage.setTypeface(typefaceTitle);
     } else {
       viewHolder.mTvMessage.setVisibility(View.GONE);
     }
