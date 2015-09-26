@@ -15,7 +15,7 @@
       android:textColor="@android:color/white"
       android:id="@+id/mae_title"
       android:layout_above="@+id/image"
-      android:text="မဲပေးပြီးကြောင်းသက်သေထူမည်"
+      android:text="မဲပေးပြီးကြောင်းသက်သေထူသည့်အနေဖြင့် မင်တို့ထားသောလက်ချောင်းနှင့်အတူ Selfie ရိုက်ရအောင်"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       />
@@ -35,7 +35,7 @@
       android:textColor="@android:color/white"
       android:id="@+id/descriptionText"
       android:layout_above="@+id/image_frame"
-      android:text="မဲပေးနိုင်သူ တစ်ယောက်အဖြစ် လူမှုကွန်ရက်တွင် ကြေညာလိုက်ပါ"
+      android:text="နိုင်ငံသား တာ၀န်ကျေခဲ့သူတစ်ယောက်အနေဖြင့်  တစ်ယောက်အဖြစ် လူမှုကွန်ရက်တွင် ကြေညာလိုက်ပါ"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       />
