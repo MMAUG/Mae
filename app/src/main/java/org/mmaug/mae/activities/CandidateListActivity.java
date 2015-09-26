@@ -107,9 +107,9 @@ public class CandidateListActivity extends BaseActivity
       //Probably, there won't be much more than 200 candidates for a township for the same legislature
       pyithuParams.put(Config.PER_PAGE, "200");
       //TODO remove hardcoded PCODE
-      pyithuParams.put(Config.CONSTITUENCY_ST_PCODE, "MMR013");
-      pyithuParams.put(Config.CONSTITUENCY_DT_PCODE, "MMR013D001");
-      pyithuParams.put(Config.CONSTITUENCY_TS_PCODE, "MMR013001");
+      pyithuParams.put(Config.CONSTITUENCY_ST_PCODE, myTownShip.getSRPcode());
+      pyithuParams.put(Config.CONSTITUENCY_DT_PCODE,myTownShip.getDPcode());
+      pyithuParams.put(Config.CONSTITUENCY_TS_PCODE,myTownShip.getTSPcode());
       pyithuParams.put(Config.WITH, Config.PARTY);
       inflateCandiateAdapter(pyithuParams);
     }else{
