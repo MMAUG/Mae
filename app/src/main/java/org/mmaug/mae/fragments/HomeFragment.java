@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Random;
 import org.mmaug.mae.R;
 import org.mmaug.mae.activities.CandidateListActivity;
+import org.mmaug.mae.activities.FaqListActivity;
 import org.mmaug.mae.activities.HowToVoteActivity;
 import org.mmaug.mae.activities.LocationActivity;
 import org.mmaug.mae.activities.PartyListActivity;
@@ -96,7 +97,8 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     faqImg.setColorFilter(getResources().getColor(R.color.white));
     faqImg.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        
+        Intent faqIntent = new Intent(getActivity(), FaqListActivity.class);
+        startActivity(faqIntent);
       }
     });
     return view;

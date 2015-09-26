@@ -7,7 +7,7 @@
     >
 
     <include
-        layout="@layout/include_toolbar"
+        layout="@layout/toolbar"
         android:id="@+id/faq_list_toolbar"
         />
 
