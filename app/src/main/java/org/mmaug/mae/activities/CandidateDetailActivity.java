@@ -187,7 +187,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
       mCandidateQuestionCard.setVisibility(View.GONE);
       mCandidateMotionCard.setVisibility(View.GONE);
     } else {
-      Call<JsonObject> motionCountCall = mRESTService.getMotionCount("UPMP-01-0142");
+      Call<JsonObject> motionCountCall = mRESTService.getMotionCount(candidate.getMpid());
       motionCountCall.enqueue(new Callback<JsonObject>() {
         @Override public void onResponse(Response<JsonObject> response) {
           int motionCount = response.body().get("count").getAsInt();
@@ -236,7 +236,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
 
         }
       });
-      Call<JsonObject> questionCountCall = mRESTService.getQuestionCount("UPMP-01-0142");
+      Call<JsonObject> questionCountCall = mRESTService.getQuestionCount(candidate.getMpid());
       questionCountCall.enqueue(new Callback<JsonObject>() {
         @Override public void onResponse(Response<JsonObject> response) {
           int questionCount = response.body().get("count").getAsInt();
@@ -248,7 +248,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
 
         }
       });
-      Call<JsonObject> questionCall = mRESTService.getQuestionDetail("UPMP-01-0142");
+      Call<JsonObject> questionCall = mRESTService.getQuestionDetail(candidate.getMpid());
       questionCall.enqueue(new Callback<JsonObject>() {
         @Override public void onResponse(Response<JsonObject> response) {
           JsonArray datas = response.body().get("data").getAsJsonArray();
