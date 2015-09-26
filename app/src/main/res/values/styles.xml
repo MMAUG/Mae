@@ -9,8 +9,8 @@
     <item name="colorPrimary">@color/primary</item>
     <item name="colorPrimaryDark">@color/primary_dark</item>
     <item name="colorAccent">@color/accent_color</item>
-    <item name="android:textColorSecondary">@color/secondary_text_color</item>
-    <item name="android:textColorPrimary">@color/primary_text_color</item>
+    <item name="android:textColorSecondary">#727272</item>
+    <item name="android:textColorPrimary">#212121</item>
     <item name="windowActionBar">false</item>
     <item name="windowNoTitle">true</item>
     <item name="windowActionModeOverlay">true</item>

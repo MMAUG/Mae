@@ -41,6 +41,7 @@ public class BoardView extends View {
   private boolean touchMode; //control touch mode by button
   private GameListener listener;
   private String[] candidateName;
+  private int[] color = new int[3];
 
   int normalTextSize;
 
@@ -51,6 +52,10 @@ public class BoardView extends View {
     res = getResources();
 
     candidateName = res.getStringArray(R.array.candidate_name);
+    color[0] = res.getColor(R.color.red);
+    color[1] = res.getColor(R.color.accent_color);
+    color[2] = res.getColor(R.color.geojson_background_color);
+
     margin = (int) MixUtils.convertDpToPixel(context, 16);
     marginSmall = (int) MixUtils.convertDpToPixel(context, 8);
     padding = (int) MixUtils.convertDpToPixel(context, 4);
@@ -60,17 +65,16 @@ public class BoardView extends View {
     background.setColor(res.getColor(R.color.board_background));
 
     //cell rect paint
-    gridPaint.setColor(res.getColor(R.color.secondary_text_color));
+    gridPaint.setColor(res.getColor(R.color.grey));
     gridPaint.setStyle(Paint.Style.STROKE);
     gridPaint.setStrokeWidth(4);
 
     //text paint
-    textPaint.setColor(res.getColor(R.color.secondary_text_color));
+    textPaint.setColor(res.getColor(R.color.grey));
     textPaint.setAntiAlias(true);
     textPaint.setStyle(Paint.Style.FILL);
 
-    //text paint
-    partyFlagPaint.setColor(res.getColor(R.color.divider));
+    //flag paint
     partyFlagPaint.setAntiAlias(true);
     partyFlagPaint.setStyle(Paint.Style.FILL);
   }
@@ -244,8 +248,9 @@ public class BoardView extends View {
       }
       canvas.drawRect(rect, gridPaint);
       if (j == 1) {
-        canvas.drawRect(left + marginSmall, top + marginSmall, right - marginSmall,
-            bottom - marginSmall, partyFlagPaint);
+        partyFlagPaint.setColor(color[i]);
+        canvas.drawRect(left + marginSmall, top + margin, right - marginSmall, bottom - margin,
+            partyFlagPaint);
       }
       if (j == 0) {
         canvas.drawText(candidateName[i], (rect.width() / 2) - (candidateName[i].length() / 2),
@@ -289,7 +294,7 @@ public class BoardView extends View {
     TextView tv = new TextView(mContext);
     // setup text
     tv.setText(text);
-    tv.setTextColor(res.getColor(R.color.secondary_text_color));
+    tv.setTextColor(res.getColor(R.color.grey));
     tv.setTextSize(textSize);
     tv.setSingleLine(false);
     tv.setLineSpacing(0.0f, 1.2f);

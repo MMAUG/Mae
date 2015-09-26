@@ -50,7 +50,7 @@
         android:id="@+id/iv_htv_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_major"
+        android:layout_margin="@dimen/spacing_minor"
         android:visibility="gone"/>
     <TextView
         android:id="@+id/tv_htv_warning"

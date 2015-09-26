@@ -98,12 +98,12 @@
           <TextView
               android:textColor="@color/white"
               android:layout_weight="3"
-              android:layout_margin="@dimen/default_padding_large"
+              android:padding="@dimen/default_padding_large"
               android:gravity="center_vertical"
               android:id="@+id/txt_cardview_vote_check"
               android:text="မဲစာရင်းမှာ နာမည်မှပါရဲ့လား"
               android:layout_width="match_parent"
-              android:layout_height="20dp"
+              android:layout_height="match_parent"
               />
           <ImageView
               android:id="@+id/valid_sign"
@@ -139,7 +139,7 @@
             >
           <TextView
               android:layout_weight="3"
-              android:layout_margin="@dimen/default_padding_large"
+              android:padding="@dimen/default_padding_large"
               android:gravity="center_vertical"
               android:id="@+id/txt_where_can_i_vote"
               android:text="ဘယ်မှာ မဲပေးရမှာလဲ"
@@ -179,7 +179,7 @@
             >
           <TextView
               android:layout_weight="3"
-              android:layout_margin="@dimen/default_padding_large"
+              android:padding="@dimen/default_padding_large"
               android:gravity="center_vertical"
               android:id="@+id/card_candidate_list"
               android:text="ဘယ်သူ့ မဲပေးရမှာလဲ"
@@ -217,7 +217,7 @@
             android:layout_height="wrap_content"
             >
           <TextView
-              android:layout_margin="@dimen/default_padding_large"
+              android:padding="@dimen/default_padding_large"
               android:gravity="center_vertical"
               android:id="@+id/cardview_party_condtion_list"
               android:text="ပါတီတွေရဲ့ အခြေအနေ"
@@ -247,7 +247,7 @@
             android:layout_height="wrap_content"
             >
           <TextView
-              android:layout_margin="@dimen/default_padding_large"
+              android:padding="@dimen/default_padding_large"
               android:gravity="center_vertical"
               android:id="@+id/txt_howtovote"
               android:text="ဘယ်လို မဲပေးရမှာလဲ"
@@ -278,7 +278,7 @@
             android:layout_height="wrap_content"
             >
           <TextView
-              android:layout_margin="@dimen/default_padding_large"
+              android:padding="@dimen/default_padding_large"
               android:gravity="center_vertical"
               android:id="@+id/txt_voted"
               android:text="မဲပေးပြီးပြီ"
