@@ -134,6 +134,7 @@ public class VotedActivity extends BaseActivity {
       image_frame.setImageDrawable(drawable);
       image_frame.setVisibility(View.VISIBLE);
       descriptionText.setVisibility(View.VISIBLE);
+      mae_title.setVisibility(View.GONE);
       voteButton.setVisibility(View.VISIBLE);
       camera.setVisibility(View.GONE);
     }

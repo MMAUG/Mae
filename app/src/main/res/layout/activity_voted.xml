@@ -36,7 +36,8 @@
       android:textColor="@android:color/white"
       android:id="@+id/descriptionText"
       android:layout_above="@+id/image_frame"
-      android:text="နိုင်ငံသား တာ၀န်ကျေခဲ့သူတစ်ယောက်အနေဖြင့်  တစ်ယောက်အဖြစ် လူမှုကွန်ရက်တွင် ကြေညာလိုက်ပါ"
+      android:layout_margin="@dimen/spacing_major"
+      android:text="နိုင်ငံသား တာ၀န်ကျေခဲ့သူတစ်ယောက်အဖြစ် လူမှုကွန်ရက်တွင် ကြေညာလိုက်ပါ"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       />
