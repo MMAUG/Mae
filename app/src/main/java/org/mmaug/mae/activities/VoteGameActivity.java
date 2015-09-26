@@ -2,6 +2,7 @@ package org.mmaug.mae.activities;
 
 import android.animation.ObjectAnimator;
 import android.app.Dialog;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import hu.aut.utillib.circular.animation.CircularAnimationUtils;
 import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.game.BoardView;
+import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MixUtils;
 
 /**
@@ -114,8 +116,11 @@ public class VoteGameActivity extends BaseActivity implements BoardView.GameList
       View myTargetView = view.findViewById(R.id.circle_full);
       View mySourceView = view.findViewById(R.id.circle_empty);
       View okBtn = view.findViewById(R.id.voter_check_ok_btn);
+      Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
+      Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
       //text message
       TextView myTextView = (TextView) view.findViewById(R.id.tv_vote_message);
+      myTextView.setTypeface(typefaceTitle);
       String warning = getString(R.string.how_to_vote_placeholder_text,
           getString(R.string.correct_vote_message));
       myTextView.setText(Html.fromHtml(warning));
@@ -145,6 +150,9 @@ public class VoteGameActivity extends BaseActivity implements BoardView.GameList
       String warning =
           getString(R.string.incorrect_vote_message, getString(R.string.correct_vote_message));
       myTextView.setText(warning);
+      Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
+      Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
+      myTextView.setTypeface(typefaceTitle);
       okBtn.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View view) {
           if (voteResultDialog.isShowing()) {
