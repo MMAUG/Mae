@@ -1,21 +1,27 @@
 package org.mmaug.mae.fragments;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import hu.aut.utillib.circular.animation.CircularAnimationUtils;
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.Random;
 import org.mmaug.mae.R;
 import org.mmaug.mae.activities.CandidateListActivity;
 import org.mmaug.mae.activities.HowToVoteActivity;
@@ -32,6 +38,8 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
   @Bind(R.id.month_day_left) TextView monthDayLeft;
   @Bind(R.id.hour_minute_left) TextView hourMinuteLeft;
+  @Bind(R.id.backdrop) LinearLayout backdrop;
+  @Bind(R.id.txt_cardview_vote_check) TextView txt_cardview_vote_check;
   /* @Bind(R.id.to_vote) TextView toVote;
    @Bind(R.id.tvThumb) TextView tvThumb;*/
 /*  @Bind(R.id.tv_candidate_list) TextView tvThumb_party_condition;*/
@@ -109,7 +117,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     startActivity(intent);
   }
 
-/*  @OnClick(R.id.tvThumb) public void showVoteResult(TextView textView) {
+  @OnClick(R.id.cardview_vote_check) public void showVoteResult(CardView textView) {
     //// TODO: 9/15/15 Handle the NOT OK result <Ye Myat Thu>
     boolean ok = new Random().nextBoolean();
     View view;
@@ -148,9 +156,11 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         @Override public void onClick(View view) {
           if (voteResultDialog.isShowing()) {
             voteResultDialog.dismiss();
+            backdrop.setBackgroundColor(Color.YELLOW);
+            txt_cardview_vote_check.setTextColor(Color.BLACK);
           }
         }
       });
     }
-  }*/
+  }
 }
