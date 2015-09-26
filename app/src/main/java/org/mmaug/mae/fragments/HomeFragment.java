@@ -2,6 +2,7 @@ package org.mmaug.mae.fragments;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -20,6 +21,7 @@ import org.mmaug.mae.activities.CandidateListActivity;
 import org.mmaug.mae.activities.HowToVoteActivity;
 import org.mmaug.mae.activities.LocationActivity;
 import org.mmaug.mae.activities.PartyListActivity;
+import org.mmaug.mae.services.AlarmManagerBroadcastReceiver;
 import org.mmaug.mae.utils.MixUtils;
 
 public class HomeFragment extends android.support.v4.app.Fragment {
@@ -30,13 +32,11 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
   @Bind(R.id.month_day_left) TextView monthDayLeft;
   @Bind(R.id.hour_minute_left) TextView hourMinuteLeft;
- /* @Bind(R.id.to_vote) TextView toVote;
-  @Bind(R.id.tvThumb) TextView tvThumb;*/
+  /* @Bind(R.id.to_vote) TextView toVote;
+   @Bind(R.id.tvThumb) TextView tvThumb;*/
 /*  @Bind(R.id.tv_candidate_list) TextView tvThumb_party_condition;*/
-
-  // TODO: Rename and change types of parameters
-  private String mParam1;
-  private String mParam2;
+  /* Retrieve a PendingIntent that will perform a broadcast */ PendingIntent pendingIntent;
+  private AlarmManagerBroadcastReceiver alarm;
   private Dialog voteResultDialog;
 
   public HomeFragment() {
@@ -62,8 +62,9 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_home, container, false);
     ButterKnife.bind(this, view);
+    alarm = new AlarmManagerBroadcastReceiver();
+    alarm.SetAlarm(getActivity());
     try {
-
       new CountDownTimer(MixUtils.calculateTimeLeftToVote(), 1000) {
         @Override public void onTick(long millisUntilFinished) {
 
