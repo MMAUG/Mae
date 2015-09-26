@@ -91,22 +91,26 @@ public class SignUpFragment extends Fragment
 
     final Call<User> registerUser = RESTClient.getService().registerUser(params);
     registerUser.enqueue(new Callback<User>() {
+      UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
       @Override public void onResponse(Response<User> response) {
         if (response.code() == 200) {
-          mainView.setVisibility(View.GONE);
-          contenFragment.setVisibility(View.VISIBLE);
-          HomeFragment homeFragment = new HomeFragment();
-          FragmentManager fm = getActivity().getSupportFragmentManager();
-          FragmentTransaction transaction = fm.beginTransaction();
-          transaction.replace(R.id.contentFragment, homeFragment);
-          transaction.commit();
-          UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
-          userPrefUtils.saveUserName(params.get(Config.VOTER_NAME));
-          userPrefUtils.saveBirthDate(params.get(Config.DATE_OF_BIRTH));
-          userPrefUtils.saveNRC(params.get(Config.NRC));
-          userPrefUtils.saveFatherName(params.get(Config.FATHER_NAME));
-          userPrefUtils.saveTownShip(townshipGson);
+
+          userPrefUtils.setValid(true);
+        }else{
+          userPrefUtils.setValid(false);
         }
+        userPrefUtils.saveUserName(params.get(Config.VOTER_NAME));
+        userPrefUtils.saveBirthDate(params.get(Config.DATE_OF_BIRTH));
+        userPrefUtils.saveNRC(params.get(Config.NRC));
+        userPrefUtils.saveFatherName(params.get(Config.FATHER_NAME));
+        userPrefUtils.saveTownShip(townshipGson);
+        mainView.setVisibility(View.GONE);
+        contenFragment.setVisibility(View.VISIBLE);
+        HomeFragment homeFragment = new HomeFragment();
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.contentFragment, homeFragment);
+        transaction.commit();
         Log.e("Response", response.code() + " " + response.message());
       }
 
