@@ -113,7 +113,11 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
       geoCall.enqueue(new Callback<GeoReturnObject>() {
         @Override public void onResponse(Response<GeoReturnObject> response) {
           Geo geo = response.body().getData().get(0);
-          setUpMap(LocationActivity.this, geo);
+          try {
+            setUpMap(LocationActivity.this, geo);
+          }catch (Exception e){
+
+          }
         }
 
         @Override public void onFailure(Throwable t) {
@@ -250,7 +254,7 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
       try {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon), 8));
       }catch (Exception e){
-        
+
       }
 
       layer.addLayerToMap();
@@ -355,7 +359,11 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
         Geo geo = response.body().getData().get(0);
         Log.e("Get Data", response.body().getData().get(0).getProperties().getDT());
         Log.e("Geo", "" + geo.getProperties().getDTPCODE());
-        setUpMap(LocationActivity.this, geo);
+        try {
+          setUpMap(LocationActivity.this, geo);
+        }catch (Exception e){
+
+        }
         mProgressBar.setVisibility(View.GONE);
       }
 
