@@ -107,4 +107,5 @@ dependencies {
   compile 'com.github.florent37:glidepalette:1.0.4@aar'
   //progress
   compile 'com.facebook.android:facebook-android-sdk:4.6.0'
+
 }

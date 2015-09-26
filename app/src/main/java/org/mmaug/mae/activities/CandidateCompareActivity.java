@@ -41,6 +41,8 @@ public class CandidateCompareActivity extends BaseActivity {
   @Bind(R.id.party_edu_two) AutofitTextView candidateEduTwo;
   @Bind(R.id.party_job_one) TextView partyJobOne;
   @Bind(R.id.party_job_two) TextView partyJobTwo;
+  @Bind(R.id.no_flag_candidateOne) AutofitTextView no_flag_candidateOne;
+  @Bind(R.id.no_flag_candidateTwo) AutofitTextView no_flag_candidateTwo;
   Candidate candidate;
   Candidate candidateCompare;
   float[] hslValues = new float[3];
@@ -68,11 +70,11 @@ public class CandidateCompareActivity extends BaseActivity {
 
           for (Map.Entry<String, JsonElement> entry : entriesMotions) {
             {
+
               int obtainScrollOne =
                   entry.getValue().getAsJsonObject().get(candidateCompare.getMpid()).getAsInt();
               int obtainScrollTwo =
                   entry.getValue().getAsJsonObject().get(candidate.getMpid()).getAsInt();
-
               Float PercentageOne;
               Float PercentageTwo;
               int TotalScore =
@@ -108,7 +110,6 @@ public class CandidateCompareActivity extends BaseActivity {
                 entry.getValue().getAsJsonObject().get(candidateCompare.getMpid()).getAsInt();
             int obtainScrollTwo =
                 entry.getValue().getAsJsonObject().get(candidate.getMpid()).getAsInt();
-
             Float PercentageOne;
             Float PercentageTwo;
             int TotalScore =
@@ -177,37 +178,46 @@ public class CandidateCompareActivity extends BaseActivity {
     partyJobOne.setText(candidateCompare.getOccupation());
     partyJobTwo.setText(candidate.getOccupation());
 
-    Glide.with(this)
-        .load(candidateCompare.getParty().getPartyFlag())
-        .listener(GlidePalette.with(candidateCompare.getParty().getPartyFlag())
-            .intoCallBack(new GlidePalette.CallBack() {
-              @Override public void onPaletteLoaded(Palette palette) {
-                //specific task
-                Palette.Swatch vibrantSwatch = palette.getVibrantSwatch();
-                hslValues = vibrantSwatch.getHsl();
-                candidateOneView.setBorderColor(Color.HSVToColor(hslValues));
-              }
-            }))
-        .into(party_flag_one);
-
-    Glide.with(this)
-        .load(candidate.getParty().getPartyFlag())
-        .listener(GlidePalette.with(candidate.getParty().getPartyFlag())
-            .intoCallBack(new GlidePalette.CallBack() {
-              @Override public void onPaletteLoaded(Palette palette) {
-                //specific task
-                Palette.Swatch darkSwatch = palette.getLightVibrantSwatch();
-                if (darkSwatch != null) {
-                  darkValue = darkSwatch.getHsl();
-                  candidateTwoView.setBorderColor(Color.HSVToColor(darkValue));
+    if (candidateCompare.getParty().getPartyFlag() != null) {
+      party_flag_one.setVisibility(View.VISIBLE);
+      Glide.with(this)
+          .load(candidateCompare.getParty().getPartyFlag())
+          .listener(GlidePalette.with(candidateCompare.getParty().getPartyFlag())
+              .intoCallBack(new GlidePalette.CallBack() {
+                @Override public void onPaletteLoaded(Palette palette) {
+                  //specific task
+                  Palette.Swatch vibrantSwatch = palette.getVibrantSwatch();
+                  hslValues = vibrantSwatch.getHsl();
+                  candidateOneView.setBorderColor(Color.HSVToColor(hslValues));
                 }
-              }
-            }))
-        .into(party_flag_two);
+              }))
+          .into(party_flag_one);
+    } else {
+      no_flag_candidateOne.setVisibility(View.VISIBLE);
+    }
+    if (candidate.getParty().getPartyFlag() != null) {
+      party_flag_two.setVisibility(View.VISIBLE);
+      Glide.with(this)
+          .load(candidate.getParty().getPartyFlag())
+          .listener(GlidePalette.with(candidate.getParty().getPartyFlag())
+              .intoCallBack(new GlidePalette.CallBack() {
+                @Override public void onPaletteLoaded(Palette palette) {
+                  //specific task
+                  Palette.Swatch darkSwatch = palette.getLightVibrantSwatch();
+                  if (darkSwatch != null) {
+                    darkValue = darkSwatch.getHsl();
+                    candidateTwoView.setBorderColor(Color.HSVToColor(darkValue));
+                  }
+                }
+              }))
+          .into(party_flag_two);
+    } else {
+      no_flag_candidateTwo.setVisibility(View.VISIBLE);
+    }
 
+    Glide.with(this).load(candidate.getPhotoUrl()).into(candidateTwoView);
     Glide.with(this).load(candidateCompare.getPhotoUrl()).into(candidateOneView);
     candidateOneView.setBorderWidth(5);
-    Glide.with(this).load(candidate.getPhotoUrl()).into(candidateTwoView);
     candidateTwoView.setBorderWidth(5);
   }
 }

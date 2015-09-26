@@ -29,6 +29,7 @@
           />
     </android.support.v7.widget.CardView>
     <android.support.v7.widget.RecyclerView
+        android:background="@color/cardview_light_background"
         android:id="@+id/rv_search_township"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
