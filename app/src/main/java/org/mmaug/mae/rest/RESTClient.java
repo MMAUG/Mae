@@ -60,13 +60,16 @@ public class RESTClient {
     private final String TAG = LoggingInterceptor.class.getSimpleName();
 
     @Override public Response intercept(Chain chain) throws IOException {
-
+      TelephonyManager tManager = (TelephonyManager)mContext.getSystemService(
+          Context.TELEPHONY_SERVICE);
+      String uuid = tManager.getDeviceId();
       Request request = chain.request();
 
       Request.Builder builder = request.newBuilder();
       builder.header("X-API-KEY", "pRGKrLV8pKgReysQ27lORJsFbuJi4eAx");
       builder.header("X-API-SECRET", "r3pcXrYDvsTIRikBBG4SzdzAwgSsdIYU");
       builder.header("Accept", "application/json");
+      builder.addHeader("uuid",uuid);
       request = builder.build();
 
       long t1 = System.nanoTime();
@@ -87,12 +90,12 @@ public class RESTClient {
     private final String TAG = LoggingInterceptor.class.getSimpleName();
 
     @Override public Response intercept(Chain chain) throws IOException {
-      TelephonyManager tManager = (TelephonyManager)mContext.getSystemService(Context.TELEPHONY_SERVICE);
+      TelephonyManager tManager = (TelephonyManager)mContext.getSystemService(
+          Context.TELEPHONY_SERVICE);
       String uuid = tManager.getDeviceId();
       Request request = chain.request();
-      String url = request.urlString();
       Request.Builder builder = request.newBuilder();
-      builder.url(url + "&uuid="+uuid);
+      builder.addHeader("uuid",uuid);
       request = builder.build();
 
       long t1 = System.nanoTime();
