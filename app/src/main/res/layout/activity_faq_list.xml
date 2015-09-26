@@ -1,0 +1,49 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.maepaysoh.maepaysoh.ui.FaqListActivity"
+    >
+
+  <include
+      layout="@layout/include_toolbar"
+      android:id="@+id/faq_list_toolbar"
+      />
+
+  <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      >
+
+    <ProgressBar
+        android:id="@+id/faq_list_progress_bar"
+        style="?android:progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/faq_list_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+
+    <!-- Toolbar Shadow -->
+    <include
+        layout="@layout/include_toolbar_shadow"
+        android:id="@+id/faq_list_toolbar_shadow"
+        />
+
+    <include
+        layout="@layout/include_error_view"
+        android:visibility="gone"
+        android:id="@+id/faq_list_error_view"
+        />
+
+  </FrameLayout>
+
+</LinearLayout>
