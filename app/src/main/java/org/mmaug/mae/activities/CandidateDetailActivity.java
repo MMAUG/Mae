@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -333,7 +332,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mQuestionHeaderTv.setTypeface(typefacelight);
     mMotionHeaderTv.setTypeface(typefacelight);
   }
-  
+
 
   @Override
   protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
@@ -352,7 +351,9 @@ public class CandidateDetailActivity extends AppCompatActivity {
         return true;
       case R.id.party_detail_action_share:
         Intent i = new Intent(Intent.ACTION_SEND);
-        i.setData(Uri.parse("http://188.166.240.34/share/"+candidate.getId()));
+        i.setType("text/plain");
+        i.putExtra(Intent.EXTRA_SUBJECT,candidate.getName());
+        i.putExtra(Intent.EXTRA_TEXT,"http://188.166.240.34/share/"+candidate.getId());
         startActivity(Intent.createChooser(i,"Share Via"));
         return true;
       default:

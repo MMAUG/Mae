@@ -247,7 +247,11 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
         mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(
             R.id.location_detail_map)).getMap();
       }
-      mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon), 8));
+      try {
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon), 8));
+      }catch (Exception e){
+        
+      }
 
       layer.addLayerToMap();
       //double lat;
