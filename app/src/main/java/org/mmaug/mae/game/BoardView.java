@@ -198,6 +198,7 @@ public class BoardView extends View {
     alredyDrawn = false;
     invalidate();
   }
+
   @Override protected void onDraw(Canvas canvas) {
     this.canvas = canvas;
     drawBoard();
@@ -259,11 +260,93 @@ public class BoardView extends View {
   }
 
   private boolean checkWithinBounds(int x, int y) {
+    int left = x - (stamp.getWidth() / 2);
+    int top = y - (stamp.getHeight() / 2);
+    int right = x + (stamp.getWidth() / 2);
+    int bottom = y + (stamp.getHeight() / 2);
+    int percent = 4 * (stamp.getWidth() / 10);
+    Rect[] rows = {
+        new Rect(rects.get(0).left, rects.get(0).top, rects.get(2).right, rects.get(0).bottom),
+        new Rect(rects.get(3).left, rects.get(3).top, rects.get(5).right, rects.get(3).bottom),
+        new Rect(rects.get(6).left, rects.get(6).top, rects.get(8).right, rects.get(6).bottom)
+    };
+
+    //if the stamp is exactly inside a rect, the it is valid
     for (Rect rect : rects) {
-      if (rect.left < (x - (stamp.getWidth() / 2))
-          && rect.top < (y - (stamp.getHeight() / 2))
-          && rect.right > (x + (stamp.getWidth() / 2))
-          && rect.bottom > (y + (stamp.getHeight() / 2))) {
+      if (rect.left < left && rect.top < top && rect.right > right && rect.bottom > bottom) {
+        return true;
+      }
+    }
+
+    //if the stamp is inside the row of particular candidate, it is valid
+    for (Rect row : rows) {
+      if (row.left < left && row.top < top && row.right > right && row.bottom > bottom) return true;
+    }
+
+    if (rows[0].contains(left, bottom) && rows[0].contains(right, bottom) && !rows[0].contains(left,
+        top) && !rows[0].contains(right, top)) {
+      //if the bottom of stamp is partially inside row 0, it is valid
+      return true;
+    } else if (rows[0].contains(left, bottom) && !rows[0].contains(right, top) && !rows[0].contains(
+        left, top) && !rows[0].contains(right, bottom)) {
+      //if the left bottom corner of stamp is partially inside row 0, it is valid
+      return true;
+    } else if (rows[0].contains(right, bottom) && !rows[0].contains(left, top) && !rows[0].contains(
+        left, bottom) && !rows[0].contains(right, top)) {
+      //if the right bottom corner of stamp is partially inside row 0, it is valid
+      return true;
+    }
+
+    if (rows[2].contains(left, top) && rows[2].contains(right, top) && !rows[2].contains(left,
+        bottom) && !rows[2].contains(right, bottom)) {
+      //if the top of the stamp is partially inside row 2, it is valid
+      return true;
+    } else if (rows[2].contains(left, top) && !rows[2].contains(right, top) && !rows[2].contains(
+        left, bottom) &&
+        !rows[2].contains(right, bottom)) {
+      //if the top left corner of the stamp is partially inside row 2, it is valid
+      return true;
+    } else if (rows[2].contains(right, top) && !rows[2].contains(left, top) && !rows[2].contains(
+        left, bottom) && !rows[2].contains(right, bottom)) {
+      //if the top right corner of the stamp is partially inside row 2, it is valid
+      return true;
+    }
+
+    //check if right and left of the stamp is partially inside row
+    for (Rect row : rows) {
+      if (row.contains(right, top) && row.contains(right, bottom) && !row.contains(left, top) &&
+          !row.contains(left, bottom)) {
+        return true;
+      } else if (row.contains(left, top)
+          && row.contains(left, bottom)
+          && !row.contains(right, top)
+          && !row.contains(right, bottom)) {
+        return true;
+      }
+    }
+
+    // check percentage if the stamp is at intersection of Rect
+    for (Rect rect : rects) {
+      if (rect.contains(left, top) && rect.contains(right, top) && rect.bottom > (bottom - percent)
+          || (rect.contains(right, top) && rect.contains(right, bottom) && rects.get(0).left < (left
+          - percent))
+          || (rect.contains(left, top) && rect.contains(left, bottom) && rect.right > (right
+          - percent))
+          || (rect.contains(left, bottom) && rect.contains(right, bottom) && rect.top < (top
+          - percent))) {
+        return true;
+      }
+    }
+
+    // check percentage if the stamp is at intersection of row
+    for (Rect rect : rows) {
+      if (rect.contains(left, top) && rect.contains(right, top) && rect.bottom > (bottom - percent)
+          || (rect.contains(right, top) && rect.contains(right, bottom) && rects.get(0).left < (left
+          - percent))
+          || (rect.contains(left, top) && rect.contains(left, bottom) && rect.right > (right
+          - percent))
+          || (rect.contains(left, bottom) && rect.contains(right, bottom) && rect.top < (top
+          - percent))) {
         return true;
       }
     }
