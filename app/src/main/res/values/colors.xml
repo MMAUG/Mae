@@ -14,6 +14,7 @@
   <color name="geojson_background_color">#80123231</color>
   <color name="geojson_stroke_color">#231321</color>
 
+  <color name="purple">#9C27B0</color>
   <color name="orange">#FF9800</color>
   <color name="white">#FFFFFF</color>
   <color name="red">#F44336</color>
@@ -28,9 +29,15 @@
 
   <color name="board_background">#E6D3B5</color>
 
-  <array name="flag">
+  <array name="color">
     <item>#F44336</item>
+    <item>#E91E63</item>
+    <item>#9C27B0</item>
+    <item>#673AB7</item>
+    <item>#2196F3</item>
+    <item>#009688</item>
     <item>#4CAF50</item>
-    <item>#80123231</item>
+    <item>#FFC107</item>
+    <item>#FF5722</item>
   </array>
 </resources>
