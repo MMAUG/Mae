@@ -62,13 +62,14 @@
             android:padding="@dimen/spacing_minor"
             />
       </LinearLayout>
-        <org.mmaug.mae.view.AspectRatioImageView
+        <ImageView
             android:id="@+id/faq"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_margin="@dimen/spacing_minor"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:scaleType="centerCrop"
             android:background="?attr/selectableItemBackground"
             android:src="@drawable/faq"/>
     </RelativeLayout>
