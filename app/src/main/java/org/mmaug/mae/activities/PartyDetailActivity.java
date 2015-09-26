@@ -148,9 +148,9 @@ public class PartyDetailActivity extends AppCompatActivity {
                 final ToyFigurePagerAdapter currentPagerAdapter = new ToyFigurePagerAdapter();
                 if (currentAmyotharCount > 0) {
 
-                  currentCandidateCount.put(Config.AMYOTHAE_HLUTTAW, (int) (
-                      (((double) currentAmyotharCount) / mAmyothaCurrentCollection.getSeats())
-                          * 10));
+                  currentCandidateCount.put(Config.AMYOTHAE_HLUTTAW,
+                      (int) ((((double) currentAmyotharCount)
+                          / mAmyothaCurrentCollection.getSeats()) * 10));
                 } else {
                   currentCandidateCount.put(Config.AMYOTHAE_HLUTTAW, 0);
                 }
