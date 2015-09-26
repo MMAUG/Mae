@@ -1,5 +1,7 @@
 package org.mmaug.mae.adapter;
 
+import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +12,13 @@ import java.util.ArrayList;
 import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseAdapter;
 import org.mmaug.mae.utils.DataUtils;
+import org.mmaug.mae.utils.FontCache;
 
 /**
  * Created by poepoe on 16/9/15.
  */
 public class TownshipAdapter extends BaseAdapter<BaseAdapter.BaseViewHolder> {
+  Context mContext;
   private ArrayList<DataUtils.Township> townships;
 
   public TownshipAdapter(ArrayList<DataUtils.Township> townships) {
@@ -28,13 +32,16 @@ public class TownshipAdapter extends BaseAdapter<BaseAdapter.BaseViewHolder> {
 
   @Override public BaseAdapter.BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+    mContext = parent.getContext();
     View itemView = inflater.inflate(R.layout.item_township, parent, false);
     return new ViewHolder(itemView, this);
   }
 
   @Override public void onBindViewHolder(BaseViewHolder holder, int position) {
     String townshipName = townships.get(position).getTowhshipNameBurmese();
+    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", mContext);
     ((ViewHolder) holder).mText.setText(townshipName);
+    ((ViewHolder) holder).mText.setTypeface(typefacelight);
   }
 
   @Override public int getItemCount() {
