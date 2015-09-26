@@ -1,6 +1,7 @@
 package org.mmaug.mae.activities;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.models.Candidate;
 import org.mmaug.mae.rest.RESTClient;
+import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.view.AspectRatioImageView;
 import org.mmaug.mae.view.AutofitTextView;
 import org.mmaug.mae.view.CircularImageView;
@@ -43,6 +45,8 @@ public class CandidateCompareActivity extends BaseActivity {
   @Bind(R.id.party_job_two) TextView partyJobTwo;
   @Bind(R.id.no_flag_candidateOne) AutofitTextView no_flag_candidateOne;
   @Bind(R.id.no_flag_candidateTwo) AutofitTextView no_flag_candidateTwo;
+  RoundCornerProgressBar roundCornerProgressBar;
+  RoundCornerProgressBar roundCornerProgressBarTwo;
   Candidate candidate;
   Candidate candidateCompare;
   float[] hslValues = new float[3];
@@ -54,6 +58,7 @@ public class CandidateCompareActivity extends BaseActivity {
 
     //GET candidate value
     setupHeader();
+    setTypeFace();
 
     Call<JsonElement> compareQuestionCall =
         RESTClient.getService().getCompareQuestion(candidateCompare.getMpid(), candidate.getMpid());
@@ -82,16 +87,20 @@ public class CandidateCompareActivity extends BaseActivity {
                       + entry.getValue().getAsJsonObject().get(candidate.getMpid()).getAsInt();
               PercentageOne = Float.valueOf((obtainScrollOne * 100 / TotalScore));
               PercentageTwo = Float.valueOf((obtainScrollTwo * 100 / TotalScore));
+              Typeface typefaceTitle =
+                  FontCache.get("MyanmarAngoun.ttf", CandidateCompareActivity.this);
+              Typeface typefacelight =
+                  FontCache.get("pyidaungsu.ttf", CandidateCompareActivity.this);
               View question_indicator =
                   getLayoutInflater().inflate(R.layout.question_compare_layout, motion_view, false);
               TextView questionText =
                   (TextView) question_indicator.findViewById(R.id.question_title);
-              RoundCornerProgressBar roundCornerProgressBar =
+              questionText.setTypeface(typefacelight);
+              roundCornerProgressBar =
                   (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate1);
-              RoundCornerProgressBar roundCornerProgressBarTwo =
+              roundCornerProgressBarTwo =
                   (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate2);
               roundCornerProgressBar.setProgress(PercentageOne);
-              roundCornerProgressBar.setProgressColor(Color.HSVToColor(hslValues));
               roundCornerProgressBar.setRotation(180);
               roundCornerProgressBar.setBackgroundColor(Color.WHITE);
 
@@ -117,13 +126,17 @@ public class CandidateCompareActivity extends BaseActivity {
                     + entry.getValue().getAsJsonObject().get(candidate.getMpid()).getAsInt();
             PercentageOne = Float.valueOf((obtainScrollOne * 100 / TotalScore));
             PercentageTwo = Float.valueOf((obtainScrollTwo * 100 / TotalScore));
+            Typeface typefaceTitle =
+                FontCache.get("MyanmarAngoun.ttf", CandidateCompareActivity.this);
+            Typeface typefacelight = FontCache.get("pyidaungsu.ttf", CandidateCompareActivity.this);
             View question_indicator =
                 getLayoutInflater().inflate(R.layout.question_compare_layout, question_showcase,
                     false);
             TextView questionText = (TextView) question_indicator.findViewById(R.id.question_title);
-            RoundCornerProgressBar roundCornerProgressBar =
+            questionText.setTypeface(typefacelight);
+            roundCornerProgressBar =
                 (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate1);
-            RoundCornerProgressBar roundCornerProgressBarTwo =
+            roundCornerProgressBarTwo =
                 (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate2);
             roundCornerProgressBar.setProgress(PercentageOne);
             roundCornerProgressBar.setProgressColor(Color.HSVToColor(hslValues));
@@ -131,7 +144,7 @@ public class CandidateCompareActivity extends BaseActivity {
             roundCornerProgressBar.setBackgroundColor(Color.WHITE);
 
             roundCornerProgressBarTwo.setProgress(PercentageTwo);
-            roundCornerProgressBarTwo.setProgressColor(Color.HSVToColor(darkValue));
+
             questionText.setText(entry.getKey());
             question_showcase.addView(question_indicator);
           }
@@ -142,6 +155,19 @@ public class CandidateCompareActivity extends BaseActivity {
 
       }
     });
+  }
+
+  void setTypeFace() {
+    Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
+    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
+    candidateOne.setTypeface(typefaceTitle);
+    candidateTwo.setTypeface(typefaceTitle);
+    candidateEduOne.setTypeface(typefacelight);
+    candidateEduTwo.setTypeface(typefacelight);
+    partyJobOne.setTypeface(typefacelight);
+    partyJobTwo.setTypeface(typefacelight);
+    no_flag_candidateOne.setTypeface(typefacelight);
+    no_flag_candidateTwo.setTypeface(typefacelight);
   }
 
   @Override protected int getLayoutResource() {
@@ -189,6 +215,7 @@ public class CandidateCompareActivity extends BaseActivity {
                   Palette.Swatch vibrantSwatch = palette.getVibrantSwatch();
                   hslValues = vibrantSwatch.getHsl();
                   candidateOneView.setBorderColor(Color.HSVToColor(hslValues));
+                  roundCornerProgressBar.setProgressColor(Color.HSVToColor(hslValues));
                 }
               }))
           .into(party_flag_one);
@@ -207,6 +234,7 @@ public class CandidateCompareActivity extends BaseActivity {
                   if (darkSwatch != null) {
                     darkValue = darkSwatch.getHsl();
                     candidateTwoView.setBorderColor(Color.HSVToColor(darkValue));
+                    roundCornerProgressBarTwo.setProgressColor(Color.HSVToColor(darkValue));
                   }
                 }
               }))
