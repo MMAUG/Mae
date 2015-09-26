@@ -3,8 +3,6 @@ package org.mmaug.mae.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -17,7 +15,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,15 +23,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.share.ShareApi;
-import com.facebook.share.Sharer;
-import com.facebook.share.model.SharePhoto;
-import com.facebook.share.model.SharePhotoContent;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -343,25 +333,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mQuestionHeaderTv.setTypeface(typefacelight);
     mMotionHeaderTv.setTypeface(typefacelight);
   }
-
-  @OnClick(R.id.shape_id) void click() {
-    Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.flag);
-    SharePhoto photo = new SharePhoto.Builder().setBitmap(image).build();
-    SharePhotoContent content = new SharePhotoContent.Builder().addPhoto(photo).build();
-    ShareApi.share(content, new FacebookCallback<Sharer.Result>() {
-      @Override public void onSuccess(Sharer.Result result) {
-
-      }
-
-      @Override public void onCancel() {
-
-      }
-
-      @Override public void onError(FacebookException error) {
-        Log.e("Eroor in Facebook", error.toString());
-      }
-    });
-  }
+  
 
   @Override
   protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
