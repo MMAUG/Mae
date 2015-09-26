@@ -243,9 +243,8 @@ public class BoardView extends View {
       }
 
       Rect rect = new Rect(left, top, right, bottom);
-      if (j == 2) {
-        rects.add(rect);
-      }
+      rects.add(rect);
+
       canvas.drawRect(rect, gridPaint);
       if (j == 1) {
         partyFlagPaint.setColor(color[i]);
