@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class PartyListActivity extends BaseActivity implements PartyAdapter.Clic
   int totalPageCount;
 
   @Bind(R.id.party_list_recycler_view) RecyclerView mPartyListRecyclerView;
+  @Bind(R.id.progressBar) ProgressBar mProgressBar;
   PartyAdapter mPartyAdapter;
   private EndlessRecyclerViewAdapter endlessRecyclerViewAdapter;
   private List<Party> mParties = new ArrayList<>();
@@ -60,6 +62,8 @@ public class PartyListActivity extends BaseActivity implements PartyAdapter.Clic
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     ButterKnife.bind(this);
+    mProgressBar.setVisibility(View.VISIBLE);
+
     mPartyAdapter = new PartyAdapter();
     mPartyListRecyclerView.setHasFixedSize(true);
     mPartyListRecyclerView.setLayoutManager(new GridLayoutManager(PartyListActivity.this, 2));
@@ -83,6 +87,7 @@ public class PartyListActivity extends BaseActivity implements PartyAdapter.Clic
             }
           }
         });
+    fetchParties();
   }
 
   private void fetchParties() {
@@ -96,7 +101,10 @@ public class PartyListActivity extends BaseActivity implements PartyAdapter.Clic
                           Log.e("Size", "" + response.body().getData().size());
                           if (response.body().getData().size() > 0) {
                             if (currentPage == 1) {
+                              Log.e("In One","Page");
                               mParties = response.body().getData();
+                              mPartyListRecyclerView.setVisibility(View.VISIBLE);
+                              mProgressBar.setVisibility(View.GONE);
                             } else {
                               mParties.addAll(response.body().getData());
                             }

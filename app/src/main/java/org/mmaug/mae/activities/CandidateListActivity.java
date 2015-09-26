@@ -119,6 +119,7 @@ public class CandidateListActivity extends BaseActivity
   }
 
   private void showHideProgressBar(boolean visibility) {
+
     mProgressBar.setVisibility(visibility ? View.VISIBLE : View.GONE);
   }
 
