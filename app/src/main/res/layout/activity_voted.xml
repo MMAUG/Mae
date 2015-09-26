@@ -18,6 +18,7 @@
       android:text="မဲပေးပြီးကြောင်းသက်သေထူသည့်အနေဖြင့် မင်တို့ထားသောလက်ချောင်းနှင့်အတူ Selfie ရိုက်ရအောင်"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:layout_margin="@dimen/spacing_major"
       />
 
   <ImageView
