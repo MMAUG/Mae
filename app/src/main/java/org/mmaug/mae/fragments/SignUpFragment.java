@@ -1,5 +1,6 @@
 package org.mmaug.mae.fragments;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -74,54 +77,85 @@ public class SignUpFragment extends Fragment
   private TownshipAdapter adapter;
   private String townshipGson;
   private boolean isValid;
+  private boolean isFirstTimeOrSkip;
 
   @OnClick(R.id.sign_up_card) void checkVote() {
-    StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append(mNrcNo.getText().toString());
-    stringBuilder.append("/");
-    stringBuilder.append(mNrcTownShip.getText().toString());
-    stringBuilder.append("(နိုင်)");
-    stringBuilder.append(mNrcValue.getText());
-    String voterNrc = stringBuilder.toString();
-    final Map<String, String> params = new HashMap<>();
-    params.put(Config.VOTER_NAME, mUserName.getText().toString());
-    params.put(Config.DATE_OF_BIRTH, mDateOfBirth.getText().toString());
-    params.put(Config.NRC, voterNrc);
-    params.put(Config.FATHER_NAME, mFatherName.getText().toString());
-    params.put(Config.TOWNSHIP, mTownship.getText().toString());
+    if (checkFieldisValid()) {
+      Toast toast = new Toast(getActivity());
+      TextView textView = new TextView(getActivity());
+      Typeface typefacelight = FontCache.get("pyidaungsu.ttf", getActivity());
+      textView.setText("အချက်အလက်များကို ပြည့်စုံစွာဖြည့်စွက်ပေးပါ");
+      textView.setTypeface(typefacelight);
+      textView.setPadding(16, 16, 16, 16);
+      textView.setTextColor(Color.WHITE);
+      textView.setBackgroundColor(getResources().getColor(R.color.accent_color));
+      toast.setView(textView);
+      toast.setGravity(Gravity.CENTER, 0, 10);
+      toast.show();
+    } else {
+      StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append(mNrcNo.getText().toString());
+      stringBuilder.append("/");
+      stringBuilder.append(mNrcTownShip.getText().toString());
+      stringBuilder.append("(နိုင်)");
+      stringBuilder.append(mNrcValue.getText());
+      String voterNrc = stringBuilder.toString();
+      final Map<String, String> params = new HashMap<>();
+      params.put(Config.VOTER_NAME, mUserName.getText().toString());
+      params.put(Config.DATE_OF_BIRTH, mDateOfBirth.getText().toString());
+      params.put(Config.NRC, voterNrc);
+      params.put(Config.FATHER_NAME, mFatherName.getText().toString());
+      params.put(Config.TOWNSHIP, mTownship.getText().toString());
 
-    final Call<User> registerUser = RESTClient.getService(getActivity()).registerUser(params);
-    registerUser.enqueue(new Callback<User>() {
-      UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
-      @Override public void onResponse(Response<User> response) {
-        if (response.code() == 200) {
+      final Call<User> registerUser = RESTClient.getService(getActivity()).registerUser(params);
+      registerUser.enqueue(new Callback<User>() {
+        UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
 
-          userPrefUtils.setValid(true);
-        }else{
-          userPrefUtils.setValid(false);
+        @Override public void onResponse(Response<User> response) {
+          if (response.code() == 200) {
+            userPrefUtils.setValid(true);
+            userPrefUtils.saveSkip(true);
+          } else {
+            userPrefUtils.setValid(false);
+            userPrefUtils.saveSkip(false);
+          }
+          userPrefUtils.saveUserName(params.get(Config.VOTER_NAME));
+          userPrefUtils.saveBirthDate(params.get(Config.DATE_OF_BIRTH));
+          userPrefUtils.saveNRC(params.get(Config.NRC));
+          userPrefUtils.saveFatherName(params.get(Config.FATHER_NAME));
+          userPrefUtils.saveTownShip(townshipGson);
+          mainView.setVisibility(View.GONE);
+          contenFragment.setVisibility(View.VISIBLE);
+          HomeFragment homeFragment = new HomeFragment();
+          FragmentManager fm = getActivity().getSupportFragmentManager();
+          FragmentTransaction transaction = fm.beginTransaction();
+          transaction.replace(R.id.contentFragment, homeFragment);
+          transaction.commit();
+          Log.e("Response", response.code() + " " + response.message());
         }
-        userPrefUtils.saveUserName(params.get(Config.VOTER_NAME));
-        userPrefUtils.saveBirthDate(params.get(Config.DATE_OF_BIRTH));
-        userPrefUtils.saveNRC(params.get(Config.NRC));
-        userPrefUtils.saveFatherName(params.get(Config.FATHER_NAME));
-        userPrefUtils.saveTownShip(townshipGson);
-        mainView.setVisibility(View.GONE);
-        contenFragment.setVisibility(View.VISIBLE);
-        HomeFragment homeFragment = new HomeFragment();
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.contentFragment, homeFragment);
-        transaction.commit();
-        Log.e("Response", response.code() + " " + response.message());
-      }
 
-      @Override public void onFailure(Throwable t) {
+        @Override public void onFailure(Throwable t) {
 
-      }
-    });
+        }
+      });
+    }
+  }
+
+  private boolean checkFieldisValid() {
+    if (mUserName.getText().equals(null) && mTownship.getText().equals(null)
+        && mFatherName.getText().equals(null) &&
+        mNrcNo.getText().equals(null) && mDateOfBirth.getText().equals(null)
+        && mNrcTownShip.getText().equals(null) && mNrcValue.getText().equals(null)) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   @OnClick(R.id.skip_card_button) void SkipCard() {
+    UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
+    userPrefUtils.saveSkip(true);
+    isFirstTimeOrSkip = true;
     mainView.setVisibility(View.GONE);
     contenFragment.setVisibility(View.VISIBLE);
     HomeFragment homeFragment = new HomeFragment();
@@ -151,6 +185,7 @@ public class SignUpFragment extends Fragment
     initEditText();
     UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
     isValid = userPrefUtils.isValid();
+    isFirstTimeOrSkip = userPrefUtils.isSKIP();
 
     mainView.setVisibility(View.VISIBLE);
     now = Calendar.getInstance();
@@ -163,7 +198,7 @@ public class SignUpFragment extends Fragment
     checkButton.setTypeface(typefacelight);
     myanmarTextPlease.setTypeface(typefacelight);
     skip_card_button.setTypeface(typefacelight);
-    if(isValid){
+    if (isValid) {
       mainView.setVisibility(View.GONE);
       contenFragment.setVisibility(View.VISIBLE);
       HomeFragment homeFragment = new HomeFragment();
@@ -172,6 +207,16 @@ public class SignUpFragment extends Fragment
       transaction.replace(R.id.contentFragment, homeFragment);
       transaction.commit();
     }
+    if (isFirstTimeOrSkip) {
+      mainView.setVisibility(View.GONE);
+      contenFragment.setVisibility(View.VISIBLE);
+      HomeFragment homeFragment = new HomeFragment();
+      FragmentManager fm = getActivity().getSupportFragmentManager();
+      FragmentTransaction transaction = fm.beginTransaction();
+      transaction.replace(R.id.contentFragment, homeFragment);
+      transaction.commit();
+    }
+
     return rootView;
   }
 
@@ -269,3 +314,5 @@ public class SignUpFragment extends Fragment
     townshipGson = new Gson().toJson(found.get(position));
   }
 }
+
+
