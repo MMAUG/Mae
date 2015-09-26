@@ -33,6 +33,8 @@ public class VoteGameActivity extends BaseActivity implements BoardView.GameList
   @Bind(R.id.scrollView) ScrollView mScrollView;
   @Bind(R.id.tv_start_game) TextView mTextView;
   @Bind(R.id.tv_game_info) TextView mTvInfo;
+  @Bind(R.id.tv_validity_warning) TextView mWarning;
+  @Bind(R.id.tv_validity_warning_title) TextView mWarningTitle;
 
   Typeface typefaceTitle;
   Typeface typefacelight;
@@ -64,7 +66,8 @@ public class VoteGameActivity extends BaseActivity implements BoardView.GameList
     mBoardView.setGameListener(this);
     mTextView.setTypeface(typefacelight);
     mTvInfo.setTypeface(typefacelight);
-
+    mWarning.setTypeface(typefacelight);
+    mWarningTitle.setTypeface(typefaceTitle);
     //to check scrollview is at board
     mScrollView.post(new Runnable() {
       @Override public void run() {

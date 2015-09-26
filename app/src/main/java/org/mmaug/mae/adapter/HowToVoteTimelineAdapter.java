@@ -63,10 +63,14 @@ public class HowToVoteTimelineAdapter extends BaseAdapter<BaseAdapter.BaseViewHo
       ta.recycle();
     }
     int color = colors[new Random().nextInt(colors.length)];
-    viewHolder.mIvStep.setImageDrawable(
-        new CustomCircleDrawable.Builder(MixUtils.convertToBurmese(step + ""), color).build());
+
     if (typefaceTitle == null) typefaceTitle = FontCache.get("MyanmarAngoun.ttf", mContext);
     if (typefacelight == null) typefacelight = FontCache.get("pyidaungsu.ttf", mContext);
+
+    viewHolder.mIvStep.setImageDrawable(
+        new CustomCircleDrawable.Builder(MixUtils.convertToBurmese(step + ""), color).setFont(
+            typefaceTitle).build());
+
     //title text
     viewHolder.mTvTitle.setText(object.getTitle());
     viewHolder.mTvTitle.setTypeface(typefaceTitle);

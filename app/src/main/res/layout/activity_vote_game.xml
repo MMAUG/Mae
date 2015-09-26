@@ -93,6 +93,7 @@
           android:text="@string/stamp_warning"/>
 
       <TextView
+          android:id="@+id/tv_validity_warning_title"
           android:gravity="center"
           style="@style/TextAppearance.AppCompat.Subhead"
           android:layout_marginLeft="@dimen/spacing_major"
