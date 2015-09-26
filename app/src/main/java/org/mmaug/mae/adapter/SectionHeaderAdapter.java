@@ -1,6 +1,7 @@
 package org.mmaug.mae.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
@@ -10,12 +11,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import java.util.Arrays;
 import java.util.Comparator;
+import org.mmaug.mae.utils.FontCache;
 
 /**
  * Created by poepoe on 19/9/15.
  */
 public class SectionHeaderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
   private static final int SECTION_TYPE = 0;
   private final Context mContext;
   private boolean mValid = true;
@@ -77,7 +78,9 @@ public class SectionHeaderAdapter extends RecyclerView.Adapter<RecyclerView.View
 
   @Override public void onBindViewHolder(RecyclerView.ViewHolder sectionViewHolder, int position) {
     if (isSectionHeaderPosition(position)) {
+      Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", mContext);
       ((SectionViewHolder) sectionViewHolder).title.setText(mSections.get(position).title);
+      ((SectionViewHolder) sectionViewHolder).title.setTypeface(typefaceTitle);
     } else {
       mBaseAdapter.onBindViewHolder(sectionViewHolder, sectionedPositionToPosition(position));
     }

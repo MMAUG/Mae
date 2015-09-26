@@ -81,9 +81,9 @@ public interface RESTService {
 
   @GET(Config.CURRENT_COUNT) Call<JsonObject> getCurrentCount();
 
-  @GET("/faq/list") Call<FAQListReturnObject> listFaqs(@QueryMap Map<String, String> options);
+  @GET(Config.FAQ_LIST_URL) Call<FAQListReturnObject> listFaqs(@QueryMap Map<String, String> options);
 
-  @GET("/faq/search") Call<FAQListReturnObject> searchFaq(@Query("q") String keyWord,@QueryMap Map<String, String> options);
+  @GET(Config.FAQ_SEARCH) Call<FAQListReturnObject> searchFaq(@Query("q") String keyWord,@QueryMap Map<String, String> options);
 
   @GET("/faq/{faq_id}") Call<FAQDetailReturnObject> searchFaqById(@Path("faq_id") String faqId,
       @QueryMap Map<String, String> options);
