@@ -1,6 +1,7 @@
 package org.mmaug.mae.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.mmaug.mae.R;
 import org.mmaug.mae.models.FAQ;
+import org.mmaug.mae.utils.FontCache;
 
 /**
  * Created by yemyatthu on 8/6/15.
@@ -36,7 +38,10 @@ public class FaqAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
   @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
     FAQ FAQ = mFAQs.get(position);
+    Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", mContext);
+    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", mContext);
     ((CandidateViewHolder) holder).mFaqQuestion.setText(FAQ.getQuestion());
+    ((CandidateViewHolder) holder).mFaqQuestion.setTypeface(typefacelight);
     //((CandidateViewHolder) holder).mFaqAnswer.setText(FAQ.getAnswer());
   }
 
