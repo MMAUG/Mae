@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.TextView;
 import java.util.ArrayList;
 import org.mmaug.mae.R;
+import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MixUtils;
 
 /**
@@ -42,6 +44,7 @@ public class BoardView extends View {
   private GameListener listener;
   private String[] candidateName;
   private int[] color = new int[3];
+  private Typeface typefacelight;
 
   int normalTextSize;
 
@@ -60,6 +63,8 @@ public class BoardView extends View {
     marginSmall = (int) MixUtils.convertDpToPixel(context, 8);
     padding = (int) MixUtils.convertDpToPixel(context, 4);
 
+    typefacelight = FontCache.get("pyidaungsu.ttf", context);
+
     normalTextSize = (int) MixUtils.convertDpToPixel(context, 10);
     //background rect paint
     background.setColor(res.getColor(R.color.board_background));
@@ -73,6 +78,7 @@ public class BoardView extends View {
     textPaint.setColor(res.getColor(R.color.grey));
     textPaint.setAntiAlias(true);
     textPaint.setStyle(Paint.Style.FILL);
+    textPaint.setTypeface(typefacelight);
 
     //flag paint
     partyFlagPaint.setAntiAlias(true);
@@ -380,6 +386,7 @@ public class BoardView extends View {
     tv.setTextSize(textSize);
     tv.setSingleLine(false);
     tv.setLineSpacing(0.0f, 1.2f);
+    tv.setTypeface(typefacelight);
     tv.setDrawingCacheEnabled(true);
 
     // we need to setup how big the view should be..which is exactly as big as the canvas
