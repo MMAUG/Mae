@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -13,6 +14,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +25,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.facebook.FacebookSdk;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareButton;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -81,15 +86,16 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.motion_header_tv) TextView mMotionHeaderTv;
   @Bind(R.id.candate_question_card) CardView mCandidateQuestionCard;
   @Bind(R.id.candate_motion_card) CardView mCandidateMotionCard;
+  @Bind(R.id.shape_id) ShareButton shareButton;
   AppBarLayout.OnOffsetChangedListener mListener;
   Candidate candidate;
   private RESTService mRESTService;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    FacebookSdk.sdkInitialize(getApplicationContext());
     setContentView(R.layout.activity_candidate_detail);
     ButterKnife.bind(this);
-
     //actionbar
     setSupportActionBar(toolbar);
     ActionBar actionBar = getSupportActionBar();
@@ -177,7 +183,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
       mMotionHeaderTv.setVisibility(View.GONE);
       mCandidateQuestionCard.setVisibility(View.GONE);
       mCandidateMotionCard.setVisibility(View.GONE);
-    }else{
+    } else {
       Call<JsonObject> motionCountCall = mRESTService.getMotionCount("UPMP-01-0142");
       motionCountCall.enqueue(new Callback<JsonObject>() {
         @Override public void onResponse(Response<JsonObject> response) {
@@ -257,7 +263,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
             PieModel pieModel = new PieModel(key, count, color);
             mPieChart.addPieSlice(pieModel);
             View piechartLegend =
-                getLayoutInflater().inflate(R.layout.piechart_legend_layout, mQuestionPieCont, false);
+                getLayoutInflater().inflate(R.layout.piechart_legend_layout, mQuestionPieCont,
+                    false);
             CircleView piechartIndicator =
                 (CircleView) piechartLegend.findViewById(R.id.legend_indicator);
             piechartIndicator.setColorHex(color);
@@ -287,10 +294,21 @@ public class CandidateDetailActivity extends AppCompatActivity {
     });
   }
 
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_candidate, menu);
+    return true;
+  }
+
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case android.R.id.home:
         finish();
+        return true;
+      case R.id.party_detail_action_share:
+        ShareLinkContent content = new ShareLinkContent.Builder().setContentUrl(
+            Uri.parse("https://developers.facebook.com")).build();
+        shareButton.setShareContent(content);
+        shareButton.performClick();
         return true;
       default:
         return super.onOptionsItemSelected(item);
