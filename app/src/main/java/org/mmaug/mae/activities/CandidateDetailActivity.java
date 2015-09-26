@@ -3,8 +3,10 @@ package org.mmaug.mae.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -22,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.CallbackManager;
@@ -352,16 +355,24 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mCandidateCompareResult.setTypeface(typefacelight);
     mQuestionHeaderTv.setTypeface(typefacelight);
     mMotionHeaderTv.setTypeface(typefacelight);
-    shareButton.setOnClickListener(new View.OnClickListener() {
+    /*shareButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        if (ShareDialog.canShow(ShareLinkContent.class)) {
-          SharePhoto photo =
-              new SharePhoto.Builder().setBitmap(candidateImage.getDrawingCache()).build();
-          SharePhotoContent content = new SharePhotoContent.Builder().addPhoto(photo).build();
-          shareDialog.show(content);
-        }
+        SharePhoto photo =
+            new SharePhoto.Builder().setBitmap(candidateImage.getDrawingCache()).build();
+        SharePhotoContent content = new SharePhotoContent.Builder().addPhoto(photo).build();
+        shareDialog.show(content);
       }
-    });
+    });*/
+  }
+
+  @OnClick(R.id.shape_id) void click() {
+    SharePhoto photo = new SharePhoto.Builder().setBitmap(
+        BitmapFactory.decodeResource(getResources(), R.id.iv_progress_icon)).build();
+    SharePhotoContent content = new SharePhotoContent.Builder()
+        .addPhoto(photo)
+        .build();
+    shareButton.setShareContent(content);
+
   }
 
   @Override
