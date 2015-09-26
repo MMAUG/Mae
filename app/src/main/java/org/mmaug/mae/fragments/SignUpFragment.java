@@ -198,15 +198,6 @@ public class SignUpFragment extends Fragment
     checkButton.setTypeface(typefacelight);
     myanmarTextPlease.setTypeface(typefacelight);
     skip_card_button.setTypeface(typefacelight);
-    if (isValid) {
-      mainView.setVisibility(View.GONE);
-      contenFragment.setVisibility(View.VISIBLE);
-      HomeFragment homeFragment = new HomeFragment();
-      FragmentManager fm = getActivity().getSupportFragmentManager();
-      FragmentTransaction transaction = fm.beginTransaction();
-      transaction.replace(R.id.contentFragment, homeFragment);
-      transaction.commit();
-    }
     if (isFirstTimeOrSkip) {
       mainView.setVisibility(View.GONE);
       contenFragment.setVisibility(View.VISIBLE);
@@ -216,7 +207,29 @@ public class SignUpFragment extends Fragment
       transaction.replace(R.id.contentFragment, homeFragment);
       transaction.commit();
     }
-
+    if(userPrefUtils.getTownship()!=null&&userPrefUtils.getTownship().length()>0){
+      DataUtils.Township township = new Gson().fromJson(userPrefUtils.getTownship(),
+          DataUtils.Township.class);
+      mTownship.setText(township.getTowhshipNameBurmese());
+    }
+    if(userPrefUtils.getUserName()!=null && userPrefUtils.getUserName().length()>0){
+      mUserName.setText(userPrefUtils.getUserName());
+    }
+    if(userPrefUtils.getFatherName()!=null && userPrefUtils.getFatherName().length()>0){
+      mFatherName.setText(userPrefUtils.getFatherName());
+    }
+    if(userPrefUtils.getBirthDate()!=null && userPrefUtils.getBirthDate().length()>0){
+      mDateOfBirth.setText(userPrefUtils.getBirthDate());
+    }
+    if(userPrefUtils.getNrc()!=null&& userPrefUtils.getNrc().length()>0){
+      String nrcLong = userPrefUtils.getNrc();
+      String nrc1 = nrcLong.split("/")[0];
+      String nrc2 = nrcLong.split("/")[0].split("(နိုင်)")[0];
+      String nrc3 = nrcLong.split("/")[0].split("(နိုင်)")[1];
+      mNrcNo.setText(nrc1);
+      mNrcTownShip.setText(nrc2);
+      mNrcValue.setText(nrc3);
+    }
     return rootView;
   }
 

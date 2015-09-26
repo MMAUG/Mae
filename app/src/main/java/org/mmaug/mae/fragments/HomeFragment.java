@@ -27,6 +27,7 @@ import org.mmaug.mae.activities.CandidateListActivity;
 import org.mmaug.mae.activities.FaqListActivity;
 import org.mmaug.mae.activities.HowToVoteActivity;
 import org.mmaug.mae.activities.LocationActivity;
+import org.mmaug.mae.activities.MainActivity;
 import org.mmaug.mae.activities.PartyListActivity;
 import org.mmaug.mae.services.AlarmManagerBroadcastReceiver;
 import org.mmaug.mae.utils.FontCache;
@@ -159,7 +160,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
   @OnClick(R.id.cardview_vote_check)
   public void showVoteResult(CardView textView) {
     //// TODO: 9/15/15 Handle the NOT OK result <Ye Myat Thu>
-    UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
+    final UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
     boolean ok = userPrefUtils.isValid();
     View view;
     voteResultDialog =
@@ -168,7 +169,21 @@ public class HomeFragment extends android.support.v4.app.Fragment {
       view = getActivity().getLayoutInflater().inflate(R.layout.dialog_voter_check_ok, null);
       View myTargetView = view.findViewById(R.id.circle_full);
       View mySourceView = view.findViewById(R.id.circle_empty);
+      TextView recheck = (TextView) view.findViewById(R.id.recheck);
       View okBtn = view.findViewById(R.id.voter_check_ok_btn);
+      recheck.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View view) {
+          userPrefUtils.setSKIP(false);
+          Intent i = new Intent(getActivity(), MainActivity.class);
+          startActivity(i);
+
+          //SignUpFragment signUpFragment = new SignUpFragment();
+          //FragmentManager fm = getActivity().getSupportFragmentManager();
+          //FragmentTransaction transaction = fm.beginTransaction();
+          //transaction.replace(R.id.contentFragment, signUpFragment);
+          //transaction.commit();
+        }
+      });
       //myTargetView & mySourceView are children in the CircularFrameLayout
       float finalRadius = CircularAnimationUtils.hypo(200, 200);
       ////getCenter computes from 2 view: One is touched, and one will be animated, but you can use anything for center
@@ -204,6 +219,14 @@ public class HomeFragment extends android.support.v4.app.Fragment {
             valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_exclamation_mark));
             txt_cardview_vote_check.setTextColor(Color.WHITE);
           }
+        }
+      });
+      TextView recheck = (TextView) view.findViewById(R.id.recheck);
+      recheck.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View view) {
+          userPrefUtils.setSKIP(false);
+          Intent i = new Intent(getActivity(), MainActivity.class);
+          startActivity(i);
         }
       });
     }
