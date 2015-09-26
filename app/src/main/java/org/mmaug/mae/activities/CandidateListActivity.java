@@ -90,8 +90,6 @@ public class CandidateListActivity extends BaseActivity
     initRecyclerView();
   }
 
-
-
   private void fetchCandidate() {
     showHideProgressBar(true);
     Map<String, String> pyithuParams = new HashMap<>();
@@ -127,8 +125,12 @@ public class CandidateListActivity extends BaseActivity
         View okBtn = view.findViewById(R.id.voter_check_ok_btn);
         TextView textView = (TextView) view.findViewById(R.id.tv_vote_message);
         TextView canCompare = (TextView) view.findViewById(R.id.incorrect_vote);
+        Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
+        Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
         canCompare.setText("ကျေးဇူးပြု၍ အခြားအမတ်ကို ရွေးချယ်ပါ");
+        canCompare.setTypeface(typefaceTitle);
         textView.setText(getResources().getString(R.string.duplicate_candidate_choose));
+        textView.setTypeface(typefacelight);
         candidateResultDialog.setContentView(view);
         candidateResultDialog.show();
         okBtn.setOnClickListener(new View.OnClickListener() {
@@ -145,10 +147,14 @@ public class CandidateListActivity extends BaseActivity
         View okBtn = view.findViewById(R.id.voter_check_ok_btn);
         TextView textView = (TextView) view.findViewById(R.id.tv_vote_message);
         TextView canCompare = (TextView) view.findViewById(R.id.incorrect_vote);
+        Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
+        Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
         canCompare.setText(candidate.getName() + " နှင့် " + candidateFromDetail.getName()
             + getResources().getString(R.string.cannot_compare_candidate));
+        canCompare.setTypeface(typefaceTitle);
         textView.setText(
             candidate.getName() + getResources().getString(R.string.incrroect_candidate_compare));
+        textView.setTypeface(typefacelight);
         candidateResultDialog.setContentView(view);
         candidateResultDialog.show();
         okBtn.setOnClickListener(new View.OnClickListener() {

@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 import java.util.Map;
 import org.mmaug.mae.Config;
 import org.mmaug.mae.models.CandidateListReturnObject;
+import org.mmaug.mae.models.FAQDetailReturnObject;
+import org.mmaug.mae.models.FAQListReturnObject;
 import org.mmaug.mae.models.GeoReturnObject;
 import org.mmaug.mae.models.PartyReturnObject;
 import org.mmaug.mae.models.User;
@@ -42,12 +44,12 @@ public interface RESTService {
       @QueryMap Map<String, String> optionalQueries);
 
   //faq
-  @GET(Config.FAQ_LIST_URL) Call<JsonObject> getFaqList(
-      @QueryMap Map<String, String> optionalQueries);
-
-  @GET(Config.FAQ_URL) Call<JsonObject> getFaq(@QueryMap Map<String, String> optionalQueries);
-
-  @GET(Config.FAQ_SEARCH) Call<JsonObject> serchFaq(@QueryMap Map<String, String> optionalQueries);
+  //@GET(Config.FAQ_LIST_URL) Call<JsonObject> getFaqList(
+  //    @QueryMap Map<String, String> optionalQueries);
+  //
+  //@GET(Config.FAQ_URL) Call<JsonObject> getFaq(@QueryMap Map<String, String> optionalQueries);
+  //
+  //@GET(Config.FAQ_SEARCH) Call<JsonObject> serchFaq(@QueryMap Map<String, String> optionalQueries);
 
   //geo location
   @GET(Config.GEO_LOCATION_URL) Call<GeoReturnObject> getLocationList(
@@ -78,4 +80,11 @@ public interface RESTService {
       @Query("party") String party_id);
 
   @GET(Config.CURRENT_COUNT) Call<JsonObject> getCurrentCount();
+
+  @GET("/faq/list") Call<FAQListReturnObject> listFaqs(@QueryMap Map<String, String> options);
+
+  @GET("/faq/search") Call<FAQListReturnObject> searchFaq(@Query("q") String keyWord,@QueryMap Map<String, String> options);
+
+  @GET("/faq/{faq_id}") Call<FAQDetailReturnObject> searchFaqById(@Path("faq_id") String faqId,
+      @QueryMap Map<String, String> options);
 }
