@@ -35,7 +35,6 @@ import com.facebook.share.ShareApi;
 import com.facebook.share.Sharer;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
-import com.facebook.share.widget.ShareButton;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -95,7 +94,6 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.motion_header_tv) TextView mMotionHeaderTv;
   @Bind(R.id.candate_question_card) CardView mCandidateQuestionCard;
   @Bind(R.id.candate_motion_card) CardView mCandidateMotionCard;
-  @Bind(R.id.shape_id) ShareButton shareButton;
   AppBarLayout.OnOffsetChangedListener mListener;
   Candidate candidate;
   private RESTService mRESTService;
