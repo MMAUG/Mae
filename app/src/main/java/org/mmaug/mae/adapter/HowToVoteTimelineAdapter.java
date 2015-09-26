@@ -14,6 +14,7 @@ import java.util.Random;
 import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseAdapter;
 import org.mmaug.mae.utils.MixUtils;
+import org.mmaug.mae.view.AutofitTextView;
 import org.mmaug.mae.view.CustomCircleDrawable;
 
 /**
@@ -62,6 +63,7 @@ public class HowToVoteTimelineAdapter extends BaseAdapter<BaseAdapter.BaseViewHo
     if (object.getMessage() != null) {
       viewHolder.mTvMessage.setVisibility(View.VISIBLE);
       viewHolder.mTvMessage.setText(object.getMessage());
+      viewHolder.mTvMessage.setSizeToFit(true);
     } else {
       viewHolder.mTvMessage.setVisibility(View.GONE);
     }
@@ -119,7 +121,7 @@ public class HowToVoteTimelineAdapter extends BaseAdapter<BaseAdapter.BaseViewHo
 
   class ViewHolder extends BaseAdapter.BaseViewHolder {
     @Bind(R.id.tv_htv_title) TextView mTvTitle;
-    @Bind(R.id.tv_htv_message) TextView mTvMessage;
+    @Bind(R.id.tv_htv_message) AutofitTextView mTvMessage;
     @Bind(R.id.tv_htv_warning) TextView mTvWarning;
     @Bind(R.id.iv_htv_message) ImageView mIvMessage;
     @Bind(R.id.iv_step) ImageView mIvStep;

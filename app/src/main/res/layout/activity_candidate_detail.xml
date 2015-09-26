@@ -26,7 +26,6 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           >
-
         <org.mmaug.mae.view.ZoomAspectRatioImageView
             android:id="@+id/backdrop"
             android:src="@drawable/flag"
@@ -38,7 +37,6 @@
             />
 
       </RelativeLayout>
-
       <android.support.v7.widget.Toolbar
           android:id="@+id/toolbar"
           android:layout_width="match_parent"
@@ -110,7 +108,8 @@
           android:layout_marginRight="@dimen/default_padding_large"
           android:layout_marginTop="@dimen/default_padding_large"
           android:textStyle="bold"
-          android:text="@string/candidate_bio"/>
+          android:text="@string/candidate_bio"
+          />
       <android.support.v7.widget.CardView
           android:orientation="horizontal"
           android:padding="@dimen/spacing_major"
@@ -133,7 +132,8 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            >
           <LinearLayout
               android:orientation="horizontal"
               android:padding="@dimen/spacing_minor"
@@ -150,10 +150,12 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 />
-            <View android:layout_width="0.5dp"
+            <View
+                android:layout_width="0.5dp"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/spacing_micro"
-                android:background="#AECACE"/>
+                android:background="#AECACE"
+                />
             <TextView
                 android:id="@+id/candidate_detail_occupation"
                 android:gravity="center"
@@ -162,10 +164,12 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 />
-            <View android:layout_width="0.5dp"
+            <View
+                android:layout_width="0.5dp"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/spacing_micro"
-                android:background="#AECACE"/>
+                android:background="#AECACE"
+                />
             <TextView
                 android:id="@+id/candidate_detail_race"
                 card_view:text="WOWOW"
@@ -175,23 +179,28 @@
                 android:layout_weight="1"
                 />
           </LinearLayout>
-          <View android:layout_width="match_parent"
+          <View
+              android:layout_width="match_parent"
               android:layout_height="0.5dp"
               android:layout_marginRight="@dimen/spacing_minor"
               android:layout_marginLeft="@dimen/spacing_minor"
-              android:background="#AECACE"/>
-          <LinearLayout android:layout_width="match_parent"
+              android:background="#AECACE"
+              />
+          <LinearLayout
+              android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
               android:padding="@dimen/spacing_minor"
-              android:weightSum="2">
+              android:weightSum="2"
+              >
             <TextView
                 android:text="@string/party"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:padding="@dimen/spacing_minor"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                />
             <TextView
                 android:id="@+id/candidate_detail_party"
                 android:text="WOWOW"
@@ -199,20 +208,24 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:layout_weight="1"
-                android:padding="@dimen/spacing_minor"/>
+                android:padding="@dimen/spacing_minor"
+                />
           </LinearLayout>
-          <LinearLayout android:layout_width="match_parent"
+          <LinearLayout
+              android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
               android:padding="@dimen/spacing_minor"
-              android:weightSum="2">
+              android:weightSum="2"
+              >
             <TextView
                 android:text="@string/date_of_birth"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:padding="@dimen/spacing_minor"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                />
             <TextView
                 android:id="@+id/candidate_detail_dob"
                 android:text="WOWOW"
@@ -220,20 +233,24 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:layout_weight="1"
-                android:padding="@dimen/spacing_minor"/>
+                android:padding="@dimen/spacing_minor"
+                />
           </LinearLayout>
-          <LinearLayout android:layout_width="match_parent"
+          <LinearLayout
+              android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
               android:padding="@dimen/spacing_minor"
-              android:weightSum="2">
+              android:weightSum="2"
+              >
             <TextView
                 android:text="@string/religion"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:padding="@dimen/spacing_minor"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                />
             <TextView
                 android:id="@+id/candidate_detail_religion"
                 android:text="WOWOW"
@@ -241,78 +258,93 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:layout_weight="1"
-                android:padding="@dimen/spacing_minor"/>
+                android:padding="@dimen/spacing_minor"
+                />
           </LinearLayout>
-          <LinearLayout android:layout_width="match_parent"
+          <LinearLayout
+              android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
               android:padding="@dimen/spacing_minor"
-              android:weightSum="2">
+              android:weightSum="2"
+              >
             <TextView
                 android:text="@string/father_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:layout_weight="1"
-                android:padding="@dimen/spacing_minor"/>
+                android:padding="@dimen/spacing_minor"
+                />
             <TextView
                 android:id="@+id/candidate_detail_father"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:layout_weight="1"
-                android:padding="@dimen/spacing_minor"/>
+                android:padding="@dimen/spacing_minor"
+                />
           </LinearLayout>
-          <LinearLayout android:layout_width="match_parent"
+          <LinearLayout
+              android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
               android:padding="@dimen/spacing_minor"
-              android:weightSum="2">
+              android:weightSum="2"
+              >
             <TextView
                 android:text="@string/mother_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:layout_weight="1"
-                android:padding="@dimen/spacing_minor"/>
+                android:padding="@dimen/spacing_minor"
+                />
             <TextView
                 android:id="@+id/candidate_detail_mother"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:layout_weight="1"
-                android:padding="@dimen/spacing_minor"/>
+                android:padding="@dimen/spacing_minor"
+                />
           </LinearLayout>
-          <LinearLayout android:layout_width="match_parent"
+          <LinearLayout
+              android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
               android:padding="@dimen/spacing_minor"
-              android:weightSum="2">
+              android:weightSum="2"
+              >
             <TextView
                 android:text="@string/candidate_address"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:layout_weight="1"
-                android:padding="@dimen/spacing_minor"/>
+                android:padding="@dimen/spacing_minor"
+                />
             <TextView
                 android:id="@+id/candidate_detail_address"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:layout_weight="1"
-                android:padding="@dimen/spacing_minor"/>
+                android:padding="@dimen/spacing_minor"
+                />
           </LinearLayout>
         </LinearLayout>
       </android.support.v7.widget.CardView>
       <TextView
+          android:id="@+id/motion_header_tv"
           style="@style/TextAppearance.AppCompat.Subhead"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_marginLeft="@dimen/default_padding_large"
           android:layout_marginRight="@dimen/default_padding_large"
           android:layout_marginTop="@dimen/default_padding_large"
-          android:text="@string/motion_header"/>
+          android:text="@string/motion_header"
+          />
       <android.support.v7.widget.CardView
           android:orientation="horizontal"
           android:padding="@dimen/spacing_major"
@@ -334,8 +366,12 @@
             android:id="@+id/motion_pie_cont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-          <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+            android:orientation="vertical"
+            >
+          <FrameLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              >
             <org.eazegraph.lib.charts.PieChart
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/motion_piechart"
@@ -346,11 +382,14 @@
                 app:egInnerPaddingOutline="0"
                 app:egInnerPadding="85"
                 app:egInnerPaddingColor="@color/cardview_light_background"
-                app:egEmptyDataText="No Issues Found"/>
-            <LinearLayout android:layout_width="wrap_content"
+                app:egEmptyDataText="No Issues Found"
+                />
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                >
               <TextView
                   android:id="@+id/motion_middle_text"
                   style="@style/TextAppearance.AppCompat.Subhead"
@@ -361,7 +400,8 @@
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:layout_gravity="center"
-                  android:gravity="center"/>
+                  android:gravity="center"
+                  />
               <TextView
                   android:id="@+id/motion_count"
                   style="@style/TextAppearance.AppCompat.Title"
@@ -370,19 +410,22 @@
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:layout_gravity="center"
-                  android:gravity="center"/>
+                  android:gravity="center"
+                  />
             </LinearLayout>
           </FrameLayout>
         </LinearLayout>
       </android.support.v7.widget.CardView>
       <TextView
+          android:id="@+id/question_header_tv"
           style="@style/TextAppearance.AppCompat.Subhead"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_marginLeft="@dimen/default_padding_large"
           android:layout_marginRight="@dimen/default_padding_large"
           android:layout_marginTop="@dimen/default_padding_large"
-          android:text="@string/question_header"/>
+          android:text="@string/question_header"
+          />
       <android.support.v7.widget.CardView
           android:orientation="horizontal"
           android:padding="@dimen/spacing_major"
@@ -404,8 +447,12 @@
             android:id="@+id/question_pie_cont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-          <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+            android:orientation="vertical"
+            >
+          <FrameLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              >
             <org.eazegraph.lib.charts.PieChart
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/question_piechart"
@@ -416,11 +463,14 @@
                 app:egInnerPaddingOutline="0"
                 app:egInnerPadding="85"
                 app:egInnerPaddingColor="@color/cardview_light_background"
-                app:egEmptyDataText="No Issues Found"/>
-            <LinearLayout android:layout_width="wrap_content"
+                app:egEmptyDataText="No Issues Found"
+                />
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                >
               <TextView
                   android:id="@+id/question_middle_text"
                   style="@style/TextAppearance.AppCompat.Subhead"
@@ -431,7 +481,8 @@
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:layout_gravity="center"
-                  android:gravity="center"/>
+                  android:gravity="center"
+                  />
               <TextView
                   android:id="@+id/question_count"
                   style="@style/TextAppearance.AppCompat.Title"
@@ -440,7 +491,8 @@
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:layout_gravity="center"
-                  android:gravity="center"/>
+                  android:gravity="center"
+                  />
             </LinearLayout>
           </FrameLayout>
         </LinearLayout>
@@ -476,12 +528,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="တစ်ခြားအမတ်လောင်းနှင့် နှိုင်းယှဥ်ကြည့်မည်ii"
-            android:gravity="center"/>
+            android:gravity="center"
+            />
       </android.support.v7.widget.CardView>
       <View
           android:layout_marginBottom="@dimen/spacing_major"
           android:layout_width="match_parent"
-          android:layout_height="56dp"/>
+          android:layout_height="56dp"
+          />
     </LinearLayout>
 
   </android.support.v4.widget.NestedScrollView>
@@ -542,7 +596,8 @@
           android:layout_width="0dp"
           android:layout_height="match_parent"
           android:padding="@dimen/spacing_micro"
-          android:layout_weight="1">
+          android:layout_weight="1"
+          >
 
         <org.mmaug.mae.view.AspectRatioImageView
             android:id="@+id/candidate_detail_party_flag"
@@ -555,5 +610,11 @@
       </FrameLayout>
     </LinearLayout>
   </android.support.v7.widget.CardView>
+  <com.facebook.share.widget.ShareButton
+      android:id="@+id/shape_id"
+      android:visibility="gone"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical">
     <TextView
-        android:text="ဝင်ရောက်အရွေးခံသည့်လူ စုစုပေါင်း ၁၄၀၀ တွင်"
+        android:id="@+id/compare_head_tv"
+        tools:text="@string/current_compare_head"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -14,7 +16,8 @@
         android:id="@+id/this_year_toys"
         layout="@layout/toy_figure"/>
     <TextView
-        android:text="ဤပါတီမှ ၂၀ဦး ဝင်ယောက်ယှဥ်ပြိုင်မည် ဖြစ်ပါသည်"
+        android:id="@+id/compare_result_tv"
+        tools:text="@string/current_compare_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"

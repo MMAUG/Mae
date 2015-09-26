@@ -4,10 +4,36 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="org.mmaug.mae.activities.CandidateListActivity">
+  <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      android:layout_width="match_parent"
+      android:layout_height="?attr/actionBarSize"
+      android:windowActionBarOverlay="true"
+      android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+      app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+      app:elevation="4dp"
+      android:background="@color/primary"
+      android:id="@+id/toolbar"
+      >
+    <TextView
+        android:id="@+id/tv_toolbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/ActionBarTitleText"/>
+    <TextView
+        android:id="@+id/candidate_township"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:padding="@dimen/spacing_major"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:background="?attr/selectableItemBackground"
+        tools:text="အင်းစိန်"/>
+  </android.support.v7.widget.Toolbar>
 
-  <include layout="@layout/toolbar"/>
 
   <FrameLayout
+      android:id="@+id/main_view"
       android:layout_width="match_parent"
       android:layout_height="match_parent">
 
@@ -16,7 +42,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
+      <FrameLayout
+          android:id="@+id/searchFragment"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_gravity="center"
+          android:clickable="true"
+          android:background="@android:color/transparent"
+          android:visibility="gone"
+          >
 
+          <include
+              layout="@layout/view_search_township"/>
+
+      </FrameLayout>
     <ProgressBar
         android:id="@+id/pb_candidate_list"
         android:layout_width="wrap_content"

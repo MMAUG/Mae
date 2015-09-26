@@ -14,7 +14,7 @@
         android:layout_width="@dimen/spacing_minute"
         android:layout_height="match_parent"/>
     <ImageView
-        android:layout_marginTop="@dimen/spacing_not_so_major"
+        android:layout_marginTop="46dp"
         android:id="@+id/iv_step"
         android:layout_width="32dp"
         android:layout_height="32dp"/>
@@ -35,7 +35,7 @@
         android:textStyle="bold"
         style="@style/TextAppearance.AppCompat.Subhead"/>
 
-    <TextView
+    <org.mmaug.mae.view.AutofitTextView
         android:id="@+id/tv_htv_message"
         tools:text="မဲရုံဖွင့်ချိန်"
         android:padding="@dimen/spacing_minor"
@@ -43,6 +43,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/primary_dark"
+        android:singleLine="true"
         android:visibility="gone"/>
     <ImageView
         android:id="@+id/iv_htv_message"

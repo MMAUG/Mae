@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -13,6 +14,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +25,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.facebook.FacebookSdk;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareButton;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -77,15 +82,20 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.candidate_detail_address) TextView mCandidateAddress;
   @Bind(R.id.compare_candidate_card) CardView mCompareCandidate;
   @Bind(R.id.mCandidateCompareResult) TextView mCandidateCompareResult;
+  @Bind(R.id.question_header_tv) TextView mQuestionHeaderTv;
+  @Bind(R.id.motion_header_tv) TextView mMotionHeaderTv;
+  @Bind(R.id.candate_question_card) CardView mCandidateQuestionCard;
+  @Bind(R.id.candate_motion_card) CardView mCandidateMotionCard;
+  @Bind(R.id.shape_id) ShareButton shareButton;
   AppBarLayout.OnOffsetChangedListener mListener;
   Candidate candidate;
   private RESTService mRESTService;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    FacebookSdk.sdkInitialize(getApplicationContext());
     setContentView(R.layout.activity_candidate_detail);
     ButterKnife.bind(this);
-
     //actionbar
     setSupportActionBar(toolbar);
     ActionBar actionBar = getSupportActionBar();
@@ -140,10 +150,6 @@ public class CandidateDetailActivity extends AppCompatActivity {
     Glide.with(this).load(candidate.getParty().getPartyFlag()).
         bitmapTransform(new BlurTransformation(getApplicationContext(), 8, 1)).into(partyImage);
     candidateName.setText(candidate.getName());
-    if (candidate.getMpid() == null) {
-      mCompareCandidate.setBackgroundColor(getResources().getColor(R.color.accent_color_error));
-      mCandidateCompareResult.setText(getResources().getString(R.string.first_time_candidate));
-    }
 
     Glide.with(this)
         .load(candidate.getPhotoUrl())
@@ -170,107 +176,112 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mCandidateParty.setText(candidate.getParty().getPartyName());
     mCandidateAddress.setText(candidate.getWardVillage());
     mRESTService = RESTClient.getService();
-    //if(candidate.getMpid()!=null) {
-    // TODO: 9/21/15 REMOVE HARDCODED MPID
-    Call<JsonObject> motionCountCall = mRESTService.getMotionCount("UPMP-01-0142");
-    motionCountCall.enqueue(new Callback<JsonObject>() {
-      @Override public void onResponse(Response<JsonObject> response) {
-        int motionCount = response.body().get("count").getAsInt();
-        motionMiddleText.setText("အဆို");
-        mMotionCount.setText(MixUtils.convertToBurmese(String.valueOf(motionCount)) + " ခု");
-      }
-
-      @Override public void onFailure(Throwable t) {
-
-      }
-    });
-    Call<JsonObject> motionCall = mRESTService.getMotionDetail("UPMP-01-0142");
-    motionCall.enqueue(new Callback<JsonObject>() {
-      @Override public void onResponse(Response<JsonObject> response) {
-        JsonArray datas = response.body().get("data").getAsJsonArray();
-        List<String> titles = new ArrayList<String>();
-        for (JsonElement element : datas) {
-          String title = element.getAsJsonObject().get("issue").getAsString();
-          titles.add(title);
+    if (candidate.getMpid() == null) {
+      mCompareCandidate.setCardBackgroundColor(getResources().getColor(R.color.accent_color_error));
+      mCandidateCompareResult.setText(getResources().getString(R.string.first_time_candidate));
+      mQuestionHeaderTv.setVisibility(View.GONE);
+      mMotionHeaderTv.setVisibility(View.GONE);
+      mCandidateQuestionCard.setVisibility(View.GONE);
+      mCandidateMotionCard.setVisibility(View.GONE);
+    } else {
+      Call<JsonObject> motionCountCall = mRESTService.getMotionCount("UPMP-01-0142");
+      motionCountCall.enqueue(new Callback<JsonObject>() {
+        @Override public void onResponse(Response<JsonObject> response) {
+          int motionCount = response.body().get("count").getAsInt();
+          motionMiddleText.setText("အဆို");
+          mMotionCount.setText(MixUtils.convertToBurmese(String.valueOf(motionCount)) + " ခု");
         }
-        Set<String> unique = new HashSet<String>(titles);
-        PieChart mPieChart = (PieChart) findViewById(R.id.motion_piechart);
-        for (String key : unique) {
-          System.out.println(key + ": " + Collections.frequency(titles, key));
-          Random rnd = new Random();
-          int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-          int count = Collections.frequency(titles, key);
-          PieModel pieModel = new PieModel(key, count, color);
-          mPieChart.addPieSlice(pieModel);
-          View piechartLegend =
-              getLayoutInflater().inflate(R.layout.piechart_legend_layout, motionPieCont, false);
-          CircleView piechartIndicator =
-              (CircleView) piechartLegend.findViewById(R.id.legend_indicator);
-          piechartIndicator.setColorHex(color);
-          TextView piechartText = (TextView) piechartLegend.findViewById(R.id.legend_text);
-          piechartText.setText(key);
-          TextView piechartCount = (TextView) piechartLegend.findViewById(R.id.legend_count);
-          piechartCount.setText(MixUtils.convertToBurmese(String.valueOf(count)));
-          motionPieCont.addView(piechartLegend);
+
+        @Override public void onFailure(Throwable t) {
+
         }
-        mPieChart.startAnimation();
-      }
-
-      @Override public void onFailure(Throwable t) {
-
-      }
-    });
-    Call<JsonObject> questionCountCall = mRESTService.getQuestionCount("UPMP-01-0142");
-    questionCountCall.enqueue(new Callback<JsonObject>() {
-      @Override public void onResponse(Response<JsonObject> response) {
-        int questionCount = response.body().get("count").getAsInt();
-        mQuestionMiddleText.setText("ကဏ္ဍ");
-        mQuestionCount.setText(MixUtils.convertToBurmese(String.valueOf(questionCount)) + " ခု");
-      }
-
-      @Override public void onFailure(Throwable t) {
-
-      }
-    });
-    Call<JsonObject> questionCall = mRESTService.getQuestionDetail("UPMP-01-0142");
-    questionCall.enqueue(new Callback<JsonObject>() {
-      @Override public void onResponse(Response<JsonObject> response) {
-        JsonArray datas = response.body().get("data").getAsJsonArray();
-        List<String> titles = new ArrayList<String>();
-        for (JsonElement element : datas) {
-          String title = element.getAsJsonObject().get("issue").getAsString();
-          titles.add(title);
+      });
+      Call<JsonObject> motionCall = mRESTService.getMotionDetail("UPMP-01-0142");
+      motionCall.enqueue(new Callback<JsonObject>() {
+        @Override public void onResponse(Response<JsonObject> response) {
+          JsonArray datas = response.body().get("data").getAsJsonArray();
+          List<String> titles = new ArrayList<String>();
+          for (JsonElement element : datas) {
+            String title = element.getAsJsonObject().get("issue").getAsString();
+            titles.add(title);
+          }
+          Set<String> unique = new HashSet<String>(titles);
+          PieChart mPieChart = (PieChart) findViewById(R.id.motion_piechart);
+          for (String key : unique) {
+            System.out.println(key + ": " + Collections.frequency(titles, key));
+            Random rnd = new Random();
+            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+            int count = Collections.frequency(titles, key);
+            PieModel pieModel = new PieModel(key, count, color);
+            mPieChart.addPieSlice(pieModel);
+            View piechartLegend =
+                getLayoutInflater().inflate(R.layout.piechart_legend_layout, motionPieCont, false);
+            CircleView piechartIndicator =
+                (CircleView) piechartLegend.findViewById(R.id.legend_indicator);
+            piechartIndicator.setColorHex(color);
+            TextView piechartText = (TextView) piechartLegend.findViewById(R.id.legend_text);
+            piechartText.setText(key);
+            TextView piechartCount = (TextView) piechartLegend.findViewById(R.id.legend_count);
+            piechartCount.setText(MixUtils.convertToBurmese(String.valueOf(count)));
+            motionPieCont.addView(piechartLegend);
+          }
+          mPieChart.startAnimation();
         }
-        Set<String> unique = new HashSet<String>(titles);
-        PieChart mPieChart = (PieChart) findViewById(R.id.question_piechart);
-        for (String key : unique) {
-          System.out.println(key + ": " + Collections.frequency(titles, key));
-          Random rnd = new Random();
-          int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-          int count = Collections.frequency(titles, key);
-          PieModel pieModel = new PieModel(key, count, color);
-          mPieChart.addPieSlice(pieModel);
-          View piechartLegend =
-              getLayoutInflater().inflate(R.layout.piechart_legend_layout, mQuestionPieCont, false);
-          CircleView piechartIndicator =
-              (CircleView) piechartLegend.findViewById(R.id.legend_indicator);
-          piechartIndicator.setColorHex(color);
-          TextView piechartText = (TextView) piechartLegend.findViewById(R.id.legend_text);
-          piechartText.setText(key);
-          TextView piechartCount = (TextView) piechartLegend.findViewById(R.id.legend_count);
-          piechartCount.setText(MixUtils.convertToBurmese(String.valueOf(count)));
-          mQuestionPieCont.addView(piechartLegend);
+
+        @Override public void onFailure(Throwable t) {
+
         }
-        mPieChart.startAnimation();
-      }
+      });
+      Call<JsonObject> questionCountCall = mRESTService.getQuestionCount("UPMP-01-0142");
+      questionCountCall.enqueue(new Callback<JsonObject>() {
+        @Override public void onResponse(Response<JsonObject> response) {
+          int questionCount = response.body().get("count").getAsInt();
+          mQuestionMiddleText.setText("ကဏ္ဍ");
+          mQuestionCount.setText(MixUtils.convertToBurmese(String.valueOf(questionCount)) + " ခု");
+        }
 
-      @Override public void onFailure(Throwable t) {
+        @Override public void onFailure(Throwable t) {
 
-      }
-    });
-    //}else{
-    //
-    //}
+        }
+      });
+      Call<JsonObject> questionCall = mRESTService.getQuestionDetail("UPMP-01-0142");
+      questionCall.enqueue(new Callback<JsonObject>() {
+        @Override public void onResponse(Response<JsonObject> response) {
+          JsonArray datas = response.body().get("data").getAsJsonArray();
+          List<String> titles = new ArrayList<String>();
+          for (JsonElement element : datas) {
+            String title = element.getAsJsonObject().get("issue").getAsString();
+            titles.add(title);
+          }
+          Set<String> unique = new HashSet<String>(titles);
+          PieChart mPieChart = (PieChart) findViewById(R.id.question_piechart);
+          for (String key : unique) {
+            System.out.println(key + ": " + Collections.frequency(titles, key));
+            Random rnd = new Random();
+            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+            int count = Collections.frequency(titles, key);
+            PieModel pieModel = new PieModel(key, count, color);
+            mPieChart.addPieSlice(pieModel);
+            View piechartLegend =
+                getLayoutInflater().inflate(R.layout.piechart_legend_layout, mQuestionPieCont,
+                    false);
+            CircleView piechartIndicator =
+                (CircleView) piechartLegend.findViewById(R.id.legend_indicator);
+            piechartIndicator.setColorHex(color);
+            TextView piechartText = (TextView) piechartLegend.findViewById(R.id.legend_text);
+            piechartText.setText(key);
+            TextView piechartCount = (TextView) piechartLegend.findViewById(R.id.legend_count);
+            piechartCount.setText(MixUtils.convertToBurmese(String.valueOf(count)));
+            mQuestionPieCont.addView(piechartLegend);
+          }
+          mPieChart.startAnimation();
+        }
+
+        @Override public void onFailure(Throwable t) {
+
+        }
+      });
+    }
 
     mCompareCandidate.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
@@ -283,10 +294,21 @@ public class CandidateDetailActivity extends AppCompatActivity {
     });
   }
 
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_candidate, menu);
+    return true;
+  }
+
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case android.R.id.home:
         finish();
+        return true;
+      case R.id.party_detail_action_share:
+        ShareLinkContent content = new ShareLinkContent.Builder().setContentUrl(
+            Uri.parse("https://developers.facebook.com")).build();
+        shareButton.setShareContent(content);
+        shareButton.performClick();
         return true;
       default:
         return super.onOptionsItemSelected(item);
