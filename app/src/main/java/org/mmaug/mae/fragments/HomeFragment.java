@@ -3,9 +3,9 @@ package org.mmaug.mae.fragments;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.widget.CardView;
@@ -29,6 +29,7 @@ import org.mmaug.mae.activities.HowToVoteActivity;
 import org.mmaug.mae.activities.LocationActivity;
 import org.mmaug.mae.activities.PartyListActivity;
 import org.mmaug.mae.services.AlarmManagerBroadcastReceiver;
+import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MixUtils;
 
 public class HomeFragment extends android.support.v4.app.Fragment {
@@ -41,11 +42,13 @@ public class HomeFragment extends android.support.v4.app.Fragment {
   @Bind(R.id.hour_minute_left) TextView hourMinuteLeft;
   @Bind(R.id.backdrop) LinearLayout backdrop;
   @Bind(R.id.txt_cardview_vote_check) TextView txt_cardview_vote_check;
+  @Bind(R.id.txt_where_can_i_vote) TextView txt_where_can_i_vote;
+  @Bind(R.id.txt_howtovote) TextView txt_howto_vote;
+  @Bind(R.id.card_candidate_list) TextView card_candidate_list;
+  @Bind(R.id.cardview_party_condtion_list) TextView cardview_party_condtion_list;
   @Bind(R.id.valid_sign) ImageView valid_sign;
-  /* @Bind(R.id.to_vote) TextView toVote;
-   @Bind(R.id.tvThumb) TextView tvThumb;*/
-/*  @Bind(R.id.tv_candidate_list) TextView tvThumb_party_condition;*/
-  /* Retrieve a PendingIntent that will perform a broadcast */ PendingIntent pendingIntent;
+  @Bind(R.id.to_vote) TextView toVote;
+
   private AlarmManagerBroadcastReceiver alarm;
   private Dialog voteResultDialog;
 
@@ -62,6 +65,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_home, container, false);
     ButterKnife.bind(this, view);
+    setTypeFace();
     alarm = new AlarmManagerBroadcastReceiver();
     alarm.SetAlarm(getActivity());
     try {
@@ -89,6 +93,19 @@ public class HomeFragment extends android.support.v4.app.Fragment {
       e.printStackTrace();
     }
     return view;
+  }
+
+  void setTypeFace() {
+    Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", getActivity());
+    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", getActivity());
+    monthDayLeft.setTypeface(typefacelight);
+    hourMinuteLeft.setTypeface(typefacelight);
+    toVote.setTypeface(typefaceTitle);
+    txt_cardview_vote_check.setTypeface(typefacelight);
+    txt_where_can_i_vote.setTypeface(typefacelight);
+    txt_howto_vote.setTypeface(typefacelight);
+    card_candidate_list.setTypeface(typefacelight);
+    cardview_party_condtion_list.setTypeface(typefacelight);
   }
 
   @Override public void onAttach(Activity activity) {
