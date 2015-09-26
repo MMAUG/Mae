@@ -160,8 +160,8 @@ public class FaqListActivity extends AppCompatActivity
 
   @Override public void onItemClick(View view, int position) {
     Intent goToFaqDetailIntent = new Intent();
-    goToFaqDetailIntent.setClass(FaqListActivity.this, FaqDetailActivity.class);
-    goToFaqDetailIntent.putExtra(FaqDetailActivity.FAQ_CONSTANT, mFaqDatas.get(position));
+    //goToFaqDetailIntent.setClass(FaqListActivity.this, FaqDetailActivity.class);
+    //goToFaqDetailIntent.putExtra(FaqDetailActivity.FAQ_CONSTANT, mFaqDatas.get(position));
     startActivity(goToFaqDetailIntent);
   }
 
