@@ -77,6 +77,7 @@ public class VoteGameActivity extends BaseActivity implements BoardView.GameList
     //start the game
     mTextView.setText("ဆန္ဒပြုပါ");
     mBoardView.enableTouch(true);
+    mBoardView.reset();
   }
 
   @Override protected int getLayoutResource() {
