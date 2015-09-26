@@ -223,12 +223,27 @@ public class SignUpFragment extends Fragment
     }
     if(userPrefUtils.getNrc()!=null&& userPrefUtils.getNrc().length()>0){
       String nrcLong = userPrefUtils.getNrc();
-      String nrc1 = nrcLong.split("/")[0];
-      String nrc2 = nrcLong.split("/")[0].split("(နိုင်)")[0];
-      String nrc3 = nrcLong.split("/")[0].split("(နိုင်)")[1];
-      mNrcNo.setText(nrc1);
-      mNrcTownShip.setText(nrc2);
-      mNrcValue.setText(nrc3);
+      try {
+        String nrc1 = nrcLong.split("/")[0];
+        mNrcNo.setText(nrc1);
+      }catch (Exception e){
+
+      }
+      try {
+        String nrc2 = nrcLong.split("/")[1].split("\\(နိုင်\\)")[0];
+        mNrcTownShip.setText(nrc2);
+      }catch (Exception e){
+
+      }
+      try {
+        String nrc3 = nrcLong.split("/")[1].split("\\(နိုင်\\)")[1];
+        mNrcValue.setText(nrc3);
+      }catch (Exception e){
+
+      }
+
+
+
     }
     return rootView;
   }
