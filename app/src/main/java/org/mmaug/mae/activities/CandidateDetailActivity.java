@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -28,17 +29,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.login.widget.LoginButton;
 import com.facebook.share.ShareApi;
 import com.facebook.share.Sharer;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareButton;
-import com.facebook.share.widget.ShareDialog;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -99,11 +96,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.candate_question_card) CardView mCandidateQuestionCard;
   @Bind(R.id.candate_motion_card) CardView mCandidateMotionCard;
   @Bind(R.id.shape_id) ShareButton shareButton;
-  @Bind(R.id.shape_login) LoginButton facebooklogin;
   AppBarLayout.OnOffsetChangedListener mListener;
   Candidate candidate;
-  ShareDialog shareDialog;
-  CallbackManager callbackManager;
   private RESTService mRESTService;
   private String[] colorHexes = new String[] {
       "#F44336", "#E91E63", "#9C27B0", "#673AB7", "#2196F3", "#009688", "#4CAF50", "#FFC107",
@@ -112,7 +106,6 @@ public class CandidateDetailActivity extends AppCompatActivity {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    FacebookSdk.sdkInitialize(getApplicationContext());
     setContentView(R.layout.activity_candidate_detail);
     ButterKnife.bind(this);
     //actionbar
@@ -123,8 +116,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
     actionBar.setTitle("");
     setTypeFace();
 
-    shareDialog = new ShareDialog(this);
-    facebooklogin.setPublishPermissions("publish_stream");
+    //shareDialog = new ShareDialog(this);
+    //facebooklogin.setPublishPermissions("publish_stream");
 
     mListener = new AppBarLayout.OnOffsetChangedListener() {
       @Override public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -354,7 +347,6 @@ public class CandidateDetailActivity extends AppCompatActivity {
   }
 
   @OnClick(R.id.shape_id) void click() {
-    facebooklogin.performClick();
     Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.flag);
     SharePhoto photo = new SharePhoto.Builder().setBitmap(image).build();
     SharePhotoContent content = new SharePhotoContent.Builder().addPhoto(photo).build();
@@ -389,7 +381,9 @@ public class CandidateDetailActivity extends AppCompatActivity {
         finish();
         return true;
       case R.id.party_detail_action_share:
-        shareButton.performClick();
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setData(Uri.parse("http://188.166.240.34/share/"+candidate.getId()));
+        startActivity(Intent.createChooser(i,"Share Via"));
         return true;
       default:
         return super.onOptionsItemSelected(item);

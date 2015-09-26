@@ -10,6 +10,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -142,10 +143,9 @@ public class SignUpFragment extends Fragment
   }
 
   private boolean checkFieldisValid() {
-    if (mUserName.getText().equals(null) && mTownship.getText().equals(null)
-        && mFatherName.getText().equals(null) &&
-        mNrcNo.getText().equals(null) && mDateOfBirth.getText().equals(null)
-        && mNrcTownShip.getText().equals(null) && mNrcValue.getText().equals(null)) {
+    if (TextUtils.isEmpty(mUserName.getText())||TextUtils.isEmpty(mFatherName.getText())||TextUtils.isEmpty(mDateOfBirth.getText())||
+        TextUtils.isEmpty(mNrcNo.getText())||TextUtils.isEmpty(mNrcTownShip.getText())||TextUtils.isEmpty(mNrcValue.getText())||
+    TextUtils.isEmpty(mTownship.getText())) {
       return false;
     } else {
       return true;
