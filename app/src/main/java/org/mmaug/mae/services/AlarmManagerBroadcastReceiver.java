@@ -9,8 +9,11 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.widget.Toast;
 import java.text.Format;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
@@ -44,7 +47,17 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
     intent.putExtra(ONE_TIME, Boolean.FALSE);
     PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
     //After after 30 seconds
-    am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 5, pi);
+    TimeZone defaultTimeZone = TimeZone.getDefault();
+    String strDefaultTimeZone = defaultTimeZone.getDisplayName(false, TimeZone.SHORT);
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+    formatter.setTimeZone(TimeZone.getTimeZone(strDefaultTimeZone));
+    String electionTime = "2015-11-08 08:00:00";
+    try {
+      Date electionDate = formatter.parse(electionTime);
+      am.setRepeating(AlarmManager.RTC_WAKEUP, electionDate.getTime(), 1000 * 3600, pi);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
   }
 
   public void CancelAlarm(Context context) {
