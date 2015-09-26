@@ -1,6 +1,6 @@
 package org.mmaug.mae.adapter;
 
-import android.graphics.Color;
+import android.content.res.TypedArray;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +23,7 @@ import org.mmaug.mae.view.CustomCircleDrawable;
 public class HowToVoteTimelineAdapter extends BaseAdapter<BaseAdapter.BaseViewHolder> {
 
   ArrayList<HTVObject> htvObjectList;
+  int[] colors;
 
   public HowToVoteTimelineAdapter() {
     this.htvObjectList = new ArrayList<>();
@@ -46,8 +47,16 @@ public class HowToVoteTimelineAdapter extends BaseAdapter<BaseAdapter.BaseViewHo
 
     //step
     int step = position + 1;
-    Random rnd = new Random();
-    int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+    if (colors == null) {
+      TypedArray ta =
+          viewHolder.itemView.getContext().getResources().obtainTypedArray(R.array.color);
+      colors = new int[ta.length()];
+      for (int i = 0; i < ta.length(); i++) {
+        colors[i] = ta.getColor(i, 0);
+      }
+      ta.recycle();
+    }
+    int color = colors[new Random().nextInt(colors.length)];
     viewHolder.mIvStep.setImageDrawable(
         new CustomCircleDrawable.Builder(MixUtils.convertToBurmese(step + ""), color).build());
 
