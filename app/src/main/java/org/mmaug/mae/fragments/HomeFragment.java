@@ -215,7 +215,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         @Override public void onClick(View view) {
           if (voteResultDialog.isShowing()) {
             voteResultDialog.dismiss();
-            backdrop.setBackgroundColor(Color.parseColor("#FFC107"));
+            backdrop.setBackgroundColor(getResources().getColor(R.color.orange));
             valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_exclamation_mark));
             txt_cardview_vote_check.setTextColor(Color.WHITE);
           }

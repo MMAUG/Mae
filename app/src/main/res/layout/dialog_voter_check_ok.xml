@@ -49,6 +49,7 @@
       android:layout_gravity="center"
       android:padding="@dimen/spacing_major"
       android:textColor="@android:color/holo_red_dark"
+      android:background="?attr/selectableItemBackground"
       android:text="@string/recheck_data"/>
 
   <TextView
