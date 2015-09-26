@@ -115,11 +115,11 @@ public class SignUpFragment extends Fragment
         @Override public void onResponse(Response<User> response) {
           if (response.code() == 200) {
             userPrefUtils.setValid(true);
-            userPrefUtils.saveSkip(true);
           } else {
             userPrefUtils.setValid(false);
-            userPrefUtils.saveSkip(false);
           }
+
+          userPrefUtils.saveSkip(true);
           userPrefUtils.saveUserName(params.get(Config.VOTER_NAME));
           userPrefUtils.saveBirthDate(params.get(Config.DATE_OF_BIRTH));
           userPrefUtils.saveNRC(params.get(Config.NRC));
