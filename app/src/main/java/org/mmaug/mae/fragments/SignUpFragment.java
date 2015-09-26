@@ -120,6 +120,16 @@ public class SignUpFragment extends Fragment
     });
   }
 
+  @OnClick(R.id.skip_card_button) void SkipCard() {
+    mainView.setVisibility(View.GONE);
+    contenFragment.setVisibility(View.VISIBLE);
+    HomeFragment homeFragment = new HomeFragment();
+    FragmentManager fm = getActivity().getSupportFragmentManager();
+    FragmentTransaction transaction = fm.beginTransaction();
+    transaction.replace(R.id.contentFragment, homeFragment);
+    transaction.commit();
+  }
+
   @OnClick(R.id.date_of_birth) void DatePicker() {
     now = Calendar.getInstance();
     com.wdullaer.materialdatetimepicker.date.DatePickerDialog datePickerDialog;
