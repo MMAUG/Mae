@@ -1,8 +1,8 @@
-
 package org.mmaug.mae.activities;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,6 +36,7 @@ import org.mmaug.mae.models.Candidate;
 import org.mmaug.mae.models.CandidateListReturnObject;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.utils.DataUtils;
+import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.view.SpacesItemDecoration;
 import retrofit.Call;
 import retrofit.Callback;
@@ -58,6 +59,7 @@ public class CandidateListActivity extends BaseActivity
   private ArrayList<DataUtils.Township> townships;
   private ArrayList<DataUtils.Township> found = new ArrayList<>();
   private TownshipAdapter adapter;
+
   @Override protected int getLayoutResource() {
     return R.layout.activity_candidate;
   }
@@ -89,6 +91,7 @@ public class CandidateListActivity extends BaseActivity
   }
 
 
+
   private void fetchCandidate() {
     showHideProgressBar(true);
     Map<String, String> pyithuParams = new HashMap<>();
@@ -99,7 +102,7 @@ public class CandidateListActivity extends BaseActivity
     pyithuParams.put(Config.CONSTITUENCY_DT_PCODE, "MMR013D001");
     pyithuParams.put(Config.CONSTITUENCY_TS_PCODE, "MMR013001");
     pyithuParams.put(Config.WITH, Config.PARTY);
-   inflateCandiateAdapter(pyithuParams);
+    inflateCandiateAdapter(pyithuParams);
   }
 
   private void showHideProgressBar(boolean visibility) {
@@ -175,8 +178,8 @@ public class CandidateListActivity extends BaseActivity
     }
     return false;
   }
-  @OnClick(R.id.candidate_township)
-  public void showTsRecyclerView(){
+
+  @OnClick(R.id.candidate_township) public void showTsRecyclerView() {
     showHidSearchView(false);
   }
 
@@ -272,15 +275,14 @@ public class CandidateListActivity extends BaseActivity
     //Probably, there won't be much more than 200 candidates for a township for the same legislature
     pyithuParams.put(Config.PER_PAGE, "200");
     //TODO remove hardcoded PCODE
-    pyithuParams.put(Config.CONSTITUENCY_ST_PCODE,found.get(i).getSRPcode());
+    pyithuParams.put(Config.CONSTITUENCY_ST_PCODE, found.get(i).getSRPcode());
     pyithuParams.put(Config.CONSTITUENCY_DT_PCODE, found.get(i).getDPcode());
     pyithuParams.put(Config.CONSTITUENCY_TS_PCODE, found.get(i).getTSPcode());
     pyithuParams.put(Config.WITH, Config.PARTY);
     inflateCandiateAdapter(pyithuParams);
-
   }
 
-  private void inflateCandiateAdapter(Map<String,String> params){
+  private void inflateCandiateAdapter(Map<String, String> params) {
     Call<CandidateListReturnObject> pyithuCall =
         RESTClient.getMPSService().getCandidateList(params);
     pyithuCall.enqueue(new Callback<CandidateListReturnObject>() {
