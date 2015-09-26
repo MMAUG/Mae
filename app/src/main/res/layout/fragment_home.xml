@@ -106,6 +106,7 @@
               android:layout_height="20dp"
               />
           <ImageView
+              android:id="@+id/valid_sign"
               android:layout_marginRight="20dp"
               android:scaleType="centerCrop"
               android:src="@drawable/ic_mark"
