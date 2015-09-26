@@ -68,6 +68,7 @@ public class HowToVoteActivity extends BaseActivity implements AdapterView.OnIte
     object = new HowToVoteTimelineAdapter.HTVObject();
     object.setTitle("ခိုင်လုံမဲ နမူနာများအား ကြိုတင်လေ့လာပါ။");
     object.setMessage(null);
+    object.setDrawable(R.drawable.ic_uec);
     object.setWarning("မိမိ၏အဖိုးတန် မဲတစ်ပြားအား အလဟဿ မဖြစ်စေရန် လေ့လာပါ။");
     objects.add(object);
 
@@ -81,6 +82,7 @@ public class HowToVoteActivity extends BaseActivity implements AdapterView.OnIte
     object = new HowToVoteTimelineAdapter.HTVObject();
     object.setTitle("မဲသုံးကြိမ်  ပေးရမည်");
     object.setMessage(null);
+    object.setDrawable(R.drawable.ic_hluttaw);
     object.setWarning("မိမိ၏ တိုင်းရင်းသားကိုယ်စားလှယ် ရှိလျှင် မဲ (၄)ကြိမ် ပေးရပါမည်။");
     objects.add(object);
 
