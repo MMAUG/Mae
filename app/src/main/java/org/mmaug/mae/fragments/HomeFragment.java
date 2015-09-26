@@ -43,16 +43,6 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     // Required empty public constructor
   }
 
-  // TODO: Rename and change types and number of parameters
-  public static HomeFragment newInstance(String param1, String param2) {
-    HomeFragment fragment = new HomeFragment();
-    Bundle args = new Bundle();
-    args.putString(ARG_PARAM1, param1);
-    args.putString(ARG_PARAM2, param2);
-    fragment.setArguments(args);
-    return fragment;
-  }
-
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
   }
@@ -104,12 +94,12 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     startActivity(mapIntent);
   }
 
-  @OnClick(R.id.card_candidate_list) public void candidateList(TextView cardView) {
+  @OnClick(R.id.cardview_candidate_condtion) public void candidateList(CardView cardView) {
     Intent mapIntent = new Intent(getActivity(), CandidateListActivity.class);
     startActivity(mapIntent);
   }
 
-  @OnClick(R.id.cardview_party_condtion_list) public void partyList(TextView cardView) {
+  @OnClick(R.id.cardview_party_condtion) public void partyList(CardView cardView) {
     Intent intent = new Intent(getActivity(), PartyListActivity.class);
     startActivity(intent);
   }

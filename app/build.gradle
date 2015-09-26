@@ -5,7 +5,7 @@ android {
 
   defaultConfig {
     applicationId "org.mmaug.mae"
-    minSdkVersion 14
+    minSdkVersion 15
     targetSdkVersion 23
     versionCode 1
     versionName "1.0"
@@ -83,7 +83,6 @@ dependencies {
   compile 'com.github.nirhart:parallaxscroll:1.0'
   // utils
   compile 'com.jakewharton:butterknife:7.0.1'
-
   // map
   compile 'com.airbnb.android:airmapview:1.2.0'
   compile 'com.google.android.gms:play-services-maps:7.8.0'
@@ -99,7 +98,7 @@ dependencies {
   //image
   compile 'com.github.bumptech.glide:glide:3.6.1'
   compile 'com.android.support:palette-v7:23.0.1'
-  compile ('com.nineoldandroids:library:2.4.0') {
+  compile('com.nineoldandroids:library:2.4.0') {
     exclude module: 'support-v4.*'
   }
   //blury
@@ -107,4 +106,5 @@ dependencies {
   compile 'com.github.blackfizz:eazegraph:1.2.5l@aar'
   compile 'com.github.florent37:glidepalette:1.0.4@aar'
   //progress
+  compile 'com.facebook.android:facebook-android-sdk:4.6.0'
 }
