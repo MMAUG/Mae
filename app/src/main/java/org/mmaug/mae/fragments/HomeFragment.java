@@ -48,6 +48,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
   @Bind(R.id.cardview_party_condtion_list) TextView cardview_party_condtion_list;
   @Bind(R.id.valid_sign) ImageView valid_sign;
   @Bind(R.id.to_vote) TextView toVote;
+  @Bind(R.id.faq) ImageView faqImg;
 
   private AlarmManagerBroadcastReceiver alarm;
   private Dialog voteResultDialog;
@@ -92,6 +93,12 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     } catch (ParseException e) {
       e.printStackTrace();
     }
+    faqImg.setColorFilter(getResources().getColor(R.color.white));
+    faqImg.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        
+      }
+    });
     return view;
   }
 
