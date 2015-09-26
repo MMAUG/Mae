@@ -20,7 +20,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
@@ -315,11 +314,11 @@ public class CandidateDetailActivity extends AppCompatActivity {
 
     mCompareCandidate.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        Toast.makeText(CandidateDetailActivity.this, "MPID" + candidate.getMpid(),
-            Toast.LENGTH_LONG).show();
-        Intent i = new Intent(CandidateDetailActivity.this, CandidateListActivity.class);
-        i.putExtra(Config.CANDIDATE, candidate);
-        startActivity(i);
+        if (candidate.getMpid() != null) {
+          Intent i = new Intent(CandidateDetailActivity.this, CandidateListActivity.class);
+          i.putExtra(Config.CANDIDATE, candidate);
+          startActivity(i);
+        }
       }
     });
   }
