@@ -78,6 +78,7 @@
                   />
 
               <TextView
+                  android:id="@+id/compre_title"
                   android:textSize="24sp"
                   android:textStyle="bold"
                   android:text="နှင့်"

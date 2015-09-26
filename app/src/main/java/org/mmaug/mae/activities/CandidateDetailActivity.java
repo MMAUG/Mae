@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -26,9 +25,16 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareButton;
+import com.facebook.share.widget.ShareDialog;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -91,6 +97,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.shape_id) ShareButton shareButton;
   AppBarLayout.OnOffsetChangedListener mListener;
   Candidate candidate;
+  ShareDialog shareDialog;
+  CallbackManager callbackManager;
   private RESTService mRESTService;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +113,22 @@ public class CandidateDetailActivity extends AppCompatActivity {
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setTitle("");
     setTypeFace();
+
+    shareDialog = new ShareDialog(this);
+    callbackManager = CallbackManager.Factory.create();
+    shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
+      @Override public void onSuccess(Sharer.Result result) {
+
+      }
+
+      @Override public void onCancel() {
+
+      }
+
+      @Override public void onError(FacebookException error) {
+
+      }
+    });
 
     mListener = new AppBarLayout.OnOffsetChangedListener() {
       @Override public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -329,6 +353,22 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mCandidateCompareResult.setTypeface(typefacelight);
     mQuestionHeaderTv.setTypeface(typefacelight);
     mMotionHeaderTv.setTypeface(typefacelight);
+    shareButton.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        if (ShareDialog.canShow(ShareLinkContent.class)) {
+          SharePhoto photo =
+              new SharePhoto.Builder().setBitmap(candidateImage.getDrawingCache()).build();
+          SharePhotoContent content = new SharePhotoContent.Builder().addPhoto(photo).build();
+          shareDialog.show(content);
+        }
+      }
+    });
+  }
+
+  @Override
+  protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    callbackManager.onActivityResult(requestCode, resultCode, data);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -342,9 +382,6 @@ public class CandidateDetailActivity extends AppCompatActivity {
         finish();
         return true;
       case R.id.party_detail_action_share:
-        ShareLinkContent content = new ShareLinkContent.Builder().setContentUrl(
-            Uri.parse("https://developers.facebook.com")).build();
-        shareButton.setShareContent(content);
         shareButton.performClick();
         return true;
       default:

@@ -41,12 +41,11 @@ public class CandidateCompareActivity extends BaseActivity {
   @Bind(R.id.candidate_two) CircularImageView candidateTwoView;
   @Bind(R.id.party_edu_one) AutofitTextView candidateEduOne;
   @Bind(R.id.party_edu_two) AutofitTextView candidateEduTwo;
+  @Bind(R.id.compre_title) TextView compareTitle;
   @Bind(R.id.party_job_one) TextView partyJobOne;
   @Bind(R.id.party_job_two) TextView partyJobTwo;
   @Bind(R.id.no_flag_candidateOne) AutofitTextView no_flag_candidateOne;
   @Bind(R.id.no_flag_candidateTwo) AutofitTextView no_flag_candidateTwo;
-  RoundCornerProgressBar roundCornerProgressBar;
-  RoundCornerProgressBar roundCornerProgressBarTwo;
   Candidate candidate;
   Candidate candidateCompare;
   float[] hslValues = new float[3];
@@ -96,14 +95,14 @@ public class CandidateCompareActivity extends BaseActivity {
               TextView questionText =
                   (TextView) question_indicator.findViewById(R.id.question_title);
               questionText.setTypeface(typefacelight);
-              roundCornerProgressBar =
+              RoundCornerProgressBar roundCornerProgressBar =
                   (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate1);
-              roundCornerProgressBarTwo =
+              RoundCornerProgressBar roundCornerProgressBarTwo =
                   (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate2);
               roundCornerProgressBar.setProgress(PercentageOne);
+              roundCornerProgressBar.setProgressColor(Color.HSVToColor(hslValues));
               roundCornerProgressBar.setRotation(180);
               roundCornerProgressBar.setBackgroundColor(Color.WHITE);
-
               roundCornerProgressBarTwo.setProgress(PercentageTwo);
               roundCornerProgressBarTwo.setProgressColor(Color.HSVToColor(darkValue));
               questionText.setText(entry.getKey());
@@ -114,7 +113,6 @@ public class CandidateCompareActivity extends BaseActivity {
           Set<Map.Entry<String, JsonElement>> entries =
               question.entrySet();//will return members of your object
           for (Map.Entry<String, JsonElement> entry : entries) {
-
             int obtainScrollOne =
                 entry.getValue().getAsJsonObject().get(candidateCompare.getMpid()).getAsInt();
             int obtainScrollTwo =
@@ -134,17 +132,16 @@ public class CandidateCompareActivity extends BaseActivity {
                     false);
             TextView questionText = (TextView) question_indicator.findViewById(R.id.question_title);
             questionText.setTypeface(typefacelight);
-            roundCornerProgressBar =
+            RoundCornerProgressBar roundCornerProgressBar =
                 (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate1);
-            roundCornerProgressBarTwo =
+            RoundCornerProgressBar roundCornerProgressBarTwo =
                 (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate2);
             roundCornerProgressBar.setProgress(PercentageOne);
             roundCornerProgressBar.setProgressColor(Color.HSVToColor(hslValues));
             roundCornerProgressBar.setRotation(180);
             roundCornerProgressBar.setBackgroundColor(Color.WHITE);
-
             roundCornerProgressBarTwo.setProgress(PercentageTwo);
-
+            roundCornerProgressBarTwo.setProgressColor(Color.HSVToColor(darkValue));
             questionText.setText(entry.getKey());
             question_showcase.addView(question_indicator);
           }
@@ -168,6 +165,7 @@ public class CandidateCompareActivity extends BaseActivity {
     partyJobTwo.setTypeface(typefacelight);
     no_flag_candidateOne.setTypeface(typefacelight);
     no_flag_candidateTwo.setTypeface(typefacelight);
+    compareTitle.setTypeface(typefaceTitle);
   }
 
   @Override protected int getLayoutResource() {
@@ -215,7 +213,6 @@ public class CandidateCompareActivity extends BaseActivity {
                   Palette.Swatch vibrantSwatch = palette.getVibrantSwatch();
                   hslValues = vibrantSwatch.getHsl();
                   candidateOneView.setBorderColor(Color.HSVToColor(hslValues));
-                  roundCornerProgressBar.setProgressColor(Color.HSVToColor(hslValues));
                 }
               }))
           .into(party_flag_one);
@@ -234,7 +231,6 @@ public class CandidateCompareActivity extends BaseActivity {
                   if (darkSwatch != null) {
                     darkValue = darkSwatch.getHsl();
                     candidateTwoView.setBorderColor(Color.HSVToColor(darkValue));
-                    roundCornerProgressBarTwo.setProgressColor(Color.HSVToColor(darkValue));
                   }
                 }
               }))
