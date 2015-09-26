@@ -32,8 +32,13 @@ public class MixUtils {
   }
 
   public static long calculateTimeLeftToVote() throws ParseException {
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+    /*SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
     formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+    ;*/
+    TimeZone defaultTimeZone = TimeZone.getDefault();
+    String strDefaultTimeZone = defaultTimeZone.getDisplayName(false, TimeZone.SHORT);
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+    formatter.setTimeZone(TimeZone.getTimeZone(strDefaultTimeZone));
     String electionTime = "2015-11-08 08:00:00";
     Date electionDate = formatter.parse(electionTime);
     return electionDate.getTime() - new Date().getTime();
