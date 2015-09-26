@@ -94,4 +94,6 @@
   <string name="current_compare_result_zero">ဤပါတီမှ ဝင်ယောက်ယှဥ်ပြိုင်သူ မရှိပါ</string>
   <string name="party_policiy_book">ပါတီ၏ မူဝါဒများအကြောင်း စာအုပ်ရယူရန်</string>
   <string name="facebook_id">1616640151922143</string>
+  <string name="FaqList">အမေးများဆုံး မေးခွန်းများ</string>
+  <string name="search_faq">Search FAQ</string>
 </resources>

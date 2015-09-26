@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
-import org.maepaysoh.maepaysoh.R;
-import org.maepaysoh.maepaysohsdk.models.FAQ;
+import org.mmaug.mae.R;
+import org.mmaug.mae.models.FAQ;
 
 /**
  * Created by yemyatthu on 8/6/15.

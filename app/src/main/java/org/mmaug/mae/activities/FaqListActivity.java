@@ -1,12 +1,10 @@
 package org.mmaug.mae.activities;
 
 import android.content.Intent;
-import android.database.SQLException;
-import android.graphics.PorterDuff;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,28 +13,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+import java.util.HashMap;
 import java.util.List;
-import org.maepaysoh.maepaysoh.MaePaySoh;
-import org.maepaysoh.maepaysoh.R;
-import org.maepaysoh.maepaysoh.adapters.EndlessRecyclerViewAdapter;
-import org.maepaysoh.maepaysoh.adapters.FaqAdapter;
-import org.maepaysoh.maepaysoh.utils.InternetUtils;
-import org.maepaysoh.maepaysoh.utils.ViewUtils;
-import org.maepaysoh.maepaysohsdk.FAQAPIHelper;
-import org.maepaysoh.maepaysohsdk.MaePaySohApiWrapper;
-import org.maepaysoh.maepaysohsdk.models.FAQ;
-import org.maepaysoh.maepaysohsdk.utils.FaqAPIProperties;
-import org.maepaysoh.maepaysohsdk.utils.FaqAPIPropertiesMap;
-import org.mmaug.mae.base.BaseActivity;
-
-import static org.maepaysoh.maepaysoh.utils.Logger.LOGD;
-import static org.maepaysoh.maepaysoh.utils.Logger.makeLogTag;
+import org.mmaug.mae.R;
+import org.mmaug.mae.adapter.EndlessRecyclerViewAdapter;
+import org.mmaug.mae.adapter.FaqAdapter;
+import org.mmaug.mae.models.FAQ;
+import org.mmaug.mae.models.FAQListReturnObject;
+import org.mmaug.mae.rest.RESTClient;
+import org.mmaug.mae.rest.RESTService;
+import org.mmaug.mae.utils.ConnectionManager;
+import org.mmaug.mae.utils.ViewUtils;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
 
 /**
  * Created by Ye Lin Aung on 15/08/06.
  */
-public class FaqListActivity extends BaseActivity
+public class FaqListActivity extends AppCompatActivity
     implements FaqAdapter.ClickInterface, android.support.v7.widget.SearchView.OnQueryTextListener {
 
   private static String TAG = "FAQ_LIST_ACTIVITY";
@@ -52,30 +47,23 @@ public class FaqListActivity extends BaseActivity
   private List<FAQ> mFaqDatas;
   private android.support.v7.widget.SearchView mSearchView;
   private MenuItem mSearchMenu;
-  private FAQAPIHelper mFAQAPIHelper;
-  private MaePaySohApiWrapper mMaePaySohApiWrapper;
-  private DownFaqListAsync mDownFaqListAsync;
-  private SearchFAQAsync mSearchFAQAsync;
+  private RESTService mRESTService;
+
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_faq_list);
 
     Toolbar mToolbar = (Toolbar) findViewById(R.id.faq_list_toolbar);
-    View mToolbarShadow = findViewById(R.id.faq_list_toolbar_shadow);
 
-    mErrorView = findViewById(R.id.faq_list_error_view);
     mFaqListRecyclerView = (RecyclerView) findViewById(R.id.faq_list_recycler_view);
     mProgressView = (ProgressBar) findViewById(R.id.faq_list_progress_bar);
-    mRetryBtn = (Button) mErrorView.findViewById(R.id.error_view_retry_btn);
-    mProgressView.getIndeterminateDrawable()
-        .setColorFilter(getResources().getColor(R.color.primary), PorterDuff.Mode.SRC_ATOP);
+    //mProgressView.getIndeterminateDrawable()
+    //    .setColorFilter(getResources().getColor(R.color.primary), PorterDuff.Mode.SRC_ATOP);
 
     mToolbar.setTitle(getString(R.string.FaqList));
-    hideToolBarShadowForLollipop(mToolbar, mToolbarShadow);
-
     setSupportActionBar(mToolbar);
-
+    mRESTService = RESTClient.getMPSService();
     ActionBar mActionBar = getSupportActionBar();
     if (mActionBar != null) {
       // Showing Back Arrow  <-
@@ -87,8 +75,6 @@ public class FaqListActivity extends BaseActivity
     mFaqListRecyclerView.setLayoutManager(mLayoutManager);
     mFaqAdapter = new FaqAdapter();
     mFaqAdapter.setOnItemClickListener(this);
-    mMaePaySohApiWrapper = MaePaySoh.getMaePaySohWrapper();
-    mFAQAPIHelper = mMaePaySohApiWrapper.getFaqApiHelper();
     mEndlessRecyclerViewAdapter = new EndlessRecyclerViewAdapter(FaqListActivity.this, mFaqAdapter,
         new EndlessRecyclerViewAdapter.RequestToLoadMoreListener() {
           @Override public void onLoadMoreRequested() {
@@ -96,16 +82,9 @@ public class FaqListActivity extends BaseActivity
           }
         });
     mFaqListRecyclerView.setAdapter(mEndlessRecyclerViewAdapter);
-    if (InternetUtils.isNetworkAvailable(this)) {
+    if (ConnectionManager.isConnected(this)) {
       loadFaqData(null);
-    } else {
-      loadFromCache();
     }
-    mRetryBtn.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        loadFaqData(null);
-      }
-    });
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -125,21 +104,57 @@ public class FaqListActivity extends BaseActivity
   }
 
   private void loadFaqData(@Nullable String query) {
-    TextView errorText = (TextView) mErrorView.findViewById(R.id.error_view_error_text);
-    errorText.setText(getString(R.string.PleaseCheckNetworkAndTryAgain));
-    mRetryBtn.setVisibility(View.VISIBLE);
-    if (mErrorView.getVisibility() == View.VISIBLE) {
-      mErrorView.setVisibility(View.GONE);
-    }
     if (mCurrentPage == 1) {
       viewUtils.showProgress(mFaqListRecyclerView, mProgressView, true);
     }
+
     if (query != null && query.length() > 0) {
-      mSearchFAQAsync = new SearchFAQAsync();
-      mSearchFAQAsync.execute(query);
+      Call<FAQListReturnObject> callback = mRESTService.searchFaq(query,new HashMap<String, String>());
+      callback.enqueue(new Callback<FAQListReturnObject>() {
+        @Override public void onResponse(Response<FAQListReturnObject> response) {
+          List<FAQ> faqs = response.body().getData();
+          if (faqs.size() > 0) {
+            mFaqListRecyclerView.setVisibility(View.VISIBLE);
+            if (mCurrentPage == 1) {
+              mFaqDatas = faqs;
+            } else {
+              mFaqDatas.addAll(faqs);
+            }
+            mFaqAdapter.setFaqs(mFaqDatas);
+            mEndlessRecyclerViewAdapter.onDataReady(true);
+            mCurrentPage++;
+          }
+
+        }
+
+        @Override public void onFailure(Throwable t) {
+
+        }
+      });
     } else {
-      mDownFaqListAsync = new DownFaqListAsync();
-      mDownFaqListAsync.execute(mCurrentPage);
+      Call<FAQListReturnObject> callback = mRESTService.listFaqs(new HashMap<String, String>());
+      callback.enqueue(new Callback<FAQListReturnObject>() {
+        @Override public void onResponse(Response<FAQListReturnObject> response) {
+          List<FAQ> faqs = response.body().getData();
+          if (faqs.size() > 0) {
+            if (mCurrentPage == 1) {
+              viewUtils.showProgress(mFaqListRecyclerView, mProgressView, false);
+              mFaqDatas = faqs;
+            } else {
+              mFaqDatas.addAll(faqs);
+            }
+            mFaqAdapter.setFaqs(mFaqDatas);
+            mEndlessRecyclerViewAdapter.onDataReady(true);
+            mCurrentPage++;
+          }
+          mEndlessRecyclerViewAdapter.onDataReady(false);
+        }
+
+        @Override public void onFailure(Throwable t) {
+
+        }
+      });
+
     }
   }
 
@@ -156,134 +171,10 @@ public class FaqListActivity extends BaseActivity
 
   @Override public boolean onQueryTextChange(String newText) {
     mCurrentPage = 1;
-    if (InternetUtils.isNetworkAvailable(this)) {
+    if (ConnectionManager.isConnected(this)) {
       loadFaqData(newText);
-    } else {
-      searchFaqFromCache(newText);
     }
-    LOGD(TAG, "searching");
     return true;
   }
 
-  private void loadFromCache() {
-    //Disable pagination in cache
-    mEndlessRecyclerViewAdapter.onDataReady(false);
-    try {
-      mFaqDatas = mFAQAPIHelper.getFaqsFromCache();
-      if (mFaqDatas != null && mFaqDatas.size() > 0) {
-        viewUtils.showProgress(mFaqListRecyclerView, mProgressView, false);
-        mFaqAdapter.setFaqs(mFaqDatas);
-        mFaqAdapter.setOnItemClickListener(FaqListActivity.this);
-      } else {
-        viewUtils.showProgress(mFaqListRecyclerView, mProgressView, false);
-        mErrorView.setVisibility(View.VISIBLE);
-      }
-    } catch (SQLException e) {
-      viewUtils.showProgress(mFaqListRecyclerView, mProgressView, false);
-      mErrorView.setVisibility(View.VISIBLE);
-      e.printStackTrace();
-    }
-  }
-
-  private void searchFaqFromCache(String keyword) {
-    TextView errorText = (TextView) mErrorView.findViewById(R.id.error_view_error_text);
-    errorText.setText(getString(R.string.PleaseCheckNetworkAndTryAgain));
-    mRetryBtn.setVisibility(View.VISIBLE);
-    if (mErrorView.getVisibility() == View.VISIBLE) {
-      mErrorView.setVisibility(View.GONE);
-    }
-
-    if (keyword.length() > 0) {
-      mFaqDatas = mFAQAPIHelper.searchFaqFromCache(keyword);
-      if (mFaqDatas != null && mFaqDatas.size() > 0) {
-        mFaqListRecyclerView.setVisibility(View.VISIBLE);
-        mErrorView.setVisibility(View.GONE);
-        mFaqAdapter.setFaqs(mFaqDatas);
-        mFaqAdapter.setOnItemClickListener(FaqListActivity.this);
-      } else {
-        mFaqListRecyclerView.setVisibility(View.GONE);
-        mErrorView.setVisibility(View.VISIBLE);
-        mRetryBtn.setVisibility(View.GONE);
-        errorText.setText(R.string.search_not_found);
-      }
-    } else {
-      loadFromCache();
-    }
-  }
-
-  @Override protected void onPause() {
-    super.onPause();
-    if (mDownFaqListAsync != null) {
-      mDownFaqListAsync.cancel(true);
-    }
-    if (mSearchFAQAsync != null) {
-      mSearchFAQAsync.cancel(true);
-    }
-  }
-
-  class DownFaqListAsync extends AsyncTask<Integer, Void, List<FAQ>> {
-
-    @Override protected List<FAQ> doInBackground(Integer... integer) {
-      mCurrentPage = integer[0];
-      FaqAPIPropertiesMap faqAPIPropertiesMap = new FaqAPIPropertiesMap();
-      faqAPIPropertiesMap.put(FaqAPIProperties.FIRST_PAGE, mCurrentPage);
-      return mFAQAPIHelper.getFaqs(faqAPIPropertiesMap);
-    }
-
-    @Override protected void onPostExecute(List<FAQ> faqs) {
-      super.onPostExecute(faqs);
-      TextView errorText = (TextView) mErrorView.findViewById(R.id.error_view_error_text);
-      errorText.setText(getString(R.string.PleaseCheckNetworkAndTryAgain));
-      mRetryBtn.setVisibility(View.VISIBLE);
-      if (mErrorView.getVisibility() == View.VISIBLE) {
-        mErrorView.setVisibility(View.GONE);
-      }
-      if (faqs.size() > 0) {
-        if (mCurrentPage == 1) {
-          viewUtils.showProgress(mFaqListRecyclerView, mProgressView, false);
-          mFaqDatas = faqs;
-        } else {
-          mFaqDatas.addAll(faqs);
-        }
-        mFaqAdapter.setFaqs(mFaqDatas);
-        mEndlessRecyclerViewAdapter.onDataReady(true);
-        mCurrentPage++;
-      } else {
-        if (mCurrentPage == 1) {
-          loadFromCache();
-        }
-        mEndlessRecyclerViewAdapter.onDataReady(false);
-      }
-    }
-  }
-
-  class SearchFAQAsync extends AsyncTask<String, Void, List<FAQ>> {
-
-    @Override protected List<FAQ> doInBackground(String... strings) {
-      return mFAQAPIHelper.searchFaq(strings[0]);
-    }
-
-    @Override protected void onPostExecute(List<FAQ> faqs) {
-      super.onPostExecute(faqs);
-      //Hide Progress on success
-      viewUtils.showProgress(mFaqListRecyclerView, mProgressView, false);
-      if (faqs.size() > 0) {
-        mFaqListRecyclerView.setVisibility(View.VISIBLE);
-        if (mCurrentPage == 1) {
-          mFaqDatas = faqs;
-        } else {
-          mFaqDatas.addAll(faqs);
-        }
-        mFaqAdapter.setFaqs(mFaqDatas);
-        mEndlessRecyclerViewAdapter.onDataReady(true);
-        mCurrentPage++;
-      } else {
-        mFaqListRecyclerView.setVisibility(View.GONE);
-        mErrorView.setVisibility(View.VISIBLE);
-        TextView errorText = (TextView) mErrorView.findViewById(R.id.error_view_error_text);
-        errorText.setText(R.string.search_not_found);
-        mRetryBtn.setVisibility(View.GONE);
-      }
-    }
-  }
 }
