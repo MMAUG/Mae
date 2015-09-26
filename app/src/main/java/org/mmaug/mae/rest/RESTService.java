@@ -11,10 +11,7 @@ import org.mmaug.mae.models.GeoReturnObject;
 import org.mmaug.mae.models.PartyReturnObject;
 import org.mmaug.mae.models.User;
 import retrofit.Call;
-import retrofit.http.FieldMap;
-import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
-import retrofit.http.POST;
 import retrofit.http.Path;
 import retrofit.http.Query;
 import retrofit.http.QueryMap;
@@ -29,8 +26,8 @@ public interface RESTService {
    **/
 
   //TODO to check this is work or not
-  @FormUrlEncoded @POST(Config.REGISTER) Call<User> registerUser(
-      @FieldMap Map<String, String> body);
+  @GET(Config.REGISTER) Call<User> registerUser(
+      @QueryMap Map<String, String> body);
 
   /**
    * Maepaysoh services

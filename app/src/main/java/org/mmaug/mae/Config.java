@@ -11,7 +11,7 @@ public class Config {
    * Check Voter API
    **/
 
-  public static final String REGISTER = "register";
+  public static final String REGISTER = "voter-check";
 
   //param
   public static final String VOTER_NAME = "name";
