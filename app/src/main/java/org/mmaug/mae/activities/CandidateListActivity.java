@@ -19,6 +19,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -37,6 +38,7 @@ import org.mmaug.mae.models.CandidateListReturnObject;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.utils.DataUtils;
 import org.mmaug.mae.utils.FontCache;
+import org.mmaug.mae.utils.UserPrefUtils;
 import org.mmaug.mae.view.SpacesItemDecoration;
 import retrofit.Call;
 import retrofit.Callback;
@@ -59,6 +61,7 @@ public class CandidateListActivity extends BaseActivity
   private ArrayList<DataUtils.Township> townships;
   private ArrayList<DataUtils.Township> found = new ArrayList<>();
   private TownshipAdapter adapter;
+  private DataUtils.Township myTownShip;
 
   @Override protected int getLayoutResource() {
     return R.layout.activity_candidate;
@@ -85,22 +88,33 @@ public class CandidateListActivity extends BaseActivity
     if (candidateFromDetail != null) {
       tvToolbarTitle.setText(getResources().getString(R.string.compare_title));
     }
-    mTownShip.setText("အင်းစိန်");
+    UserPrefUtils userPrefUtils = new UserPrefUtils(this);
+    String townShipString = userPrefUtils.getTownship();
+    if(townShipString!=null && townShipString.length()>0) {
+      myTownShip = new Gson().fromJson(townShipString, DataUtils.Township.class);
+    }
+    if(myTownShip!=null) {
+      mTownShip.setText(myTownShip.getTowhshipNameBurmese());
+    }
     initEditText();
     initRecyclerView();
   }
 
   private void fetchCandidate() {
-    showHideProgressBar(true);
-    Map<String, String> pyithuParams = new HashMap<>();
-    //Probably, there won't be much more than 200 candidates for a township for the same legislature
-    pyithuParams.put(Config.PER_PAGE, "200");
-    //TODO remove hardcoded PCODE
-    pyithuParams.put(Config.CONSTITUENCY_ST_PCODE, "MMR013");
-    pyithuParams.put(Config.CONSTITUENCY_DT_PCODE, "MMR013D001");
-    pyithuParams.put(Config.CONSTITUENCY_TS_PCODE, "MMR013001");
-    pyithuParams.put(Config.WITH, Config.PARTY);
-    inflateCandiateAdapter(pyithuParams);
+    if(myTownShip!=null) {
+      showHideProgressBar(true);
+      Map<String, String> pyithuParams = new HashMap<>();
+      //Probably, there won't be much more than 200 candidates for a township for the same legislature
+      pyithuParams.put(Config.PER_PAGE, "200");
+      //TODO remove hardcoded PCODE
+      pyithuParams.put(Config.CONSTITUENCY_ST_PCODE, "MMR013");
+      pyithuParams.put(Config.CONSTITUENCY_DT_PCODE, "MMR013D001");
+      pyithuParams.put(Config.CONSTITUENCY_TS_PCODE, "MMR013001");
+      pyithuParams.put(Config.WITH, Config.PARTY);
+      inflateCandiateAdapter(pyithuParams);
+    }else{
+      showHidSearchView(false);
+    }
   }
 
   private void showHideProgressBar(boolean visibility) {
