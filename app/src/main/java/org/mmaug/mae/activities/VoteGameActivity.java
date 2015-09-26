@@ -32,12 +32,19 @@ public class VoteGameActivity extends BaseActivity implements BoardView.GameList
   @Bind(R.id.ll_board_frame) LinearLayout mBoardFame;
   @Bind(R.id.scrollView) ScrollView mScrollView;
   @Bind(R.id.tv_start_game) TextView mTextView;
+  @Bind(R.id.tv_game_info) TextView mTvInfo;
+
+  Typeface typefaceTitle;
+  Typeface typefacelight;
 
   int y = 0, scrollTo = 1, spacingMajor = 0;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     ButterKnife.bind(this);
+
+    typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
+    typefacelight = FontCache.get("pyidaungsu.ttf", this);
 
     spacingMajor = (int) MixUtils.convertDpToPixel(this, 16);
 
@@ -55,6 +62,8 @@ public class VoteGameActivity extends BaseActivity implements BoardView.GameList
 
     //listener for game play
     mBoardView.setGameListener(this);
+    mTextView.setTypeface(typefacelight);
+    mTvInfo.setTypeface(typefacelight);
 
     //to check scrollview is at board
     mScrollView.post(new Runnable() {
@@ -115,12 +124,15 @@ public class VoteGameActivity extends BaseActivity implements BoardView.GameList
       view = getLayoutInflater().inflate(R.layout.dialog_valid_vote, null);
       View myTargetView = view.findViewById(R.id.circle_full);
       View mySourceView = view.findViewById(R.id.circle_empty);
-      View okBtn = view.findViewById(R.id.voter_check_ok_btn);
-      Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
-      Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
+      TextView okBtn = (TextView) view.findViewById(R.id.voter_check_ok_btn);
+      TextView title = (TextView) view.findViewById(R.id.title);
+      TextView message = (TextView) view.findViewById(R.id.message);
       //text message
       TextView myTextView = (TextView) view.findViewById(R.id.tv_vote_message);
+      title.setTypeface(typefaceTitle);
+      message.setTypeface(typefacelight);
       myTextView.setTypeface(typefaceTitle);
+      okBtn.setTypeface(typefaceTitle);
       String warning = getString(R.string.how_to_vote_placeholder_text,
           getString(R.string.correct_vote_message));
       myTextView.setText(Html.fromHtml(warning));
@@ -145,14 +157,17 @@ public class VoteGameActivity extends BaseActivity implements BoardView.GameList
       });
     } else {
       view = getLayoutInflater().inflate(R.layout.dialog_invalid_vote, null);
-      View okBtn = view.findViewById(R.id.voter_check_ok_btn);
+      TextView okBtn = (TextView) view.findViewById(R.id.voter_check_ok_btn);
       TextView myTextView = (TextView) view.findViewById(R.id.tv_vote_message);
+      TextView title = (TextView) view.findViewById(R.id.title);
+      TextView message = (TextView) view.findViewById(R.id.message);
       String warning =
           getString(R.string.incorrect_vote_message, getString(R.string.correct_vote_message));
       myTextView.setText(warning);
-      Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
-      Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
+      title.setTypeface(typefaceTitle);
+      message.setTypeface(typefacelight);
       myTextView.setTypeface(typefaceTitle);
+      okBtn.setTypeface(typefaceTitle);
       okBtn.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View view) {
           if (voteResultDialog.isShowing()) {

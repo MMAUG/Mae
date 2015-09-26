@@ -20,6 +20,7 @@
         android:layout_height="wrap_content">
 
       <TextView
+          android:id="@+id/tv_game_info"
           style="@style/Base.TextAppearance.AppCompat.Medium"
           android:padding="@dimen/spacing_minor"
           android:layout_marginLeft="@dimen/spacing_minor"

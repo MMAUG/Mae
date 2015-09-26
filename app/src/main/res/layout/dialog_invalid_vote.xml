@@ -5,13 +5,16 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/white">
-  <TextView android:layout_width="wrap_content"
+  <TextView
+      android:id="@+id/title"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       style="@style/TextAppearance.AppCompat.Headline"
       android:padding="@dimen/spacing_major"
       android:text="@string/be_careful"
       android:textColor="@color/yellow"/>
   <TextView
+      android:id="@+id/message"
       style="@style/TextAppearance.AppCompat.Subhead"
       android:padding="@dimen/spacing_minor"
       android:textColor="@color/mdtp_light_gray"
