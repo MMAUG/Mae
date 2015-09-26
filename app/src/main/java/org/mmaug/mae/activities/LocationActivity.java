@@ -18,22 +18,18 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.maps.android.geojson.GeoJsonFeature;
 import com.google.maps.android.geojson.GeoJsonGeometry;
 import com.google.maps.android.geojson.GeoJsonLayer;
 import com.google.maps.android.geojson.GeoJsonPointStyle;
 import com.google.maps.android.geojson.GeoJsonPolygonStyle;
-import com.michael.easydialog.EasyDialog;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -104,6 +100,7 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
     String townShipString = userPrefUtils.getTownship();
     if (townShipString != null && townShipString.length() > 0) {
       myTownShip = new Gson().fromJson(townShipString, DataUtils.Township.class);
+      tvToolbarTitle.setText(myTownShip.getTowhshipNameBurmese());
     }
     if (myTownShip == null) {
       showHidSearchView(false);
@@ -236,41 +233,73 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
           getGeometry().getCoordinates().getAsJsonArray();
       JsonArray latLangArray =
           jsonElements.getAsJsonArray().get(0).getAsJsonArray().get(0).getAsJsonArray();
+      double lon;
+      double lat;
+      try {
 
-      LatLngBounds.Builder builder = new LatLngBounds.Builder();
-      for (JsonElement element : jsonElements) {
-        JsonArray latlng = element.getAsJsonArray();
-        for (JsonElement element1 : latlng) {
-          builder.include(new LatLng(element1.getAsJsonArray().get(1).getAsDouble(),
-              element1.getAsJsonArray().get(0).getAsDouble()));
-        }
+        lat = latLangArray.get(1).getAsDouble();
+        lon = latLangArray.get(0).getAsDouble();
+      } catch (IllegalStateException e) {
+        lat = latLangArray.get(0).getAsJsonArray().get(1).getAsDouble();
+        lon = latLangArray.get(0).getAsJsonArray().get(0).getAsDouble();
       }
-
       if (mMap == null) {
         mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(
             R.id.location_detail_map)).getMap();
       }
+      mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon), 8));
 
-      final LatLngBounds bounds = builder.build();
-      int padding = (int) getResources().getDimension(R.dimen.spacing_minor);
-      CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-      mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-        @Override public void onMapClick(LatLng latLng) {
-          if (bounds.contains(latLng)) {
-            new EasyDialog(LocationActivity.this).setLayoutResourceId(
-                R.layout.tip_layout)//layout resource id
-                .setBackgroundColor(LocationActivity.this.getResources().getColor(R.color.primary))
-                .setLocationByAttachedView(hiddenView)
-                .setAnimationAlphaShow(1000, 0.0f, 1.0f)
-                .setAnimationAlphaDismiss(500, 1.0f, 0.0f)
-                .setTouchOutsideDismiss(true)
-                .setMatchParent(false)
-                .show();
-          }
-        }
-      });
-      mMap.moveCamera(cu);
       layer.addLayerToMap();
+      //double lat;
+      //double lon;
+      //LatLngBounds.Builder builder = new LatLngBounds.Builder();
+      //for (JsonElement element : jsonElements) {
+      //  JsonArray latlng = element.getAsJsonArray();
+      //  for (JsonElement element1 : latlng) {
+      //    try {
+      //
+      //      lat = element1.getAsDouble();
+      //      lon = element1.getAsDouble();
+      //      builder.include(new LatLng(lat,
+      //          lon));
+      //    } catch (IllegalStateException e) {
+      //      for(JsonElement element2:element1.getAsJsonArray()) {
+      //        lat = element2.getAsDouble();
+      //        lon = element2.getAsDouble();
+      //        builder.include(new LatLng(lat,
+      //            lon));
+      //      }
+      //    }
+      //
+      //  }
+      //}
+      //
+      //
+      //if (mMap == null) {
+      //  mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(
+      //      R.id.location_detail_map)).getMap();
+      //}
+      //
+      //final LatLngBounds bounds = builder.build();
+      //int padding = (int) getResources().getDimension(R.dimen.spacing_minor);
+      //CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+      //mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+      //  @Override public void onMapClick(LatLng latLng) {
+      //    if (bounds.contains(latLng)) {
+      //      new EasyDialog(LocationActivity.this).setLayoutResourceId(
+      //          R.layout.tip_layout)//layout resource id
+      //          .setBackgroundColor(LocationActivity.this.getResources().getColor(R.color.primary))
+      //          .setLocationByAttachedView(hiddenView)
+      //          .setAnimationAlphaShow(1000, 0.0f, 1.0f)
+      //          .setAnimationAlphaDismiss(500, 1.0f, 0.0f)
+      //          .setTouchOutsideDismiss(true)
+      //          .setMatchParent(false)
+      //          .show();
+      //    }
+      //  }
+      //});
+      //mMap.moveCamera(cu);
+      //layer.addLayerToMap();
     } catch (JSONException e) {
       e.printStackTrace();
     }
