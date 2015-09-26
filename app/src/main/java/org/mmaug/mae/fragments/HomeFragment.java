@@ -148,8 +148,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
             voteResultDialog.dismiss();
             backdrop.setBackgroundColor(getResources().getColor(R.color.accent_color));
             txt_cardview_vote_check.setTextColor(Color.WHITE);
-            valid_sign.setImageDrawable(
-                getResources().getDrawable(R.drawable.ic_mark));
+            valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_mark));
           }
         }
       });

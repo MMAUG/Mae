@@ -80,7 +80,7 @@
           android:id="@+id/cardview_vote_check"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_margin="@dimen/default_padding_large"
+          android:layout_margin="@dimen/spacing_minor"
           android:foreground="?attr/selectableItemBackground"
           app:cardElevation="5dp"
           card_view:cardCornerRadius="@dimen/default_padding_small"
@@ -90,28 +90,27 @@
             android:id="@+id/backdrop"
             android:padding="@dimen/spacing_major"
             android:background="@color/accent_color"
-            android:weightSum="4"
+            android:weightSum="5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             >
           <TextView
               android:textColor="@color/white"
-              android:layout_weight="3"
-              android:padding="@dimen/default_padding_large"
-              android:gravity="center_vertical"
+              android:layout_weight="4"
+              android:layout_gravity="center"
               android:id="@+id/txt_cardview_vote_check"
               android:text="မဲစာရင်းမှာ နာမည်မှပါရဲ့လား"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               />
           <ImageView
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
               android:id="@+id/valid_sign"
-              android:layout_marginRight="20dp"
-              android:scaleType="centerCrop"
               android:src="@drawable/ic_mark"
-              android:layout_width="50dp"
-              android:layout_height="48dp"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               />
 
         </LinearLayout>
@@ -124,7 +123,7 @@
           android:id="@+id/cardview_where_can_i_vote"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_margin="@dimen/default_padding_large"
+          android:layout_margin="@dimen/spacing_minor"
           android:foreground="?attr/selectableItemBackground"
           app:cardElevation="5dp"
           card_view:cardCornerRadius="@dimen/default_padding_small"
@@ -135,26 +134,23 @@
             android:weightSum="4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             >
           <TextView
               android:layout_weight="3"
-              android:padding="@dimen/default_padding_large"
-              android:gravity="center_vertical"
+              android:layout_gravity="center"
               android:id="@+id/txt_where_can_i_vote"
               android:text="ဘယ်မှာ မဲပေးရမှာလဲ"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               />
           <ImageView
               android:visibility="invisible"
-              android:layout_marginRight="20dp"
-              android:scaleType="centerCrop"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
               android:src="@drawable/ic_mark"
-              android:layout_width="50dp"
-              android:layout_height="48dp"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               />
-
         </LinearLayout>
       </android.support.v7.widget.CardView>
 
@@ -165,7 +161,7 @@
           android:id="@+id/cardview_candidate_condtion"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_margin="@dimen/default_padding_large"
+          android:layout_margin="@dimen/spacing_minor"
           android:foreground="?attr/selectableItemBackground"
           app:cardElevation="5dp"
           card_view:cardCornerRadius="@dimen/default_padding_small"
@@ -178,22 +174,22 @@
             android:layout_height="wrap_content"
             >
           <TextView
+              android:layout_gravity="center"
               android:layout_weight="3"
-              android:padding="@dimen/default_padding_large"
-              android:gravity="center_vertical"
               android:id="@+id/card_candidate_list"
               android:text="ဘယ်သူ့ မဲပေးရမှာလဲ"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               />
           <ImageView
               android:visibility="invisible"
-              android:layout_marginRight="20dp"
-              android:scaleType="centerCrop"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
               android:src="@drawable/ic_mark"
-              android:layout_width="50dp"
-              android:layout_height="48dp"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               />
+
 
         </LinearLayout>
       </android.support.v7.widget.CardView>
@@ -205,7 +201,7 @@
           android:id="@+id/cardview_party_condtion"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_margin="@dimen/default_padding_large"
+          android:layout_margin="@dimen/spacing_minor"
           android:foreground="?attr/selectableItemBackground"
           app:cardElevation="5dp"
           card_view:cardCornerRadius="@dimen/default_padding_small"
@@ -217,15 +213,21 @@
             android:layout_height="wrap_content"
             >
           <TextView
-              android:padding="@dimen/default_padding_large"
-              android:gravity="center_vertical"
+              android:gravity="center"
+              android:layout_gravity="center"
               android:id="@+id/cardview_party_condtion_list"
               android:text="ပါတီတွေရဲ့ အခြေအနေ"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               />
-
-
+          <ImageView
+              android:visibility="invisible"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:src="@drawable/ic_mark"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              />
         </LinearLayout>
       </android.support.v7.widget.CardView>
       <android.support.v7.widget.CardView
@@ -235,7 +237,7 @@
           android:id="@+id/card_how_to_vote"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_margin="@dimen/default_padding_large"
+          android:layout_margin="@dimen/spacing_minor"
           android:foreground="?attr/selectableItemBackground"
           app:cardElevation="5dp"
           card_view:cardCornerRadius="@dimen/default_padding_small"
@@ -247,14 +249,21 @@
             android:layout_height="wrap_content"
             >
           <TextView
-              android:padding="@dimen/default_padding_large"
-              android:gravity="center_vertical"
+              android:gravity="center"
+              android:layout_gravity="center"
               android:id="@+id/txt_howtovote"
               android:text="ဘယ်လို မဲပေးရမှာလဲ"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               />
-
+          <ImageView
+              android:visibility="invisible"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:src="@drawable/ic_mark"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              />
 
         </LinearLayout>
       </android.support.v7.widget.CardView>
@@ -266,7 +275,7 @@
           android:id="@+id/cardview_voted"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_margin="@dimen/default_padding_large"
+          android:layout_margin="@dimen/spacing_minor"
           android:foreground="?attr/selectableItemBackground"
           app:cardElevation="5dp"
           card_view:cardCornerRadius="@dimen/default_padding_small"
@@ -278,15 +287,24 @@
             android:layout_height="wrap_content"
             >
           <TextView
-              android:padding="@dimen/default_padding_large"
-              android:gravity="center_vertical"
+              android:gravity="center"
+              android:layout_gravity="center"
               android:id="@+id/txt_voted"
               android:text="မဲပေးပြီးပြီ"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              />
+          <ImageView
+              android:visibility="invisible"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:src="@drawable/ic_mark"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               />
 
         </LinearLayout>
+
       </android.support.v7.widget.CardView>
 
     </LinearLayout>
