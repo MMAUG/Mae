@@ -3,10 +3,10 @@ package org.mmaug.mae.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -16,6 +16,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,8 +32,9 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.login.widget.LoginButton;
+import com.facebook.share.ShareApi;
 import com.facebook.share.Sharer;
-import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareButton;
@@ -97,6 +99,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.candate_question_card) CardView mCandidateQuestionCard;
   @Bind(R.id.candate_motion_card) CardView mCandidateMotionCard;
   @Bind(R.id.shape_id) ShareButton shareButton;
+  @Bind(R.id.shape_login) LoginButton facebooklogin;
   AppBarLayout.OnOffsetChangedListener mListener;
   Candidate candidate;
   ShareDialog shareDialog;
@@ -117,20 +120,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
     setTypeFace();
 
     shareDialog = new ShareDialog(this);
-    callbackManager = CallbackManager.Factory.create();
-    shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
-      @Override public void onSuccess(Sharer.Result result) {
-
-      }
-
-      @Override public void onCancel() {
-
-      }
-
-      @Override public void onError(FacebookException error) {
-
-      }
-    });
+    facebooklogin.setPublishPermissions("publish_stream");
 
     mListener = new AppBarLayout.OnOffsetChangedListener() {
       @Override public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -355,30 +345,31 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mCandidateCompareResult.setTypeface(typefacelight);
     mQuestionHeaderTv.setTypeface(typefacelight);
     mMotionHeaderTv.setTypeface(typefacelight);
-    /*shareButton.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View view) {
-        SharePhoto photo =
-            new SharePhoto.Builder().setBitmap(candidateImage.getDrawingCache()).build();
-        SharePhotoContent content = new SharePhotoContent.Builder().addPhoto(photo).build();
-        shareDialog.show(content);
-      }
-    });*/
   }
 
   @OnClick(R.id.shape_id) void click() {
-    SharePhoto photo = new SharePhoto.Builder().setBitmap(
-        BitmapFactory.decodeResource(getResources(), R.id.iv_progress_icon)).build();
-    SharePhotoContent content = new SharePhotoContent.Builder()
-        .addPhoto(photo)
-        .build();
-    shareButton.setShareContent(content);
+    facebooklogin.performClick();
+    Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.flag);
+    SharePhoto photo = new SharePhoto.Builder().setBitmap(image).build();
+    SharePhotoContent content = new SharePhotoContent.Builder().addPhoto(photo).build();
+    ShareApi.share(content, new FacebookCallback<Sharer.Result>() {
+      @Override public void onSuccess(Sharer.Result result) {
 
+      }
+
+      @Override public void onCancel() {
+
+      }
+
+      @Override public void onError(FacebookException error) {
+        Log.e("Eroor in Facebook", error.toString());
+      }
+    });
   }
 
   @Override
   protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    callbackManager.onActivityResult(requestCode, resultCode, data);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {

@@ -616,5 +616,11 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       />
+  <com.facebook.login.widget.LoginButton
+      android:id="@+id/shape_login"
+      android:visibility="gone"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      />
 
 </android.support.design.widget.CoordinatorLayout>
