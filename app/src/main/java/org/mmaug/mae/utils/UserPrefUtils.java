@@ -24,8 +24,8 @@ public class UserPrefUtils {
     mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
   }
 
-  public void saveSkip(boolean SKIP_VALID) {
-    mSharedPreferences.edit().putBoolean(USER_NAME, SKIP_VALID).apply();
+  public void saveSkip(boolean isvalid) {
+    mSharedPreferences.edit().putBoolean(SKIP_VALID, isvalid).apply();
   }
 
   public void saveUserName(String userName) {
