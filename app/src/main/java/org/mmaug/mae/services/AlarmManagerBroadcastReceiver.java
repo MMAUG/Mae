@@ -7,10 +7,12 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.support.v4.app.TaskStackBuilder;
 import android.text.Html;
-import android.widget.Toast;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,6 +20,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 import org.mmaug.mae.R;
+import org.mmaug.mae.activities.MainActivity;
 
 public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
@@ -39,16 +42,21 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
     Format formatter = new SimpleDateFormat("hh:mm:ss a");
     msgStr.append(formatter.format(new Date()));
     //TODO we need to show :D MAE PAY SOH
-    Toast.makeText(context, msgStr, Toast.LENGTH_LONG).show();
-    PendingIntent pIntent = PendingIntent.getActivity(context, 1000 * 3600, intent, 0);
     Notification mNotification = null;
     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+      Intent resultIntent = new Intent(context, MainActivity.class);
+      TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+      stackBuilder.addNextIntent(resultIntent);
+      PendingIntent resultPendingIntent =
+          stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+      Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
       mNotification = new Notification.Builder(context).setContentTitle(
           context.getString(R.string.time_to_vote))
-          .setContentText(Html.fromHtml(context.getString(R.string.time_to_vote)))
+          .setContentText(Html.fromHtml(context.getString(R.string.time_to_vote_content)))
           .setSmallIcon(R.mipmap.ic_launcher)
-          .setContentIntent(pIntent)
+          .setContentIntent(resultPendingIntent)
           .setAutoCancel(true)
+          .setSound(uri)
           .build();
     }
     NotificationManager notificationManager =
@@ -68,7 +76,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
     String strDefaultTimeZone = defaultTimeZone.getDisplayName(false, TimeZone.SHORT);
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
     formatter.setTimeZone(TimeZone.getTimeZone(strDefaultTimeZone));
-    String electionTime = "2015-11-08 08:00:00";
+    String electionTime = "2015-11-08 06:00:00";
     try {
       Date electionDate = formatter.parse(electionTime);
       am.setRepeating(AlarmManager.RTC_WAKEUP, electionDate.getTime(), 1000 * 3600, pi);

@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -24,16 +25,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.share.Sharer;
-import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.model.SharePhoto;
-import com.facebook.share.model.SharePhotoContent;
-import com.facebook.share.widget.ShareButton;
-import com.facebook.share.widget.ShareDialog;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -93,16 +84,16 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.motion_header_tv) TextView mMotionHeaderTv;
   @Bind(R.id.candate_question_card) CardView mCandidateQuestionCard;
   @Bind(R.id.candate_motion_card) CardView mCandidateMotionCard;
-  @Bind(R.id.shape_id) ShareButton shareButton;
   AppBarLayout.OnOffsetChangedListener mListener;
   Candidate candidate;
-  ShareDialog shareDialog;
-  CallbackManager callbackManager;
   private RESTService mRESTService;
+  private String[] colorHexes = new String[] {
+      "#F44336", "#E91E63", "#9C27B0", "#673AB7", "#2196F3", "#009688", "#4CAF50", "#FFC107",
+      "#FF5722"
+  };
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    FacebookSdk.sdkInitialize(getApplicationContext());
     setContentView(R.layout.activity_candidate_detail);
     ButterKnife.bind(this);
     //actionbar
@@ -112,22 +103,6 @@ public class CandidateDetailActivity extends AppCompatActivity {
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setTitle("");
     setTypeFace();
-
-    shareDialog = new ShareDialog(this);
-    callbackManager = CallbackManager.Factory.create();
-    shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
-      @Override public void onSuccess(Sharer.Result result) {
-
-      }
-
-      @Override public void onCancel() {
-
-      }
-
-      @Override public void onError(FacebookException error) {
-
-      }
-    });
 
     mListener = new AppBarLayout.OnOffsetChangedListener() {
       @Override public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -201,7 +176,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mCandidateLegalSlature.setText(candidate.getLegislature());
     mCandidateParty.setText(candidate.getParty().getPartyName());
     mCandidateAddress.setText(candidate.getWardVillage());
-    mRESTService = RESTClient.getService();
+    mRESTService = RESTClient.getService(this);
     if (candidate.getMpid() == null) {
       mCompareCandidate.setCardBackgroundColor(getResources().getColor(R.color.accent_color_error));
       mCandidateCompareResult.setText(getResources().getString(R.string.first_time_candidate));
@@ -210,7 +185,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
       mCandidateQuestionCard.setVisibility(View.GONE);
       mCandidateMotionCard.setVisibility(View.GONE);
     } else {
-      Call<JsonObject> motionCountCall = mRESTService.getMotionCount("UPMP-01-0142");
+      Call<JsonObject> motionCountCall = mRESTService.getMotionCount(candidate.getMpid());
       motionCountCall.enqueue(new Callback<JsonObject>() {
         @Override public void onResponse(Response<JsonObject> response) {
           int motionCount = response.body().get("count").getAsInt();
@@ -236,7 +211,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
           for (String key : unique) {
             System.out.println(key + ": " + Collections.frequency(titles, key));
             Random rnd = new Random();
-            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+            String hexes = colorHexes[rnd.nextInt(colorHexes.length)];
+            int color = Color.parseColor(hexes);
             int count = Collections.frequency(titles, key);
             PieModel pieModel = new PieModel(key, count, color);
             mPieChart.addPieSlice(pieModel);
@@ -258,7 +234,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
 
         }
       });
-      Call<JsonObject> questionCountCall = mRESTService.getQuestionCount("UPMP-01-0142");
+      Call<JsonObject> questionCountCall = mRESTService.getQuestionCount(candidate.getMpid());
       questionCountCall.enqueue(new Callback<JsonObject>() {
         @Override public void onResponse(Response<JsonObject> response) {
           int questionCount = response.body().get("count").getAsInt();
@@ -270,7 +246,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
 
         }
       });
-      Call<JsonObject> questionCall = mRESTService.getQuestionDetail("UPMP-01-0142");
+      Call<JsonObject> questionCall = mRESTService.getQuestionDetail(candidate.getMpid());
       questionCall.enqueue(new Callback<JsonObject>() {
         @Override public void onResponse(Response<JsonObject> response) {
           JsonArray datas = response.body().get("data").getAsJsonArray();
@@ -284,7 +260,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
           for (String key : unique) {
             System.out.println(key + ": " + Collections.frequency(titles, key));
             Random rnd = new Random();
-            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+            String hexes = colorHexes[rnd.nextInt(colorHexes.length)];
+            int color = Color.parseColor(hexes);
             int count = Collections.frequency(titles, key);
             PieModel pieModel = new PieModel(key, count, color);
             mPieChart.addPieSlice(pieModel);
@@ -352,22 +329,11 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mCandidateCompareResult.setTypeface(typefacelight);
     mQuestionHeaderTv.setTypeface(typefacelight);
     mMotionHeaderTv.setTypeface(typefacelight);
-    shareButton.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View view) {
-        if (ShareDialog.canShow(ShareLinkContent.class)) {
-          SharePhoto photo =
-              new SharePhoto.Builder().setBitmap(candidateImage.getDrawingCache()).build();
-          SharePhotoContent content = new SharePhotoContent.Builder().addPhoto(photo).build();
-          shareDialog.show(content);
-        }
-      }
-    });
   }
 
   @Override
   protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    callbackManager.onActivityResult(requestCode, resultCode, data);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -381,7 +347,13 @@ public class CandidateDetailActivity extends AppCompatActivity {
         finish();
         return true;
       case R.id.party_detail_action_share:
-        shareButton.performClick();
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setData(Uri.parse("http://188.166.240.34/share/" + candidate.getId()));
+        startActivity(Intent.createChooser(i, "Share Via"));
+        i.setType("text/plain");
+        i.putExtra(Intent.EXTRA_SUBJECT, candidate.getName());
+        i.putExtra(Intent.EXTRA_TEXT, "http://188.166.240.34/share/" + candidate.getId());
+        startActivity(Intent.createChooser(i, "Share Via"));
         return true;
       default:
         return super.onOptionsItemSelected(item);

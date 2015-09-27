@@ -15,6 +15,7 @@ import java.util.Map;
 import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.utils.FontCache;
+import org.mmaug.mae.utils.MixUtils;
 
 /**
  * Created by yemyatthu on 9/24/15.
@@ -23,9 +24,13 @@ public class ToyFigurePagerAdapter extends PagerAdapter {
   private LinearLayout mCurrentItem;
   private Map<String, Integer> candidateCount = new HashMap<>();
   private Context mContext;
+  private int mColor;
+  private boolean mCurrent;
 
-  public ToyFigurePagerAdapter() {
-
+  public ToyFigurePagerAdapter(Context context,boolean current) {
+    mContext = context;
+    mColor = mContext.getResources().getColor(R.color.red);
+    mCurrent = current;
   }
 
   public void setItems(Map<String, Integer> candidateCount) {
@@ -68,7 +73,7 @@ public class ToyFigurePagerAdapter extends PagerAdapter {
 
     int realCandidateCount;
     int seatCandidateCount;
-    int countToFilter;
+    int countToFilter = 0;
     switch (position) {
       case 0:
         countToFilter = candidateCount.get(Config.AMYOTHAE_HLUTTAW);
@@ -94,8 +99,11 @@ public class ToyFigurePagerAdapter extends PagerAdapter {
     Resources res = mContext.getResources();
     String realCountStr;
     if (realCandidateCount > 0) {
-      realCountStr = String.format(res.getString(R.string.current_compare_result),
-          String.valueOf(realCandidateCount));
+      if(mCurrent) {
+        realCountStr = String.format(res.getString(R.string.current_compare_result), MixUtils.convertToBurmese(String.valueOf(realCandidateCount)));
+      }else{
+        realCountStr = String.format(res.getString(R.string.prev_compare_result), MixUtils.convertToBurmese(String.valueOf(realCandidateCount)));
+      }
     } else {
       realCountStr = res.getString(R.string.current_compare_result_zero);
     }
@@ -103,10 +111,10 @@ public class ToyFigurePagerAdapter extends PagerAdapter {
 
     String seatCountStr;
     seatCountStr = String.format(res.getString(R.string.current_compare_head),
-        String.valueOf(seatCandidateCount));
+        MixUtils.convertToBurmese(String.valueOf(seatCandidateCount)));
     compareHeader.setText(seatCountStr);
 
-    colorFilterImageViews(toyImageGroup, countToFilter);
+    colorFilterImageViews(toyImageGroup, countToFilter,mColor);
     container.addView(linearLayout);
     return linearLayout;
   }
@@ -124,15 +132,18 @@ public class ToyFigurePagerAdapter extends PagerAdapter {
     return mCurrentItem;
   }
 
-  private void colorFilterImageViews(ViewGroup parent, int countToColor) {
+  private void colorFilterImageViews(ViewGroup parent, int countToColor,int color) {
     for (int i = 0; i < parent.getChildCount(); i++) {
       if (i < countToColor - 1) {
-        ((ImageView) parent.getChildAt(i)).setColorFilter(
-            mContext.getResources().getColor(R.color.red));
+        ((ImageView) parent.getChildAt(i)).setColorFilter(color);
       } else {
         ((ImageView) parent.getChildAt(i)).setColorFilter(
             mContext.getResources().getColor(R.color.mdtp_light_gray));
       }
     }
+  }
+  public void setFilterColor(int color){
+    mColor = color;
+    notifyDataSetChanged();
   }
 }

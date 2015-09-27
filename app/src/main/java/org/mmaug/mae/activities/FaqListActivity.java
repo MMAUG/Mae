@@ -64,7 +64,7 @@ public class FaqListActivity extends AppCompatActivity
 
     mToolbar.setTitle(getString(R.string.FaqList));
     setSupportActionBar(mToolbar);
-    mRESTService = RESTClient.getMPSService();
+    mRESTService = RESTClient.getMPSService(this);
     ActionBar mActionBar = getSupportActionBar();
     if (mActionBar != null) {
       // Showing Back Arrow  <-

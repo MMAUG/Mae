@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.TextView;
 import java.util.ArrayList;
 import org.mmaug.mae.R;
+import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MixUtils;
 
 /**
@@ -42,6 +44,7 @@ public class BoardView extends View {
   private GameListener listener;
   private String[] candidateName;
   private int[] color = new int[3];
+  private Typeface typefacelight;
 
   int normalTextSize;
 
@@ -60,6 +63,8 @@ public class BoardView extends View {
     marginSmall = (int) MixUtils.convertDpToPixel(context, 8);
     padding = (int) MixUtils.convertDpToPixel(context, 4);
 
+    typefacelight = FontCache.get("pyidaungsu.ttf", context);
+
     normalTextSize = (int) MixUtils.convertDpToPixel(context, 10);
     //background rect paint
     background.setColor(res.getColor(R.color.board_background));
@@ -73,6 +78,7 @@ public class BoardView extends View {
     textPaint.setColor(res.getColor(R.color.grey));
     textPaint.setAntiAlias(true);
     textPaint.setStyle(Paint.Style.FILL);
+    textPaint.setTypeface(typefacelight);
 
     //flag paint
     partyFlagPaint.setAntiAlias(true);
@@ -198,6 +204,7 @@ public class BoardView extends View {
     alredyDrawn = false;
     invalidate();
   }
+
   @Override protected void onDraw(Canvas canvas) {
     this.canvas = canvas;
     drawBoard();
@@ -243,9 +250,8 @@ public class BoardView extends View {
       }
 
       Rect rect = new Rect(left, top, right, bottom);
-      if (j == 2) {
-        rects.add(rect);
-      }
+      rects.add(rect);
+
       canvas.drawRect(rect, gridPaint);
       if (j == 1) {
         partyFlagPaint.setColor(color[i]);
@@ -260,11 +266,93 @@ public class BoardView extends View {
   }
 
   private boolean checkWithinBounds(int x, int y) {
+    int left = x - (stamp.getWidth() / 2);
+    int top = y - (stamp.getHeight() / 2);
+    int right = x + (stamp.getWidth() / 2);
+    int bottom = y + (stamp.getHeight() / 2);
+    int percent = 4 * (stamp.getWidth() / 10);
+    Rect[] rows = {
+        new Rect(rects.get(0).left, rects.get(0).top, rects.get(2).right, rects.get(0).bottom),
+        new Rect(rects.get(3).left, rects.get(3).top, rects.get(5).right, rects.get(3).bottom),
+        new Rect(rects.get(6).left, rects.get(6).top, rects.get(8).right, rects.get(6).bottom)
+    };
+
+    //if the stamp is exactly inside a rect, the it is valid
     for (Rect rect : rects) {
-      if (rect.left < (x - (stamp.getWidth() / 2))
-          && rect.top < (y - (stamp.getHeight() / 2))
-          && rect.right > (x + (stamp.getWidth() / 2))
-          && rect.bottom > (y + (stamp.getHeight() / 2))) {
+      if (rect.left < left && rect.top < top && rect.right > right && rect.bottom > bottom) {
+        return true;
+      }
+    }
+
+    //if the stamp is inside the row of particular candidate, it is valid
+    for (Rect row : rows) {
+      if (row.left < left && row.top < top && row.right > right && row.bottom > bottom) return true;
+    }
+
+    if (rows[0].contains(left, bottom) && rows[0].contains(right, bottom) && !rows[0].contains(left,
+        top) && !rows[0].contains(right, top)) {
+      //if the bottom of stamp is partially inside row 0, it is valid
+      return true;
+    } else if (rows[0].contains(left, bottom) && !rows[0].contains(right, top) && !rows[0].contains(
+        left, top) && !rows[0].contains(right, bottom)) {
+      //if the left bottom corner of stamp is partially inside row 0, it is valid
+      return true;
+    } else if (rows[0].contains(right, bottom) && !rows[0].contains(left, top) && !rows[0].contains(
+        left, bottom) && !rows[0].contains(right, top)) {
+      //if the right bottom corner of stamp is partially inside row 0, it is valid
+      return true;
+    }
+
+    if (rows[2].contains(left, top) && rows[2].contains(right, top) && !rows[2].contains(left,
+        bottom) && !rows[2].contains(right, bottom)) {
+      //if the top of the stamp is partially inside row 2, it is valid
+      return true;
+    } else if (rows[2].contains(left, top) && !rows[2].contains(right, top) && !rows[2].contains(
+        left, bottom) &&
+        !rows[2].contains(right, bottom)) {
+      //if the top left corner of the stamp is partially inside row 2, it is valid
+      return true;
+    } else if (rows[2].contains(right, top) && !rows[2].contains(left, top) && !rows[2].contains(
+        left, bottom) && !rows[2].contains(right, bottom)) {
+      //if the top right corner of the stamp is partially inside row 2, it is valid
+      return true;
+    }
+
+    //check if right and left of the stamp is partially inside row
+    for (Rect row : rows) {
+      if (row.contains(right, top) && row.contains(right, bottom) && !row.contains(left, top) &&
+          !row.contains(left, bottom)) {
+        return true;
+      } else if (row.contains(left, top)
+          && row.contains(left, bottom)
+          && !row.contains(right, top)
+          && !row.contains(right, bottom)) {
+        return true;
+      }
+    }
+
+    // check percentage if the stamp is at intersection of Rect
+    for (Rect rect : rects) {
+      if (rect.contains(left, top) && rect.contains(right, top) && rect.bottom > (bottom - percent)
+          || (rect.contains(right, top) && rect.contains(right, bottom) && rects.get(0).left < (left
+          - percent))
+          || (rect.contains(left, top) && rect.contains(left, bottom) && rect.right > (right
+          - percent))
+          || (rect.contains(left, bottom) && rect.contains(right, bottom) && rect.top < (top
+          - percent))) {
+        return true;
+      }
+    }
+
+    // check percentage if the stamp is at intersection of row
+    for (Rect rect : rows) {
+      if (rect.contains(left, top) && rect.contains(right, top) && rect.bottom > (bottom - percent)
+          || (rect.contains(right, top) && rect.contains(right, bottom) && rects.get(0).left < (left
+          - percent))
+          || (rect.contains(left, top) && rect.contains(left, bottom) && rect.right > (right
+          - percent))
+          || (rect.contains(left, bottom) && rect.contains(right, bottom) && rect.top < (top
+          - percent))) {
         return true;
       }
     }
@@ -297,7 +385,8 @@ public class BoardView extends View {
     tv.setTextColor(res.getColor(R.color.grey));
     tv.setTextSize(textSize);
     tv.setSingleLine(false);
-    tv.setLineSpacing(0.0f, 1.2f);
+    tv.setLineSpacing(0.0f, 0.8f);
+    tv.setTypeface(typefacelight);
     tv.setDrawingCacheEnabled(true);
 
     // we need to setup how big the view should be..which is exactly as big as the canvas
