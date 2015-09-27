@@ -155,6 +155,7 @@ public class SignUpFragment extends Fragment
   @OnClick(R.id.skip_card_button) void SkipCard() {
     UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
     userPrefUtils.saveSkip(true);
+    isFirstTimeOrSkip = true;
     mainView.setVisibility(View.GONE);
     contenFragment.setVisibility(View.VISIBLE);
     HomeFragment homeFragment = new HomeFragment();
@@ -205,17 +206,17 @@ public class SignUpFragment extends Fragment
       FragmentTransaction transaction = fm.beginTransaction();
       transaction.replace(R.id.contentFragment, homeFragment);
       transaction.commit();
-    } else {
-      if (isFirstTimeOrSkip) {
-        mainView.setVisibility(View.GONE);
-        contenFragment.setVisibility(View.VISIBLE);
-        HomeFragment homeFragment = new HomeFragment();
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.contentFragment, homeFragment);
-        transaction.commit();
-      }
     }
+    if (isFirstTimeOrSkip) {
+      mainView.setVisibility(View.GONE);
+      contenFragment.setVisibility(View.VISIBLE);
+      HomeFragment homeFragment = new HomeFragment();
+      FragmentManager fm = getActivity().getSupportFragmentManager();
+      FragmentTransaction transaction = fm.beginTransaction();
+      transaction.replace(R.id.contentFragment, homeFragment);
+      transaction.commit();
+    }
+
     return rootView;
   }
 
