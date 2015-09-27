@@ -1,5 +1,6 @@
 package org.mmaug.mae.fragments;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -75,15 +76,18 @@ public class SignUpFragment extends Fragment
   private ArrayList<DataUtils.Township> found = new ArrayList<>();
   private TownshipAdapter adapter;
   private String townshipGson;
+  private boolean isValid;
 
   @OnClick(R.id.sign_up_card) void checkVote() {
-
     if (checkFieldisValid()) {
+
       Toast toast = new Toast(getActivity());
       TextView textView = new TextView(getActivity());
       Typeface typefacelight = FontCache.get("pyidaungsu.ttf", getActivity());
       textView.setText("အချက်အလက်များကို ပြည့်စုံစွာဖြည့်စွက်ပေးပါ");
       textView.setTypeface(typefacelight);
+      textView.setPadding(16, 16, 16, 16);
+      textView.setTextColor(Color.WHITE);
       textView.setBackgroundColor(getResources().getColor(R.color.accent_color));
       toast.setView(textView);
       toast.setGravity(Gravity.CENTER, 0, 10);
@@ -102,7 +106,8 @@ public class SignUpFragment extends Fragment
       params.put(Config.NRC, voterNrc);
       params.put(Config.FATHER_NAME, mFatherName.getText().toString());
       params.put(Config.TOWNSHIP, mTownship.getText().toString());
-      final Call<User> registerUser = RESTClient.getService().registerUser(params);
+
+      final Call<User> registerUser = RESTClient.getService(getActivity()).registerUser(params);
       registerUser.enqueue(new Callback<User>() {
         UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
 
@@ -134,6 +139,17 @@ public class SignUpFragment extends Fragment
     }
   }
 
+  private boolean checkFieldisValid() {
+    if (mUserName.getText().equals(null) && mTownship.getText().equals(null)
+        && mFatherName.getText().equals(null) &&
+        mNrcNo.getText().equals(null) && mDateOfBirth.getText().equals(null)
+        && mNrcTownShip.getText().equals(null) && mNrcValue.getText().equals(null)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   @OnClick(R.id.skip_card_button) void SkipCard() {
     mainView.setVisibility(View.GONE);
     contenFragment.setVisibility(View.VISIBLE);
@@ -162,6 +178,8 @@ public class SignUpFragment extends Fragment
     //search township view
     initRecyclerView();
     initEditText();
+    UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
+    isValid = userPrefUtils.isValid();
 
     mainView.setVisibility(View.VISIBLE);
     now = Calendar.getInstance();
@@ -170,11 +188,19 @@ public class SignUpFragment extends Fragment
     defaultDate = now.get(Calendar.DAY_OF_MONTH);
     Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", getActivity());
     Typeface typefacelight = FontCache.get("pyidaungsu.ttf", getActivity());
-
     toCheckMae.setTypeface(typefaceTitle);
     checkButton.setTypeface(typefacelight);
     myanmarTextPlease.setTypeface(typefacelight);
     skip_card_button.setTypeface(typefacelight);
+    if (isValid) {
+      mainView.setVisibility(View.GONE);
+      contenFragment.setVisibility(View.VISIBLE);
+      HomeFragment homeFragment = new HomeFragment();
+      FragmentManager fm = getActivity().getSupportFragmentManager();
+      FragmentTransaction transaction = fm.beginTransaction();
+      transaction.replace(R.id.contentFragment, homeFragment);
+      transaction.commit();
+    }
     return rootView;
   }
 
@@ -240,17 +266,6 @@ public class SignUpFragment extends Fragment
     adapter.setTownships(found);
   }
 
-  private boolean checkFieldisValid() {
-    if (mUserName.getText().equals(null) && mTownship.getText().equals(null)
-        && mFatherName.getText().equals(null) &&
-        mNrcNo.getText().equals(null) && mDateOfBirth.getText().equals(null)
-        && mNrcTownShip.getText().equals(null) && mNrcValue.getText().equals(null)) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   private ArrayList<DataUtils.Township> searchTownshipInEng(String input,
       ArrayList<DataUtils.Township> listToSearch) {
     ArrayList<DataUtils.Township> found = new ArrayList<>();
@@ -283,3 +298,5 @@ public class SignUpFragment extends Fragment
     townshipGson = new Gson().toJson(found.get(position));
   }
 }
+
+

@@ -24,7 +24,7 @@ public class Config {
    * MaePaySoh API
    **/
 
-  public static final String MPS_BASE_URL = "http://api.maepaysoh.org/";
+  public static final String MPS_BASE_URL = "http://188.166.240.34/api/v1/mps/";
   //param
   public static final String PAGE = "page";
   public static final String WITH = "_with";

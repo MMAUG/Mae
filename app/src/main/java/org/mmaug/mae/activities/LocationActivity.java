@@ -112,8 +112,7 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
     } else {
       // TODO: 9/18/15 Insert Choosen DT_PCODE here
       params.put("dt_pcode", myTownShip.getDPcode());
-      params.put("token", "3db8827d-2521-57be-987a-e9e366874d4b");
-      final Call<GeoReturnObject> geoCall = RESTClient.getMPSService().getLocationList(params);
+      final Call<GeoReturnObject> geoCall = RESTClient.getMPSService(this).getLocationList(params);
       geoCall.enqueue(new Callback<GeoReturnObject>() {
         @Override public void onResponse(Response<GeoReturnObject> response) {
           Geo geo = response.body().getData().get(0);
@@ -315,7 +314,7 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
     //TODO remove hardcoded PCODE
     Log.e("DTPCODE", "" + found.get(i).getDPcode());
     pyithuParams.put(Config.DT_PCODE, found.get(i).getDPcode());
-    final Call<GeoReturnObject> geoCall = RESTClient.getMPSService().getLocationList(pyithuParams);
+    final Call<GeoReturnObject> geoCall = RESTClient.getMPSService(this).getLocationList(pyithuParams);
     geoCall.enqueue(new Callback<GeoReturnObject>() {
       @Override public void onResponse(Response<GeoReturnObject> response) {
         Geo geo = response.body().getData().get(0);

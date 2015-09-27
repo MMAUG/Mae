@@ -194,7 +194,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mCandidateLegalSlature.setText(candidate.getLegislature());
     mCandidateParty.setText(candidate.getParty().getPartyName());
     mCandidateAddress.setText(candidate.getWardVillage());
-    mRESTService = RESTClient.getService();
+    mRESTService = RESTClient.getService(this);
     if (candidate.getMpid() == null) {
       mCompareCandidate.setCardBackgroundColor(getResources().getColor(R.color.accent_color_error));
       mCandidateCompareResult.setText(getResources().getString(R.string.first_time_candidate));
