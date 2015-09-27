@@ -77,10 +77,10 @@ public class SignUpFragment extends Fragment
   private TownshipAdapter adapter;
   private String townshipGson;
   private boolean isValid;
+  private boolean isFirstTimeOrSkip;
 
   @OnClick(R.id.sign_up_card) void checkVote() {
     if (checkFieldisValid()) {
-
       Toast toast = new Toast(getActivity());
       TextView textView = new TextView(getActivity());
       Typeface typefacelight = FontCache.get("pyidaungsu.ttf", getActivity());
@@ -114,8 +114,10 @@ public class SignUpFragment extends Fragment
         @Override public void onResponse(Response<User> response) {
           if (response.code() == 200) {
             userPrefUtils.setValid(true);
+            userPrefUtils.saveSkip(true);
           } else {
             userPrefUtils.setValid(false);
+            userPrefUtils.saveSkip(false);
           }
           userPrefUtils.saveUserName(params.get(Config.VOTER_NAME));
           userPrefUtils.saveBirthDate(params.get(Config.DATE_OF_BIRTH));
@@ -151,6 +153,8 @@ public class SignUpFragment extends Fragment
   }
 
   @OnClick(R.id.skip_card_button) void SkipCard() {
+    UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
+    userPrefUtils.saveSkip(true);
     mainView.setVisibility(View.GONE);
     contenFragment.setVisibility(View.VISIBLE);
     HomeFragment homeFragment = new HomeFragment();
@@ -180,6 +184,7 @@ public class SignUpFragment extends Fragment
     initEditText();
     UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
     isValid = userPrefUtils.isValid();
+    isFirstTimeOrSkip = userPrefUtils.isSKIP();
 
     mainView.setVisibility(View.VISIBLE);
     now = Calendar.getInstance();
@@ -200,6 +205,16 @@ public class SignUpFragment extends Fragment
       FragmentTransaction transaction = fm.beginTransaction();
       transaction.replace(R.id.contentFragment, homeFragment);
       transaction.commit();
+    } else {
+      if (isFirstTimeOrSkip) {
+        mainView.setVisibility(View.GONE);
+        contenFragment.setVisibility(View.VISIBLE);
+        HomeFragment homeFragment = new HomeFragment();
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.contentFragment, homeFragment);
+        transaction.commit();
+      }
     }
     return rootView;
   }
