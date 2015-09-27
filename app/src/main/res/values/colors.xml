@@ -6,6 +6,7 @@
   <color name="accent_color">#4CAF50</color>
   <color name="accent_color_error">#FF4081</color>
 
+  <color name="primary_text_black">#212121</color>
   <color name="primary_text_color">#6c6c6c</color>
   <color name="secondary_text_color">#b4b4b4</color>
   <color name="divider">#f0f0f0</color>
