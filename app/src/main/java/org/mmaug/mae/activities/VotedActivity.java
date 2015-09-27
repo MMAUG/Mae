@@ -3,14 +3,16 @@ package org.mmaug.mae.activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -20,6 +22,7 @@ import java.util.Date;
 import java.util.Locale;
 import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseActivity;
+import org.mmaug.mae.utils.FontCache;
 
 public class VotedActivity extends BaseActivity {
 
@@ -28,11 +31,21 @@ public class VotedActivity extends BaseActivity {
 
   Uri fileUri = null;
   @Bind(R.id.image_frame) ImageView image_frame;
+  @Bind(R.id.image) ImageView camera;
+  @Bind(R.id.descriptionText) TextView descriptionText;
+  @Bind(R.id.voter_check_ok_btn) TextView voteButton;
+  @Bind(R.id.mae_title) TextView mae_title;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_voted);
     ButterKnife.bind(this);
+    camera.setVisibility(View.VISIBLE);
+    mae_title.setVisibility(View.VISIBLE);
+    Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
+    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
+    mae_title.setTypeface(typefaceTitle);
+    descriptionText.setTypeface(typefaceTitle);
+    voteButton.setTypeface(typefacelight);
   }
 
   @OnClick(R.id.image) void Voted() {
@@ -65,7 +78,7 @@ public class VotedActivity extends BaseActivity {
   }
 
   @Override protected int getLayoutResource() {
-    return 0;
+    return R.layout.activity_voted;
   }
 
   @Override protected boolean getHomeUpEnabled() {
@@ -86,20 +99,30 @@ public class VotedActivity extends BaseActivity {
         Uri photoUri = null;
         if (data == null) {
           // A known bug here! The image should have saved in fileUri
-          Toast.makeText(this, "Image saved successfully", Toast.LENGTH_LONG).show();
           photoUri = fileUri;
         } else {
           photoUri = data.getData();
-          Toast.makeText(this, "Image saved successfully in: " + data.getData(), Toast.LENGTH_LONG)
-              .show();
         }
         showPhoto(photoUri.getPath());
       } else if (resultCode == RESULT_CANCELED) {
-        Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
       } else {
-        Toast.makeText(this, "Callout for image capture failed!", Toast.LENGTH_LONG).show();
       }
     }
+  }
+
+  @OnClick(R.id.voter_check_ok_btn) void voted() {
+    initShareIntent("image/jpeg", "Sample Text");
+  }
+
+  private void initShareIntent(String type, String _text) {
+    Intent shareIntent = new Intent();
+    shareIntent.setAction(Intent.ACTION_SEND);
+    shareIntent.putExtra(Intent.EXTRA_TEXT, _text);
+    shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(
+        new File(fileUri.getPath())));  //optional//use this when you want to send an image
+    shareIntent.setType("image/jpeg");
+    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+    startActivity(Intent.createChooser(shareIntent, "send"));
   }
 
   private void showPhoto(String photoUri) {
@@ -107,8 +130,12 @@ public class VotedActivity extends BaseActivity {
     if (imageFile.exists()) {
       Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
       BitmapDrawable drawable = new BitmapDrawable(this.getResources(), bitmap);
-      image_frame.setScaleType(ImageView.ScaleType.FIT_CENTER);
+      image_frame.setScaleType(ImageView.ScaleType.CENTER_CROP);
       image_frame.setImageDrawable(drawable);
+      image_frame.setVisibility(View.VISIBLE);
+      descriptionText.setVisibility(View.VISIBLE);
+      voteButton.setVisibility(View.VISIBLE);
+      camera.setVisibility(View.GONE);
     }
   }
 }

@@ -8,20 +8,63 @@
     tools:context="org.mmaug.mae.activities.VotedActivity"
     >
 
+  <TextView
+      android:visibility="gone"
+      android:gravity="center"
+      android:padding="8dp"
+      android:textColor="@android:color/white"
+      android:id="@+id/mae_title"
+      android:layout_above="@+id/image"
+      android:text="မဲပေးပြီးကြောင်းသက်သေထူမည်"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      />
+
   <ImageView
       android:visibility="gone"
       android:id="@+id/image_frame"
+      android:layout_width="200dp"
+      android:layout_height="200dp"
       android:layout_centerInParent="true"
-      android:layout_width="wrap_content"
+      />
+
+  <TextView
+      android:visibility="gone"
+      android:gravity="center"
+      android:padding="8dp"
+      android:textColor="@android:color/white"
+      android:id="@+id/descriptionText"
+      android:layout_above="@+id/image_frame"
+      android:text="မဲပေးနိုင်သူ တစ်ယောက်အဖြစ် လူမှုကွန်ရက်တွင် ကြေညာလိုက်ပါ"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
       />
+
   <ImageView
+      android:scaleType="centerCrop"
       android:id="@+id/image"
       android:visibility="gone"
       android:background="@drawable/camera"
       android:layout_centerInParent="true"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      />
+
+  <TextView
+      android:visibility="gone"
+      android:layout_centerHorizontal="true"
+      android:id="@+id/voter_check_ok_btn"
+      style="@style/TextAppearance.AppCompat.Button"
+      android:textColor="@color/white"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:layout_marginTop="@dimen/spacing_major"
+      android:layout_below="@+id/image_frame"
+      android:padding="@dimen/spacing_major"
+      android:background="@color/accent_color"
+      android:foreground="?attr/selectableItemBackground"
+      android:text="ကြေညာမည်"
       />
 
 </RelativeLayout>
