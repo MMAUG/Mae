@@ -2,43 +2,113 @@ package org.mmaug.mae.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import org.mmaug.mae.R;
+import org.mmaug.mae.base.BaseActivity;
 
-public class VotedActivity extends AppCompatActivity {
-  @Bind(R.id.image) ImageView imageView;
-  @Bind(R.id.image_frame) ImageView imageFrame;
+public class VotedActivity extends BaseActivity {
+
+  private static final String TAG = "CallCamera";
+  private static final int CAPTURE_IMAGE_ACTIVITY_REQ = 0;
+
+  Uri fileUri = null;
+  @Bind(R.id.image_frame) ImageView image_frame;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_voted);
     ButterKnife.bind(this);
-    imageView.setVisibility(View.VISIBLE);
-  }
-
-  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    if (requestCode == 0 && resultCode == RESULT_OK) {
-      Bitmap photo = (Bitmap) data.getExtras().get("data");
-      imageFrame.setVisibility(View.VISIBLE);
-      imageFrame.setImageBitmap(photo);
-    }
   }
 
   @OnClick(R.id.image) void Voted() {
-    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-    if (takePictureIntent.resolveActivity(this.getPackageManager()) != null) {
-      takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-          Uri.fromFile(new File("sdcard/captured")));
-      startActivityForResult(takePictureIntent, 0);
+    takeImage();
+  }
+
+  private File getOutputPhotoFile() {
+
+    File directory =
+        new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+            getPackageName());
+
+    if (!directory.exists()) {
+      if (!directory.mkdirs()) {
+        Log.e(TAG, "Failed to create storage directory.");
+        return null;
+      }
+    }
+
+    String timeStamp = new SimpleDateFormat("yyyMMdd_HHmmss", Locale.US).format(new Date());
+
+    return new File(directory.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
+  }
+
+  void takeImage() {
+    Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+    fileUri = Uri.fromFile(getOutputPhotoFile());
+    i.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+    startActivityForResult(i, CAPTURE_IMAGE_ACTIVITY_REQ);
+  }
+
+  @Override protected int getLayoutResource() {
+    return 0;
+  }
+
+  @Override protected boolean getHomeUpEnabled() {
+    return true;
+  }
+
+  @Override protected boolean needToolbar() {
+    return true;
+  }
+
+  @Override protected String getToolbarText() {
+    return null;
+  }
+
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQ) {
+      if (resultCode == RESULT_OK) {
+        Uri photoUri = null;
+        if (data == null) {
+          // A known bug here! The image should have saved in fileUri
+          Toast.makeText(this, "Image saved successfully", Toast.LENGTH_LONG).show();
+          photoUri = fileUri;
+        } else {
+          photoUri = data.getData();
+          Toast.makeText(this, "Image saved successfully in: " + data.getData(), Toast.LENGTH_LONG)
+              .show();
+        }
+        showPhoto(photoUri.getPath());
+      } else if (resultCode == RESULT_CANCELED) {
+        Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
+      } else {
+        Toast.makeText(this, "Callout for image capture failed!", Toast.LENGTH_LONG).show();
+      }
+    }
+  }
+
+  private void showPhoto(String photoUri) {
+    File imageFile = new File(photoUri);
+    if (imageFile.exists()) {
+      Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+      BitmapDrawable drawable = new BitmapDrawable(this.getResources(), bitmap);
+      image_frame.setScaleType(ImageView.ScaleType.FIT_CENTER);
+      image_frame.setImageDrawable(drawable);
     }
   }
 }

@@ -15,6 +15,7 @@ import java.util.Map;
 import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.utils.FontCache;
+import org.mmaug.mae.utils.MixUtils;
 
 /**
  * Created by yemyatthu on 9/24/15.
@@ -97,7 +98,7 @@ public class ToyFigurePagerAdapter extends PagerAdapter {
     String realCountStr;
     if (realCandidateCount > 0) {
       realCountStr = String.format(res.getString(R.string.current_compare_result),
-          String.valueOf(realCandidateCount));
+          MixUtils.convertToBurmese(String.valueOf(realCandidateCount)));
     } else {
       realCountStr = res.getString(R.string.current_compare_result_zero);
     }
@@ -105,7 +106,7 @@ public class ToyFigurePagerAdapter extends PagerAdapter {
 
     String seatCountStr;
     seatCountStr = String.format(res.getString(R.string.current_compare_head),
-        String.valueOf(seatCandidateCount));
+        MixUtils.convertToBurmese(String.valueOf(seatCandidateCount)));
     compareHeader.setText(seatCountStr);
 
     colorFilterImageViews(toyImageGroup, countToFilter,mColor);
