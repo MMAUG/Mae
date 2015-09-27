@@ -103,11 +103,11 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     });
 
     UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
-    if(userPrefUtils.isValid()){
+    if (userPrefUtils.isValid()) {
       backdrop.setBackgroundColor(getResources().getColor(R.color.accent_color));
       txt_cardview_vote_check.setTextColor(Color.WHITE);
       valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_mark));
-    }else{
+    } else {
       backdrop.setBackgroundColor(Color.parseColor("#FFC107"));
       valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_exclamation_mark));
       txt_cardview_vote_check.setTextColor(Color.WHITE);
@@ -156,8 +156,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     startActivity(intent);
   }
 
-  @OnClick(R.id.cardview_vote_check)
-  public void showVoteResult(CardView textView) {
+  @OnClick(R.id.cardview_vote_check) public void showVoteResult(CardView textView) {
     //// TODO: 9/15/15 Handle the NOT OK result <Ye Myat Thu>
     UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
     boolean ok = userPrefUtils.isValid();
@@ -165,10 +164,17 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     voteResultDialog =
         new Dialog(getActivity(), android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
     if (ok) {
+      Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", getActivity());
+      Typeface typefacelight = FontCache.get("pyidaungsu.ttf", getActivity());
       view = getActivity().getLayoutInflater().inflate(R.layout.dialog_voter_check_ok, null);
       View myTargetView = view.findViewById(R.id.circle_full);
       View mySourceView = view.findViewById(R.id.circle_empty);
-      View okBtn = view.findViewById(R.id.voter_check_ok_btn);
+      TextView okBtn = (TextView) view.findViewById(R.id.voter_check_ok_btn);
+      TextView txt_recheck = (TextView) view.findViewById(R.id.txt_recheck);
+      TextView voter_check_not_ok = (TextView) view.findViewById(R.id.voter_check_not_ok);
+      voter_check_not_ok.setTypeface(typefaceTitle);
+      txt_recheck.setTypeface(typefaceTitle);
+      okBtn.setTypeface(typefaceTitle);
       //myTargetView & mySourceView are children in the CircularFrameLayout
       float finalRadius = CircularAnimationUtils.hypo(200, 200);
       ////getCenter computes from 2 view: One is touched, and one will be animated, but you can use anything for center
@@ -192,8 +198,15 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         }
       });
     } else {
+      Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", getActivity());
+      Typeface typefacelight = FontCache.get("pyidaungsu.ttf", getActivity());
       view = getActivity().getLayoutInflater().inflate(R.layout.dialog_voter_check_not_ok, null);
-      View okBtn = view.findViewById(R.id.voter_check_ok_btn);
+      TextView okBtn = (TextView) view.findViewById(R.id.voter_check_ok_btn);
+      TextView txt_recheck = (TextView) view.findViewById(R.id.txt_recheck);
+      TextView voter_check_not_ok = (TextView) view.findViewById(R.id.voter_check_not_ok);
+      voter_check_not_ok.setTypeface(typefaceTitle);
+      txt_recheck.setTypeface(typefaceTitle);
+      okBtn.setTypeface(typefaceTitle);
       voteResultDialog.setContentView(view);
       voteResultDialog.show();
       okBtn.setOnClickListener(new View.OnClickListener() {

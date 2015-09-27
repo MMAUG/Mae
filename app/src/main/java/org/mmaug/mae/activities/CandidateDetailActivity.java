@@ -43,6 +43,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -124,7 +125,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
     setTypeFace();
 
     shareDialog = new ShareDialog(this);
-    facebooklogin.setPublishPermissions("publish_stream");
+
+    facebooklogin.setPublishPermissions(Arrays.asList("publish_stream"));
 
     mListener = new AppBarLayout.OnOffsetChangedListener() {
       @Override public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
