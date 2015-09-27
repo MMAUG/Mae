@@ -79,4 +79,8 @@ public class UserPrefUtils {
   public boolean isSKIP() {
     return mSharedPreferences.getBoolean(SKIP_VALID, false);
   }
+
+  public void setSKIP(boolean skip) {
+    mSharedPreferences.edit().putBoolean(SKIP_VALID,skip).apply();
+  }
 }
