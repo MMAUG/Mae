@@ -173,7 +173,7 @@ public class PartyDetailActivity extends AppCompatActivity {
                     CurrentCollection.class);
                 currentCandidateCount.clear();
 
-                currentPagerAdapter = new ToyFigurePagerAdapter(PartyDetailActivity.this);
+                currentPagerAdapter = new ToyFigurePagerAdapter(PartyDetailActivity.this,true);
                 if (currentAmyotharCount > 0) {
 
                   currentCandidateCount.put(Config.AMYOTHAE_HLUTTAW,
@@ -208,7 +208,7 @@ public class PartyDetailActivity extends AppCompatActivity {
                 mCurrentTabLayout.setupWithViewPager(mCurrentViewPager);
 
 
-                prevPagerAdapter = new ToyFigurePagerAdapter(PartyDetailActivity.this);
+                prevPagerAdapter = new ToyFigurePagerAdapter(PartyDetailActivity.this,false);
                 JsonObject amyotharMembers = mAmyothaCurrentCollection.getMembers();
                 if(amyotharMembers.has(party.getPartyId())){
                   prevAmyotharCount = amyotharMembers.get(party.getPartyId()).getAsInt();

@@ -81,7 +81,7 @@ public class SignUpFragment extends Fragment
   private boolean isFirstTimeOrSkip;
 
   @OnClick(R.id.sign_up_card) void checkVote() {
-    if (checkFieldisValid()) {
+    if (!checkFieldisValid()) {
       Toast toast = new Toast(getActivity());
       TextView textView = new TextView(getActivity());
       Typeface typefacelight = FontCache.get("pyidaungsu.ttf", getActivity());

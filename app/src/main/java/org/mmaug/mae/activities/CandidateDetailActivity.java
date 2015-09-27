@@ -185,7 +185,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
       mCandidateQuestionCard.setVisibility(View.GONE);
       mCandidateMotionCard.setVisibility(View.GONE);
     } else {
-      Call<JsonObject> motionCountCall = mRESTService.getMotionCount("UPMP-01-0142");
+      Call<JsonObject> motionCountCall = mRESTService.getMotionCount(candidate.getMpid());
       motionCountCall.enqueue(new Callback<JsonObject>() {
         @Override public void onResponse(Response<JsonObject> response) {
           int motionCount = response.body().get("count").getAsInt();
@@ -234,7 +234,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
 
         }
       });
-      Call<JsonObject> questionCountCall = mRESTService.getQuestionCount("UPMP-01-0142");
+      Call<JsonObject> questionCountCall = mRESTService.getQuestionCount(candidate.getMpid());
       questionCountCall.enqueue(new Callback<JsonObject>() {
         @Override public void onResponse(Response<JsonObject> response) {
           int questionCount = response.body().get("count").getAsInt();
@@ -246,7 +246,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
 
         }
       });
-      Call<JsonObject> questionCall = mRESTService.getQuestionDetail("UPMP-01-0142");
+      Call<JsonObject> questionCall = mRESTService.getQuestionDetail(candidate.getMpid());
       questionCall.enqueue(new Callback<JsonObject>() {
         @Override public void onResponse(Response<JsonObject> response) {
           JsonArray datas = response.body().get("data").getAsJsonArray();
@@ -349,6 +349,10 @@ public class CandidateDetailActivity extends AppCompatActivity {
       case R.id.party_detail_action_share:
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setData(Uri.parse("http://188.166.240.34/share/" + candidate.getId()));
+        startActivity(Intent.createChooser(i, "Share Via"));
+        i.setType("text/plain");
+        i.putExtra(Intent.EXTRA_SUBJECT, candidate.getName());
+        i.putExtra(Intent.EXTRA_TEXT, "http://188.166.240.34/share/" + candidate.getId());
         startActivity(Intent.createChooser(i, "Share Via"));
         return true;
       default:

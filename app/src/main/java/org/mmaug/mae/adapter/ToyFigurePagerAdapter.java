@@ -25,10 +25,12 @@ public class ToyFigurePagerAdapter extends PagerAdapter {
   private Map<String, Integer> candidateCount = new HashMap<>();
   private Context mContext;
   private int mColor;
+  private boolean mCurrent;
 
-  public ToyFigurePagerAdapter(Context context) {
+  public ToyFigurePagerAdapter(Context context,boolean current) {
     mContext = context;
     mColor = mContext.getResources().getColor(R.color.red);
+    mCurrent = current;
   }
 
   public void setItems(Map<String, Integer> candidateCount) {
@@ -71,7 +73,7 @@ public class ToyFigurePagerAdapter extends PagerAdapter {
 
     int realCandidateCount;
     int seatCandidateCount;
-    int countToFilter;
+    int countToFilter = 0;
     switch (position) {
       case 0:
         countToFilter = candidateCount.get(Config.AMYOTHAE_HLUTTAW);
@@ -97,8 +99,11 @@ public class ToyFigurePagerAdapter extends PagerAdapter {
     Resources res = mContext.getResources();
     String realCountStr;
     if (realCandidateCount > 0) {
-      realCountStr = String.format(res.getString(R.string.current_compare_result),
-          MixUtils.convertToBurmese(String.valueOf(realCandidateCount)));
+      if(mCurrent) {
+        realCountStr = String.format(res.getString(R.string.current_compare_result), MixUtils.convertToBurmese(String.valueOf(realCandidateCount)));
+      }else{
+        realCountStr = String.format(res.getString(R.string.prev_compare_result), MixUtils.convertToBurmese(String.valueOf(realCandidateCount)));
+      }
     } else {
       realCountStr = res.getString(R.string.current_compare_result_zero);
     }

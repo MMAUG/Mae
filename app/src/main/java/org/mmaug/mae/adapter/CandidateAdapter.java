@@ -1,5 +1,6 @@
 package org.mmaug.mae.adapter;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.Cand
 
   ArrayList<Candidate> candidates;
   private OnItemClickListener onItemClickListener;
+  private Context mContext;
 
   public CandidateAdapter() {
 
@@ -86,6 +88,10 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.Cand
     public CandidateViewHolder(View itemView) {
       super(itemView);
       ButterKnife.bind(this, itemView);
+      Typeface typefacelight = FontCache.get("pyidaungsu.ttf",itemView.getContext());
+      tvCandidateName.setTypeface(typefacelight);
+      tvCandidateDegree.setTypeface(typefacelight);
+      tvCandidateJob.setTypeface(typefacelight);
     }
 
 

@@ -47,7 +47,7 @@
             />
         <ImageView
             android:id="@+id/iv_candidate_party_flag"
-            android:layout_width="60dp"
+            android:layout_width="48dp"
             android:layout_height="36dp"
             android:scaleType="centerCrop"
             android:layout_gravity="center_vertical"

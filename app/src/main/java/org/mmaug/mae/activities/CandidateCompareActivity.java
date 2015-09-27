@@ -22,6 +22,7 @@ import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.models.Candidate;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.utils.FontCache;
+import org.mmaug.mae.utils.MixUtils;
 import org.mmaug.mae.view.AspectRatioImageView;
 import org.mmaug.mae.view.AutofitTextView;
 import org.mmaug.mae.view.CircularImageView;
@@ -94,6 +95,11 @@ public class CandidateCompareActivity extends BaseActivity {
                   getLayoutInflater().inflate(R.layout.question_compare_layout, motion_view, false);
               TextView questionText =
                   (TextView) question_indicator.findViewById(R.id.question_title);
+              TextView leftText =
+                  (TextView) question_indicator.findViewById(R.id.left_text);
+              TextView rightText = (TextView) question_indicator.findViewById(R.id.right_text);
+              leftText.setText(MixUtils.convertToBurmese(String.valueOf(obtainScrollOne)));
+              rightText.setText(MixUtils.convertToBurmese(String.valueOf(obtainScrollTwo)));
               questionText.setTypeface(typefacelight);
               RoundCornerProgressBar roundCornerProgressBar =
                   (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate1);
@@ -132,6 +138,11 @@ public class CandidateCompareActivity extends BaseActivity {
                 getLayoutInflater().inflate(R.layout.question_compare_layout, question_showcase,
                     false);
             TextView questionText = (TextView) question_indicator.findViewById(R.id.question_title);
+            TextView leftText =
+                (TextView) question_indicator.findViewById(R.id.left_text);
+            TextView rightText = (TextView) question_indicator.findViewById(R.id.right_text);
+            leftText.setText(MixUtils.convertToBurmese(String.valueOf(obtainScrollOne)));
+            rightText.setText(MixUtils.convertToBurmese(String.valueOf(obtainScrollTwo)));
             questionText.setTypeface(typefacelight);
             RoundCornerProgressBar roundCornerProgressBar =
                 (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate1);

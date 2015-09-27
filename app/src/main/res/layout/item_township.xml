@@ -8,5 +8,4 @@
     android:padding="@dimen/spacing_major"
     android:textSize="@dimen/text_size_small"
     android:background="?attr/selectableItemBackground"
-    android:textColor="@color/secondary_text_color"
     />
