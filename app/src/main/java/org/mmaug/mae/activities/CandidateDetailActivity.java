@@ -190,7 +190,11 @@ public class CandidateDetailActivity extends AppCompatActivity {
         @Override public void onResponse(Response<JsonObject> response) {
           int motionCount = response.body().get("count").getAsInt();
           motionMiddleText.setText("အဆို");
-          mMotionCount.setText(MixUtils.convertToBurmese(String.valueOf(motionCount)) + " ခု");
+          if(motionCount==0){
+            motionMiddleText.setText("ဒေတာအချက်အလက် မရှိပါ");
+          }else {
+            mMotionCount.setText(MixUtils.convertToBurmese(String.valueOf(motionCount)) + " ခု");
+          }
         }
 
         @Override public void onFailure(Throwable t) {
@@ -239,7 +243,11 @@ public class CandidateDetailActivity extends AppCompatActivity {
         @Override public void onResponse(Response<JsonObject> response) {
           int questionCount = response.body().get("count").getAsInt();
           mQuestionMiddleText.setText("ကဏ္ဍ");
-          mQuestionCount.setText(MixUtils.convertToBurmese(String.valueOf(questionCount)) + " ခု");
+          if(questionCount==0){
+            mQuestionMiddleText.setText("ဒေတာအချက်အလက် မရှိပါ");
+          }else {
+            mQuestionCount.setText(MixUtils.convertToBurmese(String.valueOf(questionCount)) + " ခု");
+          }
         }
 
         @Override public void onFailure(Throwable t) {

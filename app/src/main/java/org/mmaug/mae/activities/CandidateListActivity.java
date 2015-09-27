@@ -333,7 +333,7 @@ public class CandidateListActivity extends BaseActivity
               }
             });
             Collections.reverse(candidates);
-            
+
             //header section
             List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
 
