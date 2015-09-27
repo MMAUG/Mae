@@ -307,40 +307,61 @@ public class CandidateListActivity extends BaseActivity
     inflateCandiateAdapter(pyithuParams);
   }
 
-  private void inflateCandiateAdapter(Map<String, String> params) {
-    Call<CandidateListReturnObject> pyithuCall =
+  private void inflateCandiateAdapter(final Map<String, String> params) {
+    final Call<CandidateListReturnObject> pyithuCall =
         RESTClient.getMPSService(this).getCandidateList(params);
     pyithuCall.enqueue(new Callback<CandidateListReturnObject>() {
-      @Override public void onResponse(Response<CandidateListReturnObject> response) {
-        List<Candidate> candidates = response.body().getData();
+      @Override public void onResponse (Response<CandidateListReturnObject> response) {
+        final List<Candidate> candidates = response.body().getData();
+        System.out.println(response.body().getData());
+        Map<String,String> amyotharParams = new HashMap<String, String>();
+        amyotharParams.put(Config.PER_PAGE,"200");
+        amyotharParams.put(Config.WITH,"party");
+        amyotharParams.put(Config.LEGISLATURE,Config.AMYOTHAE_HLUTTAW);
+        amyotharParams.put(Config.CONSTITUENCY_ST_PCODE, params.get(Config.CONSTITUENCY_ST_PCODE));
+        Call<CandidateListReturnObject> amyotharCall = RESTClient.getMPSService(CandidateListActivity.this)
+            .getCandidateList(amyotharParams);
+        amyotharCall.enqueue(new Callback<CandidateListReturnObject>() {
+          @Override public void onResponse(Response<CandidateListReturnObject> response) {
+            if (response.isSuccess()) {
+              candidates.addAll(response.body().getData());
+            }
+            //sort
+            Collections.sort(candidates, new Comparator<Candidate>() {
+              @Override public int compare(Candidate lhs, Candidate rhs) {
+                return rhs.getLegislature().compareTo(lhs.getLegislature());
+              }
+            });
+            Collections.reverse(candidates);
+            
+            //header section
+            List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
 
-        //sort
-        Collections.sort(candidates, new Comparator<Candidate>() {
-          @Override public int compare(Candidate lhs, Candidate rhs) {
-            return rhs.getLegislature().compareTo(lhs.getLegislature());
+            for (int i = 0; i < candidates.size(); i++) {
+              Candidate location = candidates.get(i);
+              //get type from the array
+              if (sections.size() > 0) {
+                if (!checkSection(sections, location.getLegislature())) {
+                  sections.add(new SectionHeaderAdapter.Section(i, location.getLegislature()));
+                }
+              } else {
+                //add first type
+                sections.add(new SectionHeaderAdapter.Section(0, location.getLegislature()));
+              }
+            }
+
+            SectionHeaderAdapter.Section[] dummy =
+                new SectionHeaderAdapter.Section[sections.size()];
+            sectionAdapter.setSections(sections.toArray(dummy));
+            candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
+            showHideProgressBar(false);
+          }
+
+          @Override public void onFailure(Throwable t) {
+
           }
         });
 
-        //header section
-        List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
-
-        for (int i = 0; i < candidates.size(); i++) {
-          Candidate location = candidates.get(i);
-          //get type from the array
-          if (sections.size() > 0) {
-            if (!checkSection(sections, location.getLegislature())) {
-              sections.add(new SectionHeaderAdapter.Section(i, location.getLegislature()));
-            }
-          } else {
-            //add first type
-            sections.add(new SectionHeaderAdapter.Section(0, location.getLegislature()));
-          }
-        }
-
-        SectionHeaderAdapter.Section[] dummy = new SectionHeaderAdapter.Section[sections.size()];
-        sectionAdapter.setSections(sections.toArray(dummy));
-        candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
-        showHideProgressBar(false);
       }
 
       @Override public void onFailure(Throwable t) {
