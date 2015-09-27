@@ -197,7 +197,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
 
         }
       });
-      Call<JsonObject> motionCall = mRESTService.getMotionDetail("UPMP-01-0142");
+      Call<JsonObject> motionCall = mRESTService.getMotionDetail(candidate.getMpid());
       motionCall.enqueue(new Callback<JsonObject>() {
         @Override public void onResponse(Response<JsonObject> response) {
           JsonArray datas = response.body().get("data").getAsJsonArray();
