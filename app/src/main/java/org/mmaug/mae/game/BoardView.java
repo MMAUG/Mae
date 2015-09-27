@@ -385,7 +385,7 @@ public class BoardView extends View {
     tv.setTextColor(res.getColor(R.color.grey));
     tv.setTextSize(textSize);
     tv.setSingleLine(false);
-    tv.setLineSpacing(0.0f, 1.2f);
+    tv.setLineSpacing(0.0f, 0.8f);
     tv.setTypeface(typefacelight);
     tv.setDrawingCacheEnabled(true);
 
