@@ -235,8 +235,8 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
       }
       JsonArray jsonElements = geo.
           getGeometry().getCoordinates().getAsJsonArray();
-      //JsonArray latLangArray =
-      //    jsonElements.getAsJsonArray().get(0).getAsJsonArray().get(0).getAsJsonArray();
+      JsonArray latLangArray =
+          jsonElements.getAsJsonArray().get(0).getAsJsonArray().get(0).getAsJsonArray();
 
       LatLngBounds.Builder builder = new LatLngBounds.Builder();
       for (JsonElement element : jsonElements) {
