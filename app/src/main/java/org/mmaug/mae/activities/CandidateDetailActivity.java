@@ -311,12 +311,12 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mCandidateEducation.setTypeface(typefacelight);
     mCandidateMother.setTypeface(typefacelight);
     mCandidateParty.setTypeface(typefacelight);
-    mCandidateConstituency.setTypeface(typefacelight);
+    //mCandidateConstituency.setTypeface(typefacelight);
     mCandidateDateOfBirth.setTypeface(typefacelight);
-    mCandidateEducation.setTypeface(typefacelight);
-    mCandidateMother.setTypeface(typefacelight);
-    mCandidateFather.setTypeface(typefacelight);
-    mCandidateOccupation.setTypeface(typefacelight);
+    //mCandidateEducation.setTypeface(typefacelight);
+    //mCandidateMother.setTypeface(typefacelight);
+    //mCandidateFather.setTypeface(typefacelight);
+    //mCandidateOccupation.setTypeface(typefacelight);
     mCandidateRace.setTypeface(typefacelight);
     mCandidateReligion.setTypeface(typefacelight);
     mCandidateLegalSlature.setTypeface(typefacelight);
@@ -324,9 +324,9 @@ public class CandidateDetailActivity extends AppCompatActivity {
     motionMiddleText.setTypeface(typefaceTitle);
     mQuestionMiddleText.setTypeface(typefaceTitle);
     mQuestionCount.setTypeface(typefacelight);
-    mCandidateParty.setTypeface(typefacelight);
-    mCandidateAddress.setTypeface(typefacelight);
-    mCandidateCompareResult.setTypeface(typefacelight);
+    //mCandidateParty.setTypeface(typefacelight);
+    //mCandidateAddress.setTypeface(typefacelight);
+    //mCandidateCompareResult.setTypeface(typefacelight);
     mQuestionHeaderTv.setTypeface(typefacelight);
     mMotionHeaderTv.setTypeface(typefacelight);
   }
