@@ -5,7 +5,7 @@ package org.mmaug.mae;
  */
 public class Config {
 
-  public static final String BASE_URL = "http://188.166.240.34/api/v1/";
+  public static final String BASE_URL = "http://mae.mmaug.org/api/v1/";
 
   /**
    * Check Voter API
@@ -24,7 +24,7 @@ public class Config {
    * MaePaySoh API
    **/
 
-  public static final String MPS_BASE_URL = "http://188.166.240.34/api/v1/mps/";
+  public static final String MPS_BASE_URL = "http://mae.mmaug.org/api/v1/mps/";
   //param
   public static final String PAGE = "page";
   public static final String WITH = "_with";
