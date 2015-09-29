@@ -348,11 +348,11 @@ public class CandidateDetailActivity extends AppCompatActivity {
         return true;
       case R.id.party_detail_action_share:
         Intent i = new Intent(Intent.ACTION_SEND);
-        i.setData(Uri.parse("http://188.166.240.34/share/" + candidate.getId()));
+        i.setData(Uri.parse("http://mae.mmaug.org/share/" + candidate.getId()));
         startActivity(Intent.createChooser(i, "Share Via"));
         i.setType("text/plain");
         i.putExtra(Intent.EXTRA_SUBJECT, candidate.getName());
-        i.putExtra(Intent.EXTRA_TEXT, "http://188.166.240.34/share/" + candidate.getId());
+        i.putExtra(Intent.EXTRA_TEXT, "http://mae.mmaug.org/share/" + candidate.getId());
         startActivity(Intent.createChooser(i, "Share Via"));
         return true;
       default:
