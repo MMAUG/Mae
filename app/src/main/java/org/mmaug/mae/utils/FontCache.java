@@ -32,4 +32,18 @@ public class FontCache {
     }
     return tf;
   }
+
+  public static Typeface getZawGyi(Context context) {
+    String name = "mmtext.ttf";
+    Typeface tf = fontCache.get(name);
+    if (tf == null) {
+      try {
+        tf = Typeface.createFromAsset(context.getAssets(), "font/" + name);
+      } catch (Exception e) {
+        return null;
+      }
+      fontCache.put(name, tf);
+    }
+    return tf;
+  }
 }

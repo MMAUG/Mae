@@ -13,11 +13,12 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.TextView;
 import java.util.ArrayList;
+import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MixUtils;
+import org.mmaug.mae.utils.UserPrefUtils;
 
 /**
  * Created by poepoe on 24/9/15.
@@ -34,7 +35,7 @@ public class BoardView extends View {
   private Bitmap stamp;
   private int stampX, stampY;
   private boolean alredyDrawn = false;
-
+  private boolean isUnicode;
   private ArrayList<Rect> rects; //List of rectangles where the touch of the user needs to be
   // checked
   private int margin;
@@ -63,7 +64,8 @@ public class BoardView extends View {
     marginSmall = (int) MixUtils.convertDpToPixel(context, 8);
     padding = (int) MixUtils.convertDpToPixel(context, 4);
 
-    typefacelight = FontCache.get("pyidaungsu.ttf", context);
+    typefacelight = FontCache.getTypefaceLight(mContext);
+    isUnicode = UserPrefUtils.getInstance(mContext).getTextPref().equals(Config.UNICODE);
 
     normalTextSize = (int) MixUtils.convertDpToPixel(context, 10);
     //background rect paint
@@ -79,6 +81,7 @@ public class BoardView extends View {
     textPaint.setAntiAlias(true);
     textPaint.setStyle(Paint.Style.FILL);
     textPaint.setTypeface(typefacelight);
+
 
     //flag paint
     partyFlagPaint.setAntiAlias(true);
@@ -133,39 +136,22 @@ public class BoardView extends View {
     int marginTop = getHeight() - textAreaHeight; // Y coordinate point where table will be drawn
 
     int titleHeight = marginTop / 4;
-    int paraHeight = 3 * (marginTop / 4);
+    int paraHeight = 3 * titleHeight;
     int paraMargin;
 
-    if (stamp == null) stamp = getStamp(getSmallCellWidth(x), getBigCellHeight(y));
-
-    int signatureTextSize;
-    int smallTextSize, titleTextSize;
-    if (paraHeight < 130) {
-      smallTextSize = 8;
-      titleTextSize = 11;
-      titleHeight = titleHeight + padding;
-      paraMargin = titleHeight + marginSmall + padding;
-      signatureTextSize = marginSmall;
-    } else if (paraHeight < 350) {
-      smallTextSize = 10;
-      signatureTextSize = normalTextSize;
-      titleTextSize = 12;
-      paraMargin = titleHeight + marginSmall;
-    } else {
-      smallTextSize = 12;
-      signatureTextSize = marginSmall + padding;
-      titleTextSize = 16;
-      paraMargin = titleHeight + marginSmall;
+    if (stamp == null) {
+      stamp = getStamp(getSmallCellWidth(x), getBigCellHeight(y), R.drawable.ic_stamp);
     }
 
-    String title = res.getString(R.string.example_state_legislature);
-    drawTextOnCanvas(title, marginSmall, titleTextSize, x, titleHeight);
-
-    char c = '\u2713';
-    String votingMessage = res.getString(R.string.example_voting_step_1, c, c);
-    drawTextOnCanvas(votingMessage, paraMargin, smallTextSize, canvas.getWidth() - margin,
-        paraHeight);
-
+    int signatureTextSize;
+    if (paraHeight < 130) {
+      signatureTextSize = marginSmall;
+    } else if (paraHeight < 350) {
+      signatureTextSize = normalTextSize;
+    } else {
+      signatureTextSize = marginSmall + padding;
+    }
+    drawTitle(marginSmall, marginTop);
     //this is the top point of the rectangle and it will need to be recalculated
     //when rows are added
     int top = 0;
@@ -367,37 +353,27 @@ public class BoardView extends View {
     void checkValidity(ValidityStatus status);
   }
 
-  private Bitmap getStamp(int width, int height) {
-    Drawable drawable = res.getDrawable(R.drawable.ic_stamp);
+  private Bitmap getStamp(int width, int height, int icon) {
+    Drawable drawable = res.getDrawable(icon);
     assert drawable != null;
     Bitmap b = ((BitmapDrawable) drawable).getBitmap();
     return Bitmap.createScaledBitmap(b, width - margin, height - margin, false);
   }
 
+  private Bitmap getTitleBitmap(int height) {
+    Drawable drawable = res.getDrawable(R.drawable.example_info);
+    assert drawable != null;
+    height = height - margin;
+    Bitmap b = ((BitmapDrawable) drawable).getBitmap();
+    return Bitmap.createScaledBitmap(b, (int) (height * 3.25), height, false);
+  }
+
+
   private void drawStamp(int x, int y) {
     canvas.drawBitmap(stamp, x, y, null);
   }
 
-  private void drawTextOnCanvas(String text, int y, int textSize, int width, int height) {
-    TextView tv = new TextView(mContext);
-    // setup text
-    tv.setText(text);
-    tv.setTextColor(res.getColor(R.color.grey));
-    tv.setTextSize(textSize);
-    tv.setSingleLine(false);
-    tv.setLineSpacing(0.0f, 0.8f);
-    tv.setTypeface(typefacelight);
-    tv.setDrawingCacheEnabled(true);
-
-    // we need to setup how big the view should be..which is exactly as big as the canvas
-    tv.measure(MeasureSpec.makeMeasureSpec(width + margin, MeasureSpec.EXACTLY),
-        MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
-    // assign the layout values to the textview
-    tv.layout(0, 0, tv.getMeasuredWidth(), tv.getMeasuredHeight());
-    // draw the bitmap from the drawingcache to the canvas
-
-    canvas.drawBitmap(tv.getDrawingCache(), margin, y, background);
-    // disable drawing cache
-    tv.setDrawingCacheEnabled(false);
+  private void drawTitle(int y, int height) {
+    canvas.drawBitmap(getTitleBitmap(height), margin, y, null);
   }
 }
