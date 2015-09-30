@@ -45,6 +45,8 @@ import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.rest.RESTService;
 import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MixUtils;
+import org.mmaug.mae.utils.UserPrefUtils;
+import org.mmaug.mae.utils.mmtext;
 import org.mmaug.mae.view.CircleView;
 import org.mmaug.mae.view.ZoomAspectRatioImageView;
 import retrofit.Call;
@@ -55,8 +57,18 @@ public class CandidateDetailActivity extends AppCompatActivity {
 
   @Bind(R.id.backdrop) ZoomAspectRatioImageView partyImage;
   @Bind(R.id.candidate_avatar) ImageView candidateImage;
-  @Bind(R.id.candidate_name) TextView candidateName;
   @Bind(R.id.toolbar) Toolbar toolbar;
+  @Bind(R.id.candidate_detail_party_flag) ImageView mCandidatePartyFlag;
+  @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingAvatarToolbar;
+  @Bind(R.id.candidate_card) CardView cardView;
+  @Bind(R.id.appbar) AppBarLayout appbar;
+  @Bind(R.id.question_pie_cont) LinearLayout mQuestionPieCont;
+  @Bind(R.id.compare_candidate_card) CardView mCompareCandidate;
+  @Bind(R.id.candate_question_card) CardView mCandidateQuestionCard;
+  @Bind(R.id.candate_motion_card) CardView mCandidateMotionCard;
+  @Bind(R.id.motion_pie_cont) LinearLayout motionPieCont;
+
+  @Bind(R.id.candidate_name) TextView candidateName;
   @Bind(R.id.candidate_detail_constituency_pl) TextView mCandidateConstituency;
   @Bind(R.id.candidate_detail_dob) TextView mCandidateDateOfBirth;
   @Bind(R.id.candidate_detail_education) TextView mCandidateEducation;
@@ -65,25 +77,16 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.candidate_detail_occupation) TextView mCandidateOccupation;
   @Bind(R.id.candidate_detail_race) TextView mCandidateRace;
   @Bind(R.id.candidate_detail_religion) TextView mCandidateReligion;
-  @Bind(R.id.candidate_detail_party_flag) ImageView mCandidatePartyFlag;
-  @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingAvatarToolbar;
-  @Bind(R.id.candidate_card) CardView cardView;
   @Bind(R.id.legalslature) TextView mCandidateLegalSlature;
-  @Bind(R.id.appbar) AppBarLayout appbar;
   @Bind(R.id.motion_count) TextView mMotionCount;
-  @Bind(R.id.motion_pie_cont) LinearLayout motionPieCont;
   @Bind(R.id.motion_middle_text) TextView motionMiddleText;
   @Bind(R.id.question_middle_text) TextView mQuestionMiddleText;
   @Bind(R.id.question_count) TextView mQuestionCount;
-  @Bind(R.id.question_pie_cont) LinearLayout mQuestionPieCont;
   @Bind(R.id.candidate_detail_party) TextView mCandidateParty;
   @Bind(R.id.candidate_detail_address) TextView mCandidateAddress;
-  @Bind(R.id.compare_candidate_card) CardView mCompareCandidate;
   @Bind(R.id.mCandidateCompareResult) TextView mCandidateCompareResult;
   @Bind(R.id.question_header_tv) TextView mQuestionHeaderTv;
   @Bind(R.id.motion_header_tv) TextView mMotionHeaderTv;
-  @Bind(R.id.candate_question_card) CardView mCandidateQuestionCard;
-  @Bind(R.id.candate_motion_card) CardView mCandidateMotionCard;
   AppBarLayout.OnOffsetChangedListener mListener;
   Candidate candidate;
   private RESTService mRESTService;
@@ -91,6 +94,9 @@ public class CandidateDetailActivity extends AppCompatActivity {
       "#F44336", "#E91E63", "#9C27B0", "#673AB7", "#2196F3", "#009688", "#4CAF50", "#FFC107",
       "#FF5722"
   };
+
+  private Typeface typefaceTitle, typefacelight;
+  private boolean isUnicode;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -102,7 +108,10 @@ public class CandidateDetailActivity extends AppCompatActivity {
     assert actionBar != null;
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setTitle("");
-    setTypeFace();
+
+    typefaceTitle = FontCache.getTypefaceTitle(this);
+    typefacelight = FontCache.getTypefaceTitle(this);
+    isUnicode = UserPrefUtils.getInstance(this).getTextPref().equals(Config.UNICODE);
 
     mListener = new AppBarLayout.OnOffsetChangedListener() {
       @Override public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -213,6 +222,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
         }
       }
     });
+
+    setTypeFace();
   }
 
   protected void makeMotionChart(int motionCount, JsonArray datas) {
@@ -250,10 +261,9 @@ public class CandidateDetailActivity extends AppCompatActivity {
       PieModel pieModel = new PieModel(key, count, color);
       mPieChart.addPieSlice(pieModel);
       View piechartLegend =
-              getLayoutInflater().inflate(R.layout.piechart_legend_layout, mPieCount,
-                      false);
+          getLayoutInflater().inflate(R.layout.piechart_legend_layout, mPieCount, false);
       CircleView piechartIndicator =
-              (CircleView) piechartLegend.findViewById(R.id.legend_indicator);
+          (CircleView) piechartLegend.findViewById(R.id.legend_indicator);
       piechartIndicator.setColorHex(color);
       TextView piechartText = (TextView) piechartLegend.findViewById(R.id.legend_text);
       Typeface typefacelight = FontCache.get("pyidaungsu.ttf", CandidateDetailActivity.this);
@@ -268,26 +278,28 @@ public class CandidateDetailActivity extends AppCompatActivity {
   }
 
   void setTypeFace() {
-    Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
-    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
-    mCandidateConstituency.setTypeface(typefacelight);
-    mCandidateCompareResult.setTypeface(typefaceTitle);
-    mCandidateFather.setTypeface(typefacelight);
-    mCandidateAddress.setTypeface(typefacelight);
-    mCandidateOccupation.setTypeface(typefacelight);
-    mCandidateEducation.setTypeface(typefacelight);
-    mCandidateMother.setTypeface(typefacelight);
-    mCandidateParty.setTypeface(typefacelight);
-    mCandidateDateOfBirth.setTypeface(typefacelight);
-    mCandidateRace.setTypeface(typefacelight);
-    mCandidateReligion.setTypeface(typefacelight);
-    mCandidateLegalSlature.setTypeface(typefacelight);
-    mMotionCount.setTypeface(typefacelight);
-    motionMiddleText.setTypeface(typefaceTitle);
-    mQuestionMiddleText.setTypeface(typefaceTitle);
-    mQuestionCount.setTypeface(typefacelight);
-    mQuestionHeaderTv.setTypeface(typefacelight);
-    mMotionHeaderTv.setTypeface(typefacelight);
+    if (isUnicode) {
+      mCandidateConstituency.setTypeface(typefacelight);
+      mCandidateCompareResult.setTypeface(typefaceTitle);
+      mCandidateFather.setTypeface(typefacelight);
+      mCandidateAddress.setTypeface(typefacelight);
+      mCandidateOccupation.setTypeface(typefacelight);
+      mCandidateEducation.setTypeface(typefacelight);
+      mCandidateMother.setTypeface(typefacelight);
+      mCandidateParty.setTypeface(typefacelight);
+      mCandidateDateOfBirth.setTypeface(typefacelight);
+      mCandidateRace.setTypeface(typefacelight);
+      mCandidateReligion.setTypeface(typefacelight);
+      mCandidateLegalSlature.setTypeface(typefacelight);
+      mMotionCount.setTypeface(typefacelight);
+      motionMiddleText.setTypeface(typefaceTitle);
+      mQuestionMiddleText.setTypeface(typefaceTitle);
+      mQuestionCount.setTypeface(typefacelight);
+      mQuestionHeaderTv.setTypeface(typefacelight);
+      mMotionHeaderTv.setTypeface(typefacelight);
+    } else {
+      mmtext.prepareActivity(this, mmtext.TEXT_UNICODE, true, true);
+    }
   }
 
   @Override
