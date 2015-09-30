@@ -8,8 +8,6 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
 import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseActivity;
@@ -42,6 +40,7 @@ public class FontCheckerActivity extends BaseActivity
     super.onResume();
     if (!UserPrefUtils.getInstance(this).isFristTime()) {
       startActivity(new Intent(this, MainActivity.class));
+      finish();
     } else {
       UserPrefUtils.getInstance(this).noLongerFirstTime();
     }

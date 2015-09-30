@@ -10,7 +10,12 @@ import mm.technomation.tmmtextutilities.mmtext;
  * Created by Ye Lin Aung on 15/08/04.
  */
 public class MMTextUtils {
+
   private Context mContext;
+
+  public static MMTextUtils getInstance(Context context) {
+    return new MMTextUtils(context);
+  }
 
   public MMTextUtils(Context context) {
     this.mContext = context;

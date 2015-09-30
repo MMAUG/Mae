@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +37,7 @@ import org.mmaug.mae.models.User;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.utils.DataUtils;
 import org.mmaug.mae.utils.FontCache;
+import org.mmaug.mae.utils.MMTextUtils;
 import org.mmaug.mae.utils.UserPrefUtils;
 import retrofit.Call;
 import retrofit.Callback;
@@ -183,7 +183,7 @@ public class SignUpFragment extends Fragment
     //search township view
     initRecyclerView();
     initEditText();
-    UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
+    UserPrefUtils userPrefUtils = UserPrefUtils.getInstance(getContext());
     isValid = userPrefUtils.isValid();
     isFirstTimeOrSkip = userPrefUtils.isSKIP();
 
@@ -194,10 +194,16 @@ public class SignUpFragment extends Fragment
     defaultDate = now.get(Calendar.DAY_OF_MONTH);
     Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", getActivity());
     Typeface typefacelight = FontCache.get("pyidaungsu.ttf", getActivity());
-    toCheckMae.setTypeface(typefaceTitle);
-    checkButton.setTypeface(typefacelight);
-    myanmarTextPlease.setTypeface(typefacelight);
-    skip_card_button.setTypeface(typefacelight);
+
+    if (userPrefUtils.getTextPref().equals(Config.ZAWGYI)) {
+      MMTextUtils.getInstance(getContext())
+          .prepareMultipleViews(toCheckMae, checkButton, myanmarTextPlease, skip_card_button);
+    } else {
+      toCheckMae.setTypeface(typefaceTitle);
+      checkButton.setTypeface(typefacelight);
+      myanmarTextPlease.setTypeface(typefacelight);
+      skip_card_button.setTypeface(typefacelight);
+    }
     if (isFirstTimeOrSkip) {
       mainView.setVisibility(View.GONE);
       contenFragment.setVisibility(View.VISIBLE);
