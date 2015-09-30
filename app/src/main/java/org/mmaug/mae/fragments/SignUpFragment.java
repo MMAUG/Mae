@@ -42,6 +42,7 @@ import org.mmaug.mae.utils.UserPrefUtils;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
+import timber.log.Timber;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -137,7 +138,7 @@ public class SignUpFragment extends Fragment
         }
 
         @Override public void onFailure(Throwable t) {
-
+          Timber.e(t.getMessage());
         }
       });
     }

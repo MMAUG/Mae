@@ -4,13 +4,11 @@ import android.content.Context;
 import android.view.View;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import mm.technomation.tmmtextutilities.mmtext;
 
 /**
  * Created by Ye Lin Aung on 15/08/04.
  */
 public class MMTextUtils {
-
   private Context mContext;
   private static MMTextUtils mmTextUtils;
 
@@ -20,7 +18,6 @@ public class MMTextUtils {
     }
     return mmTextUtils;
   }
-
   public MMTextUtils(Context context) {
     this.mContext = context;
   }
@@ -73,7 +70,8 @@ public class MMTextUtils {
   }
 
   public void prepareSingleView(View textView) {
-    mmtext.prepareView(mContext, textView, mmtext.TEXT_UNICODE, true, true);
+    mmtext.prepareView(mContext, textView, mmtext.TEXT_ZAWGYI, true, true);
+
   }
 
   public void prepareSingleView(String content, View textView) {
