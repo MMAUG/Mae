@@ -2,7 +2,6 @@ package org.mmaug.mae.activities;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,7 +36,6 @@ import org.mmaug.mae.models.Candidate;
 import org.mmaug.mae.models.CandidateListReturnObject;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.utils.DataUtils;
-import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MMTextUtils;
 import org.mmaug.mae.utils.UserPrefUtils;
 import org.mmaug.mae.view.AutofitTextView;
@@ -149,16 +147,19 @@ public class CandidateListActivity extends BaseActivity
         candidateResultDialog =
             new Dialog(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
         View view = this.getLayoutInflater().inflate(R.layout.dialog_candidate_check, null);
-        View okBtn = view.findViewById(R.id.voter_check_ok_btn);
+        TextView okBtn = (TextView) view.findViewById(R.id.voter_check_ok_btn);
         TextView textView = (TextView) view.findViewById(R.id.tv_vote_message);
+        TextView title = (TextView) view.findViewById(R.id.tv_candidate_cant_compare_title);
         TextView canCompare = (TextView) view.findViewById(R.id.incorrect_vote);
         canCompare.setText("ကျေးဇူးပြု၍ အခြားအမတ်ကို ရွေးချယ်ပါ");
         textView.setText(getResources().getString(R.string.duplicate_candidate_choose));
         if (isUnicode()) {
           canCompare.setTypeface(getTypefaceTitle());
           textView.setTypeface(getTypefaceLight());
+          okBtn.setTypeface(getTypefaceTitle());
+          title.setTypeface(getTypefaceTitle());
         } else {
-          MMTextUtils.getInstance(this).prepareMultipleViews(canCompare, textView);
+          MMTextUtils.getInstance(this).prepareMultipleViews(canCompare, textView, okBtn, title);
         }
         candidateResultDialog.setContentView(view);
         candidateResultDialog.show();
@@ -173,17 +174,22 @@ public class CandidateListActivity extends BaseActivity
         candidateResultDialog =
             new Dialog(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
         View view = this.getLayoutInflater().inflate(R.layout.dialog_candidate_check, null);
-        View okBtn = view.findViewById(R.id.voter_check_ok_btn);
+        TextView okBtn = (TextView) view.findViewById(R.id.voter_check_ok_btn);
+        TextView title = (TextView) view.findViewById(R.id.tv_candidate_cant_compare_title);
         TextView textView = (TextView) view.findViewById(R.id.tv_vote_message);
         TextView canCompare = (TextView) view.findViewById(R.id.incorrect_vote);
-        Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
-        Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
         canCompare.setText(candidate.getName() + " နှင့် " + candidateFromDetail.getName()
             + getResources().getString(R.string.cannot_compare_candidate));
-        canCompare.setTypeface(typefaceTitle);
         textView.setText(
             candidate.getName() + getResources().getString(R.string.incrroect_candidate_compare));
-        textView.setTypeface(typefacelight);
+        if (isUnicode()) {
+          canCompare.setTypeface(getTypefaceTitle());
+          textView.setTypeface(getTypefaceLight());
+          okBtn.setTypeface(getTypefaceTitle());
+          title.setTypeface(getTypefaceTitle());
+        } else {
+          MMTextUtils.getInstance(this).prepareMultipleViews(canCompare, textView, okBtn, title);
+        }
         candidateResultDialog.setContentView(view);
         candidateResultDialog.show();
         okBtn.setOnClickListener(new View.OnClickListener() {
