@@ -35,6 +35,8 @@ import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.rest.RESTService;
 import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MixUtils;
+import org.mmaug.mae.utils.UserPrefUtils;
+import org.mmaug.mae.utils.mmtext;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
@@ -73,7 +75,7 @@ public class PartyDetailActivity extends AppCompatActivity {
   private Map<String, Integer> currentCandidateCount = new HashMap<>();
   private ToyFigurePagerAdapter prevPagerAdapter;
   private ToyFigurePagerAdapter currentPagerAdapter;
-  private  int colorFilter = -1;
+  private int colorFilter = -1;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -89,9 +91,7 @@ public class PartyDetailActivity extends AppCompatActivity {
     setTypeFace();
     mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
     Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
-    Glide.with(this)
-        .load(party.getPartyFlag())
-        .diskCacheStrategy(DiskCacheStrategy.ALL)
+    Glide.with(this).load(party.getPartyFlag()).diskCacheStrategy(DiskCacheStrategy.ALL)
         //.listener(GlidePalette.with(party.getPartyFlag())
         //    .intoCallBack(new GlidePalette.CallBack() {
         //      @Override public void onPaletteLoaded(Palette palette) {
@@ -169,11 +169,12 @@ public class PartyDetailActivity extends AppCompatActivity {
                 mPyithuCurrentCollection =
                     gson.fromJson(response.body().get("pyithu").getAsJsonObject(),
                         CurrentCollection.class);
-                mTineDayThaGyiCurrentCollection = gson.fromJson(response.body().get("state_region").getAsJsonObject(),
-                    CurrentCollection.class);
+                mTineDayThaGyiCurrentCollection =
+                    gson.fromJson(response.body().get("state_region").getAsJsonObject(),
+                        CurrentCollection.class);
                 currentCandidateCount.clear();
 
-                currentPagerAdapter = new ToyFigurePagerAdapter(PartyDetailActivity.this,true);
+                currentPagerAdapter = new ToyFigurePagerAdapter(PartyDetailActivity.this, true);
                 if (currentAmyotharCount > 0) {
 
                   currentCandidateCount.put(Config.AMYOTHAE_HLUTTAW,
@@ -188,9 +189,11 @@ public class PartyDetailActivity extends AppCompatActivity {
                           * 10));
                 } else {
                   currentCandidateCount.put(Config.PYITHU_HLUTTAW, 0);
-                }if (currentTineDaythaHlutaw >0){
-                  currentCandidateCount.put(Config.TINEDAYTHA_HLUTTAW,(int) (((double) currentTineDaythaHlutaw / mTineDayThaGyiCurrentCollection.getSeats())
-                      * 10));
+                }
+                if (currentTineDaythaHlutaw > 0) {
+                  currentCandidateCount.put(Config.TINEDAYTHA_HLUTTAW,
+                      (int) (((double) currentTineDaythaHlutaw
+                          / mTineDayThaGyiCurrentCollection.getSeats()) * 10));
                 }
                 currentCandidateCount.put(Config.AMYOTHAR_REAL_COUNT, currentAmyotharCount);
                 currentCandidateCount.put(Config.AMYOTHAR_SEAT_COUNT,
@@ -207,40 +210,44 @@ public class PartyDetailActivity extends AppCompatActivity {
                 mCurrentTabLayout.setTabMode(TabLayout.MODE_FIXED);
                 mCurrentTabLayout.setupWithViewPager(mCurrentViewPager);
 
-
-                prevPagerAdapter = new ToyFigurePagerAdapter(PartyDetailActivity.this,false);
+                prevPagerAdapter = new ToyFigurePagerAdapter(PartyDetailActivity.this, false);
                 JsonObject amyotharMembers = mAmyothaCurrentCollection.getMembers();
-                if(amyotharMembers.has(party.getPartyId())){
+                if (amyotharMembers.has(party.getPartyId())) {
                   prevAmyotharCount = amyotharMembers.get(party.getPartyId()).getAsInt();
-                }else{
+                } else {
                   prevAmyotharCount = 0;
                 }
 
                 JsonObject pyithuMembers = mPyithuCurrentCollection.getMembers();
-                if(pyithuMembers.has(party.getPartyId())){
+                if (pyithuMembers.has(party.getPartyId())) {
                   prevPyithuHlutaw = pyithuMembers.get(party.getPartyId()).getAsInt();
-                }else{
+                } else {
                   prevPyithuHlutaw = 0;
                 }
                 JsonObject tinedaythaMembers = mTineDayThaGyiCurrentCollection.getMembers();
-                if(tinedaythaMembers.has(party.getPartyId())){
+                if (tinedaythaMembers.has(party.getPartyId())) {
                   prevTineDaythaHlutaw = tinedaythaMembers.get(party.getPartyId()).getAsInt();
-                }else{
+                } else {
                   prevTineDaythaHlutaw = 0;
                 }
                 Map<String, Integer> prevCandidateCount = new HashMap<>();
-                prevCandidateCount.put(Config.AMYOTHAE_HLUTTAW,(int) (((double) prevAmyotharCount / mAmyothaCurrentCollection.getSeats())
-                    * 10));
-                prevCandidateCount.put(Config.PYITHU_HLUTTAW,(int) (((double) prevPyithuHlutaw / mPyithuCurrentCollection.getSeats())
-                    * 10));
-                prevCandidateCount.put(Config.TINEDAYTHA_HLUTTAW, (int) (((double) prevTineDaythaHlutaw / mTineDayThaGyiCurrentCollection.getSeats())
-                    * 10));
+                prevCandidateCount.put(Config.AMYOTHAE_HLUTTAW,
+                    (int) (((double) prevAmyotharCount / mAmyothaCurrentCollection.getSeats())
+                        * 10));
+                prevCandidateCount.put(Config.PYITHU_HLUTTAW,
+                    (int) (((double) prevPyithuHlutaw / mPyithuCurrentCollection.getSeats()) * 10));
+                prevCandidateCount.put(Config.TINEDAYTHA_HLUTTAW,
+                    (int) (((double) prevTineDaythaHlutaw
+                        / mTineDayThaGyiCurrentCollection.getSeats()) * 10));
                 prevCandidateCount.put(Config.AMYOTHAR_REAL_COUNT, prevAmyotharCount);
-                prevCandidateCount.put(Config.AMYOTHAR_SEAT_COUNT, mAmyothaCurrentCollection.getSeats());
-                prevCandidateCount.put(Config.PYITHU_REAL_COUNT,prevPyithuHlutaw);
-                prevCandidateCount.put(Config.PYITHU_SEAT_COUNT, mPyithuCurrentCollection.getSeats());
-                prevCandidateCount.put(Config.TINE_DAYTHA_REAL_COUNT,prevTineDaythaHlutaw);
-                prevCandidateCount.put(Config.TINE_DAYTHA_SEAT_COUNT, mTineDayThaGyiCurrentCollection.getSeats());
+                prevCandidateCount.put(Config.AMYOTHAR_SEAT_COUNT,
+                    mAmyothaCurrentCollection.getSeats());
+                prevCandidateCount.put(Config.PYITHU_REAL_COUNT, prevPyithuHlutaw);
+                prevCandidateCount.put(Config.PYITHU_SEAT_COUNT,
+                    mPyithuCurrentCollection.getSeats());
+                prevCandidateCount.put(Config.TINE_DAYTHA_REAL_COUNT, prevTineDaythaHlutaw);
+                prevCandidateCount.put(Config.TINE_DAYTHA_SEAT_COUNT,
+                    mTineDayThaGyiCurrentCollection.getSeats());
                 prevPagerAdapter.setItems(prevCandidateCount);
                 //if(colorFilter!=-1){
                 //  prevPagerAdapter.setFilterColor(colorFilter);
@@ -250,6 +257,12 @@ public class PartyDetailActivity extends AppCompatActivity {
                 mPrevViewPager.setCurrentItem(0);
                 mPrevTabLayout.setTabMode(TabLayout.MODE_FIXED);
                 mPrevTabLayout.setupWithViewPager(mPrevViewPager);
+              }
+
+              if (UserPrefUtils.getInstance(PartyDetailActivity.this)
+                  .getTextPref()
+                  .equals(Config.ZAWGYI)) {
+                mmtext.prepareActivity(PartyDetailActivity.this, mmtext.TEXT_UNICODE, true, true);
               }
             }
 
@@ -264,11 +277,15 @@ public class PartyDetailActivity extends AppCompatActivity {
 
       }
     });
+
+    if (UserPrefUtils.getInstance(this).getTextPref().equals(Config.ZAWGYI)) {
+      mmtext.prepareActivity(this, mmtext.TEXT_UNICODE, true, true);
+    }
   }
 
   void setTypeFace() {
-    Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
-    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
+    Typeface typefaceTitle = FontCache.getTypefaceTitle(this);
+    Typeface typefacelight = FontCache.getTypefaceLight(this);
     mPartyLeaderTitle.setTypeface(typefaceTitle);
     mPartyCount.setTypeface(typefacelight);
     mPartyDate.setTypeface(typefacelight);
