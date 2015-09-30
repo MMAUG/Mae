@@ -37,6 +37,7 @@ import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MixUtils;
 import org.mmaug.mae.utils.UserPrefUtils;
 import org.mmaug.mae.utils.mmtext;
+import org.mmaug.mae.view.AutofitTextView;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
@@ -46,7 +47,7 @@ public class PartyDetailActivity extends AppCompatActivity {
   @Bind(R.id.party_count) TextView mPartyCount;
   @Bind(R.id.party_date) TextView mPartyDate;
   @Bind(R.id.party_number) TextView mPartyNumber;
-  @Bind(R.id.party_name) TextView mPartyName;
+  @Bind(R.id.party_name) AutofitTextView mPartyName;
   @Bind(R.id.constituency) TextView mConstituency;
   @Bind(R.id.party_headquarter) TextView mPartyHeadQuarter;
   @Bind(R.id.party_leader) TextView mPartyLeader;
@@ -62,6 +63,7 @@ public class PartyDetailActivity extends AppCompatActivity {
   @Bind(R.id.mContactTitle) TextView mContactTitle;
   @Bind(R.id.candidateTotalCountLast) TextView candidateTotalCountLast;
   @Bind(R.id.candidateTotalCountCurrent) TextView candidateTotalCountCurrent;
+
   private RESTService partyDetailRestService;
   private int currentAmyotharCount;
   private int currentPyithuHlutaw;
@@ -76,11 +78,15 @@ public class PartyDetailActivity extends AppCompatActivity {
   private ToyFigurePagerAdapter prevPagerAdapter;
   private ToyFigurePagerAdapter currentPagerAdapter;
   private int colorFilter = -1;
+  private Typeface typefaceTitle, typefacelight;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_party_detail);
     ButterKnife.bind(this);
+
+    typefaceTitle = FontCache.getTypefaceTitle(this);
+    typefacelight = FontCache.getTypefaceLight(this);
 
     final Party party = (Party) getIntent().getSerializableExtra("party");
     mCollapsingToolbarLayout.setTitle(party.getPartyName());
@@ -90,7 +96,6 @@ public class PartyDetailActivity extends AppCompatActivity {
         getResources().getColor(android.R.color.transparent));
     setTypeFace();
     mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
-    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
     Glide.with(this).load(party.getPartyFlag()).diskCacheStrategy(DiskCacheStrategy.ALL)
         //.listener(GlidePalette.with(party.getPartyFlag())
         //    .intoCallBack(new GlidePalette.CallBack() {
@@ -115,6 +120,7 @@ public class PartyDetailActivity extends AppCompatActivity {
     mPartyDate.setText(MixUtils.convertToBurmese(party.getEstablishmentDateString()));
     mPartyNumber.setText(MixUtils.convertToBurmese(party.getApprovedPartyNumber()));
     mPartyName.setText(party.getPartyName());
+    mPartyName.setSizeToFit(true);
     mConstituency.setText(party.getRegion());
     List<String> leaders = party.getLeadership();
     for (String leader : leaders) {
@@ -284,8 +290,6 @@ public class PartyDetailActivity extends AppCompatActivity {
   }
 
   void setTypeFace() {
-    Typeface typefaceTitle = FontCache.getTypefaceTitle(this);
-    Typeface typefacelight = FontCache.getTypefaceLight(this);
     mPartyLeaderTitle.setTypeface(typefaceTitle);
     mPartyCount.setTypeface(typefacelight);
     mPartyDate.setTypeface(typefacelight);
