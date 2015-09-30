@@ -228,7 +228,8 @@
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:hint="ရွေးပါ"
+                android:textColor="@color/secondary_text_color"
+                android:text="ရွေးပါ"
                 android:padding="5dp"
                 />
           </LinearLayout>
