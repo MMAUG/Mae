@@ -24,6 +24,8 @@
     <item name="android:maxLines">1</item>
     <item name="android:ellipsize">end</item>
     <item name="android:textColor">@color/white</item>
+    <item name="android:paddingTop">@dimen/spacing_minor</item>
+    <item name="android:paddingBottom">@dimen/spacing_micro</item>
     <item name="android:textSize">@dimen/text_size_medium</item>
     <item name="android:layout_marginLeft">@dimen/spacing_major</item>
   </style>
