@@ -44,6 +44,7 @@ import org.mmaug.mae.models.Candidate;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.rest.RESTService;
 import org.mmaug.mae.utils.FontCache;
+import org.mmaug.mae.utils.MMTextUtils;
 import org.mmaug.mae.utils.MixUtils;
 import org.mmaug.mae.utils.UserPrefUtils;
 import org.mmaug.mae.utils.mmtext;
@@ -240,8 +241,14 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mQuestionCount.setText(MixUtils.convertToBurmese(String.valueOf(questionCount)) + " ခု");
 
     PieChart mPieChart = (PieChart) findViewById(R.id.question_piechart);
-
     makePieChart(datas, mPieChart, mQuestionPieCont);
+
+    if (isUnicode) {
+      mQuestionMiddleText.setTypeface(typefacelight);
+      mQuestionCount.setTypeface(typefaceTitle);
+    } else {
+      MMTextUtils.getInstance(this).prepareMultipleViews(mQuestionMiddleText, mQuestionCount);
+    }
   }
 
   protected void makePieChart(JsonArray datas, PieChart mPieChart, LinearLayout mPieCount) {
@@ -266,12 +273,17 @@ public class CandidateDetailActivity extends AppCompatActivity {
           (CircleView) piechartLegend.findViewById(R.id.legend_indicator);
       piechartIndicator.setColorHex(color);
       TextView piechartText = (TextView) piechartLegend.findViewById(R.id.legend_text);
-      Typeface typefacelight = FontCache.get("pyidaungsu.ttf", CandidateDetailActivity.this);
       piechartText.setText(key);
-      piechartText.setTypeface(typefacelight);
       TextView piechartCount = (TextView) piechartLegend.findViewById(R.id.legend_count);
-      piechartCount.setTypeface(typefacelight);
       piechartCount.setText(MixUtils.convertToBurmese(String.valueOf(count)));
+
+      if (isUnicode) {
+        piechartText.setTypeface(typefacelight);
+        piechartCount.setTypeface(typefacelight);
+      } else {
+        MMTextUtils.getInstance(this).prepareMultipleViews(piechartText, piechartCount);
+      }
+
       mPieCount.addView(piechartLegend);
     }
     mPieChart.startAnimation();
