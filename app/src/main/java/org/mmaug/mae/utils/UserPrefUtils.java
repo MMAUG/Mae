@@ -16,6 +16,7 @@ public class UserPrefUtils {
   private static final String IS_VALID = "valid";
   private static final String SKIP_VALID = "skip";
   private static final String TEXT_PREF = "font";
+  private static final String FIRST_TIME = "first time";
 
   private SharedPreferences mSharedPreferences;
   private static UserPrefUtils userPrefUtils;
@@ -98,5 +99,13 @@ public class UserPrefUtils {
 
   public void setSKIP(boolean skip) {
     mSharedPreferences.edit().putBoolean(SKIP_VALID, skip).apply();
+  }
+
+  public boolean isFristTime() {
+    return mSharedPreferences.getBoolean(FIRST_TIME, true);
+  }
+
+  public void noLongerFirstTime() {
+    mSharedPreferences.edit().putBoolean(FIRST_TIME, false).apply();
   }
 }

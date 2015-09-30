@@ -13,6 +13,7 @@
       android:allowBackup="true"
       android:icon="@mipmap/ic_launcher"
       android:label="@string/app_name"
+      android:name=".MaeApp"
       android:theme="@style/AppTheme">
     <activity
         android:name=".activities.FontCheckerActivity"
@@ -83,6 +84,9 @@
     <!-- Will not be called unless the application explicitly enables it -->
     <activity android:name=".activities.VotedActivity">
     </activity>
+    <meta-data
+        android:name="io.fabric.ApiKey"
+        android:value="cdae3f0777b11d387aee5f0beff47563d77b590c"/>
   </application>
 
 </manifest>

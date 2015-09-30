@@ -8,6 +8,8 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseActivity;
@@ -34,6 +36,15 @@ public class FontCheckerActivity extends BaseActivity
     mmTextUtils.prepareMultipleViews(tvDes, tvSaveFont);
     rgFont.setOnCheckedChangeListener(this);
     rbUni.setChecked(true);
+  }
+
+  @Override protected void onResume() {
+    super.onResume();
+    if (!UserPrefUtils.getInstance(this).isFristTime()) {
+      startActivity(new Intent(this, MainActivity.class));
+    } else {
+      UserPrefUtils.getInstance(this).noLongerFirstTime();
+    }
   }
 
   @Override public void onCheckedChanged(RadioGroup group, int checkedId) {

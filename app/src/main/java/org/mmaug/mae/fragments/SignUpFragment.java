@@ -132,7 +132,7 @@ public class SignUpFragment extends Fragment
           FragmentTransaction transaction = fm.beginTransaction();
           transaction.replace(R.id.contentFragment, homeFragment);
           transaction.commit();
-          Log.e("Response", response.code() + " " + response.message());
+
         }
 
         @Override public void onFailure(Throwable t) {
