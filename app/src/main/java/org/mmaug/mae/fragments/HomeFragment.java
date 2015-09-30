@@ -36,10 +36,6 @@ import org.mmaug.mae.utils.MixUtils;
 import org.mmaug.mae.utils.UserPrefUtils;
 
 public class HomeFragment extends android.support.v4.app.Fragment {
-  // TODO: Rename parameter arguments, choose names that match
-  // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-  private static final String ARG_PARAM1 = "param1";
-  private static final String ARG_PARAM2 = "param2";
 
   @Bind(R.id.month_day_left) TextView monthDayLeft;
   @Bind(R.id.hour_minute_left) TextView hourMinuteLeft;

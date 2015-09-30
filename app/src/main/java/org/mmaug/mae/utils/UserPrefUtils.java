@@ -15,14 +15,21 @@ public class UserPrefUtils {
   private static final String TOWNSHIP = "township";
   private static final String IS_VALID = "valid";
   private static final String SKIP_VALID = "skip";
-  private static final String TEXT_PREF = "textpref";
+  private static final String TEXT_PREF = "font";
 
-  private Context mContext;
   private SharedPreferences mSharedPreferences;
+  private static UserPrefUtils userPrefUtils;
 
   public UserPrefUtils(Context context) {
-    mContext = context;
+    Context mContext = context;
     mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+  }
+
+  public static UserPrefUtils getInstance(Context context) {
+    if (userPrefUtils == null) {
+      userPrefUtils = new UserPrefUtils(context);
+    }
+    return userPrefUtils;
   }
 
   public void saveSkip(boolean isvalid) {
@@ -90,6 +97,6 @@ public class UserPrefUtils {
   }
 
   public void setSKIP(boolean skip) {
-    mSharedPreferences.edit().putBoolean(SKIP_VALID,skip).apply();
+    mSharedPreferences.edit().putBoolean(SKIP_VALID, skip).apply();
   }
 }
