@@ -52,15 +52,14 @@ public class MMTextUtils {
           mmtext.prepareView(mContext, textView, mmtext.TEXT_UNICODE, true, true);
           break;
         case 2:
-          mmtext.prepareView(mContext, textView,
-              mm.technomation.tmmtextutilities.mmtext.TEXT_ZAWGYI, true, true);
+          mmtext.prepareView(mContext, textView, mmtext.TEXT_ZAWGYI, true, true);
       }
     }
   }
 
   public void prepareMultipleViews(View... textViews) {
     for (View textView : textViews) {
-      mmtext.prepareView(mContext, textView, mm.technomation.tmmtextutilities.mmtext.TEXT_ZAWGYI,
+      mmtext.prepareView(mContext, textView, mmtext.TEXT_UNICODE,
           true, true);
     }
   }
@@ -74,7 +73,7 @@ public class MMTextUtils {
         mmtext.prepareView(mContext, textView, mmtext.TEXT_UNICODE, true, true);
         break;
       case 2:
-        mmtext.prepareView(mContext, textView, mm.technomation.tmmtextutilities.mmtext.TEXT_ZAWGYI,
+        mmtext.prepareView(mContext, textView, mmtext.TEXT_ZAWGYI,
             true, true);
     }
   }
