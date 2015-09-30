@@ -90,7 +90,6 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.motion_header_tv) TextView mMotionHeaderTv;
   AppBarLayout.OnOffsetChangedListener mListener;
   Candidate candidate;
-  private RESTService mRESTService;
   private String[] colorHexes = new String[] {
       "#F44336", "#E91E63", "#9C27B0", "#673AB7", "#2196F3", "#009688", "#4CAF50", "#FFC107",
       "#FF5722"
@@ -186,7 +185,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mCandidateLegalSlature.setText(candidate.getLegislature());
     mCandidateParty.setText(candidate.getParty().getPartyName());
     mCandidateAddress.setText(candidate.getWardVillage());
-    mRESTService = RESTClient.getService(this);
+    RESTService mRESTService = RESTClient.getService(this);
     if (candidate.getMpid() == null) {
       mCompareCandidate.setCardBackgroundColor(getResources().getColor(R.color.accent_color_error));
       mCandidateCompareResult.setText(getResources().getString(R.string.first_time_candidate));

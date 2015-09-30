@@ -21,8 +21,9 @@ import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.models.Candidate;
 import org.mmaug.mae.rest.RESTClient;
-import org.mmaug.mae.utils.FontCache;
+import org.mmaug.mae.utils.MMTextUtils;
 import org.mmaug.mae.utils.MixUtils;
+import org.mmaug.mae.utils.mmtext;
 import org.mmaug.mae.view.AspectRatioImageView;
 import org.mmaug.mae.view.AutofitTextView;
 import org.mmaug.mae.view.CircularImageView;
@@ -30,6 +31,7 @@ import org.mmaug.mae.view.RoundCornerProgressBar;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
+import timber.log.Timber;
 
 public class CandidateCompareActivity extends BaseActivity {
   @Bind(R.id.question_showcase) LinearLayout question_showcase;
@@ -52,9 +54,16 @@ public class CandidateCompareActivity extends BaseActivity {
   float[] hslValues = new float[3];
   float[] darkValue = new float[3];
 
+  private Typeface typefaceTitle, typefacelight;
+  private boolean isUnicode;
+
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     ButterKnife.bind(this);
+
+    typefacelight = getTypefaceLight();
+    typefaceTitle = getTypefaceTitle();
+    isUnicode = isUnicode();
 
     //GET candidate value
     setupHeader();
@@ -87,16 +96,11 @@ public class CandidateCompareActivity extends BaseActivity {
                       + entry.getValue().getAsJsonObject().get(candidate.getMpid()).getAsInt();
               PercentageOne = Float.valueOf((obtainScrollOne * 100 / TotalScore));
               PercentageTwo = Float.valueOf((obtainScrollTwo * 100 / TotalScore));
-              Typeface typefaceTitle =
-                  FontCache.get("MyanmarAngoun.ttf", CandidateCompareActivity.this);
-              Typeface typefacelight =
-                  FontCache.get("pyidaungsu.ttf", CandidateCompareActivity.this);
               View question_indicator =
                   getLayoutInflater().inflate(R.layout.question_compare_layout, motion_view, false);
               TextView questionText =
                   (TextView) question_indicator.findViewById(R.id.question_title);
-              TextView leftText =
-                  (TextView) question_indicator.findViewById(R.id.left_text);
+              TextView leftText = (TextView) question_indicator.findViewById(R.id.left_text);
               TextView rightText = (TextView) question_indicator.findViewById(R.id.right_text);
               leftText.setText(MixUtils.convertToBurmese(String.valueOf(obtainScrollOne)));
               rightText.setText(MixUtils.convertToBurmese(String.valueOf(obtainScrollTwo)));
@@ -113,6 +117,12 @@ public class CandidateCompareActivity extends BaseActivity {
               roundCornerProgressBarTwo.setProgressColor(Color.parseColor("#009688"));
               questionText.setText(entry.getKey());
               motion_view.addView(question_indicator);
+              if (isUnicode) {
+                questionText.setTypeface(typefacelight);
+              } else {
+                MMTextUtils.getInstance(CandidateCompareActivity.this)
+                    .prepareMultipleViews(questionText, leftText, rightText);
+              }
             }
           }
 
@@ -131,19 +141,15 @@ public class CandidateCompareActivity extends BaseActivity {
                     + entry.getValue().getAsJsonObject().get(candidate.getMpid()).getAsInt();
             PercentageOne = Float.valueOf((obtainScrollOne * 100 / TotalScore));
             PercentageTwo = Float.valueOf((obtainScrollTwo * 100 / TotalScore));
-            Typeface typefaceTitle =
-                FontCache.get("MyanmarAngoun.ttf", CandidateCompareActivity.this);
-            Typeface typefacelight = FontCache.get("pyidaungsu.ttf", CandidateCompareActivity.this);
             View question_indicator =
                 getLayoutInflater().inflate(R.layout.question_compare_layout, question_showcase,
                     false);
             TextView questionText = (TextView) question_indicator.findViewById(R.id.question_title);
-            TextView leftText =
-                (TextView) question_indicator.findViewById(R.id.left_text);
+            TextView leftText = (TextView) question_indicator.findViewById(R.id.left_text);
             TextView rightText = (TextView) question_indicator.findViewById(R.id.right_text);
             leftText.setText(MixUtils.convertToBurmese(String.valueOf(obtainScrollOne)));
             rightText.setText(MixUtils.convertToBurmese(String.valueOf(obtainScrollTwo)));
-            questionText.setTypeface(typefacelight);
+
             RoundCornerProgressBar roundCornerProgressBar =
                 (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate1);
             RoundCornerProgressBar roundCornerProgressBarTwo =
@@ -156,28 +162,36 @@ public class CandidateCompareActivity extends BaseActivity {
             roundCornerProgressBarTwo.setProgressColor(Color.parseColor("#009688"));
             questionText.setText(entry.getKey());
             question_showcase.addView(question_indicator);
+            if (isUnicode) {
+              questionText.setTypeface(typefacelight);
+            } else {
+              MMTextUtils.getInstance(CandidateCompareActivity.this)
+                  .prepareMultipleViews(questionText, leftText, rightText);
+            }
           }
         }
       }
 
       @Override public void onFailure(Throwable t) {
-
+        Timber.e(t.getMessage());
       }
     });
   }
 
   void setTypeFace() {
-    Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
-    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
-    candidateOne.setTypeface(typefaceTitle);
-    candidateTwo.setTypeface(typefaceTitle);
-    candidateEduOne.setTypeface(typefacelight);
-    candidateEduTwo.setTypeface(typefacelight);
-    partyJobOne.setTypeface(typefacelight);
-    partyJobTwo.setTypeface(typefacelight);
-    no_flag_candidateOne.setTypeface(typefacelight);
-    no_flag_candidateTwo.setTypeface(typefacelight);
-    compareTitle.setTypeface(typefaceTitle);
+    if (isUnicode) {
+      candidateOne.setTypeface(typefaceTitle);
+      candidateTwo.setTypeface(typefaceTitle);
+      candidateEduOne.setTypeface(typefacelight);
+      candidateEduTwo.setTypeface(typefacelight);
+      partyJobOne.setTypeface(typefacelight);
+      partyJobTwo.setTypeface(typefacelight);
+      no_flag_candidateOne.setTypeface(typefacelight);
+      no_flag_candidateTwo.setTypeface(typefacelight);
+      compareTitle.setTypeface(typefaceTitle);
+    } else {
+      mmtext.prepareActivity(this, mmtext.TEXT_UNICODE, true, true);
+    }
   }
 
   @Override protected int getLayoutResource() {
