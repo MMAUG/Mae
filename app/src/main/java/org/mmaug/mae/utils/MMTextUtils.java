@@ -12,9 +12,13 @@ import mm.technomation.tmmtextutilities.mmtext;
 public class MMTextUtils {
 
   private Context mContext;
+  private static MMTextUtils mmTextUtils;
 
   public static MMTextUtils getInstance(Context context) {
-    return new MMTextUtils(context);
+    if (mmTextUtils == null) {
+      mmTextUtils = new MMTextUtils(context);
+    }
+    return mmTextUtils;
   }
 
   public MMTextUtils(Context context) {
@@ -64,9 +68,12 @@ public class MMTextUtils {
 
   public void prepareMultipleViews(View... textViews) {
     for (View textView : textViews) {
-      mmtext.prepareView(mContext, textView, mmtext.TEXT_UNICODE,
-          true, true);
+      mmtext.prepareView(mContext, textView, mmtext.TEXT_UNICODE, true, true);
     }
+  }
+
+  public void prepareSingleView(View textView) {
+    mmtext.prepareView(mContext, textView, mmtext.TEXT_UNICODE, true, true);
   }
 
   public void prepareSingleView(String content, View textView) {
@@ -78,8 +85,7 @@ public class MMTextUtils {
         mmtext.prepareView(mContext, textView, mmtext.TEXT_UNICODE, true, true);
         break;
       case 2:
-        mmtext.prepareView(mContext, textView, mmtext.TEXT_ZAWGYI,
-            true, true);
+        mmtext.prepareView(mContext, textView, mmtext.TEXT_ZAWGYI, true, true);
     }
   }
 }

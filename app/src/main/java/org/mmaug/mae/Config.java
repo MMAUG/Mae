@@ -6,6 +6,8 @@ package org.mmaug.mae;
 public class Config {
 
   public static final String BASE_URL = "http://mae.mmaug.org/api/v1/";
+  public static final String MYANMARANGOUN ="MyanmarAngoun.ttf";
+  public static final String PYIDAUNGSU="pyidaungsu.ttf";
 
   /**
    * Check Voter API

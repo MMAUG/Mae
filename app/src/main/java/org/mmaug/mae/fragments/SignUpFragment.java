@@ -50,6 +50,7 @@ public class SignUpFragment extends Fragment
     implements com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener,
     AdapterView.OnItemClickListener {
 
+  @Bind(R.id.tv_dob_label) TextView mDOBLabel;
   @Bind(R.id.date_of_birth) TextView mDateOfBirth;
   @Bind(R.id.user_name) EditText mUserName;
   @Bind(R.id.nrc_no) EditText mNrcNo;
@@ -192,12 +193,15 @@ public class SignUpFragment extends Fragment
     defaultYear = now.get(Calendar.YEAR) - maxAgeforVote;
     defaultMonth = now.get(Calendar.MONTH);
     defaultDate = now.get(Calendar.DAY_OF_MONTH);
-    Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", getActivity());
-    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", getActivity());
+
+    Typeface typefaceTitle = FontCache.getTypefaceTitle(getContext());
+    Typeface typefacelight = FontCache.getTypefaceLight(getContext());
 
     if (userPrefUtils.getTextPref().equals(Config.ZAWGYI)) {
       MMTextUtils.getInstance(getContext())
-          .prepareMultipleViews(toCheckMae, checkButton, myanmarTextPlease, skip_card_button);
+          .prepareMultipleViews(toCheckMae, checkButton, myanmarTextPlease, skip_card_button,
+              mTownship, mNrcNo, mNrcTownShip, mNrcValue, mFatherName, mUserName, mDateOfBirth,
+              mDOBLabel);
     } else {
       toCheckMae.setTypeface(typefaceTitle);
       checkButton.setTypeface(typefacelight);

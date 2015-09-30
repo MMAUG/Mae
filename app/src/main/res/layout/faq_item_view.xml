@@ -21,7 +21,7 @@
     <TextView
         android:id="@+id/faq_question"
         style="@style/TextAppearance.AppCompat.Subhead"
-        android:textColor="@color/primary_text_black"
+        android:textColor="@color/primary_text_color"
         android:padding="@dimen/spacing_major"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

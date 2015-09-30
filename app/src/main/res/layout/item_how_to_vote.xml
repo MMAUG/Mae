@@ -10,7 +10,7 @@
       android:layout_marginLeft="@dimen/spacing_major">
     <View
         android:layout_gravity="center_horizontal"
-        android:background="@color/secondary_text_color"
+        android:background="@color/grey_divider"
         android:layout_width="@dimen/spacing_minute"
         android:layout_height="match_parent"/>
     <ImageView
@@ -62,7 +62,7 @@
         style="@style/TextAppearance.AppCompat.Small"
         android:layout_marginBottom="@dimen/spacing_minor"/>
     <View
-        android:background="@color/secondary_text_color"
+        android:background="@color/grey_divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/spacing_minute"/>
   </LinearLayout>
