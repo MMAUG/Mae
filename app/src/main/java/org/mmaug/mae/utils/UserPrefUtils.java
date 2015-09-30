@@ -15,6 +15,7 @@ public class UserPrefUtils {
   private static final String TOWNSHIP = "township";
   private static final String IS_VALID = "valid";
   private static final String SKIP_VALID = "skip";
+  private static final String TEXT_PREF = "textpref";
 
   private Context mContext;
   private SharedPreferences mSharedPreferences;
@@ -46,6 +47,14 @@ public class UserPrefUtils {
 
   public void saveTownShip(String township) {
     mSharedPreferences.edit().putString(TOWNSHIP, township).apply();
+  }
+
+  public void saveTextPref(String textPref) {
+    mSharedPreferences.edit().putString(TEXT_PREF, textPref).apply();
+  }
+
+  public String getTextPref() {
+    return mSharedPreferences.getString(TEXT_PREF, "");
   }
 
   public String getUserName() {
