@@ -13,9 +13,7 @@ public class MMTextUtils {
   private static MMTextUtils mmTextUtils;
 
   public static MMTextUtils getInstance(Context context) {
-    if (mmTextUtils == null) {
-      mmTextUtils = new MMTextUtils(context);
-    }
+    mmTextUtils = new MMTextUtils(context);
     return mmTextUtils;
   }
   public MMTextUtils(Context context) {
@@ -70,7 +68,7 @@ public class MMTextUtils {
   }
 
   public void prepareSingleView(View textView) {
-    mmtext.prepareView(mContext, textView, mmtext.TEXT_ZAWGYI, true, true);
+    mmtext.prepareView(mContext, textView, mmtext.TEXT_UNICODE, true, true);
 
   }
 

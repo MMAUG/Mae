@@ -22,6 +22,7 @@ import butterknife.OnClick;
 import hu.aut.utillib.circular.animation.CircularAnimationUtils;
 import java.text.ParseException;
 import java.util.HashMap;
+import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.activities.CandidateListActivity;
 import org.mmaug.mae.activities.FaqListActivity;
@@ -32,6 +33,7 @@ import org.mmaug.mae.activities.PartyListActivity;
 import org.mmaug.mae.activities.VotedActivity;
 import org.mmaug.mae.services.AlarmManagerBroadcastReceiver;
 import org.mmaug.mae.utils.FontCache;
+import org.mmaug.mae.utils.MMTextUtils;
 import org.mmaug.mae.utils.MixUtils;
 import org.mmaug.mae.utils.UserPrefUtils;
 
@@ -53,6 +55,8 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
   private AlarmManagerBroadcastReceiver alarm;
   private Dialog voteResultDialog;
+  Typeface typefaceTitle;
+  Typeface typefacelight;
 
   public HomeFragment() {
     // Required empty public constructor
@@ -60,6 +64,8 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    typefaceTitle = FontCache.getTypefaceTitle(getContext());
+    typefacelight = FontCache.getTypefaceLight(getContext());
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -116,17 +122,24 @@ public class HomeFragment extends android.support.v4.app.Fragment {
   }
 
   void setTypeFace() {
-    Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", getActivity());
-    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", getActivity());
-    monthDayLeft.setTypeface(typefacelight);
-    hourMinuteLeft.setTypeface(typefacelight);
-    toVote.setTypeface(typefaceTitle);
-    txt_cardview_vote_check.setTypeface(typefacelight);
-    txt_where_can_i_vote.setTypeface(typefacelight);
-    txt_howto_vote.setTypeface(typefacelight);
-    card_candidate_list.setTypeface(typefacelight);
-    cardview_party_condtion_list.setTypeface(typefacelight);
-    mVoted.setTypeface(typefacelight);
+    if (UserPrefUtils.getInstance(getContext()).getTextPref().equals(Config.UNICODE)) {
+      //user can see unicode
+      monthDayLeft.setTypeface(typefacelight);
+      hourMinuteLeft.setTypeface(typefacelight);
+      toVote.setTypeface(typefaceTitle);
+      txt_cardview_vote_check.setTypeface(typefacelight);
+      txt_where_can_i_vote.setTypeface(typefacelight);
+      txt_howto_vote.setTypeface(typefacelight);
+      card_candidate_list.setTypeface(typefacelight);
+      cardview_party_condtion_list.setTypeface(typefacelight);
+      mVoted.setTypeface(typefacelight);
+    } else {//user can't see unicode so force
+      MMTextUtils.getInstance(getContext())
+          .prepareMultipleViews(monthDayLeft, hourMinuteLeft, toVote, txt_cardview_vote_check,
+              txt_where_can_i_vote, txt_howto_vote, card_candidate_list,
+              cardview_party_condtion_list, mVoted);
+    }
+
   }
 
   @Override public void onAttach(Activity activity) {
@@ -170,30 +183,32 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     voteResultDialog =
         new Dialog(getActivity(), android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
     if (ok) {
-      Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", getActivity());
-      Typeface typefacelight = FontCache.get("pyidaungsu.ttf", getActivity());
       view = getActivity().getLayoutInflater().inflate(R.layout.dialog_voter_check_ok, null);
       View myTargetView = view.findViewById(R.id.circle_full);
       View mySourceView = view.findViewById(R.id.circle_empty);
       TextView okBtn = (TextView) view.findViewById(R.id.voter_check_ok_btn);
       TextView txt_recheck = (TextView) view.findViewById(R.id.txt_recheck);
-      TextView voter_check_not_ok = (TextView) view.findViewById(R.id.voter_check_not_ok);
-      voter_check_not_ok.setTypeface(typefaceTitle);
-      txt_recheck.setTypeface(typefaceTitle);
-      okBtn.setTypeface(typefaceTitle);
       TextView recheck = (TextView) view.findViewById(R.id.recheck);
+      TextView voter_check_not_ok = (TextView) view.findViewById(R.id.voter_check_not_ok);
+
+      if (UserPrefUtils.getInstance(getContext()).getTextPref().equals(Config.UNICODE)) {
+        voter_check_not_ok.setTypeface(typefaceTitle);
+        txt_recheck.setTypeface(typefacelight);
+        okBtn.setTypeface(typefaceTitle);
+        recheck.setTypeface(typefaceTitle);
+      } else {
+        MMTextUtils.getInstance(getContext())
+            .prepareMultipleViews(voter_check_not_ok, txt_recheck, okBtn, recheck);
+      }
+
       recheck.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View view) {
           userPrefUtils.setSKIP(false);
           Intent i = new Intent(getActivity(), MainActivity.class);
           startActivity(i);
-          //SignUpFragment signUpFragment = new SignUpFragment();
-          //FragmentManager fm = getActivity().getSupportFragmentManager();
-          //FragmentTransaction transaction = fm.beginTransaction();
-          //transaction.replace(R.id.contentFragment, signUpFragment);
-          //transaction.commit();
         }
       });
+
       //myTargetView & mySourceView are children in the CircularFrameLayout
       float finalRadius = CircularAnimationUtils.hypo(200, 200);
       ////getCenter computes from 2 view: One is touched, and one will be animated, but you can use anything for center
@@ -217,15 +232,21 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         }
       });
     } else {
-      Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", getActivity());
-      Typeface typefacelight = FontCache.get("pyidaungsu.ttf", getActivity());
+
       view = getActivity().getLayoutInflater().inflate(R.layout.dialog_voter_check_not_ok, null);
       TextView okBtn = (TextView) view.findViewById(R.id.voter_check_ok_btn);
       TextView txt_recheck = (TextView) view.findViewById(R.id.txt_recheck);
       TextView voter_check_not_ok = (TextView) view.findViewById(R.id.voter_check_not_ok);
-      voter_check_not_ok.setTypeface(typefaceTitle);
-      txt_recheck.setTypeface(typefaceTitle);
-      okBtn.setTypeface(typefaceTitle);
+      TextView recheck = (TextView) view.findViewById(R.id.recheck);
+      if (UserPrefUtils.getInstance(getContext()).getTextPref().equals(Config.UNICODE)) {
+        voter_check_not_ok.setTypeface(typefaceTitle);
+        txt_recheck.setTypeface(typefacelight);
+        okBtn.setTypeface(typefaceTitle);
+        recheck.setTypeface(typefaceTitle);
+      } else {
+        MMTextUtils.getInstance(getContext())
+            .prepareMultipleViews(voter_check_not_ok, txt_recheck, okBtn, recheck);
+      }
       voteResultDialog.setContentView(view);
       voteResultDialog.show();
       okBtn.setOnClickListener(new View.OnClickListener() {
@@ -238,7 +259,6 @@ public class HomeFragment extends android.support.v4.app.Fragment {
           }
         }
       });
-      TextView recheck = (TextView) view.findViewById(R.id.recheck);
       recheck.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View view) {
           userPrefUtils.setSKIP(false);
