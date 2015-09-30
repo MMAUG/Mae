@@ -13,10 +13,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
 import java.util.Random;
+import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseAdapter;
 import org.mmaug.mae.utils.FontCache;
+import org.mmaug.mae.utils.MMTextUtils;
 import org.mmaug.mae.utils.MixUtils;
+import org.mmaug.mae.utils.UserPrefUtils;
 import org.mmaug.mae.view.AutofitTextView;
 import org.mmaug.mae.view.CustomCircleDrawable;
 
@@ -25,11 +28,13 @@ import org.mmaug.mae.view.CustomCircleDrawable;
  */
 public class HowToVoteTimelineAdapter extends BaseAdapter<BaseAdapter.BaseViewHolder> {
 
-  ArrayList<HTVObject> htvObjectList;
+  private ArrayList<HTVObject> htvObjectList;
   int[] colors;
-  Context mContext;
-  Typeface typefaceTitle;
-  Typeface typefacelight;
+  private Context mContext;
+  private Typeface typefaceTitle;
+  private Typeface typefacelight;
+  private boolean isUnicode;
+
   public HowToVoteTimelineAdapter() {
     this.htvObjectList = new ArrayList<>();
   }
@@ -42,6 +47,11 @@ public class HowToVoteTimelineAdapter extends BaseAdapter<BaseAdapter.BaseViewHo
   @Override public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
     mContext =parent.getContext();
+    typefaceTitle = FontCache.getTypefaceTitle(mContext);
+    typefacelight = FontCache.getTypefaceTitle(mContext);
+
+    isUnicode = UserPrefUtils.getInstance(mContext).getTextPref().equals(Config.UNICODE);
+
     View itemView = inflater.inflate(R.layout.item_how_to_vote, parent, false);
     return new ViewHolder(itemView, this);
   }
@@ -64,30 +74,37 @@ public class HowToVoteTimelineAdapter extends BaseAdapter<BaseAdapter.BaseViewHo
     }
     int color = colors[new Random().nextInt(colors.length)];
 
-    if (typefaceTitle == null) typefaceTitle = FontCache.get("MyanmarAngoun.ttf", mContext);
-    if (typefacelight == null) typefacelight = FontCache.get("pyidaungsu.ttf", mContext);
-
     viewHolder.mIvStep.setImageDrawable(
         new CustomCircleDrawable.Builder(MixUtils.convertToBurmese(step + ""), color).setFont(
             typefaceTitle).build());
 
     //title text
     viewHolder.mTvTitle.setText(object.getTitle());
-    viewHolder.mTvTitle.setTypeface(typefaceTitle);
-
+    if (isUnicode) {
+      viewHolder.mTvTitle.setTypeface(typefaceTitle);
+    } else {
+      MMTextUtils.getInstance(mContext).prepareSingleView(viewHolder.mTvTitle);
+    }
 
     //warning text with *
     String warning = viewHolder.itemView.getContext()
         .getString(R.string.how_to_vote_placeholder_text, object.getWarning());
     viewHolder.mTvWarning.setText(Html.fromHtml(warning));
-    viewHolder.mTvWarning.setTypeface(typefacelight);
-
+    if (isUnicode) {
+      viewHolder.mTvWarning.setTypeface(typefacelight);
+    } else {
+      MMTextUtils.getInstance(mContext).prepareSingleView(viewHolder.mTvWarning);
+    }
     //show hide message view
     if (object.getMessage() != null) {
       viewHolder.mTvMessage.setVisibility(View.VISIBLE);
       viewHolder.mTvMessage.setText(object.getMessage());
       viewHolder.mTvMessage.setSizeToFit(true);
-      viewHolder.mTvMessage.setTypeface(typefaceTitle);
+      if (isUnicode) {
+        viewHolder.mTvMessage.setTypeface(typefaceTitle);
+      } else {
+        MMTextUtils.getInstance(mContext).prepareSingleView(viewHolder.mTvMessage);
+      }
     } else {
       viewHolder.mTvMessage.setVisibility(View.GONE);
     }
