@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
 import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.adapter.TownshipAdapter;
+import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.models.User;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.utils.DataUtils;
@@ -81,6 +82,8 @@ public class SignUpFragment extends Fragment
   private String townshipGson;
   private boolean isValid;
   private boolean isFirstTimeOrSkip;
+  private Typeface typefacelight, typefaceTitle;
+  private boolean isUnicode;
 
   @OnClick(R.id.sign_up_card) void checkVote() {
     if (!checkFieldisValid()) {
@@ -88,7 +91,11 @@ public class SignUpFragment extends Fragment
       TextView textView = new TextView(getActivity());
       Typeface typefacelight = FontCache.get("pyidaungsu.ttf", getActivity());
       textView.setText("အချက်အလက်များကို ပြည့်စုံစွာဖြည့်စွက်ပေးပါ");
-      textView.setTypeface(typefacelight);
+      if (isUnicode) {
+        textView.setTypeface(typefacelight);
+      } else {
+        MMTextUtils.getInstance(getContext()).prepareSingleView(textView);
+      }
       textView.setPadding(16, 16, 16, 16);
       textView.setTextColor(Color.WHITE);
       textView.setBackgroundColor(getResources().getColor(R.color.accent_color));
@@ -134,7 +141,6 @@ public class SignUpFragment extends Fragment
           FragmentTransaction transaction = fm.beginTransaction();
           transaction.replace(R.id.contentFragment, homeFragment);
           transaction.commit();
-
         }
 
         @Override public void onFailure(Throwable t) {
@@ -145,9 +151,15 @@ public class SignUpFragment extends Fragment
   }
 
   private boolean checkFieldisValid() {
-    if (TextUtils.isEmpty(mUserName.getText())||TextUtils.isEmpty(mFatherName.getText())||TextUtils.isEmpty(mDateOfBirth.getText())||
-        TextUtils.isEmpty(mNrcNo.getText())||TextUtils.isEmpty(mNrcTownShip.getText())||TextUtils.isEmpty(mNrcValue.getText())||
-    TextUtils.isEmpty(mTownship.getText())) {
+    if (TextUtils.isEmpty(mUserName.getText())
+        || TextUtils.isEmpty(mFatherName.getText())
+        || TextUtils.isEmpty(mDateOfBirth.getText())
+        ||
+        TextUtils.isEmpty(mNrcNo.getText())
+        || TextUtils.isEmpty(mNrcTownShip.getText())
+        || TextUtils.isEmpty(mNrcValue.getText())
+        ||
+        TextUtils.isEmpty(mTownship.getText())) {
       return false;
     } else {
       return true;
@@ -177,6 +189,14 @@ public class SignUpFragment extends Fragment
     datePickerDialog.show(getActivity().getFragmentManager(), DATE_TAG);
   }
 
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    BaseActivity baseActivity = (BaseActivity) getActivity();
+    typefaceTitle = baseActivity.getTypefaceTitle();
+    typefacelight = baseActivity.getTypefaceLight();
+    isUnicode = baseActivity.isUnicode();
+  }
+
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View rootView = inflater.inflate(R.layout.fragment_sign_up, container, false);
@@ -195,19 +215,17 @@ public class SignUpFragment extends Fragment
     defaultMonth = now.get(Calendar.MONTH);
     defaultDate = now.get(Calendar.DAY_OF_MONTH);
 
-    Typeface typefaceTitle = FontCache.getTypefaceTitle(getContext());
-    Typeface typefacelight = FontCache.getTypefaceLight(getContext());
-
-    if (userPrefUtils.getTextPref().equals(Config.ZAWGYI)) {
-      MMTextUtils.getInstance(getContext())
-          .prepareMultipleViews(toCheckMae, checkButton, myanmarTextPlease, skip_card_button,
-              mTownship, mNrcNo, mNrcTownShip, mNrcValue, mFatherName, mUserName, mDateOfBirth,
-              mDOBLabel);
-    } else {
+    if (isUnicode) {
       toCheckMae.setTypeface(typefaceTitle);
       checkButton.setTypeface(typefacelight);
       myanmarTextPlease.setTypeface(typefacelight);
       skip_card_button.setTypeface(typefacelight);
+    } else {
+
+      MMTextUtils.getInstance(getContext())
+          .prepareMultipleViews(toCheckMae, checkButton, myanmarTextPlease, skip_card_button,
+              mTownship, mNrcNo, mNrcTownShip, mNrcValue, mFatherName, mUserName, mDateOfBirth,
+              mDOBLabel);
     }
     if (isFirstTimeOrSkip) {
       mainView.setVisibility(View.GONE);
@@ -218,43 +236,40 @@ public class SignUpFragment extends Fragment
       transaction.replace(R.id.contentFragment, homeFragment);
       transaction.commit();
     }
-    if(userPrefUtils.getTownship()!=null&&userPrefUtils.getTownship().length()>0){
-      DataUtils.Township township = new Gson().fromJson(userPrefUtils.getTownship(),
-          DataUtils.Township.class);
+    if (userPrefUtils.getTownship() != null && userPrefUtils.getTownship().length() > 0) {
+      DataUtils.Township township =
+          new Gson().fromJson(userPrefUtils.getTownship(), DataUtils.Township.class);
       mTownship.setText(township.getTowhshipNameBurmese());
     }
-    if(userPrefUtils.getUserName()!=null && userPrefUtils.getUserName().length()>0){
+    if (userPrefUtils.getUserName() != null && userPrefUtils.getUserName().length() > 0) {
       mUserName.setText(userPrefUtils.getUserName());
     }
-    if(userPrefUtils.getFatherName()!=null && userPrefUtils.getFatherName().length()>0){
+    if (userPrefUtils.getFatherName() != null && userPrefUtils.getFatherName().length() > 0) {
       mFatherName.setText(userPrefUtils.getFatherName());
     }
-    if(userPrefUtils.getBirthDate()!=null && userPrefUtils.getBirthDate().length()>0){
+    if (userPrefUtils.getBirthDate() != null && userPrefUtils.getBirthDate().length() > 0) {
       mDateOfBirth.setText(userPrefUtils.getBirthDate());
     }
-    if(userPrefUtils.getNrc()!=null&& userPrefUtils.getNrc().length()>0){
+    if (userPrefUtils.getNrc() != null && userPrefUtils.getNrc().length() > 0) {
       String nrcLong = userPrefUtils.getNrc();
       try {
         String nrc1 = nrcLong.split("/")[0];
         mNrcNo.setText(nrc1);
-      }catch (Exception e){
+      } catch (Exception e) {
 
       }
       try {
         String nrc2 = nrcLong.split("/")[1].split("\\(နိုင်\\)")[0];
         mNrcTownShip.setText(nrc2);
-      }catch (Exception e){
+      } catch (Exception e) {
 
       }
       try {
         String nrc3 = nrcLong.split("/")[1].split("\\(နိုင်\\)")[1];
         mNrcValue.setText(nrc3);
-      }catch (Exception e){
+      } catch (Exception e) {
 
       }
-
-
-
     }
     return rootView;
   }
@@ -265,7 +280,7 @@ public class SignUpFragment extends Fragment
     defaultYear = year;
     defaultDate = dayOfMonth;
     defaultMonth = monthOfYear;
-    defaultMonth = defaultMonth +1;
+    defaultMonth = defaultMonth + 1;
     if ((now.get(Calendar.YEAR) - defaultYear) >= 18) {
       mDateOfBirth.setText(defaultYear + "-" + defaultMonth + "-" + defaultDate);
     }
@@ -348,9 +363,12 @@ public class SignUpFragment extends Fragment
 
   @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
     showHidSearchView(true);
-    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", getActivity());
     mTownship.setText(found.get(position).getTowhshipNameBurmese());
-    mTownship.setTypeface(typefacelight);
+    if (isUnicode) {
+      mTownship.setTypeface(typefacelight);
+    } else {
+      MMTextUtils.getInstance(getContext()).prepareSingleView(mTownship);
+    }
     townshipGson = new Gson().toJson(found.get(position));
   }
 }

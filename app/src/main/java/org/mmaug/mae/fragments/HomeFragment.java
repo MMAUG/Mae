@@ -22,7 +22,6 @@ import butterknife.OnClick;
 import hu.aut.utillib.circular.animation.CircularAnimationUtils;
 import java.text.ParseException;
 import java.util.HashMap;
-import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.activities.CandidateListActivity;
 import org.mmaug.mae.activities.FaqListActivity;
@@ -31,8 +30,8 @@ import org.mmaug.mae.activities.LocationActivity;
 import org.mmaug.mae.activities.MainActivity;
 import org.mmaug.mae.activities.PartyListActivity;
 import org.mmaug.mae.activities.VotedActivity;
+import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.services.AlarmManagerBroadcastReceiver;
-import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MMTextUtils;
 import org.mmaug.mae.utils.MixUtils;
 import org.mmaug.mae.utils.UserPrefUtils;
@@ -57,6 +56,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
   private Dialog voteResultDialog;
   Typeface typefaceTitle;
   Typeface typefacelight;
+  boolean isUnicode;
 
   public HomeFragment() {
     // Required empty public constructor
@@ -64,8 +64,10 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    typefaceTitle = FontCache.getTypefaceTitle(getContext());
-    typefacelight = FontCache.getTypefaceLight(getContext());
+    BaseActivity baseActivity = (BaseActivity) getActivity();
+    typefaceTitle = baseActivity.getTypefaceTitle();
+    typefacelight = baseActivity.getTypefaceLight();
+    isUnicode = baseActivity.isUnicode();
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -122,7 +124,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
   }
 
   void setTypeFace() {
-    if (UserPrefUtils.getInstance(getContext()).getTextPref().equals(Config.UNICODE)) {
+    if (isUnicode) {
       //user can see unicode
       monthDayLeft.setTypeface(typefacelight);
       hourMinuteLeft.setTypeface(typefacelight);
@@ -176,7 +178,6 @@ public class HomeFragment extends android.support.v4.app.Fragment {
   }
 
   @OnClick(R.id.cardview_vote_check) public void showVoteResult(CardView textView) {
-    //// TODO: 9/15/15 Handle the NOT OK result <Ye Myat Thu>
     final UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
     boolean ok = userPrefUtils.isValid();
     View view;
@@ -191,7 +192,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
       TextView recheck = (TextView) view.findViewById(R.id.recheck);
       TextView voter_check_not_ok = (TextView) view.findViewById(R.id.voter_check_not_ok);
 
-      if (UserPrefUtils.getInstance(getContext()).getTextPref().equals(Config.UNICODE)) {
+      if (isUnicode) {
         voter_check_not_ok.setTypeface(typefaceTitle);
         txt_recheck.setTypeface(typefacelight);
         okBtn.setTypeface(typefaceTitle);
@@ -238,7 +239,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
       TextView txt_recheck = (TextView) view.findViewById(R.id.txt_recheck);
       TextView voter_check_not_ok = (TextView) view.findViewById(R.id.voter_check_not_ok);
       TextView recheck = (TextView) view.findViewById(R.id.recheck);
-      if (UserPrefUtils.getInstance(getContext()).getTextPref().equals(Config.UNICODE)) {
+      if (isUnicode) {
         voter_check_not_ok.setTypeface(typefaceTitle);
         txt_recheck.setTypeface(typefacelight);
         okBtn.setTypeface(typefaceTitle);

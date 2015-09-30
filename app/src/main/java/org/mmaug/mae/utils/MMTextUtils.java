@@ -13,7 +13,7 @@ public class MMTextUtils {
   private static MMTextUtils mmTextUtils;
 
   public static MMTextUtils getInstance(Context context) {
-    mmTextUtils = new MMTextUtils(context);
+    if (mmTextUtils == null) mmTextUtils = new MMTextUtils(context);
     return mmTextUtils;
   }
   public MMTextUtils(Context context) {

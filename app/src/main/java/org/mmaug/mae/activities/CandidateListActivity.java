@@ -38,7 +38,9 @@ import org.mmaug.mae.models.CandidateListReturnObject;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.utils.DataUtils;
 import org.mmaug.mae.utils.FontCache;
+import org.mmaug.mae.utils.MMTextUtils;
 import org.mmaug.mae.utils.UserPrefUtils;
+import org.mmaug.mae.view.AutofitTextView;
 import org.mmaug.mae.view.SpacesItemDecoration;
 import retrofit.Call;
 import retrofit.Callback;
@@ -53,7 +55,8 @@ public class CandidateListActivity extends BaseActivity
   @Bind(R.id.et_search_township) EditText searchTownship;
   @Bind(R.id.rv_search_township) RecyclerView mTownshipList;
   @Bind(R.id.searchFragment) FrameLayout searchView;
-  @Bind(R.id.candidate_township) TextView mTownShip;
+  @Bind(R.id.candidate_township) AutofitTextView mTownShip;
+
   Candidate candidateFromDetail;
   private CandidateAdapter candidateAdapter;
   private SectionHeaderAdapter sectionAdapter;
@@ -83,9 +86,10 @@ public class CandidateListActivity extends BaseActivity
     super.onCreate(savedInstanceState);
     ButterKnife.bind(this);
     initCandidateRecyclerView();
+
     candidateFromDetail = (Candidate) getIntent().getSerializableExtra(Config.CANDIDATE);
     if (candidateFromDetail != null) {
-      tvToolbarTitle.setText(getResources().getString(R.string.compare_title));
+      setToolbarTitle(getResources().getString(R.string.compare_title));
     }
     UserPrefUtils userPrefUtils = new UserPrefUtils(this);
     String townShipString = userPrefUtils.getTownship();
@@ -95,6 +99,13 @@ public class CandidateListActivity extends BaseActivity
     if(myTownShip!=null) {
       mTownShip.setText(myTownShip.getTowhshipNameBurmese());
     }
+
+    if (isUnicode()) {
+      mTownShip.setTypeface(getTypefaceLight());
+    } else {
+      MMTextUtils.getInstance(this).prepareSingleView(mTownShip);
+    }
+    mTownShip.setSizeToFit(true);
     fetchCandidate();
     initEditText();
     initRecyclerView();
@@ -141,12 +152,14 @@ public class CandidateListActivity extends BaseActivity
         View okBtn = view.findViewById(R.id.voter_check_ok_btn);
         TextView textView = (TextView) view.findViewById(R.id.tv_vote_message);
         TextView canCompare = (TextView) view.findViewById(R.id.incorrect_vote);
-        Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
-        Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
         canCompare.setText("ကျေးဇူးပြု၍ အခြားအမတ်ကို ရွေးချယ်ပါ");
-        canCompare.setTypeface(typefaceTitle);
         textView.setText(getResources().getString(R.string.duplicate_candidate_choose));
-        textView.setTypeface(typefacelight);
+        if (isUnicode()) {
+          canCompare.setTypeface(getTypefaceTitle());
+          textView.setTypeface(getTypefaceLight());
+        } else {
+          MMTextUtils.getInstance(this).prepareMultipleViews(canCompare, textView);
+        }
         candidateResultDialog.setContentView(view);
         candidateResultDialog.show();
         okBtn.setOnClickListener(new View.OnClickListener() {
