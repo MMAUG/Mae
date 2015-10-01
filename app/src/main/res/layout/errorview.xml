@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tr.xip.errorview.ErrorView xmlns:errorview="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/error_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    errorview:ev_errorImage="@drawable/error_view_cloud"
+    errorview:ev_subtitle="@string/error_something_wrong"
+    errorview:ev_title="@string/error_cant_connect"
+    errorview:ev_retryButtonBackground="?android:attr/selectableItemBackground"
+    errorview:ev_retryButtonTextColor="@android:color/darker_gray"
+    errorview:ev_showRetryButton="true"
+    errorview:ev_showSubtitle="true"
+    errorview:ev_showTitle="true"
+    android:layout_gravity="center"
+    />

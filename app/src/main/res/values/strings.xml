@@ -109,4 +109,8 @@
   <string name="please_choose_font">ကျေးဇူးပြု၍ မိမိဖုန်းနှင့် ကိုက်ညီသော မြန်မာစာဖောင့်အား
     ရွေးချယ်ပေးပါ။</string>
   <string name="save_font">ရွေးပြီးပြီ</string>
+
+  <string name="error_cant_connect">Can\'t Connect!</string>
+  <string name="error_something_wrong">Something went wrong!</string>
+
 </resources>

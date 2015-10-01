@@ -45,9 +45,6 @@ import retrofit.Callback;
 import retrofit.Response;
 import timber.log.Timber;
 
-/**
- * A placeholder fragment containing a simple view.
- */
 public class SignUpFragment extends Fragment
     implements com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener,
     AdapterView.OnItemClickListener {
@@ -370,6 +367,14 @@ public class SignUpFragment extends Fragment
       MMTextUtils.getInstance(getContext()).prepareSingleView(mTownship);
     }
     townshipGson = new Gson().toJson(found.get(position));
+  }
+
+  public boolean interceptOnBackPressed() {
+    if (searchView.getVisibility() == View.VISIBLE) {
+      showHidSearchView(true);
+      return true;
+    }
+    return false;
   }
 }
 

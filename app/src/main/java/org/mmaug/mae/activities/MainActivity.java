@@ -5,6 +5,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseActivity;
+import org.mmaug.mae.fragments.SignUpFragment;
 
 public class MainActivity extends BaseActivity {
 
@@ -46,5 +47,14 @@ public class MainActivity extends BaseActivity {
 
   @Override protected String getToolbarText() {
     return null;
+  }
+
+  @Override public void onBackPressed() {
+    SignUpFragment signUp =
+        (SignUpFragment) getSupportFragmentManager().findFragmentByTag("SignUp");
+    boolean intercepted = signUp.interceptOnBackPressed();
+    if (!intercepted) {
+      super.onBackPressed();
+    }
   }
 }

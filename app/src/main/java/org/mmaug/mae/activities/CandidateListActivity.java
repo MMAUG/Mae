@@ -37,19 +37,22 @@ import org.mmaug.mae.models.CandidateListReturnObject;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.utils.DataUtils;
 import org.mmaug.mae.utils.MMTextUtils;
+import org.mmaug.mae.utils.MixUtils;
 import org.mmaug.mae.utils.UserPrefUtils;
 import org.mmaug.mae.view.AutofitTextView;
 import org.mmaug.mae.view.SpacesItemDecoration;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
+import tr.xip.errorview.ErrorView;
 
 public class CandidateListActivity extends BaseActivity
-    implements CandidateAdapter.OnItemClickListener, AdapterView.OnItemClickListener {
+    implements CandidateAdapter.OnItemClickListener, AdapterView.OnItemClickListener,
+    ErrorView.RetryListener {
 
   @Bind(R.id.rv_candidate_list) RecyclerView mRecyclerView;
   @Bind(R.id.pb_candidate_list) ProgressBar mProgressBar;
-  @Bind(R.id.main_view) FrameLayout mainView;
+  @Bind(R.id.error_view) ErrorView mErrorView;
   @Bind(R.id.et_search_township) EditText searchTownship;
   @Bind(R.id.rv_search_township) RecyclerView mTownshipList;
   @Bind(R.id.searchFragment) FrameLayout searchView;
@@ -104,32 +107,29 @@ public class CandidateListActivity extends BaseActivity
       MMTextUtils.getInstance(this).prepareSingleView(mTownShip);
     }
     mTownShip.setSizeToFit(true);
-    fetchCandidate();
+    fetchCandidate(myTownShip);
     initEditText();
     initRecyclerView();
+    mErrorView.setOnRetryListener(this);
   }
 
-  private void fetchCandidate() {
+  private void fetchCandidate(DataUtils.Township myTownShip) {
     if (myTownShip != null) {
-      showHideProgressBar(true);
+      MixUtils.toggleVisibilityWithAnim(mProgressBar, true);
+      MixUtils.toggleVisibilityWithAnim(mRecyclerView, false);
+      MixUtils.toggleVisibilityWithAnim(mErrorView, false);
+
       Map<String, String> pyithuParams = new HashMap<>();
-      //Probably, there won't be much more than 200 candidates for a township for the same legislature
       pyithuParams.put(Config.PER_PAGE, "200");
-      //TODO remove hardcoded PCODE
       pyithuParams.put(Config.CONSTITUENCY_ST_PCODE, myTownShip.getSRPcode());
       pyithuParams.put(Config.CONSTITUENCY_DT_PCODE, myTownShip.getDPcode());
       pyithuParams.put(Config.CONSTITUENCY_TS_PCODE, myTownShip.getTSPcode());
       pyithuParams.put(Config.WITH, Config.PARTY);
       inflateCandiateAdapter(pyithuParams);
     } else {
-      showHidSearchView(false);
-      showHideProgressBar(false);
+      MixUtils.toggleVisibilityWithAnim(searchView, true);
+      MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
     }
-  }
-
-  private void showHideProgressBar(boolean visibility) {
-
-    mProgressBar.setVisibility(visibility ? View.VISIBLE : View.GONE);
   }
 
   private boolean checkSection(List<SectionHeaderAdapter.Section> sections, String s) {
@@ -178,12 +178,14 @@ public class CandidateListActivity extends BaseActivity
         TextView title = (TextView) view.findViewById(R.id.tv_candidate_cant_compare_title);
         TextView textView = (TextView) view.findViewById(R.id.tv_vote_message);
         TextView canCompare = (TextView) view.findViewById(R.id.incorrect_vote);
-        canCompare.setText(candidate.getName()
-            + " နှင့် "
-            + candidateFromDetail.getName()
-            + getResources().getString(R.string.cannot_compare_candidate));
-        textView.setText(
-            candidate.getName() + getResources().getString(R.string.incrroect_candidate_compare));
+        canCompare.setText(new StringBuilder().append(candidate.getName())
+            .append(" နှင့် ")
+            .append(candidateFromDetail.getName())
+            .append(getResources().getString(R.string.cannot_compare_candidate))
+            .toString());
+        textView.setText(new StringBuilder().append(candidate.getName())
+            .append(getResources().getString(R.string.incrroect_candidate_compare))
+            .toString());
         if (isUnicode()) {
           canCompare.setTypeface(getTypefaceTitle());
           textView.setTypeface(getTypefaceLight());
@@ -223,7 +225,7 @@ public class CandidateListActivity extends BaseActivity
   }
 
   @OnClick(R.id.candidate_township) public void showTsRecyclerView() {
-    showHidSearchView(false);
+    MixUtils.toggleVisibilityWithAnim(searchView, true);
   }
 
   private void searchTownship(String township, ArrayList<DataUtils.Township> listToSearch) {
@@ -258,11 +260,6 @@ public class CandidateListActivity extends BaseActivity
       }
     }
     return found;
-  }
-
-  private void showHidSearchView(boolean visibility) {
-    //mainView.setVisibility(visibility ? View.VISIBLE : View.GONE);
-    searchView.setVisibility(visibility ? View.GONE : View.VISIBLE);
   }
 
   private void initEditText() {
@@ -311,20 +308,13 @@ public class CandidateListActivity extends BaseActivity
   }
 
   @Override public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-    showHidSearchView(true);
+
     mTownShip.setText(found.get(i).getTowhshipNameBurmese());
     String townshipString = new Gson().toJson(found.get(i));
     UserPrefUtils userPrefUtils = new UserPrefUtils(CandidateListActivity.this);
     userPrefUtils.saveTownShip(townshipString);
-    showHideProgressBar(true);
-    Map<String, String> pyithuParams = new HashMap<>();
-    //Probably, there won't be much more than 200 candidates for a township for the same legislature
-    pyithuParams.put(Config.PER_PAGE, "200");
-    pyithuParams.put(Config.CONSTITUENCY_ST_PCODE, found.get(i).getSRPcode());
-    pyithuParams.put(Config.CONSTITUENCY_DT_PCODE, found.get(i).getDPcode());
-    pyithuParams.put(Config.CONSTITUENCY_TS_PCODE, found.get(i).getTSPcode());
-    pyithuParams.put(Config.WITH, Config.PARTY);
-    inflateCandiateAdapter(pyithuParams);
+    this.myTownShip = found.get(i);
+    fetchCandidate(found.get(i));
   }
 
   private void inflateCandiateAdapter(final Map<String, String> params) {
@@ -374,19 +364,33 @@ public class CandidateListActivity extends BaseActivity
                 new SectionHeaderAdapter.Section[sections.size()];
             sectionAdapter.setSections(sections.toArray(dummy));
             candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
-            showHideProgressBar(false);
+            MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
+            MixUtils.toggleVisibilityWithAnim(mRecyclerView, true);
           }
 
           @Override public void onFailure(Throwable t) {
-
+            MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
+            MixUtils.toggleVisibilityWithAnim(mRecyclerView, false);
+            MixUtils.toggleVisibilityWithAnim(mErrorView, true);
           }
         });
       }
 
       @Override public void onFailure(Throwable t) {
-        t.printStackTrace();
-        showHideProgressBar(false);
+        MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
       }
     });
+  }
+
+  @Override public void onRetry() {
+    fetchCandidate(myTownShip);
+  }
+
+  @Override public void onBackPressed() {
+    if (searchView.getVisibility() == View.VISIBLE) {
+      MixUtils.toggleVisibilityWithAnim(searchView, false);
+    } else {
+      super.onBackPressed();
+    }
   }
 }

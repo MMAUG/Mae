@@ -57,6 +57,7 @@ public class FontCheckerActivity extends BaseActivity
   @OnClick(R.id.cardview_save_font) void saveFont() {
     UserPrefUtils.getInstance(this).saveTextPref(font);
     startActivity(new Intent(this, MainActivity.class));
+    finish();
   }
 
   @Override protected int getLayoutResource() {
