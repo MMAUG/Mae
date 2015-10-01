@@ -26,6 +26,7 @@ import org.mmaug.mae.view.SpacesItemDecoration;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
+import timber.log.Timber;
 import tr.xip.errorview.ErrorView;
 
 /**
@@ -127,6 +128,7 @@ public class PartyListActivity extends BaseActivity
                           if (currentPage == 1) {
                             MixUtils.toggleVisibilityWithAnim(mErrorView, true);
                           }
+                          Timber.e(t.getMessage());
                         }
                       }
 

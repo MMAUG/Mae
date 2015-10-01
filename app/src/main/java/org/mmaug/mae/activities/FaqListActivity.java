@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,19 +33,16 @@ import retrofit.Response;
  * Created by Ye Lin Aung on 15/08/06.
  */
 public class FaqListActivity extends BaseActivity
-    implements FaqAdapter.ClickInterface, android.support.v7.widget.SearchView.OnQueryTextListener {
+    implements FaqAdapter.ClickInterface, SearchView.OnQueryTextListener {
 
   private static String TAG = "FAQ_LIST_ACTIVITY";
   @Bind(R.id.faq_list_recycler_view) RecyclerView mFaqListRecyclerView;
   @Bind(R.id.faq_list_progress_bar) ProgressBar mProgressView;
   private ViewUtils viewUtils;
-  private LinearLayoutManager mLayoutManager;
   private FaqAdapter mFaqAdapter;
   private EndlessRecyclerViewAdapter mEndlessRecyclerViewAdapter;
   private int mCurrentPage = 1;
   private List<FAQ> mFaqDatas;
-  private android.support.v7.widget.SearchView mSearchView;
-  private MenuItem mSearchMenu;
   private RESTService mRESTService;
 
 
@@ -60,7 +58,7 @@ public class FaqListActivity extends BaseActivity
 
     mRESTService = RESTClient.getService(this);
     viewUtils = new ViewUtils(this);
-    mLayoutManager = new LinearLayoutManager(this);
+    LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
     mFaqListRecyclerView.setLayoutManager(mLayoutManager);
     mFaqAdapter = new FaqAdapter();
     mFaqAdapter.setOnItemClickListener(this);
@@ -94,8 +92,8 @@ public class FaqListActivity extends BaseActivity
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.menu_faq, menu);
-    mSearchMenu = menu.findItem(R.id.menu_search);
-    mSearchView = (android.support.v7.widget.SearchView) mSearchMenu.getActionView();
+    MenuItem mSearchMenu = menu.findItem(R.id.menu_search);
+    SearchView mSearchView = (SearchView) mSearchMenu.getActionView();
     mSearchView.setOnQueryTextListener(this);
     return true;
   }
