@@ -86,4 +86,6 @@ public interface RESTService {
 
   @GET("/faq/{faq_id}") Call<FAQDetailReturnObject> searchFaqById(@Path("faq_id") String faqId,
       @QueryMap Map<String, String> options);
+
+  @GET(Config.APP_VERSIONS) Call<JsonObject> checkUpdate();
 }

@@ -378,4 +378,3 @@ public class SignUpFragment extends Fragment
   }
 }
 
-
