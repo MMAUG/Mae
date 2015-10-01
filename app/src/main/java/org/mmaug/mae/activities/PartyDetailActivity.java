@@ -41,6 +41,7 @@ import org.mmaug.mae.view.AutofitTextView;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
+import timber.log.Timber;
 
 public class PartyDetailActivity extends AppCompatActivity {
   @Bind(R.id.backdrop) ImageView party_image;
@@ -157,7 +158,7 @@ public class PartyDetailActivity extends AppCompatActivity {
     partyDetailRestService = RESTClient.getService(this);
     Call<JsonObject> candidateCountCall =
         partyDetailRestService.getCandidateCount(party.getPartyId());
-    System.out.println("PARTY ID   " + party.getPartyId());
+    Timber.d("PARTY ID   " + party.getPartyId());
     final Call<JsonObject> currentCount = partyDetailRestService.getCurrentCount();
     candidateCountCall.enqueue(new Callback<JsonObject>() {
       @Override public void onResponse(Response<JsonObject> response) {
