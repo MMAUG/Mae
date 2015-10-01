@@ -44,8 +44,9 @@
             >
           <TextView
               android:id="@+id/faq_question"
-              style="@style/TextAppearance.AppCompat.Title"
+              style="@style/TextAppearance.AppCompat.Subhead"
               android:padding="@dimen/spacing_major"
+              android:textColor="@color/secondary_text_color"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               tools:text="Can I have Something?"

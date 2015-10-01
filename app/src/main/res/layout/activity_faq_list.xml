@@ -8,7 +8,6 @@
 
     <include
         layout="@layout/toolbar"
-        android:id="@+id/faq_list_toolbar"
         />
 
     <FrameLayout

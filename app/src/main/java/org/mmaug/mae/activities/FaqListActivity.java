@@ -3,22 +3,21 @@ package org.mmaug.mae.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ProgressBar;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.mmaug.mae.R;
 import org.mmaug.mae.adapter.EndlessRecyclerViewAdapter;
 import org.mmaug.mae.adapter.FaqAdapter;
+import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.models.FAQ;
 import org.mmaug.mae.models.FAQListReturnObject;
 import org.mmaug.mae.rest.RESTClient;
@@ -32,14 +31,12 @@ import retrofit.Response;
 /**
  * Created by Ye Lin Aung on 15/08/06.
  */
-public class FaqListActivity extends AppCompatActivity
+public class FaqListActivity extends BaseActivity
     implements FaqAdapter.ClickInterface, android.support.v7.widget.SearchView.OnQueryTextListener {
 
   private static String TAG = "FAQ_LIST_ACTIVITY";
-  private RecyclerView mFaqListRecyclerView;
-  private ProgressBar mProgressView;
-  private View mErrorView;
-  private Button mRetryBtn;
+  @Bind(R.id.faq_list_recycler_view) RecyclerView mFaqListRecyclerView;
+  @Bind(R.id.faq_list_progress_bar) ProgressBar mProgressView;
   private ViewUtils viewUtils;
   private LinearLayoutManager mLayoutManager;
   private FaqAdapter mFaqAdapter;
@@ -53,24 +50,15 @@ public class FaqListActivity extends AppCompatActivity
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_faq_list);
-
-    Toolbar mToolbar = (Toolbar) findViewById(R.id.faq_list_toolbar);
+    ButterKnife.bind(this);
 
     mFaqListRecyclerView = (RecyclerView) findViewById(R.id.faq_list_recycler_view);
     mProgressView = (ProgressBar) findViewById(R.id.faq_list_progress_bar);
+
     //mProgressView.getIndeterminateDrawable()
     //    .setColorFilter(getResources().getColor(R.color.primary), PorterDuff.Mode.SRC_ATOP);
 
-    mToolbar.setTitle(getString(R.string.FaqList));
-    setSupportActionBar(mToolbar);
     mRESTService = RESTClient.getMPSService(this);
-    ActionBar mActionBar = getSupportActionBar();
-    if (mActionBar != null) {
-      // Showing Back Arrow  <-
-      mActionBar.setDisplayHomeAsUpEnabled(true);
-    }
-
     viewUtils = new ViewUtils(this);
     mLayoutManager = new LinearLayoutManager(this);
     mFaqListRecyclerView.setLayoutManager(mLayoutManager);
@@ -86,6 +74,22 @@ public class FaqListActivity extends AppCompatActivity
     if (ConnectionManager.isConnected(this)) {
       loadFaqData(null);
     }
+  }
+
+  @Override protected int getLayoutResource() {
+    return R.layout.activity_faq_list;
+  }
+
+  @Override protected boolean getHomeUpEnabled() {
+    return true;
+  }
+
+  @Override protected boolean needToolbar() {
+    return true;
+  }
+
+  @Override protected String getToolbarText() {
+    return getString(R.string.FaqList);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
