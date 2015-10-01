@@ -308,8 +308,11 @@ public class CandidateListActivity extends BaseActivity
   }
 
   @Override public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+    MixUtils.toggleVisibilityWithAnim(searchView, false);
     mTownShip.setText(found.get(i).getTowhshipNameBurmese());
+    if (!isUnicode()) {
+      MMTextUtils.getInstance(this).prepareSingleView(mTownShip);
+    }
     String townshipString = new Gson().toJson(found.get(i));
     UserPrefUtils userPrefUtils = new UserPrefUtils(CandidateListActivity.this);
     userPrefUtils.saveTownShip(townshipString);
