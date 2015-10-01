@@ -94,7 +94,7 @@ public class PartyListActivity extends BaseActivity implements PartyAdapter.Clic
     Map<String, String> params = new HashMap<>();
     params.put(Config.PAGE, currentPage.toString());
     params.put(Config.PER_PAGE, "20");
-    final Call<PartyReturnObject> partyCall = RESTClient.getMPSService(this).getPartyList(params);
+    final Call<PartyReturnObject> partyCall = RESTClient.getService(this).getPartyList(params);
     partyCall.enqueue(new Callback<PartyReturnObject>() {
                         @Override public void onResponse(Response<PartyReturnObject> response) {
                           totalPageCount = response.body().getMeta().getTotal_pages();

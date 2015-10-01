@@ -109,7 +109,7 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
       initRecyclerView();
     } else {
       params.put("dt_pcode", myTownShip.getDPcode());
-      final Call<GeoReturnObject> geoCall = RESTClient.getMPSService(this).getLocationList(params);
+      final Call<GeoReturnObject> geoCall = RESTClient.getService(this).getLocationList(params);
       geoCall.enqueue(new Callback<GeoReturnObject>() {
         @Override public void onResponse(Response<GeoReturnObject> response) {
           Geo geo = response.body().getData().get(0);
@@ -359,7 +359,7 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
     //TODO remove hardcoded PCODE
     Timber.i("DTPCODE", "" + found.get(i).getDPcode());
     pyithuParams.put(Config.DT_PCODE, found.get(i).getDPcode());
-    final Call<GeoReturnObject> geoCall = RESTClient.getMPSService(this).getLocationList(pyithuParams);
+    final Call<GeoReturnObject> geoCall = RESTClient.getService(this).getLocationList(pyithuParams);
     geoCall.enqueue(new Callback<GeoReturnObject>() {
       @Override public void onResponse(Response<GeoReturnObject> response) {
         Geo geo = response.body().getData().get(0);

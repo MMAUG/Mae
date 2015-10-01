@@ -26,7 +26,7 @@ public class Config {
    * MaePaySoh API
    **/
 
-  public static final String MPS_BASE_URL = "http://mae.mmaug.org/api/v1/mps/";
+  public static final String MPS_BASE_URL = "mps/";
   //param
   public static final String PAGE = "page";
   public static final String WITH = "_with";
@@ -72,19 +72,19 @@ public class Config {
   public static final String LAT = "lat";
 
   //candidate endpoints
-  public static final String CANDIDATE_URL = CANDIDATE;
+  public static final String CANDIDATE_URL = MPS_BASE_URL + CANDIDATE;
   public static final String CANDIDATE_LIST_URL = CANDIDATE_URL + "/" + LIST;
 
   //party endpoints
-  public static final String PARTY_LIST_URL = PARTY;
+  public static final String PARTY_LIST_URL = MPS_BASE_URL + PARTY;
 
   // faq endpoints
-  public static final String FAQ_URL = FAQ;
+  public static final String FAQ_URL = MPS_BASE_URL + FAQ;
   public static final String FAQ_LIST_URL = FAQ_URL + "/" + LIST;
   public static final String FAQ_SEARCH = FAQ_URL + "/search";
 
   //geo location
-  public static final String GEO_LOCATION_URL = "geo/district";
+  public static final String GEO_LOCATION_URL = MPS_BASE_URL + "geo/district";
   public static final String GEO_LOCATION_SEARCH = GEO_LOCATION_URL + "/find";
   public static final String MOTION_DETAIL_URL = BASE_URL + "history/motions";
   public static final String MOTION_COUNT = BASE_URL + "history/motion_count";

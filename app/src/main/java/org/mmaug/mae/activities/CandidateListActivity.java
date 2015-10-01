@@ -91,10 +91,10 @@ public class CandidateListActivity extends BaseActivity
     }
     UserPrefUtils userPrefUtils = new UserPrefUtils(this);
     String townShipString = userPrefUtils.getTownship();
-    if(townShipString!=null && townShipString.length()>0) {
+    if (townShipString != null && townShipString.length() > 0) {
       myTownShip = new Gson().fromJson(townShipString, DataUtils.Township.class);
     }
-    if(myTownShip!=null) {
+    if (myTownShip != null) {
       mTownShip.setText(myTownShip.getTowhshipNameBurmese());
     }
 
@@ -110,18 +110,18 @@ public class CandidateListActivity extends BaseActivity
   }
 
   private void fetchCandidate() {
-    if(myTownShip!=null) {
+    if (myTownShip != null) {
       showHideProgressBar(true);
       Map<String, String> pyithuParams = new HashMap<>();
       //Probably, there won't be much more than 200 candidates for a township for the same legislature
       pyithuParams.put(Config.PER_PAGE, "200");
       //TODO remove hardcoded PCODE
       pyithuParams.put(Config.CONSTITUENCY_ST_PCODE, myTownShip.getSRPcode());
-      pyithuParams.put(Config.CONSTITUENCY_DT_PCODE,myTownShip.getDPcode());
-      pyithuParams.put(Config.CONSTITUENCY_TS_PCODE,myTownShip.getTSPcode());
+      pyithuParams.put(Config.CONSTITUENCY_DT_PCODE, myTownShip.getDPcode());
+      pyithuParams.put(Config.CONSTITUENCY_TS_PCODE, myTownShip.getTSPcode());
       pyithuParams.put(Config.WITH, Config.PARTY);
       inflateCandiateAdapter(pyithuParams);
-    }else{
+    } else {
       showHidSearchView(false);
       showHideProgressBar(false);
     }
@@ -178,7 +178,9 @@ public class CandidateListActivity extends BaseActivity
         TextView title = (TextView) view.findViewById(R.id.tv_candidate_cant_compare_title);
         TextView textView = (TextView) view.findViewById(R.id.tv_vote_message);
         TextView canCompare = (TextView) view.findViewById(R.id.incorrect_vote);
-        canCompare.setText(candidate.getName() + " နှင့် " + candidateFromDetail.getName()
+        canCompare.setText(candidate.getName()
+            + " နှင့် "
+            + candidateFromDetail.getName()
             + getResources().getString(R.string.cannot_compare_candidate));
         textView.setText(
             candidate.getName() + getResources().getString(R.string.incrroect_candidate_compare));
@@ -318,7 +320,6 @@ public class CandidateListActivity extends BaseActivity
     Map<String, String> pyithuParams = new HashMap<>();
     //Probably, there won't be much more than 200 candidates for a township for the same legislature
     pyithuParams.put(Config.PER_PAGE, "200");
-    //TODO remove hardcoded PCODE
     pyithuParams.put(Config.CONSTITUENCY_ST_PCODE, found.get(i).getSRPcode());
     pyithuParams.put(Config.CONSTITUENCY_DT_PCODE, found.get(i).getDPcode());
     pyithuParams.put(Config.CONSTITUENCY_TS_PCODE, found.get(i).getTSPcode());
@@ -328,18 +329,18 @@ public class CandidateListActivity extends BaseActivity
 
   private void inflateCandiateAdapter(final Map<String, String> params) {
     final Call<CandidateListReturnObject> pyithuCall =
-        RESTClient.getMPSService(this).getCandidateList(params);
+        RESTClient.getService(this).getCandidateList(params);
     pyithuCall.enqueue(new Callback<CandidateListReturnObject>() {
-      @Override public void onResponse (Response<CandidateListReturnObject> response) {
+      @Override public void onResponse(Response<CandidateListReturnObject> response) {
         final List<Candidate> candidates = response.body().getData();
         System.out.println(response.body().getData());
-        Map<String,String> amyotharParams = new HashMap<String, String>();
-        amyotharParams.put(Config.PER_PAGE,"200");
-        amyotharParams.put(Config.WITH,"party");
-        amyotharParams.put(Config.LEGISLATURE,Config.AMYOTHAE_HLUTTAW);
+        Map<String, String> amyotharParams = new HashMap<String, String>();
+        amyotharParams.put(Config.PER_PAGE, "200");
+        amyotharParams.put(Config.WITH, "party");
+        amyotharParams.put(Config.LEGISLATURE, Config.AMYOTHAE_HLUTTAW);
         amyotharParams.put(Config.CONSTITUENCY_ST_PCODE, params.get(Config.CONSTITUENCY_ST_PCODE));
-        Call<CandidateListReturnObject> amyotharCall = RESTClient.getMPSService(CandidateListActivity.this)
-            .getCandidateList(amyotharParams);
+        Call<CandidateListReturnObject> amyotharCall =
+            RESTClient.getService(CandidateListActivity.this).getCandidateList(amyotharParams);
         amyotharCall.enqueue(new Callback<CandidateListReturnObject>() {
           @Override public void onResponse(Response<CandidateListReturnObject> response) {
             if (response.isSuccess()) {
@@ -352,7 +353,7 @@ public class CandidateListActivity extends BaseActivity
               }
             });
             Collections.reverse(candidates);
-            
+
             //header section
             List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
 
@@ -380,7 +381,6 @@ public class CandidateListActivity extends BaseActivity
 
           }
         });
-
       }
 
       @Override public void onFailure(Throwable t) {

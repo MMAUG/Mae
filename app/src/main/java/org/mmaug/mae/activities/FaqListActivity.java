@@ -58,7 +58,7 @@ public class FaqListActivity extends BaseActivity
     //mProgressView.getIndeterminateDrawable()
     //    .setColorFilter(getResources().getColor(R.color.primary), PorterDuff.Mode.SRC_ATOP);
 
-    mRESTService = RESTClient.getMPSService(this);
+    mRESTService = RESTClient.getService(this);
     viewUtils = new ViewUtils(this);
     mLayoutManager = new LinearLayoutManager(this);
     mFaqListRecyclerView.setLayoutManager(mLayoutManager);
