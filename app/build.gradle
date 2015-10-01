@@ -1,14 +1,19 @@
 buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
+  repositories {
+    maven { url 'https://maven.fabric.io/public' }
+  }
 
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
-    }
+  dependencies {
+    classpath 'io.fabric.tools:gradle:1.+'
+  }
 }
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+
+def versionMajor = 1
+def versionMinor = 0
+def versionPatch = 0
+
 android {
   compileSdkVersion 23
   buildToolsVersion "23.0.1"
@@ -17,8 +22,8 @@ android {
     applicationId "org.mmaug.mae"
     minSdkVersion 15
     targetSdkVersion 23
-    versionCode 1
-    versionName "1.0"
+    versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+    versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100
     renderscriptTargetApi 23
     renderscriptSupportModeEnabled true
   }
@@ -52,6 +57,9 @@ android {
       signingConfig signingConfigs.release
       applicationIdSuffix '.release'
       versionNameSuffix '-RELEASE'
+      minifyEnabled true
+      shrinkResources true
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
     debug {
       debuggable true
@@ -65,20 +73,13 @@ android {
       versionNameSuffix '-BETA'
     }
   }
-
-  buildTypes {
-    release {
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-    }
-  }
 }
 
 repositories {
   maven {
     url "https://jitpack.io"
   }
-    maven { url 'https://maven.fabric.io/public' }
+  maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
@@ -90,7 +91,6 @@ dependencies {
   compile 'com.android.support:recyclerview-v7:23.0.1'
   compile 'com.android.support:cardview-v7:23.0.1'
   compile 'com.android.support:percent:23.0.1'
-  compile 'com.github.nirhart:parallaxscroll:1.0'
   // utils
   compile 'com.jakewharton:butterknife:7.0.1'
   compile 'com.jakewharton.timber:timber:2.7.1'
@@ -103,10 +103,12 @@ dependencies {
   compile 'com.squareup.retrofit:retrofit:2.0.0-beta1'
   compile 'com.squareup.retrofit:converter-gson:2.0.0-beta1'
   compile 'com.squareup.okhttp:okhttp:2.5.0'
-  //widgets
+  //ui
   compile 'com.wdullaer:materialdatetimepicker:1.5.1'
   compile 'com.github.michaelye.easydialog:easydialog:1.0'
   compile 'com.github.AutSoft:CircularTools:1.1.0'
+  compile 'com.github.xiprox.errorview:library:2.2.0'
+  compile 'com.github.nirhart:parallaxscroll:1.0'
   //image
   compile 'com.github.bumptech.glide:glide:3.6.1'
   compile 'com.android.support:palette-v7:23.0.1'
@@ -117,9 +119,7 @@ dependencies {
   compile 'jp.wasabeef:glide-transformations:1.2.1'
   compile 'com.github.blackfizz:eazegraph:1.2.5l@aar'
   compile 'com.github.florent37:glidepalette:1.0.4@aar'
-    compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
-        transitive = true;
-    }
-
-
+  compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
+    transitive = true;
+  }
 }
