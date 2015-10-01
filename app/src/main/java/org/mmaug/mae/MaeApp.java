@@ -4,6 +4,7 @@ import android.app.Application;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 import io.fabric.sdk.android.Fabric;
+import org.mmaug.mae.utils.AnalyticsManager;
 import timber.log.Timber;
 
 /**
@@ -18,12 +19,14 @@ public class MaeApp extends Application {
       Timber.plant(new Timber.DebugTree());
     } else {
       Timber.plant(new CrashReportingTree());
+      AnalyticsManager.initializeAnalyticsTracker(getApplicationContext());
     }
 
     //Crashlytics
     CrashlyticsCore.Builder crashCoreBuilder = new CrashlyticsCore.Builder();
     crashCoreBuilder.disabled(BuildConfig.DEBUG);
     Fabric.with(this, new Crashlytics.Builder().core(crashCoreBuilder.build()).build());
+
   }
 
   private static class CrashReportingTree extends Timber.HollowTree {
