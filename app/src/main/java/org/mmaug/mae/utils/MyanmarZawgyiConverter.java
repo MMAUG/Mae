@@ -112,7 +112,6 @@ public class MyanmarZawgyiConverter {
     // Transliteration to convert Burmese text in Zawgyi-encoded string to
     // standard Unicode codepoints and ordering.
 
-    // TODO(ccorn): set a filter on this to restrict to range \u1000-\u109f ???
 
     /**
      * Detects Zawgyi encoding in specified input.

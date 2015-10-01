@@ -10,7 +10,6 @@
   <string name="mm_toVote">မဲပေးရန်</string>
   <string name="single_candidate">တစ်သီးပုဂ္ဂလ အမတ်</string>
 
-  <!-- TODO: Remove or change this placeholder text -->
   <string name="hello_blank_fragment">Hello blank fragment</string>
   <string name="check_voter">မဲစာရင်းစစ်ရန်\nအချက်အလက်ထည့်ပါ</string>
   <string name="congrat">ဂုဏ်ယူပါတယ်</string>

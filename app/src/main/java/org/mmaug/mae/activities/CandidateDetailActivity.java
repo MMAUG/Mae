@@ -1,12 +1,9 @@
 package org.mmaug.mae.activities;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -117,39 +114,9 @@ public class CandidateDetailActivity extends AppCompatActivity {
       @Override public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
         if (collapsingAvatarToolbar.getHeight() + verticalOffset < 2 * ViewCompat.getMinimumHeight(
             collapsingAvatarToolbar)) {
-          //TODO does not work well //STILL NOT WORKING PERFECTLY
-          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            if (cardView.getAnimation() == null) {
-              cardView.animate()
-                  .setDuration(1000)
-                  .alpha(0)
-                  .setListener(new AnimatorListenerAdapter() {
-                    @Override public void onAnimationEnd(Animator animation) {
-                      cardView.setVisibility(View.GONE);
-                      cardView.setAnimation(null);
-                    }
-                  });
-            }
-          } else {
-            cardView.setVisibility(View.GONE);
-          }
+          MixUtils.toggleVisibilityWithAnim(cardView, 1000, false);
         } else {
-          //TODO does not work well
-          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            if (cardView.getAnimation() == null) {
-              cardView.animate()
-                  .setDuration(1000)
-                  .alpha(1)
-                  .setListener(new AnimatorListenerAdapter() {
-                    @Override public void onAnimationEnd(Animator animation) {
-                      cardView.setVisibility(View.VISIBLE);
-                      cardView.setAnimation(null);
-                    }
-                  });
-            }
-          } else {
-            cardView.setVisibility(View.VISIBLE);
-          }
+          MixUtils.toggleVisibilityWithAnim(cardView, 1000, true);
         }
       }
     };

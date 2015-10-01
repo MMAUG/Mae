@@ -356,7 +356,6 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
     pyithuParams.put(Config.PER_PAGE, "200");
     showHidSearchView(true);
     mProgressBar.setVisibility(View.VISIBLE);
-    //TODO remove hardcoded PCODE
     Timber.i("DTPCODE", "" + found.get(i).getDPcode());
     pyithuParams.put(Config.DT_PCODE, found.get(i).getDPcode());
     final Call<GeoReturnObject> geoCall = RESTClient.getService(this).getLocationList(pyithuParams);
