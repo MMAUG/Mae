@@ -58,17 +58,20 @@ android {
       shrinkResources true
       signingConfig signingConfigs.release
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+      resValue "string", "google_maps_api_key", "AIzaSyCowRTaihAtQGJYNsj8Wcs5lj_lU66H4Wc"
     }
     debug {
       debuggable true
       applicationIdSuffix '.debug'
       versionNameSuffix '-DEBUG'
+      resValue "string", "google_maps_api_key", "AIzaSyBPaKYpnf_hyHHvP4VdoO2Mh3qyWr09hUM"
     }
     beta {
       signingConfig signingConfigs.beta
       debuggable true
       applicationIdSuffix '.beta'
       versionNameSuffix '-BETA'
+      resValue "string", "google_maps_api_key", "AIzaSyAwsGW27DTsc-Z9oBqdx5T_YXZ90B96tL0"
     }
   }
 }
