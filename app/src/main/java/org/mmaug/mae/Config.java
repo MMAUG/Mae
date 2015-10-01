@@ -98,7 +98,7 @@ public class Config {
   public static final String COMPARE_QUESTION = API_V1 + "compare";
 
   //candidate count
-  public static final String CANDIDATE_COUNT = API_V1 + "candidate-count";
+  public static final String CANDIDATE_COUNT = MPS_BASE_URL + "candidate-count";
 
   //current count
   public static final String CURRENT_COUNT = API_V1 + "collection/current";
