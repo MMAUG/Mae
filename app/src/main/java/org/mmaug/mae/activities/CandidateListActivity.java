@@ -38,6 +38,7 @@ import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.utils.DataUtils;
 import org.mmaug.mae.utils.MMTextUtils;
 import org.mmaug.mae.utils.MixUtils;
+import org.mmaug.mae.utils.RestCallback;
 import org.mmaug.mae.utils.UserPrefUtils;
 import org.mmaug.mae.view.AutofitTextView;
 import org.mmaug.mae.view.SpacesItemDecoration;
@@ -51,7 +52,7 @@ public class CandidateListActivity extends BaseActivity
     ErrorView.RetryListener {
 
   @Bind(R.id.rv_candidate_list) RecyclerView mRecyclerView;
-  @Bind(R.id.pb_candidate_list) ProgressBar mProgressBar;
+  @Bind(R.id.progressBar) ProgressBar mProgressBar;
   @Bind(R.id.error_view) ErrorView mErrorView;
   @Bind(R.id.et_search_township) EditText searchTownship;
   @Bind(R.id.rv_search_township) RecyclerView mTownshipList;
@@ -334,47 +335,48 @@ public class CandidateListActivity extends BaseActivity
         amyotharParams.put(Config.CONSTITUENCY_ST_PCODE, params.get(Config.CONSTITUENCY_ST_PCODE));
         Call<CandidateListReturnObject> amyotharCall =
             RESTClient.getService(CandidateListActivity.this).getCandidateList(amyotharParams);
-        amyotharCall.enqueue(new Callback<CandidateListReturnObject>() {
+        amyotharCall.enqueue(new RestCallback<CandidateListReturnObject>() {
           @Override public void onResponse(Response<CandidateListReturnObject> response) {
             if (response.isSuccess()) {
+
               candidates.addAll(response.body().getData());
-            }
-            //sort
-            Collections.sort(candidates, new Comparator<Candidate>() {
-              @Override public int compare(Candidate lhs, Candidate rhs) {
-                return rhs.getLegislature().compareTo(lhs.getLegislature());
-              }
-            });
-            Collections.reverse(candidates);
 
-            //header section
-            List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
-
-            for (int i = 0; i < candidates.size(); i++) {
-              Candidate location = candidates.get(i);
-              //get type from the array
-              if (sections.size() > 0) {
-                if (!checkSection(sections, location.getLegislature())) {
-                  sections.add(new SectionHeaderAdapter.Section(i, location.getLegislature()));
+              //sort
+              Collections.sort(candidates, new Comparator<Candidate>() {
+                @Override public int compare(Candidate lhs, Candidate rhs) {
+                  return rhs.getLegislature().compareTo(lhs.getLegislature());
                 }
-              } else {
-                //add first type
-                sections.add(new SectionHeaderAdapter.Section(0, location.getLegislature()));
+              });
+              Collections.reverse(candidates);
+
+              //header section
+              List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
+
+              for (int i = 0; i < candidates.size(); i++) {
+                Candidate location = candidates.get(i);
+                //get type from the array
+                if (sections.size() > 0) {
+                  if (!checkSection(sections, location.getLegislature())) {
+                    sections.add(new SectionHeaderAdapter.Section(i, location.getLegislature()));
+                  }
+                } else {
+                  //add first type
+                  sections.add(new SectionHeaderAdapter.Section(0, location.getLegislature()));
+                }
               }
+
+              SectionHeaderAdapter.Section[] dummy =
+                  new SectionHeaderAdapter.Section[sections.size()];
+              sectionAdapter.setSections(sections.toArray(dummy));
+              candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
+              MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
+              MixUtils.toggleVisibilityWithAnim(mRecyclerView, true);
+            } else {
+              //error
+              MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
+              MixUtils.toggleVisibilityWithAnim(mRecyclerView, false);
+              MixUtils.toggleVisibilityWithAnim(mErrorView, true);
             }
-
-            SectionHeaderAdapter.Section[] dummy =
-                new SectionHeaderAdapter.Section[sections.size()];
-            sectionAdapter.setSections(sections.toArray(dummy));
-            candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
-            MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
-            MixUtils.toggleVisibilityWithAnim(mRecyclerView, true);
-          }
-
-          @Override public void onFailure(Throwable t) {
-            MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
-            MixUtils.toggleVisibilityWithAnim(mRecyclerView, false);
-            MixUtils.toggleVisibilityWithAnim(mErrorView, true);
           }
         });
       }

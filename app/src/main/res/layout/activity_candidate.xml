@@ -72,11 +72,13 @@
           layout="@layout/view_search_township"/>
 
     </FrameLayout>
+
     <ProgressBar
-        android:id="@+id/pb_candidate_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:id="@+id/progressBar"
+        android:layout_gravity="center"
+        />
 
   </FrameLayout>
 </LinearLayout>

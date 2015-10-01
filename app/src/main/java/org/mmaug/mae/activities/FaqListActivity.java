@@ -24,27 +24,31 @@ import org.mmaug.mae.models.FAQListReturnObject;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.rest.RESTService;
 import org.mmaug.mae.utils.ConnectionManager;
+import org.mmaug.mae.utils.MixUtils;
+import org.mmaug.mae.utils.RestCallback;
 import org.mmaug.mae.utils.ViewUtils;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
+import tr.xip.errorview.ErrorView;
 
 /**
  * Created by Ye Lin Aung on 15/08/06.
  */
 public class FaqListActivity extends BaseActivity
-    implements FaqAdapter.ClickInterface, SearchView.OnQueryTextListener {
+    implements FaqAdapter.ClickInterface, SearchView.OnQueryTextListener, ErrorView.RetryListener {
 
   private static String TAG = "FAQ_LIST_ACTIVITY";
   @Bind(R.id.faq_list_recycler_view) RecyclerView mFaqListRecyclerView;
   @Bind(R.id.faq_list_progress_bar) ProgressBar mProgressView;
+  @Bind(R.id.error_view) ErrorView mErrorView;
+
   private ViewUtils viewUtils;
   private FaqAdapter mFaqAdapter;
   private EndlessRecyclerViewAdapter mEndlessRecyclerViewAdapter;
   private int mCurrentPage = 1;
   private List<FAQ> mFaqDatas;
   private RESTService mRESTService;
-
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -72,6 +76,8 @@ public class FaqListActivity extends BaseActivity
     if (ConnectionManager.isConnected(this)) {
       loadFaqData(null);
     }
+
+    mErrorView.setOnRetryListener(this);
   }
 
   @Override protected int getLayoutResource() {
@@ -108,40 +114,46 @@ public class FaqListActivity extends BaseActivity
 
   private void loadFaqData(@Nullable String query) {
     if (mCurrentPage == 1) {
-      viewUtils.showProgress(mFaqListRecyclerView, mProgressView, true);
+      MixUtils.toggleVisibilityWithAnim(mFaqListRecyclerView, false);
+      MixUtils.toggleVisibilityWithAnim(mProgressView, true);
+      MixUtils.toggleVisibilityWithAnim(mErrorView, false);
     }
-    Map<String,String> tokenParams = new HashMap<>();
-    tokenParams.put("font","unicode");
-    tokenParams.put("page",String.valueOf(mCurrentPage));
-    tokenParams.put("per_page",String.valueOf(1000));
+    Map<String, String> tokenParams = new HashMap<>();
+    tokenParams.put("font", "unicode");
+    tokenParams.put("page", String.valueOf(mCurrentPage));
+    tokenParams.put("per_page", String.valueOf(1000));
     if (query != null && query.length() > 0) {
-      Call<FAQListReturnObject> callback = mRESTService.searchFaq(query,tokenParams);
-      callback.enqueue(new Callback<FAQListReturnObject>() {
+      Call<FAQListReturnObject> callback = mRESTService.searchFaq(query, tokenParams);
+      callback.enqueue(new RestCallback<FAQListReturnObject>() {
         @Override public void onResponse(Response<FAQListReturnObject> response) {
-          List<FAQ> faqs = response.body().getData();
-          if (faqs.size() > 0) {
-            mFaqListRecyclerView.setVisibility(View.VISIBLE);
-            if (mCurrentPage == 1) {
-              mFaqDatas = faqs;
-            } else {
-              mFaqDatas.addAll(faqs);
+          if (response.isSuccess()) {
+            List<FAQ> faqs = response.body().getData();
+            if (faqs.size() > 0) {
+              if (mCurrentPage == 1) {
+                MixUtils.toggleVisibilityWithAnim(mFaqListRecyclerView, true);
+                MixUtils.toggleVisibilityWithAnim(mProgressView, true);
+                mFaqDatas = faqs;
+              } else {
+                mFaqDatas.addAll(faqs);
+              }
+              mFaqAdapter.setFaqs(mFaqDatas);
+              mEndlessRecyclerViewAdapter.onDataReady(true);
+              mCurrentPage++;
             }
-            mFaqAdapter.setFaqs(mFaqDatas);
-            mEndlessRecyclerViewAdapter.onDataReady(true);
-            mCurrentPage++;
+          } else {
+            if (mCurrentPage == 1) {
+              MixUtils.toggleVisibilityWithAnim(mFaqListRecyclerView, false);
+              MixUtils.toggleVisibilityWithAnim(mProgressView, false);
+              MixUtils.toggleVisibilityWithAnim(mErrorView, true);
+            }
           }
-
-        }
-
-        @Override public void onFailure(Throwable t) {
-
         }
       });
     } else {
       Call<FAQListReturnObject> callback = mRESTService.listFaqs(tokenParams);
       callback.enqueue(new Callback<FAQListReturnObject>() {
         @Override public void onResponse(Response<FAQListReturnObject> response) {
-          if(response.isSuccess()) {
+          if (response.isSuccess()) {
             List<FAQ> faqs = response.body().getData();
             if (faqs.size() > 0) {
               if (mCurrentPage == 1) {
@@ -162,7 +174,6 @@ public class FaqListActivity extends BaseActivity
 
         }
       });
-
     }
   }
 
@@ -185,4 +196,7 @@ public class FaqListActivity extends BaseActivity
     return true;
   }
 
+  @Override public void onRetry() {
+
+  }
 }
