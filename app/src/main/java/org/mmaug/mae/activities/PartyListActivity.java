@@ -97,7 +97,6 @@ public class PartyListActivity extends BaseActivity
     MixUtils.toggleVisibilityWithAnim(mPartyListRecyclerView, false);
     MixUtils.toggleVisibilityWithAnim(mErrorView, false);
 
-    fetchParties();
   }
 
   private void fetchParties() {
