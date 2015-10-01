@@ -2,7 +2,6 @@ package org.mmaug.mae.rest;
 
 import android.content.Context;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -10,6 +9,7 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
+import timber.log.Timber;
 
 import static org.mmaug.mae.Config.BASE_URL;
 
@@ -61,14 +61,15 @@ public class RESTClient {
       request = builder.build();
 
       long t1 = System.nanoTime();
-      Log.i(TAG, String.format("Sending request %s on %s%n%s", request.url(), chain.connection(),
+      Timber.i(TAG, String.format("Sending request %s on %s%n%s", request.url(), chain.connection(),
           request.body()));
 
       Response response = chain.proceed(request);
 
       long t2 = System.nanoTime();
-      Log.i(TAG, String.format("Received response for %s in %.1fms%n%s", response.request().url(),
-          (t2 - t1) / 1e6d, response.body()));
+      Timber.i(TAG,
+          String.format("Received response for %s in %.1fms%n%s", response.request().url(),
+              (t2 - t1) / 1e6d, response.body()));
 
       return response;
     }

@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -362,8 +361,8 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
     geoCall.enqueue(new Callback<GeoReturnObject>() {
       @Override public void onResponse(Response<GeoReturnObject> response) {
         Geo geo = response.body().getData().get(0);
-        Log.e("Get Data", response.body().getData().get(0).getProperties().getDT());
-        Log.e("Geo", "" + geo.getProperties().getDTPCODE());
+        Timber.i("Get Data", response.body().getData().get(0).getProperties().getDT());
+        Timber.i("Geo", "" + geo.getProperties().getDTPCODE());
         try {
           setUpMap(LocationActivity.this, geo);
         }catch (Exception e){
