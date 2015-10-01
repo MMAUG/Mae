@@ -14,11 +14,9 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import java.util.ArrayList;
-import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MixUtils;
-import org.mmaug.mae.utils.UserPrefUtils;
 
 /**
  * Created by poepoe on 24/9/15.
@@ -35,7 +33,6 @@ public class BoardView extends View {
   private Bitmap stamp;
   private int stampX, stampY;
   private boolean alredyDrawn = false;
-  private boolean isUnicode;
   private ArrayList<Rect> rects; //List of rectangles where the touch of the user needs to be
   // checked
   private int margin;
@@ -43,7 +40,7 @@ public class BoardView extends View {
   private int marginSmall; //boundaries of table
   private boolean touchMode; //control touch mode by button
   private GameListener listener;
-  private String[] candidateName;
+  private int[] candidateName;
   private int[] color = new int[3];
   private Typeface typefacelight;
 
@@ -54,10 +51,10 @@ public class BoardView extends View {
 
     mContext = context;
     res = getResources();
-
-    candidateName = res.getStringArray(R.array.candidate_name);
-    color[0] = res.getColor(R.color.red);
-    color[1] = res.getColor(R.color.accent_color);
+    candidateName =
+        new int[] { R.drawable.candidate_1, R.drawable.candidate_2, R.drawable.candidate_3 };
+    color[0] = res.getColor(R.color.accent_color);
+    color[1] = res.getColor(R.color.red);
     color[2] = res.getColor(R.color.geojson_background_color);
 
     margin = (int) MixUtils.convertDpToPixel(context, 16);
@@ -65,7 +62,6 @@ public class BoardView extends View {
     padding = (int) MixUtils.convertDpToPixel(context, 4);
 
     typefacelight = FontCache.getTypefaceLight(mContext);
-    isUnicode = UserPrefUtils.getInstance(mContext).getTextPref().equals(Config.UNICODE);
 
     normalTextSize = (int) MixUtils.convertDpToPixel(context, 10);
     //background rect paint
@@ -245,8 +241,7 @@ public class BoardView extends View {
             partyFlagPaint);
       }
       if (j == 0) {
-        canvas.drawText(candidateName[i], (rect.width() / 2) - (candidateName[i].length() / 2),
-            top + rect.height() / 2, textPaint);
+        drawCandidate(rect.left, top + rect.height() / 2, candidateName[i]);
       }
     }
   }
@@ -368,6 +363,17 @@ public class BoardView extends View {
     return Bitmap.createScaledBitmap(b, (int) (height * 3.25), height, false);
   }
 
+  private Bitmap getCandidate(int icon) {
+    Drawable drawable = res.getDrawable(icon);
+    assert drawable != null;
+    Bitmap b = ((BitmapDrawable) drawable).getBitmap();
+    return b;
+  }
+
+  private void drawCandidate(int x, int y, int icon) {
+    Bitmap b = getCandidate(icon);
+    canvas.drawBitmap(b, x + (b.getWidth() / 2), y - (b.getHeight() / 2), null);
+  }
 
   private void drawStamp(int x, int y) {
     canvas.drawBitmap(stamp, x, y, null);
