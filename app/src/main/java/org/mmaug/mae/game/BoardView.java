@@ -359,9 +359,8 @@ public class BoardView extends View {
     assert drawable != null;
     height = height - margin;
     Bitmap b = ((BitmapDrawable) drawable).getBitmap();
-    int scaledWidth = (int) (height * 3.25);
+    int scaledWidth = (int) (height * 1.875);
     if (scaledWidth > width) scaledWidth = width;
-    height = (int)(scaledWidth/3.25);
     return Bitmap.createScaledBitmap(b, scaledWidth, height, false);
   }
 
