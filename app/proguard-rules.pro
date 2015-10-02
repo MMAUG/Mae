@@ -184,6 +184,7 @@
 # Gson specific classes
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }
+-keep class org.mmaug.mae.models.** { *; }
 
 
 ## Google Analytics 3.0 specific rules ##
