@@ -39,11 +39,10 @@ import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.utils.DataUtils;
 import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MMTextUtils;
+import org.mmaug.mae.utils.RestCallback;
 import org.mmaug.mae.utils.UserPrefUtils;
 import retrofit.Call;
-import retrofit.Callback;
 import retrofit.Response;
-import timber.log.Timber;
 
 public class SignUpFragment extends Fragment
     implements com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener,
@@ -116,16 +115,14 @@ public class SignUpFragment extends Fragment
       params.put(Config.TOWNSHIP, mmTextUtils.zgToUni(mTownship.getText().toString()));
 
       final Call<User> registerUser = RESTClient.getService(getActivity()).registerUser(params);
-      registerUser.enqueue(new Callback<User>() {
-        UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
-
+      registerUser.enqueue(new RestCallback<User>() {
         @Override public void onResponse(Response<User> response) {
+          UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
           if (response.code() == 200) {
             userPrefUtils.setValid(true);
           } else {
             userPrefUtils.setValid(false);
           }
-
           userPrefUtils.saveSkip(true);
           userPrefUtils.saveUserName(params.get(Config.VOTER_NAME));
           userPrefUtils.saveBirthDate(params.get(Config.DATE_OF_BIRTH));
@@ -139,10 +136,6 @@ public class SignUpFragment extends Fragment
           FragmentTransaction transaction = fm.beginTransaction();
           transaction.replace(R.id.contentFragment, homeFragment);
           transaction.commit();
-        }
-
-        @Override public void onFailure(Throwable t) {
-          Timber.e(t.getMessage());
         }
       });
     }
