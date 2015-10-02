@@ -342,10 +342,11 @@ public class SignUpFragment extends Fragment
 
   private ArrayList<DataUtils.Township> searchTownshipMya(String input,
       ArrayList<DataUtils.Township> listToSearch) {
-    ArrayList<DataUtils.Township> found = new ArrayList<>();
 
+    String unicode = MMTextUtils.getInstance(getContext()).zgToUni(input);
+    ArrayList<DataUtils.Township> found = new ArrayList<>();
     for (DataUtils.Township township : listToSearch) {
-      if (township.getTowhshipNameBurmese().startsWith(input)) {
+      if (township.getTowhshipNameBurmese().startsWith(unicode)) {
         found.add(township);
       }
     }

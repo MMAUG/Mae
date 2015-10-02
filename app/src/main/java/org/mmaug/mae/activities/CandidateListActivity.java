@@ -170,39 +170,39 @@ public class CandidateListActivity extends BaseActivity
             }
           }
         });
-      //} else if (candidate.getMpid() == null) {
-      //  candidateResultDialog =
-      //      new Dialog(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
-      //  View view = this.getLayoutInflater().inflate(R.layout.dialog_candidate_check, null);
-      //  TextView okBtn = (TextView) view.findViewById(R.id.voter_check_ok_btn);
-      //  TextView title = (TextView) view.findViewById(R.id.tv_candidate_cant_compare_title);
-      //  TextView textView = (TextView) view.findViewById(R.id.tv_vote_message);
-      //  TextView canCompare = (TextView) view.findViewById(R.id.incorrect_vote);
-      //  canCompare.setText(new StringBuilder().append(candidate.getName())
-      //      .append(" နှင့် ")
-      //      .append(candidateFromDetail.getName())
-      //      .append(getResources().getString(R.string.cannot_compare_candidate))
-      //      .toString());
-      //  textView.setText(new StringBuilder().append(candidate.getName())
-      //      .append(getResources().getString(R.string.incrroect_candidate_compare))
-      //      .toString());
-      //  if (isUnicode()) {
-      //    canCompare.setTypeface(getTypefaceTitle());
-      //    textView.setTypeface(getTypefaceLight());
-      //    okBtn.setTypeface(getTypefaceTitle());
-      //    title.setTypeface(getTypefaceTitle());
-      //  } else {
-      //    MMTextUtils.getInstance(this).prepareMultipleViews(canCompare, textView, okBtn, title);
-      //  }
-      //  candidateResultDialog.setContentView(view);
-      //  candidateResultDialog.show();
-      //  okBtn.setOnClickListener(new View.OnClickListener() {
-      //    @Override public void onClick(View view) {
-      //      if (candidateResultDialog.isShowing()) {
-      //        candidateResultDialog.dismiss();
-      //      }
-      //    }
-      //  });
+        //} else if (candidate.getMpid() == null) {
+        //  candidateResultDialog =
+        //      new Dialog(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
+        //  View view = this.getLayoutInflater().inflate(R.layout.dialog_candidate_check, null);
+        //  TextView okBtn = (TextView) view.findViewById(R.id.voter_check_ok_btn);
+        //  TextView title = (TextView) view.findViewById(R.id.tv_candidate_cant_compare_title);
+        //  TextView textView = (TextView) view.findViewById(R.id.tv_vote_message);
+        //  TextView canCompare = (TextView) view.findViewById(R.id.incorrect_vote);
+        //  canCompare.setText(new StringBuilder().append(candidate.getName())
+        //      .append(" နှင့် ")
+        //      .append(candidateFromDetail.getName())
+        //      .append(getResources().getString(R.string.cannot_compare_candidate))
+        //      .toString());
+        //  textView.setText(new StringBuilder().append(candidate.getName())
+        //      .append(getResources().getString(R.string.incrroect_candidate_compare))
+        //      .toString());
+        //  if (isUnicode()) {
+        //    canCompare.setTypeface(getTypefaceTitle());
+        //    textView.setTypeface(getTypefaceLight());
+        //    okBtn.setTypeface(getTypefaceTitle());
+        //    title.setTypeface(getTypefaceTitle());
+        //  } else {
+        //    MMTextUtils.getInstance(this).prepareMultipleViews(canCompare, textView, okBtn, title);
+        //  }
+        //  candidateResultDialog.setContentView(view);
+        //  candidateResultDialog.show();
+        //  okBtn.setOnClickListener(new View.OnClickListener() {
+        //    @Override public void onClick(View view) {
+        //      if (candidateResultDialog.isShowing()) {
+        //        candidateResultDialog.dismiss();
+        //      }
+        //    }
+        //  });
       } else {
         Intent intent = new Intent(this, CandidateCompareActivity.class);
         intent.putExtra(Config.CANDIDATE, candidate);
@@ -240,10 +240,10 @@ public class CandidateListActivity extends BaseActivity
 
   private ArrayList<DataUtils.Township> searchTownshipInEng(String input,
       ArrayList<DataUtils.Township> listToSearch) {
+    String unicode = MMTextUtils.getInstance(this).zgToUni(input);
     ArrayList<DataUtils.Township> found = new ArrayList<>();
-
     for (DataUtils.Township township : listToSearch) {
-      if (township.getTownshipName().toLowerCase().startsWith(input)) {
+      if (township.getTowhshipNameBurmese().startsWith(unicode)) {
         found.add(township);
       }
     }
