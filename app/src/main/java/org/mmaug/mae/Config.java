@@ -5,13 +5,17 @@ package org.mmaug.mae;
  */
 public class Config {
 
-  public static final String BASE_URL = "http://188.166.240.34/api/v1/";
+  public static final String BASE_URL = "http://mae.mmaug.org/";
+  public static final String MYANMARANGOUN = "MyanmarAngoun.ttf";
+  public static final String PYIDAUNGSU = "pyidaungsu.ttf";
 
+  public static final String API_V1 = "api/v1/";
+  public static final String APP_VERSIONS ="app-versions";
   /**
    * Check Voter API
    **/
 
-  public static final String REGISTER = "voter-check";
+  public static final String REGISTER = API_V1 + "voter-check";
 
   //param
   public static final String VOTER_NAME = "name";
@@ -24,7 +28,7 @@ public class Config {
    * MaePaySoh API
    **/
 
-  public static final String MPS_BASE_URL = "http://188.166.240.34/api/v1/mps/";
+  public static final String MPS_BASE_URL = API_V1 + "mps/";
   //param
   public static final String PAGE = "page";
   public static final String WITH = "_with";
@@ -70,33 +74,34 @@ public class Config {
   public static final String LAT = "lat";
 
   //candidate endpoints
-  public static final String CANDIDATE_URL = CANDIDATE;
+  public static final String CANDIDATE_URL = MPS_BASE_URL + CANDIDATE;
   public static final String CANDIDATE_LIST_URL = CANDIDATE_URL + "/" + LIST;
 
   //party endpoints
-  public static final String PARTY_LIST_URL = PARTY;
+  public static final String PARTY_LIST_URL = MPS_BASE_URL + PARTY;
 
   // faq endpoints
-  public static final String FAQ_URL = FAQ;
+  public static final String FAQ_URL = MPS_BASE_URL + FAQ;
   public static final String FAQ_LIST_URL = FAQ_URL + "/" + LIST;
   public static final String FAQ_SEARCH = FAQ_URL + "/search";
 
   //geo location
-  public static final String GEO_LOCATION_URL = "geo/district";
+  public static final String GEO_LOCATION_URL = MPS_BASE_URL + "geo/district";
   public static final String GEO_LOCATION_SEARCH = GEO_LOCATION_URL + "/find";
-  public static final String MOTION_DETAIL_URL = BASE_URL + "history/motions";
-  public static final String MOTION_COUNT = BASE_URL + "history/motion_count";
-  public static final String QUESTION_DETAIL_URL = BASE_URL + "history/questions";
-  public static final String QUESTION_COUNT = BASE_URL + "history/question_count";
+  public static final String MOTION_DETAIL_URL = API_V1 + "history/motions";
+  public static final String MOTION_COUNT = API_V1 + "history/motion_count";
+  public static final String QUESTION_DETAIL_URL = API_V1 + "history/questions";
+  public static final String QUESTION_COUNT = API_V1 + "history/question_count";
+  public static final String QUESTION_MOTION = API_V1 + "history/questions-and-motions";
 
   //candidatecompare
-  public static final String COMPARE_QUESTION = BASE_URL + "compare";
+  public static final String COMPARE_QUESTION = API_V1 + "compare";
 
   //candidate count
-  public static final String CANDIDATE_COUNT = BASE_URL + "mps/candidate-count";
+  public static final String CANDIDATE_COUNT = MPS_BASE_URL + "candidate-count";
 
   //current count
-  public static final String CURRENT_COUNT = BASE_URL+"collection/current";
+  public static final String CURRENT_COUNT = API_V1 + "collection/current";
 
   //static final for party detail compare
   public static final String AMYOTHAR_REAL_COUNT = "amyothar_real_count";

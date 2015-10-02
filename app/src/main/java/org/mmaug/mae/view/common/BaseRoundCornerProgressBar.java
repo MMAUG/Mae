@@ -44,7 +44,7 @@ public abstract class BaseRoundCornerProgressBar extends LinearLayout {
   protected final static int DEFAULT_MAX_PROGRESS = 100;
   protected final static int DEFAULT_PROGRESS = 0;
   protected final static int DEFAULT_SECONDARY_PROGRESS = 0;
-  protected final static int DEFAULT_PROGRESS_RADIUS = 5;//TODO DEFAUT is 30
+  protected final static int DEFAULT_PROGRESS_RADIUS = 5;// DEFAULT is 30
   protected final static int DEFAULT_BACKGROUND_PADDING = 0;
 
   private LinearLayout layoutBackground;

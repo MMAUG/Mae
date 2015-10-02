@@ -15,13 +15,22 @@ public class UserPrefUtils {
   private static final String TOWNSHIP = "township";
   private static final String IS_VALID = "valid";
   private static final String SKIP_VALID = "skip";
+  private static final String TEXT_PREF = "font";
+  private static final String FIRST_TIME = "first time";
 
-  private Context mContext;
   private SharedPreferences mSharedPreferences;
+  private static UserPrefUtils userPrefUtils;
 
   public UserPrefUtils(Context context) {
-    mContext = context;
+    Context mContext = context;
     mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+  }
+
+  public static UserPrefUtils getInstance(Context context) {
+    if (userPrefUtils == null) {
+      userPrefUtils = new UserPrefUtils(context);
+    }
+    return userPrefUtils;
   }
 
   public void saveSkip(boolean isvalid) {
@@ -46,6 +55,14 @@ public class UserPrefUtils {
 
   public void saveTownShip(String township) {
     mSharedPreferences.edit().putString(TOWNSHIP, township).apply();
+  }
+
+  public void saveTextPref(String textPref) {
+    mSharedPreferences.edit().putString(TEXT_PREF, textPref).apply();
+  }
+
+  public String getTextPref() {
+    return mSharedPreferences.getString(TEXT_PREF, "");
   }
 
   public String getUserName() {
@@ -81,6 +98,14 @@ public class UserPrefUtils {
   }
 
   public void setSKIP(boolean skip) {
-    mSharedPreferences.edit().putBoolean(SKIP_VALID,skip).apply();
+    mSharedPreferences.edit().putBoolean(SKIP_VALID, skip).apply();
+  }
+
+  public boolean isFristTime() {
+    return mSharedPreferences.getBoolean(FIRST_TIME, true);
+  }
+
+  public void noLongerFirstTime() {
+    mSharedPreferences.edit().putBoolean(FIRST_TIME, false).apply();
   }
 }

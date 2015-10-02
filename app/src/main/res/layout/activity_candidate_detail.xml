@@ -58,8 +58,8 @@
             android:id="@+id/candidate_avatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_gravity="center_vertical|center_horizontal"
             android:src="@drawable/profile_placeholder"
+            android:layout_gravity="center_vertical|center_horizontal"
             />
 
         <LinearLayout

@@ -1,5 +1,6 @@
 package org.mmaug.mae.utils;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Point;
@@ -11,6 +12,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.DecelerateInterpolator;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,6 +25,8 @@ import java.util.concurrent.TimeUnit;
  * Created by poepoe on 13/9/15.
  */
 public class MixUtils {
+
+  private static final long TRANSITION_DURATION = 200;
 
   public static void makeSlide(View rootView) {
     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -124,5 +128,52 @@ public class MixUtils {
     Point point = new Point();
     d.getSize(point);
     return point.y;
+  }
+
+  public static void toggleVisibilityWithAnim(View view) {
+    boolean shouldDisplay = view.getVisibility() == View.GONE;
+    toggleVisibilityWithAnim(view, shouldDisplay);
+  }
+
+  public static void toggleVisibilityWithAnim(View view, boolean shouldDisplay) {
+    toggleVisibilityWithAnim(view, TRANSITION_DURATION, shouldDisplay);
+  }
+
+  public static void toggleVisibilityWithAnim(View view, long duration, boolean shouldDisplay) {
+
+    float alphaVal = (shouldDisplay) ? 1 : 0;
+    int visibility = (shouldDisplay) ? View.VISIBLE : View.GONE;
+
+    view.animate()
+        .setDuration(duration)
+        .setInterpolator(new DecelerateInterpolator())
+        .alpha(alphaVal)
+        .setListener(new FadeAnimationListener(view, visibility))
+        .start();
+  }
+
+  public static class FadeAnimationListener implements Animator.AnimatorListener {
+
+    private View view;
+    private int visibilityAfterAnim;
+
+    public FadeAnimationListener(View view, int visibility) {
+      this.view = view;
+      visibilityAfterAnim = visibility;
+    }
+
+    @Override public void onAnimationStart(Animator animation) {
+      if (visibilityAfterAnim == View.VISIBLE) view.setVisibility(View.VISIBLE);
+    }
+
+    @Override public void onAnimationEnd(Animator animation) {
+      if (visibilityAfterAnim == View.GONE) view.setVisibility(View.GONE);
+    }
+
+    @Override public void onAnimationCancel(Animator animation) {
+    }
+
+    @Override public void onAnimationRepeat(Animator animation) {
+    }
   }
 }

@@ -2,7 +2,6 @@ package org.mmaug.mae.activities;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,23 +36,29 @@ import org.mmaug.mae.models.Candidate;
 import org.mmaug.mae.models.CandidateListReturnObject;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.utils.DataUtils;
-import org.mmaug.mae.utils.FontCache;
+import org.mmaug.mae.utils.MMTextUtils;
+import org.mmaug.mae.utils.MixUtils;
+import org.mmaug.mae.utils.RestCallback;
 import org.mmaug.mae.utils.UserPrefUtils;
+import org.mmaug.mae.view.AutofitTextView;
 import org.mmaug.mae.view.SpacesItemDecoration;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
+import tr.xip.errorview.ErrorView;
 
 public class CandidateListActivity extends BaseActivity
-    implements CandidateAdapter.OnItemClickListener, AdapterView.OnItemClickListener {
+    implements CandidateAdapter.OnItemClickListener, AdapterView.OnItemClickListener,
+    ErrorView.RetryListener {
 
   @Bind(R.id.rv_candidate_list) RecyclerView mRecyclerView;
-  @Bind(R.id.pb_candidate_list) ProgressBar mProgressBar;
-  @Bind(R.id.main_view) FrameLayout mainView;
+  @Bind(R.id.progressBar) ProgressBar mProgressBar;
+  @Bind(R.id.error_view) ErrorView mErrorView;
   @Bind(R.id.et_search_township) EditText searchTownship;
   @Bind(R.id.rv_search_township) RecyclerView mTownshipList;
   @Bind(R.id.searchFragment) FrameLayout searchView;
-  @Bind(R.id.candidate_township) TextView mTownShip;
+  @Bind(R.id.candidate_township) AutofitTextView mTownShip;
+
   Candidate candidateFromDetail;
   private CandidateAdapter candidateAdapter;
   private SectionHeaderAdapter sectionAdapter;
@@ -83,44 +88,49 @@ public class CandidateListActivity extends BaseActivity
     super.onCreate(savedInstanceState);
     ButterKnife.bind(this);
     initCandidateRecyclerView();
+
     candidateFromDetail = (Candidate) getIntent().getSerializableExtra(Config.CANDIDATE);
     if (candidateFromDetail != null) {
-      tvToolbarTitle.setText(getResources().getString(R.string.compare_title));
+      setToolbarTitle(getResources().getString(R.string.compare_title));
     }
     UserPrefUtils userPrefUtils = new UserPrefUtils(this);
     String townShipString = userPrefUtils.getTownship();
-    if(townShipString!=null && townShipString.length()>0) {
+    if (townShipString != null && townShipString.length() > 0) {
       myTownShip = new Gson().fromJson(townShipString, DataUtils.Township.class);
     }
-    if(myTownShip!=null) {
+    if (myTownShip != null) {
       mTownShip.setText(myTownShip.getTowhshipNameBurmese());
     }
-    fetchCandidate();
+
+    if (isUnicode()) {
+      mTownShip.setTypeface(getTypefaceLight());
+    } else {
+      MMTextUtils.getInstance(this).prepareSingleView(mTownShip);
+    }
+    mTownShip.setSizeToFit(true);
+    fetchCandidate(myTownShip);
     initEditText();
     initRecyclerView();
+    mErrorView.setOnRetryListener(this);
   }
 
-  private void fetchCandidate() {
-    if(myTownShip!=null) {
-      showHideProgressBar(true);
+  private void fetchCandidate(DataUtils.Township myTownShip) {
+    if (myTownShip != null) {
+      MixUtils.toggleVisibilityWithAnim(mProgressBar, true);
+      MixUtils.toggleVisibilityWithAnim(mRecyclerView, false);
+      MixUtils.toggleVisibilityWithAnim(mErrorView, false);
+
       Map<String, String> pyithuParams = new HashMap<>();
-      //Probably, there won't be much more than 200 candidates for a township for the same legislature
       pyithuParams.put(Config.PER_PAGE, "200");
-      //TODO remove hardcoded PCODE
       pyithuParams.put(Config.CONSTITUENCY_ST_PCODE, myTownShip.getSRPcode());
-      pyithuParams.put(Config.CONSTITUENCY_DT_PCODE,myTownShip.getDPcode());
-      pyithuParams.put(Config.CONSTITUENCY_TS_PCODE,myTownShip.getTSPcode());
+      pyithuParams.put(Config.CONSTITUENCY_DT_PCODE, myTownShip.getDPcode());
+      pyithuParams.put(Config.CONSTITUENCY_TS_PCODE, myTownShip.getTSPcode());
       pyithuParams.put(Config.WITH, Config.PARTY);
       inflateCandiateAdapter(pyithuParams);
-    }else{
-      showHidSearchView(false);
-      showHideProgressBar(false);
+    } else {
+      MixUtils.toggleVisibilityWithAnim(searchView, true);
+      MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
     }
-  }
-
-  private void showHideProgressBar(boolean visibility) {
-
-    mProgressBar.setVisibility(visibility ? View.VISIBLE : View.GONE);
   }
 
   private boolean checkSection(List<SectionHeaderAdapter.Section> sections, String s) {
@@ -138,15 +148,20 @@ public class CandidateListActivity extends BaseActivity
         candidateResultDialog =
             new Dialog(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
         View view = this.getLayoutInflater().inflate(R.layout.dialog_candidate_check, null);
-        View okBtn = view.findViewById(R.id.voter_check_ok_btn);
+        TextView okBtn = (TextView) view.findViewById(R.id.voter_check_ok_btn);
         TextView textView = (TextView) view.findViewById(R.id.tv_vote_message);
+        TextView title = (TextView) view.findViewById(R.id.tv_candidate_cant_compare_title);
         TextView canCompare = (TextView) view.findViewById(R.id.incorrect_vote);
-        Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
-        Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
         canCompare.setText("ကျေးဇူးပြု၍ အခြားအမတ်ကို ရွေးချယ်ပါ");
-        canCompare.setTypeface(typefaceTitle);
         textView.setText(getResources().getString(R.string.duplicate_candidate_choose));
-        textView.setTypeface(typefacelight);
+        if (isUnicode()) {
+          canCompare.setTypeface(getTypefaceTitle());
+          textView.setTypeface(getTypefaceLight());
+          okBtn.setTypeface(getTypefaceTitle());
+          title.setTypeface(getTypefaceTitle());
+        } else {
+          MMTextUtils.getInstance(this).prepareMultipleViews(canCompare, textView, okBtn, title);
+        }
         candidateResultDialog.setContentView(view);
         candidateResultDialog.show();
         okBtn.setOnClickListener(new View.OnClickListener() {
@@ -160,17 +175,26 @@ public class CandidateListActivity extends BaseActivity
         candidateResultDialog =
             new Dialog(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
         View view = this.getLayoutInflater().inflate(R.layout.dialog_candidate_check, null);
-        View okBtn = view.findViewById(R.id.voter_check_ok_btn);
+        TextView okBtn = (TextView) view.findViewById(R.id.voter_check_ok_btn);
+        TextView title = (TextView) view.findViewById(R.id.tv_candidate_cant_compare_title);
         TextView textView = (TextView) view.findViewById(R.id.tv_vote_message);
         TextView canCompare = (TextView) view.findViewById(R.id.incorrect_vote);
-        Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
-        Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
-        canCompare.setText(candidate.getName() + " နှင့် " + candidateFromDetail.getName()
-            + getResources().getString(R.string.cannot_compare_candidate));
-        canCompare.setTypeface(typefaceTitle);
-        textView.setText(
-            candidate.getName() + getResources().getString(R.string.incrroect_candidate_compare));
-        textView.setTypeface(typefacelight);
+        canCompare.setText(new StringBuilder().append(candidate.getName())
+            .append(" နှင့် ")
+            .append(candidateFromDetail.getName())
+            .append(getResources().getString(R.string.cannot_compare_candidate))
+            .toString());
+        textView.setText(new StringBuilder().append(candidate.getName())
+            .append(getResources().getString(R.string.incrroect_candidate_compare))
+            .toString());
+        if (isUnicode()) {
+          canCompare.setTypeface(getTypefaceTitle());
+          textView.setTypeface(getTypefaceLight());
+          okBtn.setTypeface(getTypefaceTitle());
+          title.setTypeface(getTypefaceTitle());
+        } else {
+          MMTextUtils.getInstance(this).prepareMultipleViews(canCompare, textView, okBtn, title);
+        }
         candidateResultDialog.setContentView(view);
         candidateResultDialog.show();
         okBtn.setOnClickListener(new View.OnClickListener() {
@@ -202,7 +226,7 @@ public class CandidateListActivity extends BaseActivity
   }
 
   @OnClick(R.id.candidate_township) public void showTsRecyclerView() {
-    showHidSearchView(false);
+    MixUtils.toggleVisibilityWithAnim(searchView, true);
   }
 
   private void searchTownship(String township, ArrayList<DataUtils.Township> listToSearch) {
@@ -237,11 +261,6 @@ public class CandidateListActivity extends BaseActivity
       }
     }
     return found;
-  }
-
-  private void showHidSearchView(boolean visibility) {
-    //mainView.setVisibility(visibility ? View.VISIBLE : View.GONE);
-    searchView.setVisibility(visibility ? View.GONE : View.VISIBLE);
   }
 
   private void initEditText() {
@@ -290,40 +309,35 @@ public class CandidateListActivity extends BaseActivity
   }
 
   @Override public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-    showHidSearchView(true);
+    MixUtils.toggleVisibilityWithAnim(searchView, false);
     mTownShip.setText(found.get(i).getTowhshipNameBurmese());
+    if (!isUnicode()) {
+      MMTextUtils.getInstance(this).prepareSingleView(mTownShip);
+    }
     String townshipString = new Gson().toJson(found.get(i));
     UserPrefUtils userPrefUtils = new UserPrefUtils(CandidateListActivity.this);
     userPrefUtils.saveTownShip(townshipString);
-    showHideProgressBar(true);
-    Map<String, String> pyithuParams = new HashMap<>();
-    //Probably, there won't be much more than 200 candidates for a township for the same legislature
-    pyithuParams.put(Config.PER_PAGE, "200");
-    //TODO remove hardcoded PCODE
-    pyithuParams.put(Config.CONSTITUENCY_ST_PCODE, found.get(i).getSRPcode());
-    pyithuParams.put(Config.CONSTITUENCY_DT_PCODE, found.get(i).getDPcode());
-    pyithuParams.put(Config.CONSTITUENCY_TS_PCODE, found.get(i).getTSPcode());
-    pyithuParams.put(Config.WITH, Config.PARTY);
-    inflateCandiateAdapter(pyithuParams);
+    this.myTownShip = found.get(i);
+    fetchCandidate(found.get(i));
   }
 
   private void inflateCandiateAdapter(final Map<String, String> params) {
     final Call<CandidateListReturnObject> pyithuCall =
-        RESTClient.getMPSService(this).getCandidateList(params);
+        RESTClient.getService(this).getCandidateList(params);
     pyithuCall.enqueue(new Callback<CandidateListReturnObject>() {
-      @Override public void onResponse (Response<CandidateListReturnObject> response) {
+      @Override public void onResponse(Response<CandidateListReturnObject> response) {
         final List<Candidate> candidates = response.body().getData();
-        System.out.println(response.body().getData());
-        Map<String,String> amyotharParams = new HashMap<String, String>();
-        amyotharParams.put(Config.PER_PAGE,"200");
-        amyotharParams.put(Config.WITH,"party");
-        amyotharParams.put(Config.LEGISLATURE,Config.AMYOTHAE_HLUTTAW);
+        Map<String, String> amyotharParams = new HashMap<String, String>();
+        amyotharParams.put(Config.PER_PAGE, "200");
+        amyotharParams.put(Config.WITH, "party");
+        amyotharParams.put(Config.LEGISLATURE, Config.AMYOTHAE_HLUTTAW);
         amyotharParams.put(Config.CONSTITUENCY_ST_PCODE, params.get(Config.CONSTITUENCY_ST_PCODE));
-        Call<CandidateListReturnObject> amyotharCall = RESTClient.getMPSService(CandidateListActivity.this)
-            .getCandidateList(amyotharParams);
-        amyotharCall.enqueue(new Callback<CandidateListReturnObject>() {
+        Call<CandidateListReturnObject> amyotharCall =
+            RESTClient.getService(CandidateListActivity.this).getCandidateList(amyotharParams);
+        amyotharCall.enqueue(new RestCallback<CandidateListReturnObject>() {
           @Override public void onResponse(Response<CandidateListReturnObject> response) {
             if (response.isSuccess()) {
+
               candidates.addAll(response.body().getData());
             }
             //sort
@@ -336,6 +350,8 @@ public class CandidateListActivity extends BaseActivity
 
             //header section
             List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
+            //header section
+            sections = new ArrayList<>();
 
             for (int i = 0; i < candidates.size(); i++) {
               Candidate location = candidates.get(i);
@@ -349,25 +365,35 @@ public class CandidateListActivity extends BaseActivity
                 sections.add(new SectionHeaderAdapter.Section(0, location.getLegislature()));
               }
             }
-
             SectionHeaderAdapter.Section[] dummy =
                 new SectionHeaderAdapter.Section[sections.size()];
             sectionAdapter.setSections(sections.toArray(dummy));
             candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
-            showHideProgressBar(false);
+            MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
+            MixUtils.toggleVisibilityWithAnim(mRecyclerView, true);
           }
 
           @Override public void onFailure(Throwable t) {
-
+            MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
           }
         });
-
       }
-
       @Override public void onFailure(Throwable t) {
-        t.printStackTrace();
-        showHideProgressBar(false);
+        MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
       }
     });
+
+    }
+
+  @Override public void onRetry() {
+    fetchCandidate(myTownShip);
+  }
+
+  @Override public void onBackPressed() {
+    if (searchView.getVisibility() == View.VISIBLE) {
+      MixUtils.toggleVisibilityWithAnim(searchView, false);
+    } else {
+      super.onBackPressed();
+    }
   }
 }

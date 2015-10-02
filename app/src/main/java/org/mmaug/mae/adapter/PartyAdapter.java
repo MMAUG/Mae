@@ -11,9 +11,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.ArrayList;
 import java.util.List;
+import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.models.Party;
 import org.mmaug.mae.utils.FontCache;
+import org.mmaug.mae.utils.MMTextUtils;
+import org.mmaug.mae.utils.UserPrefUtils;
 import org.mmaug.mae.view.AspectRatioImageView;
 
 /**
@@ -23,6 +26,10 @@ public class PartyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
   private Context mContext;
   private List<Party> mParties;
   private ClickInterface mClickInterface;
+
+  private Typeface typefaceTitle;
+  private boolean isUni;
+  private MMTextUtils mmTextUtils;
 
   public PartyAdapter() {
     mParties = new ArrayList<>();
@@ -35,6 +42,12 @@ public class PartyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
   @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     mContext = parent.getContext();
+
+    //get typeface
+    typefaceTitle = FontCache.getTypefaceTitle(mContext);
+    //check user has choose unicode or not
+    isUni = UserPrefUtils.getInstance(mContext).getTextPref().equals(Config.UNICODE);
+    mmTextUtils = MMTextUtils.getInstance(mContext);
     View view = LayoutInflater.from(mContext).inflate(R.layout.item_party, parent, false);
     return new PartyViewHolder(view);
   }
@@ -44,9 +57,11 @@ public class PartyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
       Party party = mParties.get(position);
       ((PartyViewHolder) holder).mPartyNameMyanmar.setText(party.getPartyName());
       List<String> leaders = party.getLeadership();
-      Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf",mContext);
-      Typeface typefacelight = FontCache.get("pyidaungsu.ttf", mContext);
-      ((PartyViewHolder) holder).mPartyNameMyanmar.setTypeface(typefaceTitle);
+      if (isUni) {
+        ((PartyViewHolder) holder).mPartyNameMyanmar.setTypeface(typefaceTitle);
+      } else {
+        mmTextUtils.prepareSingleView(((PartyViewHolder) holder).mPartyNameMyanmar);
+      }
    /* holder.mPartyLeader.setText(""); //Reset the textview unless you want some weird shit to happen
     for (String leader : leaders) {
       if (leaders.indexOf(leader) == leaders.size() - 1) {
@@ -77,7 +92,6 @@ public class PartyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
   }
 
   class PartyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    private TextView mPartyNameEnglish;
     private TextView mPartyNameMyanmar;
     private AspectRatioImageView mPartyFlag;
 

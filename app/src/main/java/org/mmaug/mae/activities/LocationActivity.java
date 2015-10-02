@@ -1,13 +1,11 @@
 package org.mmaug.mae.activities;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -45,12 +43,13 @@ import org.mmaug.mae.models.Geo;
 import org.mmaug.mae.models.GeoReturnObject;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.utils.DataUtils;
-import org.mmaug.mae.utils.FontCache;
+import org.mmaug.mae.utils.MMTextUtils;
 import org.mmaug.mae.utils.MixUtils;
 import org.mmaug.mae.utils.UserPrefUtils;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
+import timber.log.Timber;
 
 /**
  * Created by yemyatthu on 9/18/15.
@@ -58,6 +57,8 @@ import retrofit.Response;
 public class LocationActivity extends BaseActivity implements AdapterView.OnItemClickListener {
   @Bind(R.id.location_name) TextView mLocationName;
   @Bind(R.id.month_day_left) TextView monthDayLef;
+  @Bind(R.id.hour_minute_left) TextView tvHourLeft;
+  @Bind(R.id.to_vote) TextView tvToVote;
   @Bind(R.id.hidden_view) View hiddenView;
   @Bind(R.id.rv_search_township) RecyclerView mTownshipList;
   @Bind(R.id.et_search_township) EditText searchTownship;
@@ -82,8 +83,7 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
   }
 
   @Override protected String getToolbarText() {
-    // TODO: 9/18/15 Insert Choosen Township Name Here
-    return "Location";
+    return "မဲရုံတည်နေရာ";
   }
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -100,16 +100,15 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
     String townShipString = userPrefUtils.getTownship();
     if (townShipString != null && townShipString.length() > 0) {
       myTownShip = new Gson().fromJson(townShipString, DataUtils.Township.class);
-      tvToolbarTitle.setText(myTownShip.getTowhshipNameBurmese());
+      setToolbarTitle(myTownShip.getTowhshipNameBurmese());
     }
     if (myTownShip == null) {
       showHidSearchView(false);
       initEditText();
       initRecyclerView();
     } else {
-      // TODO: 9/18/15 Insert Choosen DT_PCODE here
       params.put("dt_pcode", myTownShip.getDPcode());
-      final Call<GeoReturnObject> geoCall = RESTClient.getMPSService(this).getLocationList(params);
+      final Call<GeoReturnObject> geoCall = RESTClient.getService(this).getLocationList(params);
       geoCall.enqueue(new Callback<GeoReturnObject>() {
         @Override public void onResponse(Response<GeoReturnObject> response) {
           Geo geo = response.body().getData().get(0);
@@ -121,7 +120,7 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
         }
 
         @Override public void onFailure(Throwable t) {
-
+          Timber.e(t.getMessage());
         }
       });
     }
@@ -198,10 +197,16 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
   }
 
   void setTypeFace() {
-    Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
-    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
-    mLocationName.setTypeface(typefacelight);
-    monthDayLef.setTypeface(typefaceTitle);
+    if (isUnicode()) {
+      mLocationName.setTypeface(getTypefaceLight());
+      monthDayLef.setTypeface(getTypefaceTitle());
+      tvHourLeft.setTypeface(getTypefaceLight());
+      tvToVote.setTypeface(getTypefaceLight());
+    } else {
+      MMTextUtils.getInstance(this)
+          .prepareMultipleViews(mLocationName, monthDayLef, tvHourLeft, tvToVote);
+    }
+
   }
 
   private void setUpMap(AppCompatActivity activity, Geo geo) {
@@ -344,21 +349,20 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
     showHidSearchView(true);
     UserPrefUtils prefUtils = new UserPrefUtils(LocationActivity.this);
     prefUtils.saveTownShip(new Gson().toJson(found.get(i)));
-    tvToolbarTitle.setText(found.get(i).getTowhshipNameBurmese());
+    setToolbarTitle(found.get(i).getTowhshipNameBurmese());
     Map<String, String> pyithuParams = new HashMap<>();
     //Probably, there won't be much more than 200 candidates for a township for the same legislature
     pyithuParams.put(Config.PER_PAGE, "200");
     showHidSearchView(true);
     mProgressBar.setVisibility(View.VISIBLE);
-    //TODO remove hardcoded PCODE
-    Log.e("DTPCODE", "" + found.get(i).getDPcode());
+    Timber.i("DTPCODE", "" + found.get(i).getDPcode());
     pyithuParams.put(Config.DT_PCODE, found.get(i).getDPcode());
-    final Call<GeoReturnObject> geoCall = RESTClient.getMPSService(this).getLocationList(pyithuParams);
+    final Call<GeoReturnObject> geoCall = RESTClient.getService(this).getLocationList(pyithuParams);
     geoCall.enqueue(new Callback<GeoReturnObject>() {
       @Override public void onResponse(Response<GeoReturnObject> response) {
         Geo geo = response.body().getData().get(0);
-        Log.e("Get Data", response.body().getData().get(0).getProperties().getDT());
-        Log.e("Geo", "" + geo.getProperties().getDTPCODE());
+        Timber.i("Get Data", response.body().getData().get(0).getProperties().getDT());
+        Timber.i("Geo", "" + geo.getProperties().getDTPCODE());
         try {
           setUpMap(LocationActivity.this, geo);
         }catch (Exception e){

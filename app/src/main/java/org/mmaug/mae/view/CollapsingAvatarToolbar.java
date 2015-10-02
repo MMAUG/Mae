@@ -105,7 +105,7 @@ public class CollapsingAvatarToolbar extends LinearLayout
       return ((AppBarLayout) parent.getParent());
     } else {
       throw new IllegalStateException(
-          "Must be inside an AppBarLayout"); //TODO actually, a collapsingtoolbar
+          "Must be inside an AppBarLayout"); //actually, a collapsingtoolbar
     }
   }
 

@@ -3,7 +3,6 @@ package org.mmaug.mae.activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,7 +21,7 @@ import java.util.Date;
 import java.util.Locale;
 import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseActivity;
-import org.mmaug.mae.utils.FontCache;
+import org.mmaug.mae.utils.MMTextUtils;
 
 public class VotedActivity extends BaseActivity {
 
@@ -41,11 +40,14 @@ public class VotedActivity extends BaseActivity {
     ButterKnife.bind(this);
     camera.setVisibility(View.VISIBLE);
     mae_title.setVisibility(View.VISIBLE);
-    Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
-    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", this);
-    mae_title.setTypeface(typefaceTitle);
-    descriptionText.setTypeface(typefaceTitle);
-    voteButton.setTypeface(typefacelight);
+
+    if (isUnicode()) {
+      mae_title.setTypeface(getTypefaceTitle());
+      descriptionText.setTypeface(getTypefaceTitle());
+      voteButton.setTypeface(getTypefaceLight());
+    } else {
+      MMTextUtils.getInstance(this).prepareMultipleViews(mae_title, descriptionText, voteButton);
+    }
   }
 
   @OnClick(R.id.image) void Voted() {
