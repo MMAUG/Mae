@@ -79,7 +79,6 @@
 
     <!--http://stackoverflow.com/questions/30643081/nestedscrollview-and-webview-height-issue-->
     <LinearLayout
-        android:layout_marginBottom="50dp"
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -299,7 +298,20 @@
 
       </android.support.v7.widget.CardView>
 
+      <TextView
+          android:id="@+id/about"
+          android:padding="@dimen/spacing_minor"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_horizontal"
+          android:textColor="@color/secondary_text_color"
+          android:gravity="center"
+          android:text="@string/about"
+          style="?android:attr/borderlessButtonStyle"
+          android:layout_margin="@dimen/spacing_minor"
+          />
     </LinearLayout>
+
   </LinearLayout>
 </com.nirhart.parallaxscroll.views.ParallaxScrollView>
 

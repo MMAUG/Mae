@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.TextView;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import org.mmaug.mae.BuildConfig;
 import org.mmaug.mae.R;
@@ -18,11 +19,19 @@ import org.mmaug.mae.utils.mmtext;
 public class AboutActivity extends BaseActivity {
 
   @Bind(R.id.tv_version) TextView version;
+  @Bind(R.id.tv_app_des) TextView appDes;
+  @Bind(R.id.ssygm) TextView ssgym;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    ButterKnife.bind(this);
     version.setText(getString(R.string.version, BuildConfig.VERSION_NAME));
-    mmtext.prepareActivity(this, mmtext.TEXT_UNICODE, true, true);
+    if (!isUnicode()) {
+      mmtext.prepareActivity(this, mmtext.TEXT_UNICODE, true, true);
+    } else {
+      appDes.setTypeface(getTypefaceTitle());
+      ssgym.setTypeface(getTypefaceLight());
+    }
   }
 
   @OnClick(R.id.rate_us) void rateApp() {

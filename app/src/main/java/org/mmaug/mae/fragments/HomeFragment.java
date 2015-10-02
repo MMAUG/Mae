@@ -22,6 +22,7 @@ import hu.aut.utillib.circular.animation.CircularAnimationUtils;
 import java.text.ParseException;
 import java.util.HashMap;
 import org.mmaug.mae.R;
+import org.mmaug.mae.activities.AboutActivity;
 import org.mmaug.mae.activities.CandidateListActivity;
 import org.mmaug.mae.activities.FaqListActivity;
 import org.mmaug.mae.activities.HowToVoteActivity;
@@ -140,7 +141,6 @@ public class HomeFragment extends android.support.v4.app.Fragment {
               txt_where_can_i_vote, txt_howto_vote, card_candidate_list,
               cardview_party_condtion_list, mVoted);
     }
-
   }
 
   @Override public void onAttach(Activity activity) {
@@ -267,5 +267,9 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         }
       });
     }
+  }
+
+  @OnClick(R.id.about) void about() {
+    startActivity(new Intent(getActivity(), AboutActivity.class));
   }
 }
