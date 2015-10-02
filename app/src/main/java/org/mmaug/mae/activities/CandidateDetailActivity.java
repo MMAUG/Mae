@@ -132,6 +132,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
         .load(candidate.getPhotoUrl())
         .diskCacheStrategy(DiskCacheStrategy.ALL)
         .bitmapTransform(new CropCircleTransformation(this))
+        .placeholder(R.drawable.profile_placeholder)
         .into(candidateImage);
     candidateName.setText(candidate.getName());
 
