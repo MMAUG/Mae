@@ -6,31 +6,31 @@
     tools:context="org.maepaysoh.maepaysoh.ui.FaqListActivity"
     >
 
-    <include
-        layout="@layout/toolbar"
-        android:id="@+id/faq_list_toolbar"
+  <include
+      layout="@layout/toolbar"
+      />
+
+  <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      >
+
+    <ProgressBar
+        android:id="@+id/faq_list_progress_bar"
+        style="?android:progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
         />
 
-    <FrameLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/faq_list_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
+        />
 
-        <ProgressBar
-            android:id="@+id/faq_list_progress_bar"
-            style="?android:progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/faq_list_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
-
-    </FrameLayout>
+    <include layout="@layout/errorview"/>
+  </FrameLayout>
 
 </LinearLayout>

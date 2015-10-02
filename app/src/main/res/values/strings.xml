@@ -10,7 +10,6 @@
   <string name="mm_toVote">မဲပေးရန်</string>
   <string name="single_candidate">တစ်သီးပုဂ္ဂလ အမတ်</string>
 
-  <!-- TODO: Remove or change this placeholder text -->
   <string name="hello_blank_fragment">Hello blank fragment</string>
   <string name="check_voter">မဲစာရင်းစစ်ရန်\nအချက်အလက်ထည့်ပါ</string>
   <string name="congrat">ဂုဏ်ယူပါတယ်</string>
@@ -99,4 +98,18 @@
   <string name="facebook_id">1616640151922143</string>
   <string name="FaqList">အမေးများဆုံး မေးခွန်းများ</string>
   <string name="search_faq">Search FAQ</string>
+  <!-- zg/ uni test-->
+  <string name="zg">သီဟိုဠ္မွ ဉာဏ္ႀကီးရွင္သည္ အာယုဝဍ္ဎနေဆးၫႊန္းစာကို ဇလြန္ေဈးေဘးဗာဒံပင္ထက္
+    အဓိ႒ာန္လ်က္ ဂဃနဏဖတ္ခဲ့သည္။
+  </string>
+  <string name="uni">သီဟိုဠ်မှ ဉာဏ်ကြီးရှင်သည် အာယုဝဍ်ဎနဆေးညွှန်းစာကို ဇလွန်ဈေးဘေးဗာဒံပင်ထက်
+    အဓိဋ္ဌာန်လျက် ဂဃနဏဖတ်ခဲ့သည်။
+  </string>
+  <string name="please_choose_font">ကျေးဇူးပြု၍ မိမိဖုန်းနှင့် ကိုက်ညီသော မြန်မာစာဖောင့်အား
+    ရွေးချယ်ပေးပါ။</string>
+  <string name="save_font">ရွေးပြီးပြီ</string>
+
+  <string name="error_cant_connect">Can\'t Connect!</string>
+  <string name="error_something_wrong">Something went wrong!</string>
+
 </resources>

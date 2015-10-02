@@ -58,6 +58,7 @@
                 >
               <org.mmaug.mae.view.CircularImageView
                   android:layout_width="100dp"
+                  android:scaleType="centerCrop"
                   android:id="@+id/candidate_one"
                   android:layout_height="100dp"
                   android:layout_gravity="center_horizontal"
@@ -89,6 +90,7 @@
                   />
 
               <org.mmaug.mae.view.CircularImageView
+                  android:scaleType="centerCrop"
                   android:layout_margin="8dp"
                   android:layout_marginRight="@dimen/spacing_major"
                   android:id="@+id/candidate_two"

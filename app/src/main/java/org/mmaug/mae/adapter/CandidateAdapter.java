@@ -13,9 +13,12 @@ import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.ArrayList;
+import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.models.Candidate;
 import org.mmaug.mae.utils.FontCache;
+import org.mmaug.mae.utils.MMTextUtils;
+import org.mmaug.mae.utils.UserPrefUtils;
 import org.mmaug.mae.view.AutofitTextView;
 
 /**
@@ -26,6 +29,9 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.Cand
   ArrayList<Candidate> candidates;
   private OnItemClickListener onItemClickListener;
   private Context mContext;
+  private Typeface typeface;
+  private boolean isUni;
+  private MMTextUtils mmTextUtils;
 
   public CandidateAdapter() {
 
@@ -35,6 +41,14 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.Cand
   @Override
   public CandidateAdapter.CandidateViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+    mContext = parent.getContext();
+
+    //get typeface
+    typeface = FontCache.getTypefaceLight(mContext);
+    //check user has choose unicode or not
+    isUni = UserPrefUtils.getInstance(mContext).getTextPref().equals(Config.UNICODE);
+    mmTextUtils = MMTextUtils.getInstance(mContext);
+
     View itemView = inflater.inflate(R.layout.item_candidate, parent, false);
     return new CandidateViewHolder(itemView);
   }
@@ -88,18 +102,22 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.Cand
     public CandidateViewHolder(View itemView) {
       super(itemView);
       ButterKnife.bind(this, itemView);
-      Typeface typefacelight = FontCache.get("pyidaungsu.ttf",itemView.getContext());
-      tvCandidateName.setTypeface(typefacelight);
-      tvCandidateDegree.setTypeface(typefacelight);
-      tvCandidateJob.setTypeface(typefacelight);
     }
-
 
     private void bindCandidate(Candidate candidate) {
       tvCandidateName.setText(candidate.getName());
       tvCandidateName.setSizeToFit(true);
       tvCandidateDegree.setText(candidate.getEducation());
       tvCandidateJob.setText(candidate.getOccupation());
+
+      if (isUni) {
+        tvCandidateName.setTypeface(typeface);
+        tvCandidateDegree.setTypeface(typeface);
+        tvCandidateJob.setTypeface(typeface);
+      } else {
+        mmTextUtils.prepareMultipleViews(tvCandidateName, tvCandidateJob, tvCandidateDegree);
+      }
+
       Glide.with(itemView.getContext())
           .load(candidate.getPhotoUrl())
           .diskCacheStrategy(DiskCacheStrategy.ALL)

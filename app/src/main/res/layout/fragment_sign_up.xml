@@ -92,8 +92,9 @@
               android:layout_height="wrap_content"
               android:background="?android:attr/selectableItemBackground"
               android:gravity="center"
-              android:hint="မြို့နယ်"
+              android:text="မြို့နယ်"
               android:padding="@dimen/spacing_major"
+              android:textColor="@color/secondary_text_color"
               />
 
           <View
@@ -203,15 +204,17 @@
               >
 
             <TextView
+                android:id="@+id/tv_dob_label"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="center"
-                android:hint="မွေးနေ့"
+                android:text="မွေးနေ့"
                 android:lines="1"
                 android:maxLines="1"
+                android:textColor="@color/secondary_text_color"
                 android:paddingBottom="@dimen/spacing_major"
                 android:paddingTop="@dimen/spacing_major"
                 android:singleLine="true"
@@ -219,12 +222,14 @@
 
             <TextView
                 android:id="@+id/date_of_birth"
+                android:textSize="@dimen/text_size_medium"
                 style="@style/Widget.AppCompat.Spinner"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:hint="ရွေးပါ"
+                android:textColor="@color/secondary_text_color"
+                android:text="ရွေးပါ"
                 android:padding="5dp"
                 />
           </LinearLayout>

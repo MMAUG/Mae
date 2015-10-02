@@ -20,7 +20,7 @@ import hu.aut.utillib.circular.animation.CircularAnimationUtils;
 import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.game.BoardView;
-import org.mmaug.mae.utils.FontCache;
+import org.mmaug.mae.utils.MMTextUtils;
 import org.mmaug.mae.utils.MixUtils;
 
 /**
@@ -36,8 +36,9 @@ public class VoteGameActivity extends BaseActivity implements BoardView.GameList
   @Bind(R.id.tv_validity_warning) TextView mWarning;
   @Bind(R.id.tv_validity_warning_title) TextView mWarningTitle;
 
-  Typeface typefaceTitle;
-  Typeface typefacelight;
+  private Typeface typefaceTitle;
+  private Typeface typefacelight;
+  private boolean isUnicode;
 
   int y = 0, scrollTo = 1, spacingMajor = 0;
 
@@ -45,8 +46,9 @@ public class VoteGameActivity extends BaseActivity implements BoardView.GameList
     super.onCreate(savedInstanceState);
     ButterKnife.bind(this);
 
-    typefaceTitle = FontCache.get("MyanmarAngoun.ttf", this);
-    typefacelight = FontCache.get("pyidaungsu.ttf", this);
+    typefaceTitle = getTypefaceTitle();
+    typefacelight = getTypefaceLight();
+    isUnicode = isUnicode();
 
     spacingMajor = (int) MixUtils.convertDpToPixel(this, 16);
 
@@ -64,10 +66,6 @@ public class VoteGameActivity extends BaseActivity implements BoardView.GameList
 
     //listener for game play
     mBoardView.setGameListener(this);
-    mTextView.setTypeface(typefacelight);
-    mTvInfo.setTypeface(typefacelight);
-    mWarning.setTypeface(typefacelight);
-    mWarningTitle.setTypeface(typefaceTitle);
     //to check scrollview is at board
     mScrollView.post(new Runnable() {
       @Override public void run() {
@@ -79,6 +77,16 @@ public class VoteGameActivity extends BaseActivity implements BoardView.GameList
         });
       }
     });
+
+    if (isUnicode) {
+      mTextView.setTypeface(typefacelight);
+      mTvInfo.setTypeface(typefacelight);
+      mWarning.setTypeface(typefacelight);
+      mWarningTitle.setTypeface(typefaceTitle);
+    } else {
+      MMTextUtils.getInstance(this)
+          .prepareMultipleViews(mTextView, mTvInfo, mWarning, mWarningTitle);
+    }
   }
 
   @OnClick(R.id.cardview_start_game) void startGame() {
@@ -90,6 +98,9 @@ public class VoteGameActivity extends BaseActivity implements BoardView.GameList
     }
     //start the game
     mTextView.setText("ဆန္ဒပြုပါ");
+    if (!isUnicode) {
+      MMTextUtils.getInstance(this).prepareSingleView(mTextView);
+    }
     mBoardView.enableTouch(true);
     mBoardView.reset();
   }
@@ -120,6 +131,9 @@ public class VoteGameActivity extends BaseActivity implements BoardView.GameList
 
   @Override public void checkValidity(BoardView.ValidityStatus status) {
     mTextView.setText(getString(R.string.check));
+    if (!isUnicode) {
+      MMTextUtils.getInstance(this).prepareSingleView(mTextView);
+    }
     final Dialog voteResultDialog =
         new Dialog(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
     View view;
@@ -132,13 +146,18 @@ public class VoteGameActivity extends BaseActivity implements BoardView.GameList
       TextView message = (TextView) view.findViewById(R.id.message);
       //text message
       TextView myTextView = (TextView) view.findViewById(R.id.tv_vote_message);
-      title.setTypeface(typefaceTitle);
-      message.setTypeface(typefacelight);
-      myTextView.setTypeface(typefaceTitle);
-      okBtn.setTypeface(typefaceTitle);
       String warning = getString(R.string.how_to_vote_placeholder_text,
           getString(R.string.correct_vote_message));
       myTextView.setText(Html.fromHtml(warning));
+      if (isUnicode) {
+        title.setTypeface(typefaceTitle);
+        message.setTypeface(typefacelight);
+        myTextView.setTypeface(typefaceTitle);
+        okBtn.setTypeface(typefaceTitle);
+      } else {
+        MMTextUtils.getInstance(this).prepareMultipleViews(title, message, myTextView, okBtn);
+      }
+
       //myTargetView & mySourceView are children in the CircularFrameLayout
       float finalRadius = CircularAnimationUtils.hypo(200, 200);
       ////getCenter computes from 2 view: One is touched, and one will be animated, but you can use anything for center
@@ -167,10 +186,15 @@ public class VoteGameActivity extends BaseActivity implements BoardView.GameList
       String warning =
           getString(R.string.incorrect_vote_message, getString(R.string.correct_vote_message));
       myTextView.setText(warning);
-      title.setTypeface(typefaceTitle);
-      message.setTypeface(typefacelight);
-      myTextView.setTypeface(typefaceTitle);
-      okBtn.setTypeface(typefaceTitle);
+
+      if (isUnicode) {
+        title.setTypeface(typefaceTitle);
+        message.setTypeface(typefacelight);
+        myTextView.setTypeface(typefaceTitle);
+        okBtn.setTypeface(typefaceTitle);
+      } else {
+        MMTextUtils.getInstance(this).prepareMultipleViews(title, message, myTextView, okBtn);
+      }
       okBtn.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View view) {
           if (voteResultDialog.isShowing()) {

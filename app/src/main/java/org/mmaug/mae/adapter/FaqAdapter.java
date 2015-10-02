@@ -9,9 +9,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
+import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.models.FAQ;
 import org.mmaug.mae.utils.FontCache;
+import org.mmaug.mae.utils.MMTextUtils;
+import org.mmaug.mae.utils.UserPrefUtils;
 
 /**
  * Created by yemyatthu on 8/6/15.
@@ -20,6 +23,10 @@ public class FaqAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
   private List<FAQ> mFAQs;
   private Context mContext;
   private ClickInterface mClickInterface;
+
+  private Typeface typefacelight;
+  private boolean isUni;
+  private MMTextUtils mmTextUtils;
 
   public FaqAdapter() {
     mFAQs = new ArrayList<>();
@@ -32,16 +39,24 @@ public class FaqAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
   @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     mContext = parent.getContext();
+    //get typeface
+    typefacelight = FontCache.getTypefaceLight(mContext);
+    //check user has choose unicode or not
+    isUni = UserPrefUtils.getInstance(mContext).getTextPref().equals(Config.UNICODE);
+    mmTextUtils = MMTextUtils.getInstance(mContext);
+
     View view = LayoutInflater.from(mContext).inflate(R.layout.faq_item_view, parent, false);
     return new CandidateViewHolder(view);
   }
 
   @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
     FAQ FAQ = mFAQs.get(position);
-    Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", mContext);
-    Typeface typefacelight = FontCache.get("pyidaungsu.ttf", mContext);
     ((CandidateViewHolder) holder).mFaqQuestion.setText(FAQ.getQuestion());
-    ((CandidateViewHolder) holder).mFaqQuestion.setTypeface(typefacelight);
+    if (isUni) {
+      ((CandidateViewHolder) holder).mFaqQuestion.setTypeface(typefacelight);
+    } else {
+      mmTextUtils.prepareSingleView(((CandidateViewHolder) holder).mFaqQuestion);
+    }
     //((CandidateViewHolder) holder).mFaqAnswer.setText(FAQ.getAnswer());
   }
 

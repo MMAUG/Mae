@@ -70,6 +70,8 @@ public interface RESTService {
 
   @GET(Config.QUESTION_COUNT) Call<JsonObject> getQuestionCount(@Query("mpid") String mpId);
 
+    @GET(Config.QUESTION_MOTION) Call<JsonObject> getQuestionAndMotion(@Query("mpid") String mpId);
+
   @GET(Config.COMPARE_QUESTION) Call<JsonElement> getCompareQuestion(
       @Query("first") String first_candidate_id, @Query("second") String second_candidate_id);
 
@@ -84,4 +86,6 @@ public interface RESTService {
 
   @GET("/faq/{faq_id}") Call<FAQDetailReturnObject> searchFaqById(@Path("faq_id") String faqId,
       @QueryMap Map<String, String> options);
+
+  @GET(Config.APP_VERSIONS) Call<JsonObject> checkUpdate();
 }

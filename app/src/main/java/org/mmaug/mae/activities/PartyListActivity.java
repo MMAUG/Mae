@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -22,26 +21,31 @@ import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.models.Party;
 import org.mmaug.mae.models.PartyReturnObject;
 import org.mmaug.mae.rest.RESTClient;
+import org.mmaug.mae.utils.MixUtils;
+import org.mmaug.mae.utils.RestCallback;
 import org.mmaug.mae.view.SpacesItemDecoration;
 import retrofit.Call;
-import retrofit.Callback;
 import retrofit.Response;
+import tr.xip.errorview.ErrorView;
 
 /**
  * Created by indexer on 9/19/15.
  */
 
-public class PartyListActivity extends BaseActivity implements PartyAdapter.ClickInterface {
+public class PartyListActivity extends BaseActivity
+    implements PartyAdapter.ClickInterface, ErrorView.RetryListener {
+
   String TAG_TOOLBAR = "ပါတီစာရင်း";
   Integer currentPage = 1;
   int totalPageCount;
 
   @Bind(R.id.party_list_recycler_view) RecyclerView mPartyListRecyclerView;
   @Bind(R.id.progressBar) ProgressBar mProgressBar;
+  @Bind(R.id.error_view) ErrorView mErrorView;
+
   PartyAdapter mPartyAdapter;
   private EndlessRecyclerViewAdapter endlessRecyclerViewAdapter;
   private List<Party> mParties = new ArrayList<>();
-  private List<Party> mPartiesDemo = new ArrayList<>();
 
   @Override protected int getLayoutResource() {
     return R.layout.activity_party;
@@ -62,7 +66,6 @@ public class PartyListActivity extends BaseActivity implements PartyAdapter.Clic
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     ButterKnife.bind(this);
-    mProgressBar.setVisibility(View.VISIBLE);
 
     mPartyAdapter = new PartyAdapter();
     mPartyListRecyclerView.setHasFixedSize(true);
@@ -87,41 +90,49 @@ public class PartyListActivity extends BaseActivity implements PartyAdapter.Clic
             }
           }
         });
-    fetchParties();
+
+    mErrorView.setOnRetryListener(this);
+
+    MixUtils.toggleVisibilityWithAnim(mProgressBar, true);
+    MixUtils.toggleVisibilityWithAnim(mPartyListRecyclerView, false);
+    MixUtils.toggleVisibilityWithAnim(mErrorView, false);
+
   }
 
   private void fetchParties() {
     Map<String, String> params = new HashMap<>();
     params.put(Config.PAGE, currentPage.toString());
     params.put(Config.PER_PAGE, "20");
-    final Call<PartyReturnObject> partyCall = RESTClient.getMPSService(this).getPartyList(params);
-    partyCall.enqueue(new Callback<PartyReturnObject>() {
-                        @Override public void onResponse(Response<PartyReturnObject> response) {
-                          totalPageCount = response.body().getMeta().getTotal_pages();
-                          Log.e("Size", "" + response.body().getData().size());
-                          if (response.body().getData().size() > 0) {
-                            if (currentPage == 1) {
-                              Log.e("In One","Page");
-                              mParties = response.body().getData();
-                              mPartyListRecyclerView.setVisibility(View.VISIBLE);
-                              mProgressBar.setVisibility(View.GONE);
-                            } else {
-                              mParties.addAll(response.body().getData());
-                            }
-                            mPartyAdapter.setParties(mParties);
-                            endlessRecyclerViewAdapter.onDataReady(true);
-                            currentPage++;
-                          } else {
-                            endlessRecyclerViewAdapter.onDataReady(false);
-                          }
-                        }
+    final Call<PartyReturnObject> partyCall = RESTClient.getService(this).getPartyList(params);
+    partyCall.enqueue(new RestCallback<PartyReturnObject>() {
+      @Override public void onResponse(Response<PartyReturnObject> response) {
+        if (response.isSuccess()) {
+          totalPageCount = response.body().getMeta().getTotal_pages();
+          if (response.body().getData().size() > 0) {
+            if (currentPage == 1) {
+              mParties = response.body().getData();
+              MixUtils.toggleVisibilityWithAnim(mPartyListRecyclerView, true);
+              MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
+            } else {
+              mParties.addAll(response.body().getData());
+            }
+            mPartyAdapter.setParties(mParties);
+            endlessRecyclerViewAdapter.onDataReady(true);
+            currentPage++;
+          } else {
+            endlessRecyclerViewAdapter.onDataReady(false);
+          }
+          //success body
 
-                        @Override public void onFailure(Throwable t) {
-
-                        }
-                      }
-
-    );
+        } else {
+          if (currentPage == 1) {
+            MixUtils.toggleVisibilityWithAnim(mPartyListRecyclerView, false);
+            MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
+            MixUtils.toggleVisibilityWithAnim(mErrorView, true);
+          }
+        }
+      }
+    });
   }
 
   @Override public void onItemClick(View view, int position) {
@@ -139,5 +150,9 @@ public class PartyListActivity extends BaseActivity implements PartyAdapter.Clic
       return true;
     }
     return false;
+  }
+
+  @Override public void onRetry() {
+    fetchParties();
   }
 }

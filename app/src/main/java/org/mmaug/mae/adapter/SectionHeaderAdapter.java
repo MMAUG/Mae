@@ -8,10 +8,13 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import java.util.Arrays;
 import java.util.Comparator;
+import org.mmaug.mae.Config;
 import org.mmaug.mae.utils.FontCache;
+import org.mmaug.mae.utils.MMTextUtils;
+import org.mmaug.mae.utils.UserPrefUtils;
+import org.mmaug.mae.view.AutofitTextView;
 
 /**
  * Created by poepoe on 19/9/15.
@@ -25,6 +28,10 @@ public class SectionHeaderAdapter extends RecyclerView.Adapter<RecyclerView.View
   private RecyclerView.Adapter mBaseAdapter;
   private SparseArray<Section> mSections = new SparseArray<>();
   private RecyclerView mRecyclerView;
+
+  private Typeface typeface;
+  private boolean isUni;
+  private MMTextUtils mmTextUtils;
 
   public SectionHeaderAdapter(Context context, int sectionResourceId, int textResourceId,
       RecyclerView recyclerView, RecyclerView.Adapter baseAdapter) {
@@ -69,6 +76,12 @@ public class SectionHeaderAdapter extends RecyclerView.Adapter<RecyclerView.View
 
   @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int typeView) {
     if (typeView == SECTION_TYPE) {
+      //get typeface
+      typeface = FontCache.getTypefaceLight(mContext);
+      //check user has choose unicode or not
+      isUni = UserPrefUtils.getInstance(mContext).getTextPref().equals(Config.UNICODE);
+      mmTextUtils = MMTextUtils.getInstance(mContext);
+
       final View view = LayoutInflater.from(mContext).inflate(mSectionResourceId, parent, false);
       return new SectionViewHolder(view, mTextResourceId);
     } else {
@@ -78,9 +91,12 @@ public class SectionHeaderAdapter extends RecyclerView.Adapter<RecyclerView.View
 
   @Override public void onBindViewHolder(RecyclerView.ViewHolder sectionViewHolder, int position) {
     if (isSectionHeaderPosition(position)) {
-      Typeface typefaceTitle = FontCache.get("MyanmarAngoun.ttf", mContext);
       ((SectionViewHolder) sectionViewHolder).title.setText(mSections.get(position).title);
-      ((SectionViewHolder) sectionViewHolder).title.setTypeface(typefaceTitle);
+      if (isUni) {
+        ((SectionViewHolder) sectionViewHolder).title.setTypeface(typeface);
+      } else {
+        mmTextUtils.prepareSingleView(((SectionViewHolder) sectionViewHolder).title);
+      }
     } else {
       mBaseAdapter.onBindViewHolder(sectionViewHolder, sectionedPositionToPosition(position));
     }
@@ -152,11 +168,12 @@ public class SectionHeaderAdapter extends RecyclerView.Adapter<RecyclerView.View
 
   public static class SectionViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView title;
+    public AutofitTextView title;
 
     public SectionViewHolder(View view, int mTextResourceid) {
       super(view);
-      title = (TextView) view.findViewById(mTextResourceid);
+      title = (AutofitTextView) view.findViewById(mTextResourceid);
+      title.setSizeToFit(true);
     }
   }
 
