@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,7 +39,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
   @Bind(R.id.month_day_left) TextView monthDayLeft;
   @Bind(R.id.hour_minute_left) TextView hourMinuteLeft;
-  @Bind(R.id.backdrop) LinearLayout backdrop;
+  @Bind(R.id.cardview_vote_check) CardView backdrop;
   @Bind(R.id.txt_cardview_vote_check) TextView txt_cardview_vote_check;
   @Bind(R.id.txt_where_can_i_vote) TextView txt_where_can_i_vote;
   @Bind(R.id.txt_howtovote) TextView txt_howto_vote;
@@ -112,11 +111,11 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
     UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
     if (userPrefUtils.isValid()) {
-      backdrop.setBackgroundColor(getResources().getColor(R.color.accent_color));
+      backdrop.setCardBackgroundColor(getResources().getColor(R.color.accent_color));
       txt_cardview_vote_check.setTextColor(Color.WHITE);
       valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_mark));
     } else {
-      backdrop.setBackgroundColor(Color.parseColor("#FFC107"));
+      backdrop.setCardBackgroundColor(Color.parseColor("#FFC107"));
       valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_exclamation_mark));
       txt_cardview_vote_check.setTextColor(Color.WHITE);
     }

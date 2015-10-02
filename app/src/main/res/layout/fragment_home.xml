@@ -95,9 +95,7 @@
           >
 
         <LinearLayout
-            android:id="@+id/backdrop"
             android:padding="@dimen/spacing_major"
-            android:background="@color/accent_color"
             android:weightSum="5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
