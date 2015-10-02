@@ -327,7 +327,6 @@ public class CandidateListActivity extends BaseActivity
     pyithuCall.enqueue(new Callback<CandidateListReturnObject>() {
       @Override public void onResponse(Response<CandidateListReturnObject> response) {
         final List<Candidate> candidates = response.body().getData();
-        System.out.println(response.body().getData());
         Map<String, String> amyotharParams = new HashMap<String, String>();
         amyotharParams.put(Config.PER_PAGE, "200");
         amyotharParams.put(Config.WITH, "party");
@@ -340,52 +339,51 @@ public class CandidateListActivity extends BaseActivity
             if (response.isSuccess()) {
 
               candidates.addAll(response.body().getData());
-
-              //sort
-              Collections.sort(candidates, new Comparator<Candidate>() {
-                @Override public int compare(Candidate lhs, Candidate rhs) {
-                  return rhs.getLegislature().compareTo(lhs.getLegislature());
-                }
-              });
-              Collections.reverse(candidates);
-
-              //header section
-              List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
-
-              for (int i = 0; i < candidates.size(); i++) {
-                Candidate location = candidates.get(i);
-                //get type from the array
-                if (sections.size() > 0) {
-                  if (!checkSection(sections, location.getLegislature())) {
-                    sections.add(new SectionHeaderAdapter.Section(i, location.getLegislature()));
-                  }
-                } else {
-                  //add first type
-                  sections.add(new SectionHeaderAdapter.Section(0, location.getLegislature()));
-                }
-              }
-
-              SectionHeaderAdapter.Section[] dummy =
-                  new SectionHeaderAdapter.Section[sections.size()];
-              sectionAdapter.setSections(sections.toArray(dummy));
-              candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
-              MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
-              MixUtils.toggleVisibilityWithAnim(mRecyclerView, true);
-            } else {
-              //error
-              MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
-              MixUtils.toggleVisibilityWithAnim(mRecyclerView, false);
-              MixUtils.toggleVisibilityWithAnim(mErrorView, true);
             }
+            //sort
+            Collections.sort(candidates, new Comparator<Candidate>() {
+              @Override public int compare(Candidate lhs, Candidate rhs) {
+                return rhs.getLegislature().compareTo(lhs.getLegislature());
+              }
+            });
+            Collections.reverse(candidates);
+
+            //header section
+            List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
+            //header section
+            sections = new ArrayList<>();
+
+            for (int i = 0; i < candidates.size(); i++) {
+              Candidate location = candidates.get(i);
+              //get type from the array
+              if (sections.size() > 0) {
+                if (!checkSection(sections, location.getLegislature())) {
+                  sections.add(new SectionHeaderAdapter.Section(i, location.getLegislature()));
+                }
+              } else {
+                //add first type
+                sections.add(new SectionHeaderAdapter.Section(0, location.getLegislature()));
+              }
+            }
+            SectionHeaderAdapter.Section[] dummy =
+                new SectionHeaderAdapter.Section[sections.size()];
+            sectionAdapter.setSections(sections.toArray(dummy));
+            candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
+            MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
+            MixUtils.toggleVisibilityWithAnim(mRecyclerView, true);
+          }
+
+          @Override public void onFailure(Throwable t) {
+            MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
           }
         });
       }
-
       @Override public void onFailure(Throwable t) {
         MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
       }
     });
-  }
+
+    }
 
   @Override public void onRetry() {
     fetchCandidate(myTownShip);

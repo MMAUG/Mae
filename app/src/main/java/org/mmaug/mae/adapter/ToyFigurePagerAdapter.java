@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.support.v4.view.PagerAdapter;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,10 +107,16 @@ public class ToyFigurePagerAdapter extends PagerAdapter {
       }else{
         realCountStr = String.format(res.getString(R.string.prev_compare_result), MixUtils.convertToBurmese(String.valueOf(realCandidateCount)));
       }
+      SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(realCountStr);
+      spannableStringBuilder.setSpan(new ForegroundColorSpan(mColor),8,8+String.valueOf(realCandidateCount).length(),
+          Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+      compareResult.setText(spannableStringBuilder);
+
     } else {
       realCountStr = res.getString(R.string.current_compare_result_zero);
+      compareResult.setText(realCountStr);
     }
-    compareResult.setText(realCountStr);
+
 
     String seatCountStr;
     seatCountStr = String.format(res.getString(R.string.current_compare_head),
