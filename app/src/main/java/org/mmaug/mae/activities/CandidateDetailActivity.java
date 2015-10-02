@@ -50,7 +50,6 @@ import org.mmaug.mae.view.CircleView;
 import org.mmaug.mae.view.ZoomAspectRatioImageView;
 import retrofit.Call;
 import retrofit.Response;
-import timber.log.Timber;
 
 public class CandidateDetailActivity extends AppCompatActivity {
 
@@ -167,7 +166,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
       Call<JsonObject> questionMotionCall = mRESTService.getQuestionAndMotion(candidate.getMpid());
       questionMotionCall.enqueue(new RestCallback<JsonObject>() {
         @Override public void onResponse(Response<JsonObject> response) {
-          if ( response.code() == 200) {
+          if (response.code() == 200) {
             int motionCount = response.body().get("motions_count").getAsInt();
             JsonArray motions = response.body().get("motions").getAsJsonArray();
 
