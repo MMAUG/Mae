@@ -33,22 +33,22 @@ android {
 
     debug {
       storeFile file('mae.jks')
-      storePassword 'myanmar'
-      keyAlias 'mmaug'
-      keyPassword 'myanmar'
+      storePassword MAE_PASSWORD
+      keyAlias MAE_NAME
+      keyPassword MAE_PASSWORD
     }
 
     beta {
       storeFile file('mae.jks')
-      storePassword 'myanmar'
-      keyAlias 'mmaug'
-      keyPassword 'myanmar'
+      storePassword MAE_PASSWORD
+      keyAlias MAE_NAME
+      keyPassword MAE_PASSWORD
     }
     release {
       storeFile file('mae.jks')
-      storePassword 'myanmar'
-      keyAlias 'mmaug'
-      keyPassword 'myanmar'
+      storePassword MAE_PASSWORD
+      keyAlias MAE_NAME
+      keyPassword MAE_PASSWORD
     }
   }
 
@@ -58,20 +58,20 @@ android {
       shrinkResources true
       signingConfig signingConfigs.release
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-      resValue "string", "google_maps_api_key", "AIzaSyCowRTaihAtQGJYNsj8Wcs5lj_lU66H4Wc"
+      resValue "string", "google_maps_api_key", GOOGLE_MAPS_API_KEY_RELEASE
     }
     debug {
       debuggable true
       applicationIdSuffix '.debug'
       versionNameSuffix '-DEBUG'
-      resValue "string", "google_maps_api_key", "AIzaSyBPaKYpnf_hyHHvP4VdoO2Mh3qyWr09hUM"
+      resValue "string", "google_maps_api_key", GOOGLE_MAPS_API_KEY_DEBUG
     }
     beta {
       signingConfig signingConfigs.beta
       debuggable true
       applicationIdSuffix '.beta'
       versionNameSuffix '-BETA'
-      resValue "string", "google_maps_api_key", "AIzaSyAwsGW27DTsc-Z9oBqdx5T_YXZ90B96tL0"
+      resValue "string", "google_maps_api_key", GOOGLE_MAPS_API_KEY_BETA
     }
   }
 }

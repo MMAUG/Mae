@@ -184,6 +184,7 @@
 # Gson specific classes
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }
+-dontwarn org.mmaug.mae.rest.**
 -keep class org.mmaug.mae.models.** { *; }
 
 
