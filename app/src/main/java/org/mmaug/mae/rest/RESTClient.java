@@ -53,6 +53,7 @@ public class RESTClient {
           (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
       String uuid = tManager.getDeviceId();
       Request request = chain.request();
+      Timber.tag(TAG);
 
       Request.Builder builder = request.newBuilder();
       builder.header("X-API-KEY", BuildConfig.API_KEY);
@@ -62,15 +63,14 @@ public class RESTClient {
       request = builder.build();
 
       long t1 = System.nanoTime();
-      Timber.i(TAG, String.format("Sending request %s on %s%n%s", request.url(), chain.connection(),
+      Timber.i(String.format("Sending request %s on %s%n%s", request.url(), chain.connection(),
           request.body()));
 
       Response response = chain.proceed(request);
 
       long t2 = System.nanoTime();
-      Timber.i(TAG,
-          String.format("Received response for %s in %.1fms%n%s", response.request().url(),
-              (t2 - t1) / 1e6d, response.body()));
+      Timber.i(String.format("Received response for %s in %.1fms%n%s", response.request().url(),
+          (t2 - t1) / 1e6d, response.body()));
 
       return response;
     }
