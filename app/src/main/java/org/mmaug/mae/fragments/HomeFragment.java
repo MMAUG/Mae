@@ -225,7 +225,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         @Override public void onClick(View view) {
           if (voteResultDialog.isShowing()) {
             voteResultDialog.dismiss();
-            backdrop.setBackgroundColor(getResources().getColor(R.color.accent_color));
+            backdrop.setCardBackgroundColor(getResources().getColor(R.color.accent_color));
             txt_cardview_vote_check.setTextColor(Color.WHITE);
             valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_mark));
           }
@@ -253,7 +253,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         @Override public void onClick(View view) {
           if (voteResultDialog.isShowing()) {
             voteResultDialog.dismiss();
-            backdrop.setBackgroundColor(getResources().getColor(R.color.orange));
+            backdrop.setCardBackgroundColor(getResources().getColor(R.color.orange));
             valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_exclamation_mark));
             txt_cardview_vote_check.setTextColor(Color.WHITE);
           }
