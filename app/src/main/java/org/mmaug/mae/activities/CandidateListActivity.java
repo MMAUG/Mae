@@ -43,7 +43,6 @@ import org.mmaug.mae.utils.UserPrefUtils;
 import org.mmaug.mae.view.AutofitTextView;
 import org.mmaug.mae.view.SpacesItemDecoration;
 import retrofit.Call;
-import retrofit.Callback;
 import retrofit.Response;
 import tr.xip.errorview.ErrorView;
 
@@ -324,66 +323,63 @@ public class CandidateListActivity extends BaseActivity
   private void inflateCandiateAdapter(final Map<String, String> params) {
     final Call<CandidateListReturnObject> pyithuCall =
         RESTClient.getService(this).getCandidateList(params);
-    pyithuCall.enqueue(new Callback<CandidateListReturnObject>() {
+    pyithuCall.enqueue(new RestCallback<CandidateListReturnObject>() {
       @Override public void onResponse(Response<CandidateListReturnObject> response) {
-        final List<Candidate> candidates = response.body().getData();
-        Map<String, String> amyotharParams = new HashMap<String, String>();
-        amyotharParams.put(Config.PER_PAGE, "200");
-        amyotharParams.put(Config.WITH, "party");
-        amyotharParams.put(Config.LEGISLATURE, Config.AMYOTHAE_HLUTTAW);
-        amyotharParams.put(Config.CONSTITUENCY_ST_PCODE, params.get(Config.CONSTITUENCY_ST_PCODE));
-        Call<CandidateListReturnObject> amyotharCall =
-            RESTClient.getService(CandidateListActivity.this).getCandidateList(amyotharParams);
-        amyotharCall.enqueue(new RestCallback<CandidateListReturnObject>() {
-          @Override public void onResponse(Response<CandidateListReturnObject> response) {
-            if (response.isSuccess()) {
-
-              candidates.addAll(response.body().getData());
-            }
-            //sort
-            Collections.sort(candidates, new Comparator<Candidate>() {
-              @Override public int compare(Candidate lhs, Candidate rhs) {
-                return rhs.getLegislature().compareTo(lhs.getLegislature());
+        if (response.isSuccess()) {
+          final List<Candidate> candidates = response.body().getData();
+          Map<String, String> amyotharParams = new HashMap<>();
+          amyotharParams.put(Config.PER_PAGE, "200");
+          amyotharParams.put(Config.WITH, "party");
+          amyotharParams.put(Config.LEGISLATURE, Config.AMYOTHAE_HLUTTAW);
+          amyotharParams.put(Config.CONSTITUENCY_ST_PCODE,
+              params.get(Config.CONSTITUENCY_ST_PCODE));
+          Call<CandidateListReturnObject> amyotharCall =
+              RESTClient.getService(CandidateListActivity.this).getCandidateList(amyotharParams);
+          amyotharCall.enqueue(new RestCallback<CandidateListReturnObject>() {
+            @Override public void onResponse(Response<CandidateListReturnObject> response) {
+              if (response.isSuccess()) {
+                candidates.addAll(response.body().getData());
               }
-            });
-            Collections.reverse(candidates);
-
-            //header section
-            List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
-            //header section
-            sections = new ArrayList<>();
-
-            for (int i = 0; i < candidates.size(); i++) {
-              Candidate location = candidates.get(i);
-              //get type from the array
-              if (sections.size() > 0) {
-                if (!checkSection(sections, location.getLegislature())) {
-                  sections.add(new SectionHeaderAdapter.Section(i, location.getLegislature()));
+              //sort
+              Collections.sort(candidates, new Comparator<Candidate>() {
+                @Override public int compare(Candidate lhs, Candidate rhs) {
+                  return rhs.getLegislature().compareTo(lhs.getLegislature());
                 }
-              } else {
-                //add first type
-                sections.add(new SectionHeaderAdapter.Section(0, location.getLegislature()));
-              }
-            }
-            SectionHeaderAdapter.Section[] dummy =
-                new SectionHeaderAdapter.Section[sections.size()];
-            sectionAdapter.setSections(sections.toArray(dummy));
-            candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
-            MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
-            MixUtils.toggleVisibilityWithAnim(mRecyclerView, true);
-          }
+              });
+              Collections.reverse(candidates);
 
-          @Override public void onFailure(Throwable t) {
-            MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
-          }
-        });
-      }
-      @Override public void onFailure(Throwable t) {
-        MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
+              //header section
+              List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
+
+              for (int i = 0; i < candidates.size(); i++) {
+                Candidate location = candidates.get(i);
+                //get type from the array
+                if (sections.size() > 0) {
+                  if (!checkSection(sections, location.getLegislature())) {
+                    sections.add(new SectionHeaderAdapter.Section(i, location.getLegislature()));
+                  }
+                } else {
+                  //add first type
+                  sections.add(new SectionHeaderAdapter.Section(0, location.getLegislature()));
+                }
+              }
+              SectionHeaderAdapter.Section[] dummy =
+                  new SectionHeaderAdapter.Section[sections.size()];
+              sectionAdapter.setSections(sections.toArray(dummy));
+              candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
+
+              MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
+              MixUtils.toggleVisibilityWithAnim(mRecyclerView, true);
+            }
+          });
+        } else {
+          MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
+          MixUtils.toggleVisibilityWithAnim(mErrorView, false);
+          mErrorView.setError(response.code());
+        }
       }
     });
-
-    }
+  }
 
   @Override public void onRetry() {
     fetchCandidate(myTownShip);
