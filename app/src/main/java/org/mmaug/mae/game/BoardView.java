@@ -133,7 +133,6 @@ public class BoardView extends View {
 
     int titleHeight = marginTop / 4;
     int paraHeight = 3 * titleHeight;
-    int paraMargin;
 
     if (stamp == null) {
       stamp = getStamp(getSmallCellWidth(x), getBigCellHeight(y), R.drawable.ic_stamp);
@@ -147,7 +146,7 @@ public class BoardView extends View {
     } else {
       signatureTextSize = marginSmall + padding;
     }
-    drawTitle(marginSmall, marginTop);
+    drawTitle(marginSmall, x,marginTop);
     //this is the top point of the rectangle and it will need to be recalculated
     //when rows are added
     int top = 0;
@@ -355,12 +354,15 @@ public class BoardView extends View {
     return Bitmap.createScaledBitmap(b, width - margin, height - margin, false);
   }
 
-  private Bitmap getTitleBitmap(int height) {
+  private Bitmap getTitleBitmap(int width, int height) {
     Drawable drawable = res.getDrawable(R.drawable.example_info);
     assert drawable != null;
     height = height - margin;
     Bitmap b = ((BitmapDrawable) drawable).getBitmap();
-    return Bitmap.createScaledBitmap(b, (int) (height * 3.25), height, false);
+    int scaledWidth = (int) (height * 3.25);
+    if (scaledWidth > width) scaledWidth = width;
+    height = (int)(scaledWidth/3.25);
+    return Bitmap.createScaledBitmap(b, scaledWidth, height, false);
   }
 
   private Bitmap getCandidate(int icon) {
@@ -379,7 +381,7 @@ public class BoardView extends View {
     canvas.drawBitmap(stamp, x, y, null);
   }
 
-  private void drawTitle(int y, int height) {
-    canvas.drawBitmap(getTitleBitmap(height), margin, y, null);
+  private void drawTitle(int y, int width, int height) {
+    canvas.drawBitmap(getTitleBitmap(width, height), margin, y, null);
   }
 }
