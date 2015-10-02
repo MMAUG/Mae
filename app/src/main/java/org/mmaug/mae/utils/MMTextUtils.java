@@ -16,6 +16,7 @@ public class MMTextUtils {
     if (mmTextUtils == null) mmTextUtils = new MMTextUtils(context);
     return mmTextUtils;
   }
+
   public MMTextUtils(Context context) {
     this.mContext = context;
   }
@@ -46,6 +47,14 @@ public class MMTextUtils {
     return 2;
   }
 
+  public String zgToUni(String string) {
+    if (detector(string) == 1) {
+      return string;
+    } else {
+      return Rabbit.zg2uni(string);
+    }
+  }
+
   public void prepareMultipleViews(String content, View... textViews) {
     for (View textView : textViews) {
       switch (detector(content)) {
@@ -69,7 +78,6 @@ public class MMTextUtils {
 
   public void prepareSingleView(View textView) {
     mmtext.prepareView(mContext, textView, mmtext.TEXT_UNICODE, true, true);
-
   }
 
   public void prepareSingleView(String content, View textView) {

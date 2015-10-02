@@ -100,19 +100,20 @@ public class SignUpFragment extends Fragment
       toast.setGravity(Gravity.CENTER, 0, 10);
       toast.show();
     } else {
+      MMTextUtils mmTextUtils = MMTextUtils.getInstance(getContext());
       StringBuilder stringBuilder = new StringBuilder();
-      stringBuilder.append(mNrcNo.getText().toString());
+      stringBuilder.append(mmTextUtils.zgToUni(mNrcNo.getText().toString()));
       stringBuilder.append("/");
-      stringBuilder.append(mNrcTownShip.getText().toString());
+      stringBuilder.append(mmTextUtils.zgToUni(mNrcTownShip.getText().toString()));
       stringBuilder.append("(နိုင်)");
-      stringBuilder.append(mNrcValue.getText());
+      stringBuilder.append(mmTextUtils.zgToUni(mNrcValue.getText().toString()));
       String voterNrc = stringBuilder.toString();
       final Map<String, String> params = new HashMap<>();
-      params.put(Config.VOTER_NAME, mUserName.getText().toString());
+      params.put(Config.VOTER_NAME, mmTextUtils.zgToUni(mUserName.getText().toString()));
       params.put(Config.DATE_OF_BIRTH, mDateOfBirth.getText().toString());
       params.put(Config.NRC, voterNrc);
-      params.put(Config.FATHER_NAME, mFatherName.getText().toString());
-      params.put(Config.TOWNSHIP, mTownship.getText().toString());
+      params.put(Config.FATHER_NAME, mmTextUtils.zgToUni(mFatherName.getText().toString()));
+      params.put(Config.TOWNSHIP, mmTextUtils.zgToUni(mTownship.getText().toString()));
 
       final Call<User> registerUser = RESTClient.getService(getActivity()).registerUser(params);
       registerUser.enqueue(new Callback<User>() {
