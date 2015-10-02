@@ -7,6 +7,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import java.io.IOException;
+import org.mmaug.mae.BuildConfig;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 import timber.log.Timber;
@@ -33,15 +34,15 @@ public class RESTClient {
     mService = restAdapter.create(RESTService.class);
   }
 
+  public static synchronized RESTService getService(Context context) {
+    return getInstance(context).mService;
+  }
+
   public static RESTClient getInstance(Context context) {
     if (instance == null) {
       instance = new RESTClient(context);
     }
     return instance;
-  }
-
-  public static synchronized RESTService getService(Context context) {
-    return getInstance(context).mService;
   }
 
   private class LoggingInterceptor implements Interceptor {
@@ -54,8 +55,8 @@ public class RESTClient {
       Request request = chain.request();
 
       Request.Builder builder = request.newBuilder();
-      builder.header("X-API-KEY", "pRGKrLV8pKgReysQ27lORJsFbuJi4eAx");
-      builder.header("X-API-SECRET", "r3pcXrYDvsTIRikBBG4SzdzAwgSsdIYU");
+      builder.header("X-API-KEY", BuildConfig.API_KEY);
+      builder.header("X-API-SECRET", BuildConfig.API_SECRET);
       builder.header("Accept", "application/json");
       builder.addHeader("uuid", uuid);
       request = builder.build();

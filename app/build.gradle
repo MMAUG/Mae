@@ -26,6 +26,9 @@ android {
     versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100
     renderscriptTargetApi 23
     renderscriptSupportModeEnabled true
+
+    buildConfigField "String", "API_KEY", MAE_KEY
+    buildConfigField "String", "API_SECRET", MAE_SECRET
   }
 
 
