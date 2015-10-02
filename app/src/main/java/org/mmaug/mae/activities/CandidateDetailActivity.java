@@ -215,8 +215,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
           for (String key : unique) {
             System.out.println(key + ": " + Collections.frequency(titles, key));
             Random rnd = new Random();
-            String hexes = colorHexes[rnd.nextInt(colorHexes.length)];
-            int color = Color.parseColor(hexes);
+            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
             int count = Collections.frequency(titles, key);
             PieModel pieModel = new PieModel(key, count, color);
             mPieChart.addPieSlice(pieModel);
@@ -268,8 +267,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
           for (String key : unique) {
             System.out.println(key + ": " + Collections.frequency(titles, key));
             Random rnd = new Random();
-            String hexes = colorHexes[rnd.nextInt(colorHexes.length)];
-            int color = Color.parseColor(hexes);
+            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
             int count = Collections.frequency(titles, key);
             PieModel pieModel = new PieModel(key, count, color);
             mPieChart.addPieSlice(pieModel);
