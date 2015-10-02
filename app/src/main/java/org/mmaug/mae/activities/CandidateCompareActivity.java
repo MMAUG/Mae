@@ -68,47 +68,84 @@ public class CandidateCompareActivity extends BaseActivity {
     //GET candidate value
     setupHeader();
     setTypeFace();
+    if(candidate.getMpid()!=null) {
+      Call<JsonElement> compareQuestionCall = RESTClient.getService(this)
+          .getCompareQuestion(candidateCompare.getMpid(), candidate.getMpid());
+      compareQuestionCall.enqueue(new Callback<JsonElement>() {
+        @Override public void onResponse(Response<JsonElement> response) {
 
-    Call<JsonElement> compareQuestionCall = RESTClient.getService(this)
-        .getCompareQuestion(candidateCompare.getMpid(), candidate.getMpid());
-    compareQuestionCall.enqueue(new Callback<JsonElement>() {
-      @Override public void onResponse(Response<JsonElement> response) {
+          if (response.body().getAsJsonObject().get("questions").isJsonObject()) {
+            JsonObject question =
+                response.body().getAsJsonObject().get("questions").getAsJsonObject();
 
-        if (response.body().getAsJsonObject().get("questions").isJsonObject()) {
-          JsonObject question =
-              response.body().getAsJsonObject().get("questions").getAsJsonObject();
+            JsonObject motion =
+                response.body().getAsJsonObject().getAsJsonObject("motions").getAsJsonObject();
+            Set<Map.Entry<String, JsonElement>> entriesMotions = motion.entrySet();//
 
-          JsonObject motion =
-              response.body().getAsJsonObject().getAsJsonObject("motions").getAsJsonObject();
-          Set<Map.Entry<String, JsonElement>> entriesMotions = motion.entrySet();//
+            for (Map.Entry<String, JsonElement> entry : entriesMotions) {
+              {
 
-          for (Map.Entry<String, JsonElement> entry : entriesMotions) {
-            {
+                int obtainScrollOne =
+                    entry.getValue().getAsJsonObject().get(candidateCompare.getMpid()).getAsInt();
+                int obtainScrollTwo =
+                    entry.getValue().getAsJsonObject().get(candidate.getMpid()).getAsInt();
+                Float PercentageOne;
+                Float PercentageTwo;
+                int TotalScore =
+                    entry.getValue().getAsJsonObject().get(candidateCompare.getMpid()).getAsInt() + entry.getValue().getAsJsonObject().get(candidate.getMpid()).getAsInt();
+                PercentageOne = Float.valueOf((obtainScrollOne * 100 / TotalScore));
+                PercentageTwo = Float.valueOf((obtainScrollTwo * 100 / TotalScore));
+                View question_indicator =
+                    getLayoutInflater().inflate(R.layout.question_compare_layout, motion_view, false);
+                TextView questionText = (TextView) question_indicator.findViewById(R.id.question_title);
+                TextView leftText = (TextView) question_indicator.findViewById(R.id.left_text);
+                TextView rightText = (TextView) question_indicator.findViewById(R.id.right_text);
+                leftText.setText(MixUtils.convertToBurmese(String.valueOf(obtainScrollOne)));
+                rightText.setText(MixUtils.convertToBurmese(String.valueOf(obtainScrollTwo)));
+                questionText.setTypeface(typefacelight);
+                RoundCornerProgressBar roundCornerProgressBar = (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate1);
+                RoundCornerProgressBar roundCornerProgressBarTwo = (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate2);
+                roundCornerProgressBar.setProgress(PercentageOne);
+                roundCornerProgressBar.setProgressColor(Color.parseColor("#9C27B0"));
+                roundCornerProgressBar.setRotation(180);
+                roundCornerProgressBar.setBackgroundColor(Color.WHITE);
+                roundCornerProgressBarTwo.setProgress(PercentageTwo);
+                roundCornerProgressBarTwo.setProgressColor(Color.parseColor("#009688"));
+                questionText.setText(entry.getKey());
+                motion_view.addView(question_indicator);
+                if (isUnicode) {
+                  questionText.setTypeface(typefacelight);
+                } else {
+                  MMTextUtils.getInstance(CandidateCompareActivity.this)
+                      .prepareMultipleViews(questionText, leftText, rightText);
+                }
+              }
+            }
 
+            Set<Map.Entry<String, JsonElement>> entries = question.entrySet();//will return members of your object
+            for (Map.Entry<String, JsonElement> entry : entries) {
               int obtainScrollOne =
                   entry.getValue().getAsJsonObject().get(candidateCompare.getMpid()).getAsInt();
               int obtainScrollTwo =
                   entry.getValue().getAsJsonObject().get(candidate.getMpid()).getAsInt();
               Float PercentageOne;
               Float PercentageTwo;
+              //"#9C27B0", "#673AB7"
               int TotalScore =
-                  entry.getValue().getAsJsonObject().get(candidateCompare.getMpid()).getAsInt()
-                      + entry.getValue().getAsJsonObject().get(candidate.getMpid()).getAsInt();
+                  entry.getValue().getAsJsonObject().get(candidateCompare.getMpid()).getAsInt() + entry.getValue().getAsJsonObject().get(candidate.getMpid()).getAsInt();
               PercentageOne = Float.valueOf((obtainScrollOne * 100 / TotalScore));
               PercentageTwo = Float.valueOf((obtainScrollTwo * 100 / TotalScore));
               View question_indicator =
-                  getLayoutInflater().inflate(R.layout.question_compare_layout, motion_view, false);
-              TextView questionText =
-                  (TextView) question_indicator.findViewById(R.id.question_title);
+                  getLayoutInflater().inflate(R.layout.question_compare_layout, question_showcase,
+                      false);
+              TextView questionText = (TextView) question_indicator.findViewById(R.id.question_title);
               TextView leftText = (TextView) question_indicator.findViewById(R.id.left_text);
               TextView rightText = (TextView) question_indicator.findViewById(R.id.right_text);
               leftText.setText(MixUtils.convertToBurmese(String.valueOf(obtainScrollOne)));
               rightText.setText(MixUtils.convertToBurmese(String.valueOf(obtainScrollTwo)));
-              questionText.setTypeface(typefacelight);
-              RoundCornerProgressBar roundCornerProgressBar =
-                  (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate1);
-              RoundCornerProgressBar roundCornerProgressBarTwo =
-                  (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate2);
+
+              RoundCornerProgressBar roundCornerProgressBar = (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate1);
+              RoundCornerProgressBar roundCornerProgressBarTwo = (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate2);
               roundCornerProgressBar.setProgress(PercentageOne);
               roundCornerProgressBar.setProgressColor(Color.parseColor("#9C27B0"));
               roundCornerProgressBar.setRotation(180);
@@ -116,7 +153,7 @@ public class CandidateCompareActivity extends BaseActivity {
               roundCornerProgressBarTwo.setProgress(PercentageTwo);
               roundCornerProgressBarTwo.setProgressColor(Color.parseColor("#009688"));
               questionText.setText(entry.getKey());
-              motion_view.addView(question_indicator);
+              question_showcase.addView(question_indicator);
               if (isUnicode) {
                 questionText.setTypeface(typefacelight);
               } else {
@@ -125,57 +162,18 @@ public class CandidateCompareActivity extends BaseActivity {
               }
             }
           }
-
-          Set<Map.Entry<String, JsonElement>> entries =
-              question.entrySet();//will return members of your object
-          for (Map.Entry<String, JsonElement> entry : entries) {
-            int obtainScrollOne =
-                entry.getValue().getAsJsonObject().get(candidateCompare.getMpid()).getAsInt();
-            int obtainScrollTwo =
-                entry.getValue().getAsJsonObject().get(candidate.getMpid()).getAsInt();
-            Float PercentageOne;
-            Float PercentageTwo;
-            //"#9C27B0", "#673AB7"
-            int TotalScore =
-                entry.getValue().getAsJsonObject().get(candidateCompare.getMpid()).getAsInt()
-                    + entry.getValue().getAsJsonObject().get(candidate.getMpid()).getAsInt();
-            PercentageOne = Float.valueOf((obtainScrollOne * 100 / TotalScore));
-            PercentageTwo = Float.valueOf((obtainScrollTwo * 100 / TotalScore));
-            View question_indicator =
-                getLayoutInflater().inflate(R.layout.question_compare_layout, question_showcase,
-                    false);
-            TextView questionText = (TextView) question_indicator.findViewById(R.id.question_title);
-            TextView leftText = (TextView) question_indicator.findViewById(R.id.left_text);
-            TextView rightText = (TextView) question_indicator.findViewById(R.id.right_text);
-            leftText.setText(MixUtils.convertToBurmese(String.valueOf(obtainScrollOne)));
-            rightText.setText(MixUtils.convertToBurmese(String.valueOf(obtainScrollTwo)));
-
-            RoundCornerProgressBar roundCornerProgressBar =
-                (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate1);
-            RoundCornerProgressBar roundCornerProgressBarTwo =
-                (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate2);
-            roundCornerProgressBar.setProgress(PercentageOne);
-            roundCornerProgressBar.setProgressColor(Color.parseColor("#9C27B0"));
-            roundCornerProgressBar.setRotation(180);
-            roundCornerProgressBar.setBackgroundColor(Color.WHITE);
-            roundCornerProgressBarTwo.setProgress(PercentageTwo);
-            roundCornerProgressBarTwo.setProgressColor(Color.parseColor("#009688"));
-            questionText.setText(entry.getKey());
-            question_showcase.addView(question_indicator);
-            if (isUnicode) {
-              questionText.setTypeface(typefacelight);
-            } else {
-              MMTextUtils.getInstance(CandidateCompareActivity.this)
-                  .prepareMultipleViews(questionText, leftText, rightText);
-            }
-          }
         }
-      }
 
-      @Override public void onFailure(Throwable t) {
-        Timber.e(t.getMessage());
-      }
-    });
+        @Override public void onFailure(Throwable t) {
+          Timber.e(t.getMessage());
+        }
+      });
+    }else{
+      findViewById(R.id.title_question).setVisibility(View.GONE);
+      findViewById(R.id.title_motions).setVisibility(View.GONE);
+      findViewById(R.id.question_view).setVisibility(View.GONE);
+      findViewById(R.id.motion_view_card).setVisibility(View.GONE);
+    }
   }
 
   void setTypeFace() {
