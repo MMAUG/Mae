@@ -163,124 +163,18 @@ public class CandidateDetailActivity extends AppCompatActivity {
       mCandidateQuestionCard.setVisibility(View.GONE);
       mCandidateMotionCard.setVisibility(View.GONE);
     } else {
-      Call<JsonObject> motionCountCall = mRESTService.getMotionCount(candidate.getMpid());
-      motionCountCall.enqueue(new RestCallback<JsonObject>() {
-        @Override public void onResponse(Response<JsonObject> response) {
-          if (response.code() == 200 && response.body() != null) {
-            int motionCount =
-                response.body().get("count") == null ? 0 : response.body().get("count").getAsInt();
-            motionMiddleText.setText("အဆို");
-            if (motionCount == 0) {
-              motionMiddleText.setText("ဒေတာအချက်အလက် မရှိပါ");
-            } else {
-              mMotionCount.setText(MixUtils.convertToBurmese(String.valueOf(motionCount)) + " ခု");
-            }
-          }
-        }
-      });
 
       Call<JsonObject> questionMotionCall = mRESTService.getQuestionAndMotion(candidate.getMpid());
       questionMotionCall.enqueue(new RestCallback<JsonObject>() {
         @Override public void onResponse(Response<JsonObject> response) {
-          if (response.code() == 200 && response.body().get("motions") != null) {
-            JsonArray datas = response.body().get("motions").getAsJsonArray();
-            List<String> titles = new ArrayList<>();
-            for (JsonElement element : datas) {
-              String title = element.getAsJsonObject().get("issue").getAsString();
-              titles.add(title);
-            }
+          if ( response.code() == 200) {
+            int motionCount = response.body().get("motions_count").getAsInt();
+            JsonArray motions = response.body().get("motions").getAsJsonArray();
 
-            Set<String> unique = new HashSet<>(titles);
-            PieChart mPieChart = (PieChart) findViewById(R.id.motion_piechart);
-            for (String key : unique) {
-              Timber.e(key + ": " + Collections.frequency(titles, key));
-              Random rnd = new Random();
-              int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-              int count = Collections.frequency(titles, key);
-              PieModel pieModel = new PieModel(key, count, color);
-              mPieChart.addPieSlice(pieModel);
-              View piechartLegend =
-                  getLayoutInflater().inflate(R.layout.piechart_legend_layout, motionPieCont,
-                      false);
-              CircleView piechartIndicator =
-                  (CircleView) piechartLegend.findViewById(R.id.legend_indicator);
-              piechartIndicator.setColorHex(color);
-              TextView piechartText = (TextView) piechartLegend.findViewById(R.id.legend_text);
-              piechartText.setText(key);
-              TextView piechartCount = (TextView) piechartLegend.findViewById(R.id.legend_count);
-              piechartCount.setText(MixUtils.convertToBurmese(String.valueOf(count)));
-              motionPieCont.addView(piechartLegend);
-            }
-            mPieChart.startAnimation();
-          }
-        }
-      });
+            int questionCount = response.body().get("questions_count").getAsInt();
+            JsonArray questions = response.body().get("questions").getAsJsonArray();
 
-      Call<JsonObject> questionCountCall = mRESTService.getQuestionCount(candidate.getMpid());
-      questionCountCall.enqueue(new RestCallback<JsonObject>() {
-        @Override public void onResponse(Response<JsonObject> response) {
-          if (response.code() == 200 && response.body() != null) {
-            int questionCount = response.body().get("count").isJsonNull() ? 0
-                : response.body().get("count").getAsInt();
-            mQuestionMiddleText.setText("ကဏ္ဍ");
-            if (questionCount == 0) {
-              mQuestionMiddleText.setText("ဒေတာအချက်အလက် မရှိပါ");
-            } else {
-              mQuestionCount.setText(
-                  MixUtils.convertToBurmese(String.valueOf(questionCount)) + " ခု");
-            }
-          }
-        }
-      });
-
-      Call<JsonObject> questionCall = mRESTService.getQuestionDetail(candidate.getMpid());
-      questionCall.enqueue(new RestCallback<JsonObject>() {
-        @Override public void onResponse(Response<JsonObject> response) {
-          if (response.code() == 200 && response.body().get("data") != null) {
-            JsonArray datas = response.body().get("data").getAsJsonArray();
-            List<String> titles = new ArrayList<>();
-            for (JsonElement element : datas) {
-              String title = element.getAsJsonObject().get("issue").getAsString();
-              titles.add(title);
-            }
-            Set<String> unique = new HashSet<>(titles);
-            PieChart mPieChart = (PieChart) findViewById(R.id.question_piechart);
-            for (String key : unique) {
-              System.out.println(key + ": " + Collections.frequency(titles, key));
-              Random rnd = new Random();
-              int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-              int count = Collections.frequency(titles, key);
-              PieModel pieModel = new PieModel(key, count, color);
-              mPieChart.addPieSlice(pieModel);
-              View piechartLegend =
-                  getLayoutInflater().inflate(R.layout.piechart_legend_layout, mQuestionPieCont,
-                      false);
-              CircleView piechartIndicator =
-                  (CircleView) piechartLegend.findViewById(R.id.legend_indicator);
-              piechartIndicator.setColorHex(color);
-              TextView piechartText = (TextView) piechartLegend.findViewById(R.id.legend_text);
-              piechartText.setText(key);
-              piechartText.setTypeface(typefacelight);
-              TextView piechartCount = (TextView) piechartLegend.findViewById(R.id.legend_count);
-              piechartCount.setTypeface(typefacelight);
-              piechartCount.setText(MixUtils.convertToBurmese(String.valueOf(count)));
-              mQuestionPieCont.addView(piechartLegend);
-            }
-            mPieChart.startAnimation();
-            if (response.body().get("questions") != null
-                && response.body().get("motions") != null
-                && response.body().get("questions_count") != null
-                && response.body().get("motions_count") != null) {
-
-              int questionCount = response.body().get("questions_count").getAsInt();
-              int motionCount = response.body().get("motions_count").getAsInt();
-
-              JsonArray questions = response.body().get("questions").getAsJsonArray();
-              JsonArray motions = response.body().get("motions").getAsJsonArray();
-
-              makeMotionChart(motionCount, motions);
-              makeQuestionChart(questionCount, questions);
-            }
+            makeQuestionChart(questionCount, questions);
           }
         }
       });
