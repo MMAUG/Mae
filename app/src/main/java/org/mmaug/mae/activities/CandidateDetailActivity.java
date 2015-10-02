@@ -174,6 +174,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
             int questionCount = response.body().get("questions_count").getAsInt();
             JsonArray questions = response.body().get("questions").getAsJsonArray();
 
+            makeMotionChart(motionCount, motions);
             makeQuestionChart(questionCount, questions);
           }
         }
