@@ -93,7 +93,7 @@ public class PartyListActivity extends BaseActivity
 
     mErrorView.setOnRetryListener(this);
 
-    MixUtils.toggleVisibilityWithAnim(mProgressBar, true);
+    mProgressBar.setVisibility(View.VISIBLE);
     MixUtils.toggleVisibilityWithAnim(mPartyListRecyclerView, false);
     MixUtils.toggleVisibilityWithAnim(mErrorView, false);
 
@@ -112,7 +112,7 @@ public class PartyListActivity extends BaseActivity
             if (currentPage == 1) {
               mParties = response.body().getData();
               MixUtils.toggleVisibilityWithAnim(mPartyListRecyclerView, true);
-              MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
+              mProgressBar.setVisibility(View.GONE);
             } else {
               mParties.addAll(response.body().getData());
             }
@@ -127,7 +127,7 @@ public class PartyListActivity extends BaseActivity
         } else {
           if (currentPage == 1) {
             MixUtils.toggleVisibilityWithAnim(mPartyListRecyclerView, false);
-            MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
+            mProgressBar.setVisibility(View.GONE);
             MixUtils.toggleVisibilityWithAnim(mErrorView, true);
             mErrorView.setError(response.code());
           }
