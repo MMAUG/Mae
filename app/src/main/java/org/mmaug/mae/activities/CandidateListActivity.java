@@ -115,7 +115,7 @@ public class CandidateListActivity extends BaseActivity
 
   private void fetchCandidate(DataUtils.Township myTownShip) {
     if (myTownShip != null) {
-      MixUtils.toggleVisibilityWithAnim(mProgressBar, true);
+      mProgressBar.setVisibility(View.VISIBLE);
       MixUtils.toggleVisibilityWithAnim(mRecyclerView, false);
       MixUtils.toggleVisibilityWithAnim(mErrorView, false);
 
