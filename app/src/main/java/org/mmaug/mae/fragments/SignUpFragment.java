@@ -37,7 +37,6 @@ import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.models.User;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.utils.DataUtils;
-import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MMTextUtils;
 import org.mmaug.mae.utils.RestCallback;
 import org.mmaug.mae.utils.UserPrefUtils;
@@ -85,7 +84,6 @@ public class SignUpFragment extends Fragment
     if (!checkFieldisValid()) {
       Toast toast = new Toast(getActivity());
       TextView textView = new TextView(getActivity());
-      Typeface typefacelight = FontCache.get("pyidaungsu.ttf", getActivity());
       textView.setText("အချက်အလက်များကို ပြည့်စုံစွာဖြည့်စွက်ပေးပါ");
       if (isUnicode) {
         textView.setTypeface(typefacelight);
@@ -112,7 +110,7 @@ public class SignUpFragment extends Fragment
       params.put(Config.DATE_OF_BIRTH, mDateOfBirth.getText().toString());
       params.put(Config.NRC, voterNrc);
       params.put(Config.FATHER_NAME, mmTextUtils.zgToUni(mFatherName.getText().toString()));
-      params.put(Config.TOWNSHIP, mmTextUtils.zgToUni(mTownship.getText().toString()));
+      params.put(Config.TOWNSHIP, mTownship.getText().toString());
 
       final Call<User> registerUser = RESTClient.getService(getActivity()).registerUser(params);
       registerUser.enqueue(new RestCallback<User>() {
@@ -215,8 +213,11 @@ public class SignUpFragment extends Fragment
 
       MMTextUtils.getInstance(getContext())
           .prepareMultipleViews(toCheckMae, checkButton, myanmarTextPlease, skip_card_button,
-              mTownship, mNrcNo, mNrcTownShip, mNrcValue, mFatherName, mUserName, mDateOfBirth,
-              mDOBLabel);
+              mDateOfBirth, mDOBLabel);
+
+      mTownship.setHint(getString(R.string.township_zg));
+      mUserName.setHint(getString(R.string.name_zg));
+      mFatherName.setHint(getString(R.string.father_name_zg));
     }
     if (isFirstTimeOrSkip) {
       mainView.setVisibility(View.GONE);
@@ -231,12 +232,15 @@ public class SignUpFragment extends Fragment
       DataUtils.Township township =
           new Gson().fromJson(userPrefUtils.getTownship(), DataUtils.Township.class);
       mTownship.setText(township.getTowhshipNameBurmese());
+      MMTextUtils.getInstance(getActivity()).prepareSingleView(mTownship);
     }
     if (userPrefUtils.getUserName() != null && userPrefUtils.getUserName().length() > 0) {
       mUserName.setText(userPrefUtils.getUserName());
+      MMTextUtils.getInstance(getActivity()).prepareSingleView(mUserName);
     }
     if (userPrefUtils.getFatherName() != null && userPrefUtils.getFatherName().length() > 0) {
       mFatherName.setText(userPrefUtils.getFatherName());
+      MMTextUtils.getInstance(getActivity()).prepareSingleView(mFatherName);
     }
     if (userPrefUtils.getBirthDate() != null && userPrefUtils.getBirthDate().length() > 0) {
       mDateOfBirth.setText(userPrefUtils.getBirthDate());
@@ -356,6 +360,7 @@ public class SignUpFragment extends Fragment
   @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
     showHidSearchView(true);
     mTownship.setText(found.get(position).getTowhshipNameBurmese());
+    MMTextUtils.getInstance(getActivity()).prepareSingleView(mTownship);
     if (isUnicode) {
       mTownship.setTypeface(typefacelight);
     } else {
