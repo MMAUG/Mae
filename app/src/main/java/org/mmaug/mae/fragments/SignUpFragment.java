@@ -232,15 +232,15 @@ public class SignUpFragment extends Fragment
       DataUtils.Township township =
           new Gson().fromJson(userPrefUtils.getTownship(), DataUtils.Township.class);
       mTownship.setText(township.getTowhshipNameBurmese());
-      MMTextUtils.getInstance(getActivity()).prepareSingleView(mTownship);
+      if (!isUnicode) MMTextUtils.getInstance(getActivity()).prepareSingleView(mTownship);
     }
     if (userPrefUtils.getUserName() != null && userPrefUtils.getUserName().length() > 0) {
       mUserName.setText(userPrefUtils.getUserName());
-      MMTextUtils.getInstance(getActivity()).prepareSingleView(mUserName);
+      if (!isUnicode) MMTextUtils.getInstance(getActivity()).prepareSingleView(mUserName);
     }
     if (userPrefUtils.getFatherName() != null && userPrefUtils.getFatherName().length() > 0) {
       mFatherName.setText(userPrefUtils.getFatherName());
-      MMTextUtils.getInstance(getActivity()).prepareSingleView(mFatherName);
+      if (!isUnicode) MMTextUtils.getInstance(getActivity()).prepareSingleView(mFatherName);
     }
     if (userPrefUtils.getBirthDate() != null && userPrefUtils.getBirthDate().length() > 0) {
       mDateOfBirth.setText(userPrefUtils.getBirthDate());
