@@ -12,7 +12,7 @@ apply plugin: 'io.fabric'
 
 def versionMajor = 1
 def versionMinor = 0
-def versionPatch = 0
+def versionPatch = 2
 
 android {
   compileSdkVersion 23
@@ -31,16 +31,13 @@ android {
     buildConfigField "String", "API_SECRET", MAE_SECRET
   }
 
-
   signingConfigs {
-
     debug {
       storeFile file('mae.jks')
       storePassword MAE_PASSWORD
       keyAlias MAE_NAME
       keyPassword MAE_PASSWORD
     }
-
     beta {
       storeFile file('mae.jks')
       storePassword MAE_PASSWORD
@@ -99,7 +96,6 @@ dependencies {
   compile 'com.jakewharton:butterknife:7.0.1'
   compile 'com.jakewharton.timber:timber:2.7.1'
   // map
-  compile 'com.airbnb.android:airmapview:1.2.0'
   compile 'com.google.android.gms:play-services-maps:7.8.0'
   compile 'com.google.android.gms:play-services-location:7.8.0'
   compile 'com.google.maps.android:android-maps-utils:0.4'
