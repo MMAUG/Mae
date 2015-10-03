@@ -21,6 +21,7 @@ import retrofit.Response;
 
 public class MainActivity extends BaseActivity {
 
+  String currentFrag;
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
@@ -66,8 +67,12 @@ public class MainActivity extends BaseActivity {
   @Override public void onBackPressed() {
     SignUpFragment signUp =
         (SignUpFragment) getSupportFragmentManager().findFragmentByTag("SignUp");
-    boolean intercepted = signUp.interceptOnBackPressed();
-    if (!intercepted) {
+    if (signUp.isAdded()) {
+      boolean intercepted = signUp.interceptOnBackPressed();
+      if (!intercepted) {
+        super.onBackPressed();
+      }
+    }else {
       super.onBackPressed();
     }
   }

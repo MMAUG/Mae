@@ -25,15 +25,15 @@ public class FontCheckerActivity extends BaseActivity
   @Bind(R.id.rb_uni) RadioButton rbUni;
 
   String font = Config.UNICODE;
-  MMTextUtils mmTextUtils;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     ButterKnife.bind(this);
-    mmTextUtils = new MMTextUtils(this);
-    mmTextUtils.prepareMultipleViews(tvDes, tvSaveFont);
-    rgFont.setOnCheckedChangeListener(this);
-    rbUni.setChecked(true);
+    if (UserPrefUtils.getInstance(this).isFristTime()) {
+      MMTextUtils.getInstance(this).prepareMultipleViews(tvDes, tvSaveFont);
+      rgFont.setOnCheckedChangeListener(this);
+      rbUni.setChecked(true);
+    }
   }
 
   @Override protected void onResume() {
