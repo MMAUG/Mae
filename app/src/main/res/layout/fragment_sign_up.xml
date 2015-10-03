@@ -90,11 +90,12 @@
               style="@style/Widget.AppCompat.EditText"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:background="?android:attr/selectableItemBackground"
               android:gravity="center"
               android:text="မြို့နယ်"
               android:padding="@dimen/spacing_major"
+              android:background="@null"
               android:textColor="@color/secondary_text_color"
+              android:clickable="true"
               />
 
           <View
