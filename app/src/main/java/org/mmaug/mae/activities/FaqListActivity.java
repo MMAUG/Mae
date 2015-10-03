@@ -145,6 +145,7 @@ public class FaqListActivity extends BaseActivity
               MixUtils.toggleVisibilityWithAnim(mFaqListRecyclerView, false);
               MixUtils.toggleVisibilityWithAnim(mProgressView, false);
               MixUtils.toggleVisibilityWithAnim(mErrorView, true);
+              mErrorView.setError(response.code());
             }
           }
         }

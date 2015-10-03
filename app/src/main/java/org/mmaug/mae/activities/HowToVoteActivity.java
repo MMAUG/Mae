@@ -54,7 +54,7 @@ public class HowToVoteActivity extends BaseActivity implements AdapterView.OnIte
 
     HowToVoteTimelineAdapter.HTVObject object = new HowToVoteTimelineAdapter.HTVObject();
     object.setTitle("မဲရုံဖွင့်ချိန် ဂရုပြုပါ");
-    object.setMessage("\u23F0 " + "နံနက်၆နာရီ−ညနေ၆နာရီ");
+    object.setMessage("\u23F0 " + "နံနက်၆နာရီ−ညနေ ၄နာရီ");
     object.setWarning(
         "မဲရုံပိတ\u103Aခ\u103Bိန\u103A မတိုင\u103Aမီ မဲရုံသို့ သ\u103Dားရောက\u103A မဲပေးရန\u103A လိုအပ\u103Aပ\u102Bသည\u103A။");
     objects.add(object);

@@ -13,4 +13,5 @@
     errorview:ev_showSubtitle="true"
     errorview:ev_showTitle="true"
     android:layout_gravity="center"
+    android:visibility="gone"
     />

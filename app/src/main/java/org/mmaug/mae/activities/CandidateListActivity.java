@@ -43,7 +43,6 @@ import org.mmaug.mae.utils.UserPrefUtils;
 import org.mmaug.mae.view.AutofitTextView;
 import org.mmaug.mae.view.SpacesItemDecoration;
 import retrofit.Call;
-import retrofit.Callback;
 import retrofit.Response;
 import tr.xip.errorview.ErrorView;
 
@@ -116,7 +115,7 @@ public class CandidateListActivity extends BaseActivity
 
   private void fetchCandidate(DataUtils.Township myTownShip) {
     if (myTownShip != null) {
-      MixUtils.toggleVisibilityWithAnim(mProgressBar, true);
+      mProgressBar.setVisibility(View.VISIBLE);
       MixUtils.toggleVisibilityWithAnim(mRecyclerView, false);
       MixUtils.toggleVisibilityWithAnim(mErrorView, false);
 
@@ -171,39 +170,39 @@ public class CandidateListActivity extends BaseActivity
             }
           }
         });
-      } else if (candidate.getMpid() == null) {
-        candidateResultDialog =
-            new Dialog(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
-        View view = this.getLayoutInflater().inflate(R.layout.dialog_candidate_check, null);
-        TextView okBtn = (TextView) view.findViewById(R.id.voter_check_ok_btn);
-        TextView title = (TextView) view.findViewById(R.id.tv_candidate_cant_compare_title);
-        TextView textView = (TextView) view.findViewById(R.id.tv_vote_message);
-        TextView canCompare = (TextView) view.findViewById(R.id.incorrect_vote);
-        canCompare.setText(new StringBuilder().append(candidate.getName())
-            .append(" နှင့် ")
-            .append(candidateFromDetail.getName())
-            .append(getResources().getString(R.string.cannot_compare_candidate))
-            .toString());
-        textView.setText(new StringBuilder().append(candidate.getName())
-            .append(getResources().getString(R.string.incrroect_candidate_compare))
-            .toString());
-        if (isUnicode()) {
-          canCompare.setTypeface(getTypefaceTitle());
-          textView.setTypeface(getTypefaceLight());
-          okBtn.setTypeface(getTypefaceTitle());
-          title.setTypeface(getTypefaceTitle());
-        } else {
-          MMTextUtils.getInstance(this).prepareMultipleViews(canCompare, textView, okBtn, title);
-        }
-        candidateResultDialog.setContentView(view);
-        candidateResultDialog.show();
-        okBtn.setOnClickListener(new View.OnClickListener() {
-          @Override public void onClick(View view) {
-            if (candidateResultDialog.isShowing()) {
-              candidateResultDialog.dismiss();
-            }
-          }
-        });
+        //} else if (candidate.getMpid() == null) {
+        //  candidateResultDialog =
+        //      new Dialog(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
+        //  View view = this.getLayoutInflater().inflate(R.layout.dialog_candidate_check, null);
+        //  TextView okBtn = (TextView) view.findViewById(R.id.voter_check_ok_btn);
+        //  TextView title = (TextView) view.findViewById(R.id.tv_candidate_cant_compare_title);
+        //  TextView textView = (TextView) view.findViewById(R.id.tv_vote_message);
+        //  TextView canCompare = (TextView) view.findViewById(R.id.incorrect_vote);
+        //  canCompare.setText(new StringBuilder().append(candidate.getName())
+        //      .append(" နှင့် ")
+        //      .append(candidateFromDetail.getName())
+        //      .append(getResources().getString(R.string.cannot_compare_candidate))
+        //      .toString());
+        //  textView.setText(new StringBuilder().append(candidate.getName())
+        //      .append(getResources().getString(R.string.incrroect_candidate_compare))
+        //      .toString());
+        //  if (isUnicode()) {
+        //    canCompare.setTypeface(getTypefaceTitle());
+        //    textView.setTypeface(getTypefaceLight());
+        //    okBtn.setTypeface(getTypefaceTitle());
+        //    title.setTypeface(getTypefaceTitle());
+        //  } else {
+        //    MMTextUtils.getInstance(this).prepareMultipleViews(canCompare, textView, okBtn, title);
+        //  }
+        //  candidateResultDialog.setContentView(view);
+        //  candidateResultDialog.show();
+        //  okBtn.setOnClickListener(new View.OnClickListener() {
+        //    @Override public void onClick(View view) {
+        //      if (candidateResultDialog.isShowing()) {
+        //        candidateResultDialog.dismiss();
+        //      }
+        //    }
+        //  });
       } else {
         Intent intent = new Intent(this, CandidateCompareActivity.class);
         intent.putExtra(Config.CANDIDATE, candidate);
@@ -253,10 +252,10 @@ public class CandidateListActivity extends BaseActivity
 
   private ArrayList<DataUtils.Township> searchTownshipMya(String input,
       ArrayList<DataUtils.Township> listToSearch) {
+    String unicode = MMTextUtils.getInstance(this).zgToUni(input);
     ArrayList<DataUtils.Township> found = new ArrayList<>();
-
     for (DataUtils.Township township : listToSearch) {
-      if (township.getTowhshipNameBurmese().startsWith(input)) {
+      if (township.getTowhshipNameBurmese().startsWith(unicode)) {
         found.add(township);
       }
     }
@@ -324,66 +323,63 @@ public class CandidateListActivity extends BaseActivity
   private void inflateCandiateAdapter(final Map<String, String> params) {
     final Call<CandidateListReturnObject> pyithuCall =
         RESTClient.getService(this).getCandidateList(params);
-    pyithuCall.enqueue(new Callback<CandidateListReturnObject>() {
+    pyithuCall.enqueue(new RestCallback<CandidateListReturnObject>() {
       @Override public void onResponse(Response<CandidateListReturnObject> response) {
-        final List<Candidate> candidates = response.body().getData();
-        Map<String, String> amyotharParams = new HashMap<String, String>();
-        amyotharParams.put(Config.PER_PAGE, "200");
-        amyotharParams.put(Config.WITH, "party");
-        amyotharParams.put(Config.LEGISLATURE, Config.AMYOTHAE_HLUTTAW);
-        amyotharParams.put(Config.CONSTITUENCY_ST_PCODE, params.get(Config.CONSTITUENCY_ST_PCODE));
-        Call<CandidateListReturnObject> amyotharCall =
-            RESTClient.getService(CandidateListActivity.this).getCandidateList(amyotharParams);
-        amyotharCall.enqueue(new RestCallback<CandidateListReturnObject>() {
-          @Override public void onResponse(Response<CandidateListReturnObject> response) {
-            if (response.isSuccess()) {
-
-              candidates.addAll(response.body().getData());
-            }
-            //sort
-            Collections.sort(candidates, new Comparator<Candidate>() {
-              @Override public int compare(Candidate lhs, Candidate rhs) {
-                return rhs.getLegislature().compareTo(lhs.getLegislature());
+        if (response.isSuccess()) {
+          final List<Candidate> candidates = response.body().getData();
+          Map<String, String> amyotharParams = new HashMap<>();
+          amyotharParams.put(Config.PER_PAGE, "200");
+          amyotharParams.put(Config.WITH, "party");
+          amyotharParams.put(Config.LEGISLATURE, Config.AMYOTHAE_HLUTTAW);
+          amyotharParams.put(Config.CONSTITUENCY_ST_PCODE,
+              params.get(Config.CONSTITUENCY_ST_PCODE));
+          Call<CandidateListReturnObject> amyotharCall =
+              RESTClient.getService(CandidateListActivity.this).getCandidateList(amyotharParams);
+          amyotharCall.enqueue(new RestCallback<CandidateListReturnObject>() {
+            @Override public void onResponse(Response<CandidateListReturnObject> response) {
+              if (response.isSuccess()) {
+                candidates.addAll(response.body().getData());
               }
-            });
-            Collections.reverse(candidates);
-
-            //header section
-            List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
-            //header section
-            sections = new ArrayList<>();
-
-            for (int i = 0; i < candidates.size(); i++) {
-              Candidate location = candidates.get(i);
-              //get type from the array
-              if (sections.size() > 0) {
-                if (!checkSection(sections, location.getLegislature())) {
-                  sections.add(new SectionHeaderAdapter.Section(i, location.getLegislature()));
+              //sort
+              Collections.sort(candidates, new Comparator<Candidate>() {
+                @Override public int compare(Candidate lhs, Candidate rhs) {
+                  return rhs.getLegislature().compareTo(lhs.getLegislature());
                 }
-              } else {
-                //add first type
-                sections.add(new SectionHeaderAdapter.Section(0, location.getLegislature()));
-              }
-            }
-            SectionHeaderAdapter.Section[] dummy =
-                new SectionHeaderAdapter.Section[sections.size()];
-            sectionAdapter.setSections(sections.toArray(dummy));
-            candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
-            MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
-            MixUtils.toggleVisibilityWithAnim(mRecyclerView, true);
-          }
+              });
+              Collections.reverse(candidates);
 
-          @Override public void onFailure(Throwable t) {
-            MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
-          }
-        });
-      }
-      @Override public void onFailure(Throwable t) {
-        MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
+              //header section
+              List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
+
+              for (int i = 0; i < candidates.size(); i++) {
+                Candidate location = candidates.get(i);
+                //get type from the array
+                if (sections.size() > 0) {
+                  if (!checkSection(sections, location.getLegislature())) {
+                    sections.add(new SectionHeaderAdapter.Section(i, location.getLegislature()));
+                  }
+                } else {
+                  //add first type
+                  sections.add(new SectionHeaderAdapter.Section(0, location.getLegislature()));
+                }
+              }
+              SectionHeaderAdapter.Section[] dummy =
+                  new SectionHeaderAdapter.Section[sections.size()];
+              sectionAdapter.setSections(sections.toArray(dummy));
+              candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
+
+              MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
+              MixUtils.toggleVisibilityWithAnim(mRecyclerView, true);
+            }
+          });
+        } else {
+          MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
+          MixUtils.toggleVisibilityWithAnim(mErrorView, false);
+          mErrorView.setError(response.code());
+        }
       }
     });
-
-    }
+  }
 
   @Override public void onRetry() {
     fetchCandidate(myTownShip);

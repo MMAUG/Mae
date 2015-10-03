@@ -50,8 +50,9 @@
     ဖြစ်သည်။ ထိုစာရွက်ပေါ်တွင် တံဆိပ်တုံး ရိုက်နှိပ်သကဲ့သို့ မိမိလက်ဖြင့်
     နှိပ်ကြည့်ခြင်းဖြင့် မည်သို့သောမဲများသည် ခိုင်လုံမဲ၊ ပယ်မဲဖြစ်သည်ကို စမ်းသပ်ပါ။
   </string>
-  <string name="duplicate_candidate_choose">မိမိ နှိုင်းယှဉ်ရန် ရွေးထားသော အမတ်ကိုပြန်ရွေးချယ်မိသောကြောင့်ဖြစ်ပါသည်
-</string>
+  <string name="duplicate_candidate_choose">မိမိ နှိုင်းယှဉ်ရန် ရွေးထားသော
+    အမတ်ကိုပြန်ရွေးချယ်မိသောကြောင့်ဖြစ်ပါသည်
+  </string>
 
   <!-- vote validity dialog strings-->
   <string name="check">စစ်မည်</string>
@@ -64,8 +65,10 @@
   <string name="be_careful">သေချာဂရုစိုက်ပါ</string>
   <string name="incorrect_vote">မိမိ၏ အဖိုးတန်မဲအား ပယ်မဲမဖြစ်စေရန် သေချာဂရုစိုက်ပါ။</string>
   <string name="incorrect_vote_message">* %s</string>
-  <string name="cannot_compare_candidate"> အားနှိုင်းယှဉ်၍ မရနိုင်ပါ</string>
-  <string name="incrroect_candidate_compare">သည် ယခင်က လွှတ်တော်တွင် အမတ်အဖြစ်တာဝန်ထမ်းဆောင်ခဲ့ဖူးခြင်း မရှိသေး၍ဖြစ်ပါသည်</string>
+  <string name="cannot_compare_candidate">အားနှိုင်းယှဉ်၍ မရနိုင်ပါ</string>
+  <string name="incrroect_candidate_compare">သည် ယခင်က လွှတ်တော်တွင်
+    အမတ်အဖြစ်တာဝန်ထမ်းဆောင်ခဲ့ဖူးခြင်း မရှိသေး၍ဖြစ်ပါသည်
+  </string>
   <string name="stamp_title">တံဆိပ်တုံးအား တစ်ကြိမ်သာ နှိပ်ပါရန်</string>
   <string name="stamp_warning">အထူးသတိပြုရန်။ ။ တံဆိပ်တုံးနှိပ်ရာတွင်
     မထင်ရှားမှာစိုးသည့်စိတ်ဖြင့် တံဆိပ်တုံးအား တစ်ကြိမ်ထက် ပို၍ မနှိပ်မိရန် ဂရုစိုက်ပါ။
@@ -106,10 +109,19 @@
     အဓိဋ္ဌာန်လျက် ဂဃနဏဖတ်ခဲ့သည်။
   </string>
   <string name="please_choose_font">ကျေးဇူးပြု၍ မိမိဖုန်းနှင့် ကိုက်ညီသော မြန်မာစာဖောင့်အား
-    ရွေးချယ်ပေးပါ။</string>
+    ရွေးချယ်ပေးပါ။
+  </string>
   <string name="save_font">ရွေးပြီးပြီ</string>
 
   <string name="error_cant_connect">Can\'t Connect!</string>
   <string name="error_something_wrong">Something went wrong!</string>
-
+  <string name="about">About Mae</string>
+  <string name="copyright">© 2015 MMAUG</string>
+  <string name="version">Version : %1s</string>
+  <string name="brought_to_you">SSYGM မှ ဂုဏ်ယူစွာ ရေးသားဖြန့်ဝေသည်။</string>
+  <string name="rate_us">Rate Mae On Playstore</string>
+  <string name="app_des">၂၀၁၅အထွေထွေရွေးကောက်ပွဲအတွက် ပြီးပြည့်စုံသော လမ်းညွှန်</string>
+  <string name="township_zg">ၿမိဳ႕နယ္</string>
+  <string name="name_zg">အမည္</string>
+  <string name="father_name_zg">အဖအမည္</string>
 </resources>

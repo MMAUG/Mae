@@ -37,13 +37,11 @@ import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.models.User;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.utils.DataUtils;
-import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MMTextUtils;
+import org.mmaug.mae.utils.RestCallback;
 import org.mmaug.mae.utils.UserPrefUtils;
 import retrofit.Call;
-import retrofit.Callback;
 import retrofit.Response;
-import timber.log.Timber;
 
 public class SignUpFragment extends Fragment
     implements com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener,
@@ -86,7 +84,6 @@ public class SignUpFragment extends Fragment
     if (!checkFieldisValid()) {
       Toast toast = new Toast(getActivity());
       TextView textView = new TextView(getActivity());
-      Typeface typefacelight = FontCache.get("pyidaungsu.ttf", getActivity());
       textView.setText("အချက်အလက်များကို ပြည့်စုံစွာဖြည့်စွက်ပေးပါ");
       if (isUnicode) {
         textView.setTypeface(typefacelight);
@@ -100,31 +97,30 @@ public class SignUpFragment extends Fragment
       toast.setGravity(Gravity.CENTER, 0, 10);
       toast.show();
     } else {
+      MMTextUtils mmTextUtils = MMTextUtils.getInstance(getContext());
       StringBuilder stringBuilder = new StringBuilder();
-      stringBuilder.append(mNrcNo.getText().toString());
+      stringBuilder.append(mmTextUtils.zgToUni(mNrcNo.getText().toString()));
       stringBuilder.append("/");
-      stringBuilder.append(mNrcTownShip.getText().toString());
+      stringBuilder.append(mmTextUtils.zgToUni(mNrcTownShip.getText().toString()));
       stringBuilder.append("(နိုင်)");
-      stringBuilder.append(mNrcValue.getText());
+      stringBuilder.append(mmTextUtils.zgToUni(mNrcValue.getText().toString()));
       String voterNrc = stringBuilder.toString();
       final Map<String, String> params = new HashMap<>();
-      params.put(Config.VOTER_NAME, mUserName.getText().toString());
+      params.put(Config.VOTER_NAME, mmTextUtils.zgToUni(mUserName.getText().toString()));
       params.put(Config.DATE_OF_BIRTH, mDateOfBirth.getText().toString());
       params.put(Config.NRC, voterNrc);
-      params.put(Config.FATHER_NAME, mFatherName.getText().toString());
+      params.put(Config.FATHER_NAME, mmTextUtils.zgToUni(mFatherName.getText().toString()));
       params.put(Config.TOWNSHIP, mTownship.getText().toString());
 
       final Call<User> registerUser = RESTClient.getService(getActivity()).registerUser(params);
-      registerUser.enqueue(new Callback<User>() {
-        UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
-
+      registerUser.enqueue(new RestCallback<User>() {
         @Override public void onResponse(Response<User> response) {
+          UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
           if (response.code() == 200) {
             userPrefUtils.setValid(true);
           } else {
             userPrefUtils.setValid(false);
           }
-
           userPrefUtils.saveSkip(true);
           userPrefUtils.saveUserName(params.get(Config.VOTER_NAME));
           userPrefUtils.saveBirthDate(params.get(Config.DATE_OF_BIRTH));
@@ -138,10 +134,6 @@ public class SignUpFragment extends Fragment
           FragmentTransaction transaction = fm.beginTransaction();
           transaction.replace(R.id.contentFragment, homeFragment);
           transaction.commit();
-        }
-
-        @Override public void onFailure(Throwable t) {
-          Timber.e(t.getMessage());
         }
       });
     }
@@ -221,8 +213,11 @@ public class SignUpFragment extends Fragment
 
       MMTextUtils.getInstance(getContext())
           .prepareMultipleViews(toCheckMae, checkButton, myanmarTextPlease, skip_card_button,
-              mTownship, mNrcNo, mNrcTownShip, mNrcValue, mFatherName, mUserName, mDateOfBirth,
-              mDOBLabel);
+              mDateOfBirth, mDOBLabel);
+
+      mTownship.setHint(getString(R.string.township_zg));
+      mUserName.setHint(getString(R.string.name_zg));
+      mFatherName.setHint(getString(R.string.father_name_zg));
     }
     if (isFirstTimeOrSkip) {
       mainView.setVisibility(View.GONE);
@@ -237,12 +232,15 @@ public class SignUpFragment extends Fragment
       DataUtils.Township township =
           new Gson().fromJson(userPrefUtils.getTownship(), DataUtils.Township.class);
       mTownship.setText(township.getTowhshipNameBurmese());
+      MMTextUtils.getInstance(getActivity()).prepareSingleView(mTownship);
     }
     if (userPrefUtils.getUserName() != null && userPrefUtils.getUserName().length() > 0) {
       mUserName.setText(userPrefUtils.getUserName());
+      MMTextUtils.getInstance(getActivity()).prepareSingleView(mUserName);
     }
     if (userPrefUtils.getFatherName() != null && userPrefUtils.getFatherName().length() > 0) {
       mFatherName.setText(userPrefUtils.getFatherName());
+      MMTextUtils.getInstance(getActivity()).prepareSingleView(mFatherName);
     }
     if (userPrefUtils.getBirthDate() != null && userPrefUtils.getBirthDate().length() > 0) {
       mDateOfBirth.setText(userPrefUtils.getBirthDate());
@@ -348,10 +346,11 @@ public class SignUpFragment extends Fragment
 
   private ArrayList<DataUtils.Township> searchTownshipMya(String input,
       ArrayList<DataUtils.Township> listToSearch) {
-    ArrayList<DataUtils.Township> found = new ArrayList<>();
 
+    String unicode = MMTextUtils.getInstance(getContext()).zgToUni(input);
+    ArrayList<DataUtils.Township> found = new ArrayList<>();
     for (DataUtils.Township township : listToSearch) {
-      if (township.getTowhshipNameBurmese().startsWith(input)) {
+      if (township.getTowhshipNameBurmese().startsWith(unicode)) {
         found.add(township);
       }
     }
@@ -361,6 +360,7 @@ public class SignUpFragment extends Fragment
   @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
     showHidSearchView(true);
     mTownship.setText(found.get(position).getTowhshipNameBurmese());
+    MMTextUtils.getInstance(getActivity()).prepareSingleView(mTownship);
     if (isUnicode) {
       mTownship.setTypeface(typefacelight);
     } else {

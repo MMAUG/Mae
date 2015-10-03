@@ -129,6 +129,7 @@ public class PartyListActivity extends BaseActivity
             MixUtils.toggleVisibilityWithAnim(mPartyListRecyclerView, false);
             MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
             MixUtils.toggleVisibilityWithAnim(mErrorView, true);
+            mErrorView.setError(response.code());
           }
         }
       }

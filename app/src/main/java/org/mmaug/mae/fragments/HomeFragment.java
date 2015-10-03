@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,6 +22,7 @@ import hu.aut.utillib.circular.animation.CircularAnimationUtils;
 import java.text.ParseException;
 import java.util.HashMap;
 import org.mmaug.mae.R;
+import org.mmaug.mae.activities.AboutActivity;
 import org.mmaug.mae.activities.CandidateListActivity;
 import org.mmaug.mae.activities.FaqListActivity;
 import org.mmaug.mae.activities.HowToVoteActivity;
@@ -40,7 +40,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
   @Bind(R.id.month_day_left) TextView monthDayLeft;
   @Bind(R.id.hour_minute_left) TextView hourMinuteLeft;
-  @Bind(R.id.backdrop) LinearLayout backdrop;
+  @Bind(R.id.cardview_vote_check) CardView backdrop;
   @Bind(R.id.txt_cardview_vote_check) TextView txt_cardview_vote_check;
   @Bind(R.id.txt_where_can_i_vote) TextView txt_where_can_i_vote;
   @Bind(R.id.txt_howtovote) TextView txt_howto_vote;
@@ -112,11 +112,11 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
     UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
     if (userPrefUtils.isValid()) {
-      backdrop.setBackgroundColor(getResources().getColor(R.color.accent_color));
+      backdrop.setCardBackgroundColor(getResources().getColor(R.color.accent_color));
       txt_cardview_vote_check.setTextColor(Color.WHITE);
       valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_mark));
     } else {
-      backdrop.setBackgroundColor(Color.parseColor("#FFC107"));
+      backdrop.setCardBackgroundColor(Color.parseColor("#FFC107"));
       valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_exclamation_mark));
       txt_cardview_vote_check.setTextColor(Color.WHITE);
     }
@@ -141,7 +141,6 @@ public class HomeFragment extends android.support.v4.app.Fragment {
               txt_where_can_i_vote, txt_howto_vote, card_candidate_list,
               cardview_party_condtion_list, mVoted);
     }
-
   }
 
   @Override public void onAttach(Activity activity) {
@@ -226,7 +225,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         @Override public void onClick(View view) {
           if (voteResultDialog.isShowing()) {
             voteResultDialog.dismiss();
-            backdrop.setBackgroundColor(getResources().getColor(R.color.accent_color));
+            backdrop.setCardBackgroundColor(getResources().getColor(R.color.accent_color));
             txt_cardview_vote_check.setTextColor(Color.WHITE);
             valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_mark));
           }
@@ -254,7 +253,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         @Override public void onClick(View view) {
           if (voteResultDialog.isShowing()) {
             voteResultDialog.dismiss();
-            backdrop.setBackgroundColor(getResources().getColor(R.color.orange));
+            backdrop.setCardBackgroundColor(getResources().getColor(R.color.orange));
             valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_exclamation_mark));
             txt_cardview_vote_check.setTextColor(Color.WHITE);
           }
@@ -268,5 +267,9 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         }
       });
     }
+  }
+
+  @OnClick(R.id.about) void about() {
+    startActivity(new Intent(getActivity(), AboutActivity.class));
   }
 }

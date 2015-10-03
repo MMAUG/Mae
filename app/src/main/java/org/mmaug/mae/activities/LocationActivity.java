@@ -186,10 +186,10 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
 
   private ArrayList<DataUtils.Township> searchTownshipMya(String input,
       ArrayList<DataUtils.Township> listToSearch) {
+    String unicode = MMTextUtils.getInstance(this).zgToUni(input);
     ArrayList<DataUtils.Township> found = new ArrayList<>();
-
     for (DataUtils.Township township : listToSearch) {
-      if (township.getTowhshipNameBurmese().startsWith(input)) {
+      if (township.getTowhshipNameBurmese().startsWith(unicode)) {
         found.add(township);
       }
     }

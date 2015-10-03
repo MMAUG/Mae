@@ -66,14 +66,14 @@ android {
     debug {
       debuggable true
       applicationIdSuffix '.debug'
-      versionNameSuffix '-DEBUG'
+      versionNameSuffix ' - DEBUG'
       resValue "string", "google_maps_api_key", GOOGLE_MAPS_API_KEY_DEBUG
     }
     beta {
       signingConfig signingConfigs.beta
       debuggable true
       applicationIdSuffix '.beta'
-      versionNameSuffix '-BETA'
+      versionNameSuffix ' - BETA'
       resValue "string", "google_maps_api_key", GOOGLE_MAPS_API_KEY_BETA
     }
   }
