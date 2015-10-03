@@ -215,7 +215,7 @@ public class SignUpFragment extends Fragment
           .prepareMultipleViews(toCheckMae, checkButton, myanmarTextPlease, skip_card_button,
               mDateOfBirth, mDOBLabel);
 
-      mTownship.setHint(getString(R.string.township_zg));
+      mTownship.setText(getString(R.string.township_zg));
       mUserName.setHint(getString(R.string.name_zg));
       mFatherName.setHint(getString(R.string.father_name_zg));
     }
@@ -232,6 +232,7 @@ public class SignUpFragment extends Fragment
       DataUtils.Township township =
           new Gson().fromJson(userPrefUtils.getTownship(), DataUtils.Township.class);
       mTownship.setText(township.getTowhshipNameBurmese());
+      mTownship.setTextColor(getResources().getColor(R.color.primary_text_color));
       if (!isUnicode) MMTextUtils.getInstance(getActivity()).prepareSingleView(mTownship);
     }
     if (userPrefUtils.getUserName() != null && userPrefUtils.getUserName().length() > 0) {
@@ -360,6 +361,7 @@ public class SignUpFragment extends Fragment
   @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
     showHidSearchView(true);
     mTownship.setText(found.get(position).getTowhshipNameBurmese());
+    mTownship.setTextColor(getResources().getColor(R.color.primary_text_color));
     if (isUnicode) {
       mTownship.setTypeface(typefacelight);
     } else {
