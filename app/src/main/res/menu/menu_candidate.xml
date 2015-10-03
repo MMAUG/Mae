@@ -7,7 +7,7 @@
       android:id="@+id/party_detail_action_share"
       android:title="Share"
       android:orderInCategory="100"
-      android:icon="@mipmap/ic_share_white_36dp"
+      android:icon="@drawable/ic_share"
       app:showAsAction="ifRoom"
       android:actionProviderClass="android.widget.ShareActionProvider"
       />

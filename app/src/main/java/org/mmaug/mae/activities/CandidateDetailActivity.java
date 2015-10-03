@@ -126,7 +126,6 @@ public class CandidateDetailActivity extends AppCompatActivity {
     candidate = (Candidate) getIntent().getSerializableExtra(Config.CANDIDATE);
     Glide.with(this).load(candidate.getParty().getPartyFlag()).
         bitmapTransform(new BlurTransformation(getApplicationContext(), 8, 1)).into(partyImage);
-    candidateName.setText(candidate.getName());
 
     Glide.with(this)
         .load(candidate.getPhotoUrl())
@@ -257,6 +256,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
 
   void setTypeFace() {
     if (isUnicode) {
+      candidateName.setTypeface(typefaceTitle);
       mCandidateConstituency.setTypeface(typefacelight);
       mCandidateCompareResult.setTypeface(typefaceTitle);
       mCandidateFather.setTypeface(typefacelight);
