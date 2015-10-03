@@ -360,7 +360,6 @@ public class SignUpFragment extends Fragment
   @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
     showHidSearchView(true);
     mTownship.setText(found.get(position).getTowhshipNameBurmese());
-    MMTextUtils.getInstance(getActivity()).prepareSingleView(mTownship);
     if (isUnicode) {
       mTownship.setTypeface(typefacelight);
     } else {
