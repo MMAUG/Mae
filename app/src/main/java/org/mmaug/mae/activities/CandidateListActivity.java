@@ -115,10 +115,9 @@ public class CandidateListActivity extends BaseActivity
 
   private void fetchCandidate(DataUtils.Township myTownShip) {
     if (myTownShip != null) {
-      mProgressBar.setVisibility(View.VISIBLE);
       MixUtils.toggleVisibilityWithAnim(mRecyclerView, false);
       MixUtils.toggleVisibilityWithAnim(mErrorView, false);
-
+      mProgressBar.setVisibility(View.VISIBLE);
       Map<String, String> pyithuParams = new HashMap<>();
       pyithuParams.put(Config.PER_PAGE, "200");
       pyithuParams.put(Config.CONSTITUENCY_ST_PCODE, myTownShip.getSRPcode());
@@ -128,7 +127,7 @@ public class CandidateListActivity extends BaseActivity
       inflateCandiateAdapter(pyithuParams);
     } else {
       MixUtils.toggleVisibilityWithAnim(searchView, true);
-      MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
+      mProgressBar.setVisibility(View.GONE);
     }
   }
 
@@ -368,12 +367,12 @@ public class CandidateListActivity extends BaseActivity
               sectionAdapter.setSections(sections.toArray(dummy));
               candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
 
-              MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
+              mProgressBar.setVisibility(View.GONE);
               MixUtils.toggleVisibilityWithAnim(mRecyclerView, true);
             }
           });
         } else {
-          MixUtils.toggleVisibilityWithAnim(mProgressBar, false);
+          mProgressBar.setVisibility(View.GONE);
           MixUtils.toggleVisibilityWithAnim(mErrorView, false);
           mErrorView.setError(response.code());
         }

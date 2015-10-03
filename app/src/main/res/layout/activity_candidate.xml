@@ -59,6 +59,13 @@
 
     <include layout="@layout/errorview"/>
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_gravity="center"
+        />
+
     <FrameLayout
         android:id="@+id/searchFragment"
         android:layout_width="match_parent"
@@ -73,13 +80,6 @@
           layout="@layout/view_search_township"/>
 
     </FrameLayout>
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:layout_gravity="center"
-        />
-
   </FrameLayout>
+
 </LinearLayout>
