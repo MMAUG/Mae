@@ -111,4 +111,15 @@ public class Config {
   public static final String AMYOTHAR_SEAT_COUNT = "amyothar_seat_count";
   public static final String PYITHU_SEAT_COUNT = "pyithu_seat_count";
   public static final String TINE_DAYTHA_SEAT_COUNT = "tinedaytha_seat_count";
+
+  /**
+   * GA event trackers
+   */
+  //categories
+  public static final String CATEGORY_CANDIDATE = "candidate";
+  public static final String ACTION_CANDIDATE = "candidate detail click";
+  public static final String CATEGORY_PARTY = "party";
+  public static final String ACTION_PARTY = "party detail click";
+
+
 }

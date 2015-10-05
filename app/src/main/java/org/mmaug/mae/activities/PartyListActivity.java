@@ -21,6 +21,7 @@ import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.models.Party;
 import org.mmaug.mae.models.PartyReturnObject;
 import org.mmaug.mae.rest.RESTClient;
+import org.mmaug.mae.utils.AnalyticsManager;
 import org.mmaug.mae.utils.MixUtils;
 import org.mmaug.mae.utils.RestCallback;
 import org.mmaug.mae.view.SpacesItemDecoration;
@@ -137,6 +138,11 @@ public class PartyListActivity extends BaseActivity
   }
 
   @Override public void onItemClick(View view, int position) {
+    //send event
+    AnalyticsManager.sendEvent(Config.CATEGORY_PARTY, Config.ACTION_PARTY,
+        mParties.get(position).getPartyName());
+
+    //go to party detail
     Intent intent = new Intent();
     intent.setClass(this, PartyDetailActivity.class);
     Bundle bundle = new Bundle();
