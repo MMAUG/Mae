@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import java.io.IOException;
@@ -36,48 +37,6 @@ public class DataUtils {
     return instance;
   }
 
-  public ArrayList<StateRegion> loadStateRegion() {
-    ArrayList<StateRegion> stateRegions = new ArrayList<>();
-    try {
-      InputStream json = mContext.getAssets().open("Sate_Region.json");
-      JsonParser parser = new JsonParser();
-      JsonReader reader = new JsonReader(new InputStreamReader(json));
-      reader.setLenient(true);
-
-      JsonArray data = parser.parse(reader).getAsJsonArray();
-
-      for (JsonElement element : data) {
-        StateRegion stateRegion = gson.fromJson(element, StateRegion.class);
-        stateRegions.add(stateRegion);
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    return stateRegions;
-  }
-
-  public ArrayList<District> loadDistrict() {
-    ArrayList<District> districts = new ArrayList<>();
-    try {
-      InputStream json = mContext.getAssets().open("District.json");
-      JsonParser parser = new JsonParser();
-      JsonReader reader = new JsonReader(new InputStreamReader(json));
-      reader.setLenient(true);
-
-      JsonArray data = parser.parse(reader).getAsJsonArray();
-
-      for (JsonElement element : data) {
-        District district = gson.fromJson(element, District.class);
-        districts.add(district);
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    return districts;
-  }
-
   public ArrayList<Township> loadTownship() {
     ArrayList<Township> townships = new ArrayList<>();
     try {
@@ -99,10 +58,10 @@ public class DataUtils {
     return townships;
   }
 
-  public ArrayList<Town> loadTown() {
-    ArrayList<Town> stateRegions = new ArrayList<>();
+  public ArrayList<Township> loadVillageOrWard() {
+    ArrayList<Township> townships = new ArrayList<>();
     try {
-      InputStream json = mContext.getAssets().open("Towns.json");
+      InputStream json = mContext.getAssets().open("Township.json");
       JsonParser parser = new JsonParser();
       JsonReader reader = new JsonReader(new InputStreamReader(json));
       reader.setLenient(true);
@@ -110,110 +69,14 @@ public class DataUtils {
       JsonArray data = parser.parse(reader).getAsJsonArray();
 
       for (JsonElement element : data) {
-        Town town = gson.fromJson(element, Town.class);
-        stateRegions.add(town);
+        Township township = gson.fromJson(element, Township.class);
+        townships.add(township);
       }
     } catch (IOException e) {
       e.printStackTrace();
     }
 
-    return stateRegions;
-  }
-
-  public static class StateRegion {
-    @SerializedName("SR_Pcode") private String SRPcode;
-    @SerializedName("State_Region") private String SateRegionName;
-    @SerializedName("State_Region_Mya_MM3") private String SateRegionNameBurmese;
-    @SerializedName("MYAINFO_SD_ID") private String MyanInfoSdId;
-
-    public String getSRPcode() {
-      return SRPcode;
-    }
-
-    public void setSRPcode(String SRPcode) {
-      this.SRPcode = SRPcode;
-    }
-
-    public String getSateRegionName() {
-      return SateRegionName;
-    }
-
-    public void setSateRegionName(String sateRegionName) {
-      SateRegionName = sateRegionName;
-    }
-
-    public String getSateRegionNameBurmese() {
-      return SateRegionNameBurmese;
-    }
-
-    public void setSateRegionNameBurmese(String sateRegionNameBurmese) {
-      SateRegionNameBurmese = sateRegionNameBurmese;
-    }
-
-    public String getMyanInfoSdId() {
-      return MyanInfoSdId;
-    }
-
-    public void setMyanInfoSdId(String myanInfoSdId) {
-      MyanInfoSdId = myanInfoSdId;
-    }
-  }
-
-  public static class District {
-    @SerializedName("SR_Pcode") private String SRPcode;
-    @SerializedName("State_Region") private String SateRegionName;
-    @SerializedName("D_Pcode") private String DPcode;
-    @SerializedName("District") private String DistrictName;
-    @SerializedName("District_Mya_MM3") private String DistrictNameBurmese;
-    @SerializedName("MYAINFO_D_ID") private String MyanInfoDId;
-
-    public String getSRPcode() {
-      return SRPcode;
-    }
-
-    public void setSRPcode(String SRPcode) {
-      this.SRPcode = SRPcode;
-    }
-
-    public String getSateRegionName() {
-      return SateRegionName;
-    }
-
-    public void setSateRegionName(String sateRegionName) {
-      SateRegionName = sateRegionName;
-    }
-
-    public String getDPcode() {
-      return DPcode;
-    }
-
-    public void setDPcode(String DPcode) {
-      this.DPcode = DPcode;
-    }
-
-    public String getDistrictName() {
-      return DistrictName;
-    }
-
-    public void setDistrictName(String districtName) {
-      DistrictName = districtName;
-    }
-
-    public String getDistrictNameBurmese() {
-      return DistrictNameBurmese;
-    }
-
-    public void setDistrictNameBurmese(String districtNameBurmese) {
-      DistrictNameBurmese = districtNameBurmese;
-    }
-
-    public String getMyanInfoDId() {
-      return MyanInfoDId;
-    }
-
-    public void setMyanInfoDId(String myanInfoSdId) {
-      MyanInfoDId = myanInfoSdId;
-    }
+    return townships;
   }
 
   public static class Township {
@@ -291,7 +154,7 @@ public class DataUtils {
     }
   }
 
-  public static class Town {
+  public static class Ward {
     @SerializedName("SR_Pcode") private String SRPcode;
     @SerializedName("State_Region") private String SateRegionName;
     @SerializedName("D_Pcode") private String DPcode;
@@ -300,9 +163,9 @@ public class DataUtils {
     @SerializedName("Township") private String TownshipName;
     @SerializedName("Town_Pcode") private String TownPcode;
     @SerializedName("Town") private String TownName;
-    @SerializedName("Town_Mya_MMR3") private String TownNameBurmese;
-    @SerializedName("Longitude") private long lng;
-    @SerializedName("Latitude") private long lat;
+    @SerializedName("Ward_Pcode") private String WardPcode;
+    @SerializedName("Ward") private String Ward;
+    @SerializedName("Ward_Mya_MM3") private String WardNameBurmese;
 
     public String getSRPcode() {
       return SRPcode;
@@ -368,28 +231,122 @@ public class DataUtils {
       TownName = townName;
     }
 
-    public String getTownNameBurmese() {
-      return TownNameBurmese;
+    public String getWard() {
+      return Ward;
     }
 
-    public void setTownNameBurmese(String townNameBurmese) {
-      TownNameBurmese = townNameBurmese;
+    public void setWard(String ward) {
+      Ward = ward;
     }
 
-    public long getLat() {
-      return lat;
+    public String getWardPcode() {
+      return WardPcode;
     }
 
-    public void setLat(long lat) {
-      this.lat = lat;
+    public void setWardPcode(String wardPcode) {
+      WardPcode = wardPcode;
     }
 
-    public long getLng() {
-      return lng;
+    public String getWardNameBurmese() {
+      return WardNameBurmese;
     }
 
-    public void setLng(long lng) {
-      this.lng = lng;
+    public void setWardNameBurmese(String wardNameBurmese) {
+      WardNameBurmese = wardNameBurmese;
+    }
+  }
+
+  public static class Village {
+
+    @SerializedName("SR_Pcode") @Expose private String SRPcode;
+    @SerializedName("State_Region") @Expose private String StateRegion;
+    @SerializedName("D_Pcode") @Expose private String DPcode;
+    @SerializedName("District") @Expose private String District;
+    @SerializedName("TS_Pcode") @Expose private String TSPcode;
+    @SerializedName("Township") @Expose private String Township;
+    @SerializedName("VT_Pcode") @Expose private String VTPcode;
+    @SerializedName("Village_Tract") @Expose private String VillageTract;
+    @SerializedName("Village_Tract_Mya_MMR3") @Expose private String VillageTractMyaMMR3;
+    @SerializedName("Description") @Expose private String Description;
+
+    public String getSRPcode() {
+      return SRPcode;
+    }
+
+    public void setSRPcode(String SRPcode) {
+      this.SRPcode = SRPcode;
+    }
+
+    public String getStateRegion() {
+      return StateRegion;
+    }
+
+    public void setStateRegion(String StateRegion) {
+      this.StateRegion = StateRegion;
+    }
+
+    public String getDPcode() {
+      return DPcode;
+    }
+
+    public void setDPcode(String DPcode) {
+      this.DPcode = DPcode;
+    }
+
+    public String getDistrict() {
+      return District;
+    }
+
+    public void setDistrict(String District) {
+      this.District = District;
+    }
+
+    public String getTSPcode() {
+      return TSPcode;
+    }
+
+    public void setTSPcode(String TSPcode) {
+      this.TSPcode = TSPcode;
+    }
+
+    public String getTownship() {
+      return Township;
+    }
+
+    public void setTownship(String Township) {
+      this.Township = Township;
+    }
+
+    public String getVTPcode() {
+      return VTPcode;
+    }
+
+    public void setVTPcode(String VTPcode) {
+      this.VTPcode = VTPcode;
+    }
+
+    public String getVillageTract() {
+      return VillageTract;
+    }
+
+    public void setVillageTract(String VillageTract) {
+      this.VillageTract = VillageTract;
+    }
+
+    public String getVillageTractMyaMMR3() {
+      return VillageTractMyaMMR3;
+    }
+
+    public void setVillageTractMyaMMR3(String VillageTractMyaMMR3) {
+      this.VillageTractMyaMMR3 = VillageTractMyaMMR3;
+    }
+
+    public String getDescription() {
+      return Description;
+    }
+
+    public void setDescription(String Description) {
+      this.Description = Description;
     }
   }
 }
