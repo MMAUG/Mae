@@ -35,6 +35,7 @@ import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.models.Candidate;
 import org.mmaug.mae.models.CandidateListReturnObject;
 import org.mmaug.mae.rest.RESTClient;
+import org.mmaug.mae.utils.AnalyticsManager;
 import org.mmaug.mae.utils.DataUtils;
 import org.mmaug.mae.utils.MMTextUtils;
 import org.mmaug.mae.utils.MixUtils;
@@ -209,6 +210,10 @@ public class CandidateListActivity extends BaseActivity
         startActivity(intent);
       }
     } else {
+      //send event
+      AnalyticsManager.sendEvent(Config.CATEGORY_CANDIDATE, Config.ACTION_CANDIDATE,
+          candidate.getName());
+
       Intent intent = new Intent(this, CandidateDetailActivity.class);
       intent.putExtra(Config.CANDIDATE, candidate);
       startActivity(intent);

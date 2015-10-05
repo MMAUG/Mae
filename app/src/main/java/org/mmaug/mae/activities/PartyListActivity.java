@@ -97,7 +97,6 @@ public class PartyListActivity extends BaseActivity
     mProgressBar.setVisibility(View.VISIBLE);
     MixUtils.toggleVisibilityWithAnim(mPartyListRecyclerView, false);
     MixUtils.toggleVisibilityWithAnim(mErrorView, false);
-
   }
 
   private void fetchParties() {
@@ -139,8 +138,10 @@ public class PartyListActivity extends BaseActivity
 
   @Override public void onItemClick(View view, int position) {
     //send event
-    AnalyticsManager.sendEvent(Config.CATEGORY_PARTY, Config.ACTION_PARTY,
-        mParties.get(position).getPartyName());
+    if (mParties.get(position).getPartyName() != null) {
+      AnalyticsManager.sendEvent(Config.CATEGORY_PARTY, Config.ACTION_PARTY,
+          mParties.get(position).getPartyName());
+    }
 
     //go to party detail
     Intent intent = new Intent();
