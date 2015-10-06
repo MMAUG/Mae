@@ -3,9 +3,12 @@ package org.mmaug.mae.adapter;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.Bind;
@@ -13,6 +16,7 @@ import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.ArrayList;
+import java.util.List;
 import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.models.Candidate;
@@ -24,9 +28,11 @@ import org.mmaug.mae.view.AutofitTextView;
 /**
  * Created by poepoe on 19/9/15.
  */
-public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.CandidateViewHolder> {
+public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.CandidateViewHolder>
+    implements Filterable {
 
   ArrayList<Candidate> candidates;
+  Filter candidatesFilter;
   private OnItemClickListener onItemClickListener;
   private Context mContext;
   private Typeface typeface;
@@ -87,6 +93,12 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.Cand
     return candidates.size();
   }
 
+  @Override public Filter getFilter() {
+    if (candidatesFilter == null) candidatesFilter = new CandidateFilter();
+
+    return candidatesFilter;
+  }
+
   public interface OnItemClickListener {
     void onItemClick(Candidate candidate);
   }
@@ -127,6 +139,42 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.Cand
           .load(candidate.getParty().getPartyFlag())
           .diskCacheStrategy(DiskCacheStrategy.ALL)
           .into(ivPartyFlag);
+    }
+  }
+
+  private class CandidateFilter extends Filter {
+
+    @Override protected FilterResults performFiltering(CharSequence constraint) {
+
+      FilterResults results = new FilterResults();
+      // We implement here the filter logic
+      if (constraint == null || constraint.length() == 0) {
+        // No filter implemented we return all the list
+        results.values = candidates;
+        results.count = candidates.size();
+      } else {
+        // We perform filtering operation
+        ArrayList<Candidate> nCandidateList = new ArrayList<Candidate>();
+        for (Candidate p : candidates) {
+          if (p.getName().startsWith(constraint.toString())) {
+            nCandidateList.add(p);
+          }
+        }
+        results.values = nCandidateList;
+        results.count = nCandidateList.size();
+      }
+      return results;
+    }
+
+    @Override protected void publishResults(CharSequence constraint, FilterResults results) {
+
+      // Now we have to inform the adapter about the new list filtered
+      if (results.count == 0) {
+      } else {
+        candidates.clear();
+        candidates.addAll((ArrayList<Candidate>) results.values);
+        notifyDataSetChanged();
+      }
     }
   }
 }

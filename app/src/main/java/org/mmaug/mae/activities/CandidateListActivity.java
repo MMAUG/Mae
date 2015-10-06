@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,9 +21,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.google.gson.Gson;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -350,6 +353,7 @@ public class CandidateListActivity extends BaseActivity
                   return rhs.getLegislature().compareTo(lhs.getLegislature());
                 }
               });
+
               Collections.reverse(candidates);
 
               //header section
@@ -371,7 +375,8 @@ public class CandidateListActivity extends BaseActivity
                   new SectionHeaderAdapter.Section[sections.size()];
               sectionAdapter.setSections(sections.toArray(dummy));
               candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
-
+              //TODO make sure 3 or 4 words can search
+              candidateAdapter.getFilter().filter("ဦး");
               mProgressBar.setVisibility(View.GONE);
               MixUtils.toggleVisibilityWithAnim(mRecyclerView, true);
             }
