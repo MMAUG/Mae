@@ -184,6 +184,36 @@
               android:layout_marginLeft="@dimen/spacing_minor"
               android:background="#AECACE"
               />
+
+          <LinearLayout
+              android:id="@+id/upper_house_view"
+              android:visibility="gone"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:padding="@dimen/spacing_minor"
+              android:weightSum="2"
+              >
+            <TextView
+                android:id="@+id/upper_house_label"
+                android:text="@string/upper_house_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="@dimen/spacing_minor"
+                android:layout_weight="1"
+                />
+            <TextView
+                android:id="@+id/upper_house"
+                android:text="WOWOW"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:padding="@dimen/spacing_minor"
+                />
+          </LinearLayout>
+
           <LinearLayout
               android:layout_width="match_parent"
               android:layout_height="wrap_content"

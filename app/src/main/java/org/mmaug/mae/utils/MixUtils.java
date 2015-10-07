@@ -60,7 +60,7 @@ public class MixUtils {
     String strDefaultTimeZone = defaultTimeZone.getDisplayName(false, TimeZone.SHORT);
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
     formatter.setTimeZone(TimeZone.getTimeZone(strDefaultTimeZone));
-    String electionTime = "2015-11-08 08:00:00";
+    String electionTime = "2015-11-08 06:00:00";
     Date electionDate = formatter.parse(electionTime);
     return electionDate.getTime() - new Date().getTime();
   }
@@ -133,9 +133,9 @@ public class MixUtils {
     return "";
   }
 
-  public static String amConstituencyName(String stateRegionName, int no) {
+  public static String amConstituencyName(String stateRegionName, String no) {
     String sr = stateRegions.get(stateRegionName);
-    String number = convertToBurmese(no + "");
+    String number = convertToBurmese(no);
 
     return sr + " မဲဆန္ဒနယ်အမှတ်(" + number + ")";
   }

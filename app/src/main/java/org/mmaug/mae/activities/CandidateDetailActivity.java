@@ -85,6 +85,9 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.mCandidateCompareResult) TextView mCandidateCompareResult;
   @Bind(R.id.question_header_tv) TextView mQuestionHeaderTv;
   @Bind(R.id.motion_header_tv) TextView mMotionHeaderTv;
+  @Bind(R.id.upper_house_view) LinearLayout upperHouseView;
+  @Bind(R.id.upper_house_label) TextView upperHouseLabel;
+  @Bind(R.id.upper_house) TextView upperHouse;
   AppBarLayout.OnOffsetChangedListener mListener;
   Candidate candidate;
   private String[] colorHexes = new String[] {
@@ -139,6 +142,12 @@ public class CandidateDetailActivity extends AppCompatActivity {
         .load(candidate.getParty().getPartyFlag())
         .diskCacheStrategy(DiskCacheStrategy.ALL)
         .into(mCandidatePartyFlag);
+
+    if (!candidate.getConstituency().getAMPCODE().equals(null)) {
+      upperHouseView.setVisibility(View.VISIBLE);
+      upperHouse.setText(MixUtils.amConstituencyName(candidate.getConstituency().getName(),
+          candidate.getConstituency().getNumber()));
+    }
 
     mCandidateConstituency.setText(candidate.getConstituency().getName());
     mCandidateDateOfBirth.setText(
@@ -275,6 +284,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
       mQuestionCount.setTypeface(typefacelight);
       mQuestionHeaderTv.setTypeface(typefacelight);
       mMotionHeaderTv.setTypeface(typefacelight);
+      upperHouse.setTypeface(typefacelight);
+      upperHouseLabel.setTypeface(typefacelight);
     } else {
       mmtext.prepareActivity(this, mmtext.TEXT_UNICODE, true, true);
     }

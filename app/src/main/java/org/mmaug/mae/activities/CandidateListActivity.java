@@ -375,8 +375,7 @@ public class CandidateListActivity extends BaseActivity
                   new SectionHeaderAdapter.Section[sections.size()];
               sectionAdapter.setSections(sections.toArray(dummy));
               candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
-              //TODO make sure 3 or 4 words can search
-              candidateAdapter.getFilter().filter("ဦး");
+             // candidateAdapter.getFilter().filter("ဦးသိန်း");
               mProgressBar.setVisibility(View.GONE);
               MixUtils.toggleVisibilityWithAnim(mRecyclerView, true);
             }

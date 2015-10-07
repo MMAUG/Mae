@@ -170,11 +170,19 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.Cand
 
       // Now we have to inform the adapter about the new list filtered
       if (results.count == 0) {
+        
       } else {
         candidates.clear();
         candidates.addAll((ArrayList<Candidate>) results.values);
         notifyDataSetChanged();
       }
+    }
+
+    private boolean checkSection(List<SectionHeaderAdapter.Section> sections, String s) {
+      for (int i = 0; i < sections.size(); i++) {
+        if (s.equalsIgnoreCase(sections.get(i).getTitle())) return true;
+      }
+      return false;
     }
   }
 }
