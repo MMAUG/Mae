@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.JsonArray;
@@ -85,6 +86,9 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.mCandidateCompareResult) TextView mCandidateCompareResult;
   @Bind(R.id.question_header_tv) TextView mQuestionHeaderTv;
   @Bind(R.id.motion_header_tv) TextView mMotionHeaderTv;
+  @Bind(R.id.upper_house_view) LinearLayout upperHouseView;
+  @Bind(R.id.upper_house_label) TextView upperHouseLabel;
+  @Bind(R.id.upper_house) TextView upperHouse;
   AppBarLayout.OnOffsetChangedListener mListener;
   Candidate candidate;
   private String[] colorHexes = new String[] {
@@ -140,6 +144,14 @@ public class CandidateDetailActivity extends AppCompatActivity {
         .diskCacheStrategy(DiskCacheStrategy.ALL)
         .into(mCandidatePartyFlag);
 
+    if (candidate.getConstituency().getAMPCODE() == null) {
+      upperHouseView.setVisibility(View.GONE);
+    } else {
+      upperHouseView.setVisibility(View.VISIBLE);
+      upperHouse.setText(MixUtils.amConstituencyName(candidate.getConstituency().getName(),
+          candidate.getConstituency().getNumber()));
+    }
+
     mCandidateConstituency.setText(candidate.getConstituency().getName());
     mCandidateDateOfBirth.setText(
         MixUtils.convertToBurmese(String.valueOf(candidate.getBirthDateString())));
@@ -154,8 +166,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mCandidateAddress.setText(candidate.getWardVillage());
     RESTService mRESTService = RESTClient.getService(this);
     if (candidate.getMpid() == null) {
-      mCompareCandidate.setCardBackgroundColor(getResources().getColor(R.color.accent_color_error));
-      mCandidateCompareResult.setText(getResources().getString(R.string.first_time_candidate));
+      //mCompareCandidate.setCardBackgroundColor(getResources().getColor(R.color.accent_color_error));
+      //mCandidateCompareResult.setText(getResources().getString(R.string.first_time_candidate));
       mQuestionHeaderTv.setVisibility(View.GONE);
       mMotionHeaderTv.setVisibility(View.GONE);
       mCandidateQuestionCard.setVisibility(View.GONE);
@@ -181,15 +193,22 @@ public class CandidateDetailActivity extends AppCompatActivity {
 
     mCompareCandidate.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        if (candidate.getMpid() != null) {
           Intent i = new Intent(CandidateDetailActivity.this, CandidateListActivity.class);
           i.putExtra(Config.CANDIDATE, candidate);
           startActivity(i);
-        }
       }
     });
 
     setTypeFace();
+  }
+
+  @OnClick(R.id.candidate_detail_party_flag) void toCandidateParty() {
+    Intent intent = new Intent();
+    intent.setClass(this, PartyDetailActivity.class);
+    Bundle bundle = new Bundle();
+    bundle.putSerializable("party", candidate.getParty());
+    intent.putExtras(bundle);
+    startActivity(intent);
   }
 
   protected void makeMotionChart(int motionCount, JsonArray datas) {
@@ -275,6 +294,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
       mQuestionCount.setTypeface(typefacelight);
       mQuestionHeaderTv.setTypeface(typefacelight);
       mMotionHeaderTv.setTypeface(typefacelight);
+      upperHouse.setTypeface(typefacelight);
+      upperHouseLabel.setTypeface(typefacelight);
     } else {
       mmtext.prepareActivity(this, mmtext.TEXT_UNICODE, true, true);
     }

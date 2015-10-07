@@ -33,6 +33,7 @@
   <string name="compare_candidate">အမတ်လောင်း နှိုင်းယှဉ်ချက်</string>
   <string name="question_header">မေးခဲဖူးသည့် ကဏ္ဍများ</string>
   <string name="candidate_address">နေရပ်</string>
+  <string name="upper_house_label">မဲဆန္ဒနယ်</string>
   <string name="party">ပါတီ</string>
   <string name="party_leader">ပါတီခေါင်းဆောင်ပိုင်း</string>
   <string name="leader">ဥက္ကဌ</string>

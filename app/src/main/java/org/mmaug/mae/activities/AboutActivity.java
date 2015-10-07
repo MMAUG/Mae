@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -60,4 +61,13 @@ public class AboutActivity extends BaseActivity {
   @Override protected String getToolbarText() {
     return "ရွေးကောက်ပွဲ လမ်းညွှန်  − မဲ";
   }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == android.R.id.home) {
+      super.onBackPressed();
+      return true;
+    }
+    return false;
+  }
+
 }

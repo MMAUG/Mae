@@ -28,6 +28,23 @@ public class MixUtils {
 
   private static final long TRANSITION_DURATION = 200;
 
+  private static final HashMap<String, String> stateRegions = new HashMap<String, String>() {{
+    put("ကချင်", "ကချင်ျပည္နယ္");
+    put("ကယား", "ကယားပြည်နယ်");
+    put("ကရင်", "ကရင်ပြည်နယ်");
+    put("ချင်း", "ချင်းပြည်နယ်");
+    put("စစ်ကိုင်း", "စစ်ကိုင်းတိုင်းဒေသကြီး");
+    put("တနင်္သာရီ", "တနင်္သာရီတိုင်းဒေသကြီး");
+    put("ပဲခူး", "ပဲခူးတိုင်းဒေသကြီး");
+    put("မကွေး", "မကွေးတိုင်းဒေသကြီး");
+    put("မန္တလေး", "မန္တလေးတိုင်းဒေသကြီး");
+    put("မွန်", "မွန်ပြည်နယ်");
+    put("ရခိုင်", "ရခိုင်ပြည်နယ်");
+    put("ရန်ကုန်", "ရန်ကုန်တိုင်းဒေသကြီး");
+    put("ရှမ်း", "ရှမ်းပြည်နယ်");
+    put("ဧရာဝတီ", "ဧရာဝတီတိုင်းဒေသကြီး");
+  }};
+
   public static void makeSlide(View rootView) {
     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
       TransitionManager.beginDelayedTransition((ViewGroup) rootView, new Slide(Gravity.BOTTOM));
@@ -43,7 +60,7 @@ public class MixUtils {
     String strDefaultTimeZone = defaultTimeZone.getDisplayName(false, TimeZone.SHORT);
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
     formatter.setTimeZone(TimeZone.getTimeZone(strDefaultTimeZone));
-    String electionTime = "2015-11-08 08:00:00";
+    String electionTime = "2015-11-08 06:00:00";
     Date electionDate = formatter.parse(electionTime);
     return electionDate.getTime() - new Date().getTime();
   }
@@ -116,6 +133,13 @@ public class MixUtils {
     return "";
   }
 
+  public static String amConstituencyName(String stateRegionName, String no) {
+    String sr = stateRegions.get(stateRegionName);
+    String number = convertToBurmese(no);
+
+    return sr + " မဲဆန္ဒနယ်အမှတ်(" + number + ")";
+  }
+
   public static float convertDpToPixel(Context context, float dp) {
     Resources resources = context.getResources();
     DisplayMetrics metrics = resources.getDisplayMetrics();
@@ -150,6 +174,11 @@ public class MixUtils {
         .alpha(alphaVal)
         .setListener(new FadeAnimationListener(view, visibility))
         .start();
+  }
+
+  public static int dip2px(Context context, float dp) {
+    float scale = context.getResources().getDisplayMetrics().density;
+    return (int) (dp * scale + 0.5f);
   }
 
   public static class FadeAnimationListener implements Animator.AnimatorListener {

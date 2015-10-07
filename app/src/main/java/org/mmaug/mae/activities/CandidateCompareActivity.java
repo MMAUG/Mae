@@ -1,12 +1,23 @@
 package org.mmaug.mae.activities;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.CardView;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -14,8 +25,12 @@ import com.bumptech.glide.Glide;
 import com.github.florent37.glidepalette.GlidePalette;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseActivity;
@@ -49,13 +64,16 @@ public class CandidateCompareActivity extends BaseActivity {
   @Bind(R.id.party_job_two) TextView partyJobTwo;
   @Bind(R.id.no_flag_candidateOne) AutofitTextView no_flag_candidateOne;
   @Bind(R.id.no_flag_candidateTwo) AutofitTextView no_flag_candidateTwo;
+  @Bind(R.id.personal_view) CardView personalView;
   Candidate candidate;
   Candidate candidateCompare;
+  String file_path;
   float[] hslValues = new float[3];
   float[] darkValue = new float[3];
 
   private Typeface typefaceTitle, typefacelight;
   private boolean isUnicode;
+  private Bitmap bitmap;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -68,7 +86,7 @@ public class CandidateCompareActivity extends BaseActivity {
     //GET candidate value
     setupHeader();
     setTypeFace();
-    if(candidate.getMpid()!=null) {
+    if (candidate.getMpid() != null) {
       Call<JsonElement> compareQuestionCall = RESTClient.getService(this)
           .getCompareQuestion(candidateCompare.getMpid(), candidate.getMpid());
       compareQuestionCall.enqueue(new Callback<JsonElement>() {
@@ -92,19 +110,24 @@ public class CandidateCompareActivity extends BaseActivity {
                 Float PercentageOne;
                 Float PercentageTwo;
                 int TotalScore =
-                    entry.getValue().getAsJsonObject().get(candidateCompare.getMpid()).getAsInt() + entry.getValue().getAsJsonObject().get(candidate.getMpid()).getAsInt();
+                    entry.getValue().getAsJsonObject().get(candidateCompare.getMpid()).getAsInt()
+                        + entry.getValue().getAsJsonObject().get(candidate.getMpid()).getAsInt();
                 PercentageOne = Float.valueOf((obtainScrollOne * 100 / TotalScore));
                 PercentageTwo = Float.valueOf((obtainScrollTwo * 100 / TotalScore));
                 View question_indicator =
-                    getLayoutInflater().inflate(R.layout.question_compare_layout, motion_view, false);
-                TextView questionText = (TextView) question_indicator.findViewById(R.id.question_title);
+                    getLayoutInflater().inflate(R.layout.question_compare_layout, motion_view,
+                        false);
+                TextView questionText =
+                    (TextView) question_indicator.findViewById(R.id.question_title);
                 TextView leftText = (TextView) question_indicator.findViewById(R.id.left_text);
                 TextView rightText = (TextView) question_indicator.findViewById(R.id.right_text);
                 leftText.setText(MixUtils.convertToBurmese(String.valueOf(obtainScrollOne)));
                 rightText.setText(MixUtils.convertToBurmese(String.valueOf(obtainScrollTwo)));
                 questionText.setTypeface(typefacelight);
-                RoundCornerProgressBar roundCornerProgressBar = (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate1);
-                RoundCornerProgressBar roundCornerProgressBarTwo = (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate2);
+                RoundCornerProgressBar roundCornerProgressBar =
+                    (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate1);
+                RoundCornerProgressBar roundCornerProgressBarTwo =
+                    (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate2);
                 roundCornerProgressBar.setProgress(PercentageOne);
                 roundCornerProgressBar.setProgressColor(Color.parseColor("#9C27B0"));
                 roundCornerProgressBar.setRotation(180);
@@ -122,7 +145,8 @@ public class CandidateCompareActivity extends BaseActivity {
               }
             }
 
-            Set<Map.Entry<String, JsonElement>> entries = question.entrySet();//will return members of your object
+            Set<Map.Entry<String, JsonElement>> entries =
+                question.entrySet();//will return members of your object
             for (Map.Entry<String, JsonElement> entry : entries) {
               int obtainScrollOne =
                   entry.getValue().getAsJsonObject().get(candidateCompare.getMpid()).getAsInt();
@@ -132,20 +156,24 @@ public class CandidateCompareActivity extends BaseActivity {
               Float PercentageTwo;
               //"#9C27B0", "#673AB7"
               int TotalScore =
-                  entry.getValue().getAsJsonObject().get(candidateCompare.getMpid()).getAsInt() + entry.getValue().getAsJsonObject().get(candidate.getMpid()).getAsInt();
+                  entry.getValue().getAsJsonObject().get(candidateCompare.getMpid()).getAsInt()
+                      + entry.getValue().getAsJsonObject().get(candidate.getMpid()).getAsInt();
               PercentageOne = Float.valueOf((obtainScrollOne * 100 / TotalScore));
               PercentageTwo = Float.valueOf((obtainScrollTwo * 100 / TotalScore));
               View question_indicator =
                   getLayoutInflater().inflate(R.layout.question_compare_layout, question_showcase,
                       false);
-              TextView questionText = (TextView) question_indicator.findViewById(R.id.question_title);
+              TextView questionText =
+                  (TextView) question_indicator.findViewById(R.id.question_title);
               TextView leftText = (TextView) question_indicator.findViewById(R.id.left_text);
               TextView rightText = (TextView) question_indicator.findViewById(R.id.right_text);
               leftText.setText(MixUtils.convertToBurmese(String.valueOf(obtainScrollOne)));
               rightText.setText(MixUtils.convertToBurmese(String.valueOf(obtainScrollTwo)));
 
-              RoundCornerProgressBar roundCornerProgressBar = (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate1);
-              RoundCornerProgressBar roundCornerProgressBarTwo = (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate2);
+              RoundCornerProgressBar roundCornerProgressBar =
+                  (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate1);
+              RoundCornerProgressBar roundCornerProgressBarTwo =
+                  (RoundCornerProgressBar) question_indicator.findViewById(R.id.candidate2);
               roundCornerProgressBar.setProgress(PercentageOne);
               roundCornerProgressBar.setProgressColor(Color.parseColor("#9C27B0"));
               roundCornerProgressBar.setRotation(180);
@@ -168,7 +196,7 @@ public class CandidateCompareActivity extends BaseActivity {
           Timber.e(t.getMessage());
         }
       });
-    }else{
+    } else {
       findViewById(R.id.title_question).setVisibility(View.GONE);
       findViewById(R.id.title_motions).setVisibility(View.GONE);
       findViewById(R.id.question_view).setVisibility(View.GONE);
@@ -208,12 +236,37 @@ public class CandidateCompareActivity extends BaseActivity {
     return getResources().getString(R.string.compare_candidate);
   }
 
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_candidate, menu);
+    return true;
+  }
+
   @Override public boolean onOptionsItemSelected(MenuItem item) {
-    if (item.getItemId() == android.R.id.home) {
-      super.onBackPressed();
-      return true;
+    switch (item.getItemId()) {
+      case android.R.id.home:
+        finish();
+        return true;
+      case R.id.party_detail_action_share:
+        new AsyncTask<Void, Void, Void>() {
+
+          @Override protected void onPreExecute() {
+            super.onPreExecute();
+          }
+
+          @Override protected Void doInBackground(Void... params) {
+            bitmap = screenShot(personalView);
+            return null;
+          }
+
+          @Override protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            postToFacebook();
+          }
+        }.execute();
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
     }
-    return false;
   }
 
   private void setupHeader() {
@@ -263,9 +316,51 @@ public class CandidateCompareActivity extends BaseActivity {
       no_flag_candidateTwo.setVisibility(View.VISIBLE);
     }
 
-    Glide.with(this).load(candidate.getPhotoUrl()).into(candidateTwoView);
-    Glide.with(this).load(candidateCompare.getPhotoUrl()).into(candidateOneView);
+    Glide.with(this)
+        .load(candidate.getPhotoUrl())
+        .bitmapTransform(new CropCircleTransformation(this))
+        .into(candidateTwoView);
+    Glide.with(this)
+        .load(candidateCompare.getPhotoUrl())
+        .bitmapTransform(new CropCircleTransformation(this))
+        .into(candidateOneView);
     candidateOneView.setBorderWidth(5);
+    candidateOneView.setMinimumHeight(200);
+    candidateOneView.setMinimumWidth(200);
     candidateTwoView.setBorderWidth(5);
+    candidateTwoView.setMinimumHeight(200);
+    candidateTwoView.setMinimumWidth(200);
+  }
+
+  public Bitmap screenShot(View view) {
+    view.setDrawingCacheEnabled(true);
+    final Bitmap bitmap =
+        Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+    file_path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/share_image.png";
+    Canvas canvas = new Canvas(bitmap);
+    view.draw(canvas);
+    try {
+      File file = new File(file_path);
+      FileOutputStream fOut = new FileOutputStream(file);
+      bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+      fOut.flush();
+      fOut.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    view.setDrawingCacheEnabled(false);
+    return bitmap;
+  }
+
+  public void postToFacebook() {
+
+    Intent shareIntent = new Intent();
+    shareIntent.setAction(Intent.ACTION_SEND);
+    shareIntent.putExtra(Intent.EXTRA_TEXT, "compare");
+    shareIntent.putExtra(Intent.EXTRA_STREAM,
+        Uri.fromFile(new File(file_path)));  //optional//use this when you want to send an image
+    shareIntent.setType("image/*");
+    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+    startActivity(Intent.createChooser(shareIntent, "send"));
   }
 }

@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,10 +20,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -35,7 +40,10 @@ import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.models.Candidate;
 import org.mmaug.mae.models.CandidateListReturnObject;
 import org.mmaug.mae.rest.RESTClient;
+import org.mmaug.mae.utils.AnalyticsManager;
+import org.mmaug.mae.utils.ConnectionManager;
 import org.mmaug.mae.utils.DataUtils;
+import org.mmaug.mae.utils.FileUtils;
 import org.mmaug.mae.utils.MMTextUtils;
 import org.mmaug.mae.utils.MixUtils;
 import org.mmaug.mae.utils.RestCallback;
@@ -66,6 +74,7 @@ public class CandidateListActivity extends BaseActivity
   private ArrayList<DataUtils.Township> found = new ArrayList<>();
   private TownshipAdapter adapter;
   private DataUtils.Township myTownShip;
+  private List<Candidate> candidates = new ArrayList<>();
 
   @Override protected int getLayoutResource() {
     return R.layout.activity_candidate;
@@ -107,10 +116,16 @@ public class CandidateListActivity extends BaseActivity
       MMTextUtils.getInstance(this).prepareSingleView(mTownShip);
     }
     mTownShip.setSizeToFit(true);
-    fetchCandidate(myTownShip);
-    initEditText();
-    initRecyclerView();
-    mErrorView.setOnRetryListener(this);
+    if (ConnectionManager.isConnected(this)) {
+      fetchCandidate(myTownShip);
+      initEditText();
+      initRecyclerView();
+      mErrorView.setOnRetryListener(this);
+    } else {
+      //TODO please check for me this cache work or not
+      mProgressBar.setVisibility(View.GONE);
+      loadFromDisk();
+    }
   }
 
   private void fetchCandidate(DataUtils.Township myTownShip) {
@@ -209,6 +224,10 @@ public class CandidateListActivity extends BaseActivity
         startActivity(intent);
       }
     } else {
+      //send event
+      AnalyticsManager.sendEvent(Config.CATEGORY_CANDIDATE, Config.ACTION_CANDIDATE,
+          candidate.getName());
+
       Intent intent = new Intent(this, CandidateDetailActivity.class);
       intent.putExtra(Config.CANDIDATE, candidate);
       startActivity(intent);
@@ -325,7 +344,7 @@ public class CandidateListActivity extends BaseActivity
     pyithuCall.enqueue(new RestCallback<CandidateListReturnObject>() {
       @Override public void onResponse(Response<CandidateListReturnObject> response) {
         if (response.isSuccess()) {
-          final List<Candidate> candidates = response.body().getData();
+          candidates = response.body().getData();
           Map<String, String> amyotharParams = new HashMap<>();
           amyotharParams.put(Config.PER_PAGE, "200");
           amyotharParams.put(Config.WITH, "party");
@@ -345,6 +364,7 @@ public class CandidateListActivity extends BaseActivity
                   return rhs.getLegislature().compareTo(lhs.getLegislature());
                 }
               });
+
               Collections.reverse(candidates);
 
               //header section
@@ -366,7 +386,9 @@ public class CandidateListActivity extends BaseActivity
                   new SectionHeaderAdapter.Section[sections.size()];
               sectionAdapter.setSections(sections.toArray(dummy));
               candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
-
+              FileUtils.saveData(CandidateListActivity.this, FileUtils.convertToJson(candidates),
+                  "candidates");
+              // candidateAdapter.getFilter().filter("ဦးသိန်း");
               mProgressBar.setVisibility(View.GONE);
               MixUtils.toggleVisibilityWithAnim(mRecyclerView, true);
             }
@@ -378,6 +400,34 @@ public class CandidateListActivity extends BaseActivity
         }
       }
     });
+  }
+
+  private void loadFromDisk() {
+    Type type = new TypeToken<List<Candidate>>() {
+    }.getType();
+    String contactString = FileUtils.loadData(CandidateListActivity.this, "candidates");
+    if (contactString != null) {
+      candidates.addAll(FileUtils.convertToJava(contactString, type));
+      //header section
+      List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
+      for (int i = 0; i < candidates.size(); i++) {
+        Candidate location = candidates.get(i);
+        //get type from the array
+        if (sections.size() > 0) {
+          if (!checkSection(sections, location.getLegislature())) {
+            sections.add(new SectionHeaderAdapter.Section(i, location.getLegislature()));
+          }
+        } else {
+          //add first type
+          sections.add(new SectionHeaderAdapter.Section(0, location.getLegislature()));
+        }
+      }
+      SectionHeaderAdapter.Section[] dummy = new SectionHeaderAdapter.Section[sections.size()];
+      sectionAdapter.setSections(sections.toArray(dummy));
+      candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
+      initRecyclerView();
+      initCandidateRecyclerView();
+    }
   }
 
   @Override public void onRetry() {
