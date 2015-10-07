@@ -166,8 +166,8 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mCandidateAddress.setText(candidate.getWardVillage());
     RESTService mRESTService = RESTClient.getService(this);
     if (candidate.getMpid() == null) {
-      mCompareCandidate.setCardBackgroundColor(getResources().getColor(R.color.accent_color_error));
-      mCandidateCompareResult.setText(getResources().getString(R.string.first_time_candidate));
+      //mCompareCandidate.setCardBackgroundColor(getResources().getColor(R.color.accent_color_error));
+      //mCandidateCompareResult.setText(getResources().getString(R.string.first_time_candidate));
       mQuestionHeaderTv.setVisibility(View.GONE);
       mMotionHeaderTv.setVisibility(View.GONE);
       mCandidateQuestionCard.setVisibility(View.GONE);
@@ -193,11 +193,9 @@ public class CandidateDetailActivity extends AppCompatActivity {
 
     mCompareCandidate.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        if (candidate.getMpid() != null) {
           Intent i = new Intent(CandidateDetailActivity.this, CandidateListActivity.class);
           i.putExtra(Config.CANDIDATE, candidate);
           startActivity(i);
-        }
       }
     });
 
