@@ -145,7 +145,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
         .into(mCandidatePartyFlag);
 
     if (candidate.getConstituency().getAMPCODE() == null) {
-
+      upperHouseView.setVisibility(View.GONE);
     } else {
       upperHouseView.setVisibility(View.VISIBLE);
       upperHouse.setText(MixUtils.amConstituencyName(candidate.getConstituency().getName(),
