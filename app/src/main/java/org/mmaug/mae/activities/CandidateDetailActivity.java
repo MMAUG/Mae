@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.JsonArray;
@@ -143,7 +144,9 @@ public class CandidateDetailActivity extends AppCompatActivity {
         .diskCacheStrategy(DiskCacheStrategy.ALL)
         .into(mCandidatePartyFlag);
 
-    if (!candidate.getConstituency().getAMPCODE().equals(null)) {
+    if (candidate.getConstituency().getAMPCODE() == null) {
+
+    } else {
       upperHouseView.setVisibility(View.VISIBLE);
       upperHouse.setText(MixUtils.amConstituencyName(candidate.getConstituency().getName(),
           candidate.getConstituency().getNumber()));
@@ -199,6 +202,15 @@ public class CandidateDetailActivity extends AppCompatActivity {
     });
 
     setTypeFace();
+  }
+
+  @OnClick(R.id.candidate_detail_party_flag) void toCandidateParty() {
+    Intent intent = new Intent();
+    intent.setClass(this, PartyDetailActivity.class);
+    Bundle bundle = new Bundle();
+    bundle.putSerializable("party", candidate.getParty());
+    intent.putExtras(bundle);
+    startActivity(intent);
   }
 
   protected void makeMotionChart(int motionCount, JsonArray datas) {
