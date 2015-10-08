@@ -404,12 +404,14 @@ public class CandidateListActivity extends BaseActivity
   }
 
   private void noData() {
+    errotText.setVisibility(View.GONE);
     if (candidates.size() == 0) {
       mRecyclerView.setVisibility(View.GONE);
       mProgressBar.setVisibility(View.GONE);
       errotText.setVisibility(View.VISIBLE);
     } else {
       MixUtils.toggleVisibilityWithAnim(mRecyclerView, true);
+      errotText.setVisibility(View.GONE);
     }
   }
 
