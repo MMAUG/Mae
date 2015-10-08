@@ -206,7 +206,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
     Intent intent = new Intent();
     intent.setClass(this, PartyDetailActivity.class);
     Bundle bundle = new Bundle();
-    bundle.putSerializable("party", candidate.getParty());
+    bundle.putSerializable("party_candidate", candidate.getParty());
     intent.putExtras(bundle);
     startActivity(intent);
   }
