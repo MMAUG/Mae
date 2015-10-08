@@ -408,6 +408,23 @@ public class CandidateListActivity extends BaseActivity
     String contactString = FileUtils.loadData(CandidateListActivity.this, "candidates");
     if (contactString != null) {
       candidates.addAll(FileUtils.convertToJava(contactString, type));
+      //header section
+      List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
+      for (int i = 0; i < candidates.size(); i++) {
+        Candidate location = candidates.get(i);
+        //get type from the array
+        if (sections.size() > 0) {
+          if (!checkSection(sections, location.getLegislature())) {
+            sections.add(new SectionHeaderAdapter.Section(i, location.getLegislature()));
+          }
+        } else {
+          //add first type
+          sections.add(new SectionHeaderAdapter.Section(0, location.getLegislature()));
+        }
+      }
+      SectionHeaderAdapter.Section[] dummy = new SectionHeaderAdapter.Section[sections.size()];
+      sectionAdapter.setSections(sections.toArray(dummy));
+      candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
       initRecyclerView();
       initCandidateRecyclerView();
     }
