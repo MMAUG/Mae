@@ -407,6 +407,7 @@ public class CandidateListActivity extends BaseActivity
     }.getType();
     String contactString = FileUtils.loadData(CandidateListActivity.this, "candidates");
     if (contactString != null) {
+      MixUtils.toggleVisibilityWithAnim(mRecyclerView, true);
       candidates.addAll(FileUtils.convertToJava(contactString, type));
       //header section
       List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
@@ -425,8 +426,7 @@ public class CandidateListActivity extends BaseActivity
       SectionHeaderAdapter.Section[] dummy = new SectionHeaderAdapter.Section[sections.size()];
       sectionAdapter.setSections(sections.toArray(dummy));
       candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
-      initRecyclerView();
-      initCandidateRecyclerView();
+      mRecyclerView.setAdapter(sectionAdapter);
     }
   }
 
