@@ -3,6 +3,7 @@ package org.mmaug.mae.activities;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -66,6 +67,7 @@ public class CandidateListActivity extends BaseActivity
   @Bind(R.id.searchFragment) FrameLayout searchView;
   @Bind(R.id.candidate_township) AutofitTextView mTownShip;
   @Bind(R.id.error_text) TextView errotText;
+  @Bind(R.id.search_fab) FloatingActionButton searchFab;
 
   Candidate candidateFromDetail;
   private CandidateAdapter candidateAdapter;
@@ -152,6 +154,11 @@ public class CandidateListActivity extends BaseActivity
       if (s.equalsIgnoreCase(sections.get(i).getTitle())) return true;
     }
     return false;
+  }
+
+  @OnClick(R.id.search_fab) void search() {
+    Intent intent = new Intent(this, SearchCandidateActivity.class);
+    startActivity(intent);
   }
 
   @Override public void onItemClick(Candidate candidate) {

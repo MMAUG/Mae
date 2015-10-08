@@ -126,4 +126,5 @@
   <string name="township_zg">ၿမိဳ႕နယ္</string>
   <string name="name_zg">အမည္</string>
   <string name="father_name_zg">အဖအမည္</string>
+  <string name="title_activity_search_candidate">SearchCandidateActivity</string>
 </resources>

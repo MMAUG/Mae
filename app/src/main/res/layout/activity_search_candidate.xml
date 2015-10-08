@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="org.mmaug.mae.activities.SearchCandidateActivity"
+    >
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:windowActionBarOverlay="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:elevation="4dp"
+        android:background="@color/primary"
+        android:id="@+id/toolbar"
+        />
+
+  <include
+      layout="@layout/view_search_township"/>
+
+  <include layout="@layout/content_search_candidate"/>
+
+
+</android.support.design.widget.CoordinatorLayout>
