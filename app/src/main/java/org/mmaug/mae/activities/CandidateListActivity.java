@@ -65,6 +65,7 @@ public class CandidateListActivity extends BaseActivity
   @Bind(R.id.rv_search_township) RecyclerView mTownshipList;
   @Bind(R.id.searchFragment) FrameLayout searchView;
   @Bind(R.id.candidate_township) AutofitTextView mTownShip;
+  @Bind(R.id.error_text) TextView errotText;
 
   Candidate candidateFromDetail;
   private CandidateAdapter candidateAdapter;
@@ -115,6 +116,7 @@ public class CandidateListActivity extends BaseActivity
     } else {
       MMTextUtils.getInstance(this).prepareSingleView(mTownShip);
     }
+    errotText.setTypeface(getTypefaceTitle());
     mTownShip.setSizeToFit(true);
     if (ConnectionManager.isConnected(this)) {
       fetchCandidate(myTownShip);
@@ -122,7 +124,6 @@ public class CandidateListActivity extends BaseActivity
       initRecyclerView();
       mErrorView.setOnRetryListener(this);
     } else {
-      //TODO please check for me this cache work or not
       mProgressBar.setVisibility(View.GONE);
       loadFromDisk();
     }
@@ -366,7 +367,7 @@ public class CandidateListActivity extends BaseActivity
               });
 
               Collections.reverse(candidates);
-
+              noData();//To Check Data is 0
               //header section
               List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
 
@@ -402,12 +403,26 @@ public class CandidateListActivity extends BaseActivity
     });
   }
 
+  private void noData() {
+    errotText.setVisibility(View.GONE);
+    if (candidates.size() == 0) {
+      mRecyclerView.setVisibility(View.GONE);
+      mProgressBar.setVisibility(View.GONE);
+      errotText.setVisibility(View.VISIBLE);
+    } else {
+      MixUtils.toggleVisibilityWithAnim(mRecyclerView, true);
+      errotText.setVisibility(View.GONE);
+    }
+  }
+
   private void loadFromDisk() {
     Type type = new TypeToken<List<Candidate>>() {
     }.getType();
     String contactString = FileUtils.loadData(CandidateListActivity.this, "candidates");
     if (contactString != null) {
+
       candidates.addAll(FileUtils.convertToJava(contactString, type));
+      noData();//No Internet No Cache Data
       //header section
       List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
       for (int i = 0; i < candidates.size(); i++) {
@@ -425,8 +440,7 @@ public class CandidateListActivity extends BaseActivity
       SectionHeaderAdapter.Section[] dummy = new SectionHeaderAdapter.Section[sections.size()];
       sectionAdapter.setSections(sections.toArray(dummy));
       candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
-      initRecyclerView();
-      initCandidateRecyclerView();
+      mRecyclerView.setAdapter(sectionAdapter);
     }
   }
 

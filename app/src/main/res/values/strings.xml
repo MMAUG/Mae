@@ -54,6 +54,7 @@
   <string name="duplicate_candidate_choose">မိမိ နှိုင်းယှဉ်ရန် ရွေးထားသော
     အမတ်ကိုပြန်ရွေးချယ်မိသောကြောင့်ဖြစ်ပါသည်
   </string>
+  <string name="no_data">အအမတ်လောင်း စာရင်းမရရှိသေးပါ</string>
 
   <!-- vote validity dialog strings-->
   <string name="check">စစ်မည်</string>
