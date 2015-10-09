@@ -115,6 +115,21 @@
           layout="@layout/view_search_township"/>
 
     </FrameLayout>
+    <FrameLayout
+        android:id="@+id/searchCandidate"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        >
+
+      <include
+          layout="@layout/view_search_candidate"/>
+
+    </FrameLayout>
+
   </FrameLayout>
 
 </LinearLayout>

@@ -10,7 +10,7 @@ public class Config {
   public static final String PYIDAUNGSU = "pyidaungsu.ttf";
 
   public static final String API_V1 = "api/v1/";
-  public static final String APP_VERSIONS ="app-versions";
+  public static final String APP_VERSIONS = "app-versions";
   /**
    * Check Voter API
    **/
@@ -76,6 +76,7 @@ public class Config {
   //candidate endpoints
   public static final String CANDIDATE_URL = MPS_BASE_URL + CANDIDATE;
   public static final String CANDIDATE_LIST_URL = CANDIDATE_URL + "/" + LIST;
+  public static final String CANDIDTE_AUTO_SEARCH = "/autocomplete/candidate";
 
   //party endpoints
   public static final String PARTY_LIST_URL = MPS_BASE_URL + PARTY;
@@ -120,6 +121,4 @@ public class Config {
   public static final String ACTION_CANDIDATE = "candidate detail click";
   public static final String CATEGORY_PARTY = "party";
   public static final String ACTION_PARTY = "party detail click";
-
-
 }

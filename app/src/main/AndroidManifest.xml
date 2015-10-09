@@ -101,11 +101,6 @@
             android:name="io.fabric.ApiKey"
             android:value="cdae3f0777b11d387aee5f0beff47563d77b590c" />
 
-        <activity
-            android:name=".activities.SearchCandidateActivity"
-            android:label="@string/title_activity_search_candidate"
-            android:theme="@style/AppTheme" >
-        </activity>
     </application>
 
 </manifest>

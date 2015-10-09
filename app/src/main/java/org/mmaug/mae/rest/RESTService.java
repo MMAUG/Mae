@@ -26,8 +26,7 @@ public interface RESTService {
    **/
 
   //TODO to check this is work or not
-  @GET(Config.REGISTER) Call<User> registerUser(
-      @QueryMap Map<String, String> body);
+  @GET(Config.REGISTER) Call<User> registerUser(@QueryMap Map<String, String> body);
 
   /**
    * Maepaysoh services
@@ -70,19 +69,20 @@ public interface RESTService {
 
   @GET(Config.QUESTION_COUNT) Call<JsonObject> getQuestionCount(@Query("mpid") String mpId);
 
-    @GET(Config.QUESTION_MOTION) Call<JsonObject> getQuestionAndMotion(@Query("mpid") String mpId);
+  @GET(Config.QUESTION_MOTION) Call<JsonObject> getQuestionAndMotion(@Query("mpid") String mpId);
 
   @GET(Config.COMPARE_QUESTION) Call<JsonElement> getCompareQuestion(
       @Query("first") String first_candidate_id, @Query("second") String second_candidate_id);
 
-  @GET(Config.CANDIDATE_COUNT) Call<JsonObject> getCandidateCount(
-      @Query("party") String party_id);
+  @GET(Config.CANDIDATE_COUNT) Call<JsonObject> getCandidateCount(@Query("party") String party_id);
 
   @GET(Config.CURRENT_COUNT) Call<JsonObject> getCurrentCount();
 
-  @GET(Config.FAQ_LIST_URL) Call<FAQListReturnObject> listFaqs(@QueryMap Map<String, String> options);
+  @GET(Config.FAQ_LIST_URL) Call<FAQListReturnObject> listFaqs(
+      @QueryMap Map<String, String> options);
 
-  @GET(Config.FAQ_SEARCH) Call<FAQListReturnObject> searchFaq(@Query("q") String keyWord,@QueryMap Map<String, String> options);
+  @GET(Config.FAQ_SEARCH) Call<FAQListReturnObject> searchFaq(@Query("q") String keyWord,
+      @QueryMap Map<String, String> options);
 
   @GET("/faq/{faq_id}") Call<FAQDetailReturnObject> searchFaqById(@Path("faq_id") String faqId,
       @QueryMap Map<String, String> options);

@@ -68,6 +68,7 @@ public class CandidateListActivity extends BaseActivity
   @Bind(R.id.candidate_township) AutofitTextView mTownShip;
   @Bind(R.id.error_text) TextView errotText;
   @Bind(R.id.search_fab) FloatingActionButton searchFab;
+  @Bind(R.id.searchCandidate) FrameLayout searchCandidate;
 
   Candidate candidateFromDetail;
   private CandidateAdapter candidateAdapter;
@@ -157,8 +158,7 @@ public class CandidateListActivity extends BaseActivity
   }
 
   @OnClick(R.id.search_fab) void search() {
-    Intent intent = new Intent(this, SearchCandidateActivity.class);
-    startActivity(intent);
+    MixUtils.toggleVisibilityWithAnim(searchCandidate, true);
   }
 
   @Override public void onItemClick(Candidate candidate) {
