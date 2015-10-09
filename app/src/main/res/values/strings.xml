@@ -54,6 +54,7 @@
   <string name="duplicate_candidate_choose">မိမိ နှိုင်းယှဉ်ရန် ရွေးထားသော
     အမတ်ကိုပြန်ရွေးချယ်မိသောကြောင့်ဖြစ်ပါသည်
   </string>
+  <string name="no_data">အမတ်လောင်း စာရင်းမရရှိသေးပါ</string>
 
   <!-- vote validity dialog strings-->
   <string name="check">စစ်မည်</string>
@@ -125,4 +126,5 @@
   <string name="township_zg">ၿမိဳ႕နယ္</string>
   <string name="name_zg">အမည္</string>
   <string name="father_name_zg">အဖအမည္</string>
+  <string name="title_activity_search_candidate">SearchCandidateActivity</string>
 </resources>

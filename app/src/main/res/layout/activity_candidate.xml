@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="org.mmaug.mae.activities.CandidateListActivity">
+    tools:context="org.mmaug.mae.activities.CandidateListActivity"
+    >
+
   <android.support.v7.widget.Toolbar
       android:layout_width="match_parent"
       android:layout_height="?attr/actionBarSize"
@@ -20,7 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:weightSum="3">
+        android:weightSum="3"
+        >
       <TextView
           android:layout_weight="2"
           android:id="@+id/tv_toolbar_title"
@@ -28,7 +31,8 @@
           android:singleLine="true"
           android:ellipsize="end"
           android:layout_height="wrap_content"
-          style="@style/ActionBarTitleText"/>
+          style="@style/ActionBarTitleText"
+          />
 
       <org.mmaug.mae.view.AutofitTextView
           android:layout_weight="1"
@@ -40,7 +44,8 @@
           android:textColor="@color/white"
           style="@style/TextAppearance.AppCompat.Subhead"
           android:background="?attr/selectableItemBackground"
-          tools:text="အင်းစိန်"/>
+          tools:text="အင်းစိန်"
+          />
     </LinearLayout>
   </android.support.v7.widget.Toolbar>
 
@@ -48,14 +53,35 @@
   <FrameLayout
       android:id="@+id/main_view"
       android:layout_width="match_parent"
-      android:layout_height="match_parent">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_candidate_list"
+      android:layout_height="match_parent"
+      >
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
+        android:layout_below="@+id/toolbar"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        />
+        >
+
+      <android.support.v7.widget.RecyclerView
+          android:id="@+id/rv_candidate_list"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:visibility="gone"
+          />
+
+      <android.support.design.widget.FloatingActionButton
+          android:id="@+id/search_fab"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_margin="16dp"
+          android:clickable="true"
+          android:src="@drawable/ic_search"
+          app:borderWidth="0dp"
+          app:elevation="@dimen/fab_elevation"
+          android:layout_gravity="end|bottom|right"
+          app:pressedTranslationZ="16dp"
+          app:rippleColor="@color/primary_dark"
+          />
+    </android.support.design.widget.CoordinatorLayout>
 
     <include layout="@layout/errorview"/>
 
@@ -63,6 +89,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/progressBar"
+        android:layout_gravity="center"
+        />
+
+    <TextView
+        android:gravity="center|center_horizontal|center_vertical"
+        android:text="@string/no_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/error_text"
         android:layout_gravity="center"
         />
 
@@ -80,6 +115,21 @@
           layout="@layout/view_search_township"/>
 
     </FrameLayout>
+    <FrameLayout
+        android:id="@+id/searchCandidate"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        >
+
+      <include
+          layout="@layout/view_search_candidate"/>
+
+    </FrameLayout>
+
   </FrameLayout>
 
 </LinearLayout>

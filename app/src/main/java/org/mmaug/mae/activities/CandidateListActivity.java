@@ -3,15 +3,21 @@ package org.mmaug.mae.activities;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
@@ -23,22 +29,22 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.adapter.CandidateAdapter;
+import org.mmaug.mae.adapter.CandidateSearchAdapter;
 import org.mmaug.mae.adapter.SectionHeaderAdapter;
 import org.mmaug.mae.adapter.TownshipAdapter;
 import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.models.Candidate;
 import org.mmaug.mae.models.CandidateListReturnObject;
+import org.mmaug.mae.models.CandidateSearchResult;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.utils.AnalyticsManager;
 import org.mmaug.mae.utils.ConnectionManager;
@@ -51,6 +57,7 @@ import org.mmaug.mae.utils.UserPrefUtils;
 import org.mmaug.mae.view.AutofitTextView;
 import org.mmaug.mae.view.SpacesItemDecoration;
 import retrofit.Call;
+import retrofit.Callback;
 import retrofit.Response;
 import tr.xip.errorview.ErrorView;
 
@@ -62,12 +69,19 @@ public class CandidateListActivity extends BaseActivity
   @Bind(R.id.progressBar) ProgressBar mProgressBar;
   @Bind(R.id.error_view) ErrorView mErrorView;
   @Bind(R.id.et_search_township) EditText searchTownship;
+  @Bind(R.id.et_candidate_search) AutoCompleteTextView searchCandidateText;
   @Bind(R.id.rv_search_township) RecyclerView mTownshipList;
   @Bind(R.id.searchFragment) FrameLayout searchView;
   @Bind(R.id.candidate_township) AutofitTextView mTownShip;
+  @Bind(R.id.error_text) TextView errotText;
+  @Bind(R.id.search_fab) FloatingActionButton searchFab;
+  @Bind(R.id.searchCandidate) FrameLayout searchCandidate;
+  @Bind(R.id.rv_search_candidate) RecyclerView searchCandidadateView;
 
   Candidate candidateFromDetail;
+  Handler mHandler = new Handler();
   private CandidateAdapter candidateAdapter;
+  private CandidateSearchAdapter candidateSearchAdapter;
   private SectionHeaderAdapter sectionAdapter;
   private Dialog candidateResultDialog;
   private ArrayList<DataUtils.Township> townships;
@@ -75,6 +89,7 @@ public class CandidateListActivity extends BaseActivity
   private TownshipAdapter adapter;
   private DataUtils.Township myTownShip;
   private List<Candidate> candidates = new ArrayList<>();
+  private ArrayList<String> candidateName = new ArrayList<>();
 
   @Override protected int getLayoutResource() {
     return R.layout.activity_candidate;
@@ -115,6 +130,7 @@ public class CandidateListActivity extends BaseActivity
     } else {
       MMTextUtils.getInstance(this).prepareSingleView(mTownShip);
     }
+    errotText.setTypeface(getTypefaceTitle());
     mTownShip.setSizeToFit(true);
     if (ConnectionManager.isConnected(this)) {
       fetchCandidate(myTownShip);
@@ -122,7 +138,6 @@ public class CandidateListActivity extends BaseActivity
       initRecyclerView();
       mErrorView.setOnRetryListener(this);
     } else {
-      //TODO please check for me this cache work or not
       mProgressBar.setVisibility(View.GONE);
       loadFromDisk();
     }
@@ -151,6 +166,11 @@ public class CandidateListActivity extends BaseActivity
       if (s.equalsIgnoreCase(sections.get(i).getTitle())) return true;
     }
     return false;
+  }
+
+  @OnClick(R.id.search_fab) void search() {
+    MixUtils.toggleVisibilityWithAnim(searchCandidate, true);
+    initSearchCandidate();
   }
 
   @Override public void onItemClick(Candidate candidate) {
@@ -302,6 +322,25 @@ public class CandidateListActivity extends BaseActivity
     });
   }
 
+  private void initSearchCandidate() {
+    searchCandidateText.addTextChangedListener(new TextWatcher() {
+      @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+      }
+
+      @Override public void afterTextChanged(final Editable s) {
+        if (s.length() == 0) {
+        } else {
+          infateCandidateSearchAdapter(s.toString());
+        }
+      }
+    });
+  }
+
   private void initRecyclerView() {
     townships = DataUtils.getInstance(this).loadTownship();
     found = townships;
@@ -338,6 +377,30 @@ public class CandidateListActivity extends BaseActivity
     fetchCandidate(found.get(i));
   }
 
+  private void infateCandidateSearchAdapter(String searchName) {
+    Map<String, Integer> limitParams = new HashMap<>();
+    limitParams.put("limit", 20);
+    Call<ArrayList<CandidateSearchResult>> candidateAutoSearch =
+        RESTClient.getService(this).searchCandidate(searchName, limitParams);
+    candidateAutoSearch.enqueue(new Callback<ArrayList<CandidateSearchResult>>() {
+      @Override public void onResponse(Response<ArrayList<CandidateSearchResult>> response) {
+        searchCandidadateView.setLayoutManager(
+            new LinearLayoutManager(CandidateListActivity.this, LinearLayoutManager.VERTICAL,
+                false));
+        candidateSearchAdapter = new CandidateSearchAdapter();
+        candidateSearchAdapter.setCandidates(response.body());
+        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing_micro);
+        searchCandidadateView.setHasFixedSize(true);
+        searchCandidadateView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
+        searchCandidadateView.setAdapter(candidateSearchAdapter);
+      }
+
+      @Override public void onFailure(Throwable t) {
+        Log.e("Error", t.getMessage());
+      }
+    });
+  }
+
   private void inflateCandiateAdapter(final Map<String, String> params) {
     final Call<CandidateListReturnObject> pyithuCall =
         RESTClient.getService(this).getCandidateList(params);
@@ -366,7 +429,7 @@ public class CandidateListActivity extends BaseActivity
               });
 
               Collections.reverse(candidates);
-
+              noData();//To Check Data is 0
               //header section
               List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
 
@@ -402,12 +465,26 @@ public class CandidateListActivity extends BaseActivity
     });
   }
 
+  private void noData() {
+    errotText.setVisibility(View.GONE);
+    if (candidates.size() == 0) {
+      mRecyclerView.setVisibility(View.GONE);
+      mProgressBar.setVisibility(View.GONE);
+      errotText.setVisibility(View.VISIBLE);
+    } else {
+      MixUtils.toggleVisibilityWithAnim(mRecyclerView, true);
+      errotText.setVisibility(View.GONE);
+    }
+  }
+
   private void loadFromDisk() {
     Type type = new TypeToken<List<Candidate>>() {
     }.getType();
     String contactString = FileUtils.loadData(CandidateListActivity.this, "candidates");
     if (contactString != null) {
+
       candidates.addAll(FileUtils.convertToJava(contactString, type));
+      noData();//No Internet No Cache Data
       //header section
       List<SectionHeaderAdapter.Section> sections = new ArrayList<>();
       for (int i = 0; i < candidates.size(); i++) {
@@ -425,8 +502,7 @@ public class CandidateListActivity extends BaseActivity
       SectionHeaderAdapter.Section[] dummy = new SectionHeaderAdapter.Section[sections.size()];
       sectionAdapter.setSections(sections.toArray(dummy));
       candidateAdapter.setCandidates((ArrayList<Candidate>) candidates);
-      initRecyclerView();
-      initCandidateRecyclerView();
+      mRecyclerView.setAdapter(sectionAdapter);
     }
   }
 
@@ -435,7 +511,9 @@ public class CandidateListActivity extends BaseActivity
   }
 
   @Override public void onBackPressed() {
-    if (searchView.getVisibility() == View.VISIBLE) {
+    if (searchCandidadateView.getVisibility() == View.VISIBLE) {
+      MixUtils.toggleVisibilityWithAnim(searchCandidate, false);
+    } else if (searchView.getVisibility() == View.VISIBLE) {
       MixUtils.toggleVisibilityWithAnim(searchView, false);
     } else {
       super.onBackPressed();

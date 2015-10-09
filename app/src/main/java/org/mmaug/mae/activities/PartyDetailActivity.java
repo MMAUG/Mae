@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,12 +24,19 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.adapter.ToyFigurePagerAdapter;
+import org.mmaug.mae.models.Candidate;
 import org.mmaug.mae.models.CurrentCollection;
 import org.mmaug.mae.models.Party;
 import org.mmaug.mae.rest.RESTClient;
@@ -64,7 +72,7 @@ public class PartyDetailActivity extends AppCompatActivity {
   @Bind(R.id.mContactTitle) TextView mContactTitle;
   @Bind(R.id.candidateTotalCountLast) TextView candidateTotalCountLast;
   @Bind(R.id.candidateTotalCountCurrent) TextView candidateTotalCountCurrent;
-
+  Party partyFromCandidateDetail;
   private RESTService partyDetailRestService;
   private int currentAmyotharCount;
   private int currentPyithuHlutaw;
@@ -80,6 +88,7 @@ public class PartyDetailActivity extends AppCompatActivity {
   private ToyFigurePagerAdapter currentPagerAdapter;
   private int colorFilter = -1;
   private Typeface typefaceTitle, typefacelight;
+  private Party party;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -89,7 +98,16 @@ public class PartyDetailActivity extends AppCompatActivity {
     typefaceTitle = FontCache.getTypefaceTitle(this);
     typefacelight = FontCache.getTypefaceLight(this);
 
-    final Party party = (Party) getIntent().getSerializableExtra("party");
+    party = (Party) getIntent().getSerializableExtra("party");
+    partyFromCandidateDetail = (Party) getIntent().getSerializableExtra("party_candidate");
+    if (partyFromCandidateDetail != null) {
+      party = (Party) getIntent().getSerializableExtra("party_candidate");
+      Long timeMilisecond = Long.parseLong(party.getEstablishmentDate()) * 1000;
+      String Date = millisToDate(timeMilisecond);
+      mPartyDate.setText(MixUtils.convertToBurmese(Date));
+    } else {
+      mPartyDate.setText(MixUtils.convertToBurmese(party.getEstablishmentDateString()));
+    }
     mCollapsingToolbarLayout.setTitle(party.getPartyName());
     setSupportActionBar(mToolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -97,28 +115,16 @@ public class PartyDetailActivity extends AppCompatActivity {
         getResources().getColor(android.R.color.transparent));
     setTypeFace();
     mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
-    Glide.with(this).load(party.getPartyFlag()).diskCacheStrategy(DiskCacheStrategy.ALL)
-        //.listener(GlidePalette.with(party.getPartyFlag())
-        //    .intoCallBack(new GlidePalette.CallBack() {
-        //      @Override public void onPaletteLoaded(Palette palette) {
-        //        //specific task
-        //        colorFilter = palette.getMutedColor(getResources().getColor(R.color.primary));
-        //        Log.d("Run","pallet Run");
-        //        if (currentPagerAdapter != null) {
-        //          currentPagerAdapter.setFilterColor(colorFilter);
-        //        }
-        //        if (prevPagerAdapter != null) {
-        //          prevPagerAdapter.setFilterColor(colorFilter);
-        //        }
-        //      }
-        //    }))
+    Glide.with(this)
+        .load(party.getPartyFlag())
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
         .into(party_image);
     if (party.getMemberCount() != null && party.getMemberCount().length() > 0) {
       mPartyCount.setText(MixUtils.convertToBurmese(String.valueOf(party.getMemberCount())));
     } else {
       mPartyCount.setText("-");
     }
-    mPartyDate.setText(MixUtils.convertToBurmese(party.getEstablishmentDateString()));
+
     mPartyNumber.setText(MixUtils.convertToBurmese(party.getApprovedPartyNumber()));
     mPartyName.setText(party.getPartyName());
     mPartyName.setSizeToFit(true);
@@ -184,9 +190,9 @@ public class PartyDetailActivity extends AppCompatActivity {
                 currentPagerAdapter = new ToyFigurePagerAdapter(PartyDetailActivity.this, true);
                 if (currentAmyotharCount > 0) {
 
-                  currentCandidateCount.put(Config.AMYOTHAE_HLUTTAW,
-                      (int) ((((double) currentAmyotharCount)
-                          / mAmyothaCurrentCollection.getSeats()) * 10));
+                  currentCandidateCount.put(Config.AMYOTHAE_HLUTTAW, (int) (
+                      (((double) currentAmyotharCount) / mAmyothaCurrentCollection.getSeats())
+                          * 10));
                 } else {
                   currentCandidateCount.put(Config.AMYOTHAE_HLUTTAW, 0);
                 }
@@ -198,8 +204,8 @@ public class PartyDetailActivity extends AppCompatActivity {
                   currentCandidateCount.put(Config.PYITHU_HLUTTAW, 0);
                 }
                 if (currentTineDaythaHlutaw > 0) {
-                  currentCandidateCount.put(Config.TINEDAYTHA_HLUTTAW,
-                      (int) (((double) currentTineDaythaHlutaw
+                  currentCandidateCount.put(Config.TINEDAYTHA_HLUTTAW, (int) (
+                      ((double) currentTineDaythaHlutaw
                           / mTineDayThaGyiCurrentCollection.getSeats()) * 10));
                 }
                 currentCandidateCount.put(Config.AMYOTHAR_REAL_COUNT, currentAmyotharCount);
@@ -243,9 +249,9 @@ public class PartyDetailActivity extends AppCompatActivity {
                         * 10));
                 prevCandidateCount.put(Config.PYITHU_HLUTTAW,
                     (int) (((double) prevPyithuHlutaw / mPyithuCurrentCollection.getSeats()) * 10));
-                prevCandidateCount.put(Config.TINEDAYTHA_HLUTTAW,
-                    (int) (((double) prevTineDaythaHlutaw
-                        / mTineDayThaGyiCurrentCollection.getSeats()) * 10));
+                prevCandidateCount.put(Config.TINEDAYTHA_HLUTTAW, (int) (
+                    ((double) prevTineDaythaHlutaw / mTineDayThaGyiCurrentCollection.getSeats())
+                        * 10));
                 prevCandidateCount.put(Config.AMYOTHAR_REAL_COUNT, prevAmyotharCount);
                 prevCandidateCount.put(Config.AMYOTHAR_SEAT_COUNT,
                     mAmyothaCurrentCollection.getSeats());
@@ -288,6 +294,12 @@ public class PartyDetailActivity extends AppCompatActivity {
     if (UserPrefUtils.getInstance(this).getTextPref().equals(Config.ZAWGYI)) {
       mmtext.prepareActivity(this, mmtext.TEXT_UNICODE, true, true);
     }
+  }
+
+  private String millisToDate(long millis) {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy", Locale.getDefault());
+    return dateFormat.format(millis);
+    //You can use DateFormat.LONG instead of SHORT
   }
 
   void setTypeFace() {

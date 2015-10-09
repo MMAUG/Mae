@@ -86,7 +86,7 @@ public class CandidateCompareActivity extends BaseActivity {
     //GET candidate value
     setupHeader();
     setTypeFace();
-    if (candidate.getMpid() != null) {
+    if (candidateCompare.getMpid() != null && candidate.getMpid() != null) {
       Call<JsonElement> compareQuestionCall = RESTClient.getService(this)
           .getCompareQuestion(candidateCompare.getMpid(), candidate.getMpid());
       compareQuestionCall.enqueue(new Callback<JsonElement>() {
