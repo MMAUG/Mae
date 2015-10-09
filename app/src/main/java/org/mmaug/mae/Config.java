@@ -76,7 +76,7 @@ public class Config {
   //candidate endpoints
   public static final String CANDIDATE_URL = MPS_BASE_URL + CANDIDATE;
   public static final String CANDIDATE_LIST_URL = CANDIDATE_URL + "/" + LIST;
-  public static final String CANDIDTE_AUTO_SEARCH = "/autocomplete/candidate";
+  public static final String CANDIDTE_AUTO_SEARCH = BASE_URL + API_V1 + "autocomplete/candidate";
 
   //party endpoints
   public static final String PARTY_LIST_URL = MPS_BASE_URL + PARTY;

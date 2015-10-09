@@ -2,9 +2,11 @@ package org.mmaug.mae.rest;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import java.util.ArrayList;
 import java.util.Map;
 import org.mmaug.mae.Config;
 import org.mmaug.mae.models.CandidateListReturnObject;
+import org.mmaug.mae.models.CandidateSearchResult;
 import org.mmaug.mae.models.FAQDetailReturnObject;
 import org.mmaug.mae.models.FAQListReturnObject;
 import org.mmaug.mae.models.GeoReturnObject;
@@ -73,6 +75,9 @@ public interface RESTService {
 
   @GET(Config.COMPARE_QUESTION) Call<JsonElement> getCompareQuestion(
       @Query("first") String first_candidate_id, @Query("second") String second_candidate_id);
+
+  @GET(Config.CANDIDTE_AUTO_SEARCH) Call<ArrayList<CandidateSearchResult>> searchCandidate(
+      @Query("q") String keyWord, @QueryMap Map<String, Integer> options);
 
   @GET(Config.CANDIDATE_COUNT) Call<JsonObject> getCandidateCount(@Query("party") String party_id);
 

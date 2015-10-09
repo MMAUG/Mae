@@ -24,22 +24,22 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.adapter.CandidateAdapter;
+import org.mmaug.mae.adapter.CandidateSearchAdapter;
 import org.mmaug.mae.adapter.SectionHeaderAdapter;
 import org.mmaug.mae.adapter.TownshipAdapter;
 import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.models.Candidate;
 import org.mmaug.mae.models.CandidateListReturnObject;
+import org.mmaug.mae.models.CandidateSearchResult;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.utils.AnalyticsManager;
 import org.mmaug.mae.utils.ConnectionManager;
@@ -52,6 +52,7 @@ import org.mmaug.mae.utils.UserPrefUtils;
 import org.mmaug.mae.view.AutofitTextView;
 import org.mmaug.mae.view.SpacesItemDecoration;
 import retrofit.Call;
+import retrofit.Callback;
 import retrofit.Response;
 import tr.xip.errorview.ErrorView;
 
@@ -63,15 +64,18 @@ public class CandidateListActivity extends BaseActivity
   @Bind(R.id.progressBar) ProgressBar mProgressBar;
   @Bind(R.id.error_view) ErrorView mErrorView;
   @Bind(R.id.et_search_township) EditText searchTownship;
+  @Bind(R.id.et_candidate_search) EditText searchCandidateText;
   @Bind(R.id.rv_search_township) RecyclerView mTownshipList;
   @Bind(R.id.searchFragment) FrameLayout searchView;
   @Bind(R.id.candidate_township) AutofitTextView mTownShip;
   @Bind(R.id.error_text) TextView errotText;
   @Bind(R.id.search_fab) FloatingActionButton searchFab;
   @Bind(R.id.searchCandidate) FrameLayout searchCandidate;
+  @Bind(R.id.rv_search_candidate) RecyclerView searchCandidadateView;
 
   Candidate candidateFromDetail;
   private CandidateAdapter candidateAdapter;
+  private CandidateSearchAdapter candidateSearchAdapter;
   private SectionHeaderAdapter sectionAdapter;
   private Dialog candidateResultDialog;
   private ArrayList<DataUtils.Township> townships;
@@ -159,6 +163,7 @@ public class CandidateListActivity extends BaseActivity
 
   @OnClick(R.id.search_fab) void search() {
     MixUtils.toggleVisibilityWithAnim(searchCandidate, true);
+    initSearchCandidate();
   }
 
   @Override public void onItemClick(Candidate candidate) {
@@ -310,6 +315,26 @@ public class CandidateListActivity extends BaseActivity
     });
   }
 
+  private void initSearchCandidate() {
+    searchCandidateText.addTextChangedListener(new TextWatcher() {
+      @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+      }
+
+      @Override public void afterTextChanged(Editable s) {
+
+        if (s.length() == 0) {
+          infateCandidateSearchAdapter(s.toString());
+        } else {
+        }
+      }
+    });
+  }
+
   private void initRecyclerView() {
     townships = DataUtils.getInstance(this).loadTownship();
     found = townships;
@@ -344,6 +369,30 @@ public class CandidateListActivity extends BaseActivity
     userPrefUtils.saveTownShip(townshipString);
     this.myTownShip = found.get(i);
     fetchCandidate(found.get(i));
+  }
+
+  private void infateCandidateSearchAdapter(String searchName) {
+    Map<String, Integer> limitParams = new HashMap<>();
+    limitParams.put("limit", 10);
+    Call<ArrayList<CandidateSearchResult>> candidateAutoSearch =
+        RESTClient.getService(this).searchCandidate(searchName, limitParams);
+    candidateAutoSearch.enqueue(new Callback<ArrayList<CandidateSearchResult>>() {
+      @Override public void onResponse(Response<ArrayList<CandidateSearchResult>> response) {
+        searchCandidadateView.setLayoutManager(
+            new LinearLayoutManager(CandidateListActivity.this, LinearLayoutManager.VERTICAL,
+                false));
+        candidateSearchAdapter = new CandidateSearchAdapter();
+        candidateSearchAdapter.setCandidates(response.body());
+        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing_micro);
+        searchCandidadateView.setHasFixedSize(true);
+        searchCandidadateView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
+        searchCandidadateView.setAdapter(candidateSearchAdapter);
+      }
+
+      @Override public void onFailure(Throwable t) {
+        Log.e("Error", t.getMessage());
+      }
+    });
   }
 
   private void inflateCandiateAdapter(final Map<String, String> params) {
