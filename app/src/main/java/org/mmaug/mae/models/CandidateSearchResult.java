@@ -6,7 +6,7 @@ package org.mmaug.mae.models;
 public class CandidateSearchResult {
   private String id;
   private String name;
-  private String party;
+  private String party_name;
 
   public String getId() {
     return id;
@@ -25,10 +25,10 @@ public class CandidateSearchResult {
   }
 
   public String getParty() {
-    return party;
+    return party_name;
   }
 
   public void setParty(String party) {
-    this.party = party;
+    this.party_name = party;
   }
 }

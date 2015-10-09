@@ -47,13 +47,17 @@ public class CandidateSearchAdapter extends BaseAdapter<BaseAdapter.BaseViewHold
     isUni = UserPrefUtils.getInstance(mContext).getTextPref().equals(Config.UNICODE);
     mmTextUtils = MMTextUtils.getInstance(mContext);
 
-    View itemView = inflater.inflate(R.layout.item_township, parent, false);
+    View itemView = inflater.inflate(R.layout.item_search_candidate, parent, false);
     return new ViewHolder(itemView, this);
   }
 
   @Override public void onBindViewHolder(BaseViewHolder holder, int position) {
     ViewHolder myHolder = ((ViewHolder) holder);
     String candidateName = candidates.get(position).getName();
+    if (candidates.get(position).getParty() != null) {
+      String candidateParty = candidates.get(position).getParty();
+      myHolder.mTextParty.setText(candidateParty);
+    }
     myHolder.mText.setText(candidateName);
 
     if (isUni) {//if uni set typeface
@@ -68,7 +72,8 @@ public class CandidateSearchAdapter extends BaseAdapter<BaseAdapter.BaseViewHold
   }
 
   class ViewHolder extends BaseViewHolder {
-    @Bind(R.id.tv_township) TextView mText;
+    @Bind(R.id.tv_candidate_name) TextView mText;
+    @Bind(R.id.tv_candidate_party) TextView mTextParty;
 
     public ViewHolder(View itemView, CandidateSearchAdapter adapter) {
       super(itemView);

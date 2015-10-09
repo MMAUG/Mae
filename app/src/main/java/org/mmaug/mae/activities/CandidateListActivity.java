@@ -3,6 +3,7 @@ package org.mmaug.mae.activities;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,9 +11,13 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
@@ -64,7 +69,7 @@ public class CandidateListActivity extends BaseActivity
   @Bind(R.id.progressBar) ProgressBar mProgressBar;
   @Bind(R.id.error_view) ErrorView mErrorView;
   @Bind(R.id.et_search_township) EditText searchTownship;
-  @Bind(R.id.et_candidate_search) EditText searchCandidateText;
+  @Bind(R.id.et_candidate_search) AutoCompleteTextView searchCandidateText;
   @Bind(R.id.rv_search_township) RecyclerView mTownshipList;
   @Bind(R.id.searchFragment) FrameLayout searchView;
   @Bind(R.id.candidate_township) AutofitTextView mTownShip;
@@ -74,6 +79,7 @@ public class CandidateListActivity extends BaseActivity
   @Bind(R.id.rv_search_candidate) RecyclerView searchCandidadateView;
 
   Candidate candidateFromDetail;
+  Handler mHandler = new Handler();
   private CandidateAdapter candidateAdapter;
   private CandidateSearchAdapter candidateSearchAdapter;
   private SectionHeaderAdapter sectionAdapter;
@@ -83,6 +89,7 @@ public class CandidateListActivity extends BaseActivity
   private TownshipAdapter adapter;
   private DataUtils.Township myTownShip;
   private List<Candidate> candidates = new ArrayList<>();
+  private ArrayList<String> candidateName = new ArrayList<>();
 
   @Override protected int getLayoutResource() {
     return R.layout.activity_candidate;
@@ -325,11 +332,10 @@ public class CandidateListActivity extends BaseActivity
 
       }
 
-      @Override public void afterTextChanged(Editable s) {
-
+      @Override public void afterTextChanged(final Editable s) {
         if (s.length() == 0) {
-          infateCandidateSearchAdapter(s.toString());
         } else {
+          infateCandidateSearchAdapter(s.toString());
         }
       }
     });
@@ -373,7 +379,7 @@ public class CandidateListActivity extends BaseActivity
 
   private void infateCandidateSearchAdapter(String searchName) {
     Map<String, Integer> limitParams = new HashMap<>();
-    limitParams.put("limit", 10);
+    limitParams.put("limit", 20);
     Call<ArrayList<CandidateSearchResult>> candidateAutoSearch =
         RESTClient.getService(this).searchCandidate(searchName, limitParams);
     candidateAutoSearch.enqueue(new Callback<ArrayList<CandidateSearchResult>>() {
@@ -505,7 +511,9 @@ public class CandidateListActivity extends BaseActivity
   }
 
   @Override public void onBackPressed() {
-    if (searchView.getVisibility() == View.VISIBLE) {
+    if (searchCandidadateView.getVisibility() == View.VISIBLE) {
+      MixUtils.toggleVisibilityWithAnim(searchCandidate, false);
+    } else if (searchView.getVisibility() == View.VISIBLE) {
       MixUtils.toggleVisibilityWithAnim(searchView, false);
     } else {
       super.onBackPressed();

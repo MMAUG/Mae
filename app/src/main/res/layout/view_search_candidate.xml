@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="@dimen/spacing_nano"
         >
-      <EditText
+      <AutoCompleteTextView
           android:id="@+id/et_candidate_search"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
