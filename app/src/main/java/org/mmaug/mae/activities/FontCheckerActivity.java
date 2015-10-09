@@ -1,10 +1,13 @@
 package org.mmaug.mae.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -24,16 +27,14 @@ public class FontCheckerActivity extends BaseActivity
   @Bind(R.id.rg_font) RadioGroup rgFont;
   @Bind(R.id.rb_uni) RadioButton rbUni;
 
-  String font = Config.UNICODE;
+  String font = null;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     ButterKnife.bind(this);
-    if (UserPrefUtils.getInstance(this).isFristTime()) {
-      MMTextUtils.getInstance(this).prepareMultipleViews(tvDes, tvSaveFont);
-      rgFont.setOnCheckedChangeListener(this);
-      rbUni.setChecked(true);
-    }
+
+    MMTextUtils.getInstance(this).prepareMultipleViews(tvDes, tvSaveFont);
+    rgFont.setOnCheckedChangeListener(this);
   }
 
   @Override protected void onResume() {
@@ -55,9 +56,22 @@ public class FontCheckerActivity extends BaseActivity
   }
 
   @OnClick(R.id.cardview_save_font) void saveFont() {
-    UserPrefUtils.getInstance(this).saveTextPref(font);
-    startActivity(new Intent(this, MainActivity.class));
-    finish();
+    if (font != null) {
+      UserPrefUtils.getInstance(this).saveTextPref(font);
+      startActivity(new Intent(this, MainActivity.class));
+      finish();
+    } else {
+      Toast toast = new Toast(this);
+      TextView textView = new TextView(this);
+      textView.setText("ဖောင်အား ရွေးချယ်ပေးပါ။");
+      MMTextUtils.getInstance(this).prepareSingleView(textView);
+      textView.setPadding(16, 16, 16, 16);
+      textView.setTextColor(Color.WHITE);
+      textView.setBackgroundColor(getResources().getColor(R.color.accent_color));
+      toast.setView(textView);
+      toast.setGravity(Gravity.CENTER, 0, 10);
+      toast.show();
+    }
   }
 
   @Override protected int getLayoutResource() {
