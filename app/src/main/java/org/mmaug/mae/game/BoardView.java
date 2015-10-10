@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import org.mmaug.mae.R;
 import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MixUtils;
-import timber.log.Timber;
 
 /**
  * Created by poepoe on 24/9/15.
@@ -360,7 +359,6 @@ public class BoardView extends View {
     assert drawable != null;
     height = height - margin;
     Bitmap b = ((BitmapDrawable) drawable).getBitmap();
-    Timber.e("width - " + width + " height - " + height);
     return Bitmap.createScaledBitmap(b, width, height, false);
   }
 

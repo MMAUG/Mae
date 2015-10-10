@@ -115,21 +115,9 @@ public class PartyDetailActivity extends AppCompatActivity {
         getResources().getColor(android.R.color.transparent));
     setTypeFace();
     mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
-    Glide.with(this).load(party.getPartyFlag()).diskCacheStrategy(DiskCacheStrategy.ALL)
-        //.listener(GlidePalette.with(party.getPartyFlag())
-        //    .intoCallBack(new GlidePalette.CallBack() {
-        //      @Override public void onPaletteLoaded(Palette palette) {
-        //        //specific task
-        //        colorFilter = palette.getMutedColor(getResources().getColor(R.color.primary));
-        //        Log.d("Run","pallet Run");
-        //        if (currentPagerAdapter != null) {
-        //          currentPagerAdapter.setFilterColor(colorFilter);
-        //        }
-        //        if (prevPagerAdapter != null) {
-        //          prevPagerAdapter.setFilterColor(colorFilter);
-        //        }
-        //      }
-        //    }))
+    Glide.with(this)
+        .load(party.getPartyFlag())
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
         .into(party_image);
     if (party.getMemberCount() != null && party.getMemberCount().length() > 0) {
       mPartyCount.setText(MixUtils.convertToBurmese(String.valueOf(party.getMemberCount())));

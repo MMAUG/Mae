@@ -6,6 +6,7 @@
     android:orientation="vertical"
     tools:context="org.mmaug.mae.activities.CandidateListActivity"
     >
+
   <android.support.v7.widget.Toolbar
       android:layout_width="match_parent"
       android:layout_height="?attr/actionBarSize"
@@ -54,13 +55,33 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       >
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_candidate_list"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
+        android:layout_below="@+id/toolbar"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        />
+        >
+
+      <android.support.v7.widget.RecyclerView
+          android:id="@+id/rv_candidate_list"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:visibility="gone"
+          />
+
+      <android.support.design.widget.FloatingActionButton
+          android:id="@+id/search_fab"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_margin="16dp"
+          android:clickable="true"
+          android:src="@drawable/ic_search"
+          app:borderWidth="0dp"
+          app:elevation="@dimen/fab_elevation"
+          android:layout_gravity="end|bottom|right"
+          app:pressedTranslationZ="16dp"
+          app:rippleColor="@color/primary_dark"
+          />
+    </android.support.design.widget.CoordinatorLayout>
 
     <include layout="@layout/errorview"/>
 
@@ -94,6 +115,21 @@
           layout="@layout/view_search_township"/>
 
     </FrameLayout>
+    <FrameLayout
+        android:id="@+id/searchCandidate"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        >
+
+      <include
+          layout="@layout/view_search_candidate"/>
+
+    </FrameLayout>
+
   </FrameLayout>
 
 </LinearLayout>
