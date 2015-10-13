@@ -80,6 +80,7 @@ public class CandidateListActivity extends BaseActivity
 
   Candidate candidateFromDetail;
   Handler mHandler = new Handler();
+  ArrayList<CandidateSearchResult> candidateSearchResults = new ArrayList<>();
   private CandidateAdapter candidateAdapter;
   private CandidateSearchAdapter candidateSearchAdapter;
   private SectionHeaderAdapter sectionAdapter;
@@ -365,16 +366,25 @@ public class CandidateListActivity extends BaseActivity
   }
 
   @Override public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-    MixUtils.toggleVisibilityWithAnim(searchView, false);
-    mTownShip.setText(found.get(i).getTowhshipNameBurmese());
-    if (!isUnicode()) {
-      MMTextUtils.getInstance(this).prepareSingleView(mTownShip);
+
+    if (searchCandidate.getVisibility() == View.VISIBLE) {
+      MixUtils.toggleVisibilityWithAnim(searchCandidate, false);
+      Intent intenttoCandidateDetail =
+          new Intent(CandidateListActivity.this, CandidateDetailActivity.class);
+      intenttoCandidateDetail.putExtra("searchResult", candidateSearchResults.get(i));
+      startActivity(intenttoCandidateDetail);
+    } else {
+      MixUtils.toggleVisibilityWithAnim(searchView, false);
+      mTownShip.setText(found.get(i).getTowhshipNameBurmese());
+      if (!isUnicode()) {
+        MMTextUtils.getInstance(this).prepareSingleView(mTownShip);
+      }
+      String townshipString = new Gson().toJson(found.get(i));
+      UserPrefUtils userPrefUtils = new UserPrefUtils(CandidateListActivity.this);
+      userPrefUtils.saveTownShip(townshipString);
+      this.myTownShip = found.get(i);
+      fetchCandidate(found.get(i));
     }
-    String townshipString = new Gson().toJson(found.get(i));
-    UserPrefUtils userPrefUtils = new UserPrefUtils(CandidateListActivity.this);
-    userPrefUtils.saveTownShip(townshipString);
-    this.myTownShip = found.get(i);
-    fetchCandidate(found.get(i));
   }
 
   private void infateCandidateSearchAdapter(String searchName) {
@@ -388,7 +398,10 @@ public class CandidateListActivity extends BaseActivity
             new LinearLayoutManager(CandidateListActivity.this, LinearLayoutManager.VERTICAL,
                 false));
         candidateSearchAdapter = new CandidateSearchAdapter();
-        candidateSearchAdapter.setCandidates(response.body());
+        candidateSearchAdapter.setOnItemClickListener(CandidateListActivity.this);
+        candidateSearchResults.addAll(response.body());
+        candidateSearchAdapter.setCandidates(candidateSearchResults);
+
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing_micro);
         searchCandidadateView.setHasFixedSize(true);
         searchCandidadateView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
@@ -511,9 +524,9 @@ public class CandidateListActivity extends BaseActivity
   }
 
   @Override public void onBackPressed() {
-    if (searchCandidadateView.getVisibility() == View.VISIBLE) {
+    if (searchCandidadateView.getVisibility() == View.VISIBLE
+        && searchView.getVisibility() == View.VISIBLE) {
       MixUtils.toggleVisibilityWithAnim(searchCandidate, false);
-    } else if (searchView.getVisibility() == View.VISIBLE) {
       MixUtils.toggleVisibilityWithAnim(searchView, false);
     } else {
       super.onBackPressed();

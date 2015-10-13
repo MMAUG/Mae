@@ -1,9 +1,11 @@
 package org.mmaug.mae.models;
 
+import java.io.Serializable;
+
 /**
  * Created by indexer on 10/9/15.
  */
-public class CandidateSearchResult {
+public class CandidateSearchResult implements Serializable {
   private String id;
   private String name;
   private String party_name;
