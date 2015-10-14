@@ -28,8 +28,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import jp.wasabeef.glide.transformations.BlurTransformation;
@@ -39,6 +41,7 @@ import org.eazegraph.lib.models.PieModel;
 import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.models.Candidate;
+import org.mmaug.mae.models.CandidateSearchResult;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.rest.RESTService;
 import org.mmaug.mae.utils.FontCache;
@@ -91,6 +94,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.upper_house) TextView upperHouse;
   AppBarLayout.OnOffsetChangedListener mListener;
   Candidate candidate;
+  CandidateSearchResult candidateSearchResult;
   private String[] colorHexes = new String[] {
       "#F44336", "#E91E63", "#9C27B0", "#673AB7", "#2196F3", "#009688", "#4CAF50", "#FFC107",
       "#FF5722"
@@ -128,74 +132,91 @@ public class CandidateDetailActivity extends AppCompatActivity {
     appbar.addOnOffsetChangedListener(mListener);
 
     candidate = (Candidate) getIntent().getSerializableExtra(Config.CANDIDATE);
-    Glide.with(this).load(candidate.getParty().getPartyFlag()).
-        bitmapTransform(new BlurTransformation(getApplicationContext(), 8, 1)).into(partyImage);
+    candidateSearchResult =
+        (CandidateSearchResult) getIntent().getSerializableExtra("searchResult");
 
-    Glide.with(this)
-        .load(candidate.getPhotoUrl())
-        .diskCacheStrategy(DiskCacheStrategy.ALL)
-        .bitmapTransform(new CropCircleTransformation(this))
-        .placeholder(R.drawable.profile_placeholder)
-        .into(candidateImage);
-    candidateName.setText(candidate.getName());
+    if (candidate != null) {
+      Glide.with(this).load(candidate.getParty().getPartyFlag()).
+          bitmapTransform(new BlurTransformation(getApplicationContext(), 8, 1)).into(partyImage);
 
-    Glide.with(this)
-        .load(candidate.getParty().getPartyFlag())
-        .diskCacheStrategy(DiskCacheStrategy.ALL)
-        .into(mCandidatePartyFlag);
+      Glide.with(this)
+          .load(candidate.getPhotoUrl())
+          .diskCacheStrategy(DiskCacheStrategy.ALL)
+          .bitmapTransform(new CropCircleTransformation(this))
+          .placeholder(R.drawable.profile_placeholder)
+          .into(candidateImage);
+      candidateName.setText(candidate.getName());
 
-    if (candidate.getConstituency().getAMPCODE() == null) {
-      upperHouseView.setVisibility(View.GONE);
-    } else {
-      upperHouseView.setVisibility(View.VISIBLE);
-      upperHouse.setText(MixUtils.amConstituencyName(candidate.getConstituency().getName(),
-          candidate.getConstituency().getNumber()));
-    }
+      Glide.with(this)
+          .load(candidate.getParty().getPartyFlag())
+          .diskCacheStrategy(DiskCacheStrategy.ALL)
+          .into(mCandidatePartyFlag);
 
-    mCandidateConstituency.setText(candidate.getConstituency().getName());
-    mCandidateDateOfBirth.setText(
-        MixUtils.convertToBurmese(String.valueOf(candidate.getBirthDateString())));
-    mCandidateEducation.setText(candidate.getEducation());
-    mCandidateFather.setText(candidate.getFather().getName());
-    mCandidateMother.setText(candidate.getMother().getName());
-    mCandidateOccupation.setText(candidate.getOccupation());
-    mCandidateRace.setText(candidate.getEthnicity());
-    mCandidateReligion.setText(candidate.getReligion());
-    mCandidateLegalSlature.setText(candidate.getLegislature());
-    mCandidateParty.setText(candidate.getParty().getPartyName());
-    mCandidateAddress.setText(candidate.getWardVillage());
-    RESTService mRESTService = RESTClient.getService(this);
-    if (candidate.getMpid() == null) {
-      //mCompareCandidate.setCardBackgroundColor(getResources().getColor(R.color.accent_color_error));
-      //mCandidateCompareResult.setText(getResources().getString(R.string.first_time_candidate));
-      mQuestionHeaderTv.setVisibility(View.GONE);
-      mMotionHeaderTv.setVisibility(View.GONE);
-      mCandidateQuestionCard.setVisibility(View.GONE);
-      mCandidateMotionCard.setVisibility(View.GONE);
-    } else {
+      if (candidate.getConstituency().getAMPCODE() == null) {
+        upperHouseView.setVisibility(View.GONE);
+      } else {
+        upperHouseView.setVisibility(View.VISIBLE);
+        upperHouse.setText(MixUtils.amConstituencyName(candidate.getConstituency().getName(),
+            candidate.getConstituency().getNumber()));
+      }
 
-      Call<JsonObject> questionMotionCall = mRESTService.getQuestionAndMotion(candidate.getMpid());
-      questionMotionCall.enqueue(new RestCallback<JsonObject>() {
-        @Override public void onResponse(Response<JsonObject> response) {
-          if (response.code() == 200) {
-            int motionCount = response.body().get("motions_count").getAsInt();
-            JsonArray motions = response.body().get("motions").getAsJsonArray();
+      mCandidateConstituency.setText(candidate.getConstituency().getName());
+      mCandidateDateOfBirth.setText(
+          MixUtils.convertToBurmese(String.valueOf(candidate.getBirthDateString())));
+      mCandidateEducation.setText(candidate.getEducation());
+      mCandidateFather.setText(candidate.getFather().getName());
+      mCandidateMother.setText(candidate.getMother().getName());
+      mCandidateOccupation.setText(candidate.getOccupation());
+      mCandidateRace.setText(candidate.getEthnicity());
+      mCandidateReligion.setText(candidate.getReligion());
+      mCandidateLegalSlature.setText(candidate.getLegislature());
+      mCandidateParty.setText(candidate.getParty().getPartyName());
+      mCandidateAddress.setText(candidate.getWardVillage());
+      RESTService mRESTService = RESTClient.getService(this);
+      if (candidate.getMpid() == null) {
+        //mCompareCandidate.setCardBackgroundColor(getResources().getColor(R.color.accent_color_error));
+        //mCandidateCompareResult.setText(getResources().getString(R.string.first_time_candidate));
+        mQuestionHeaderTv.setVisibility(View.GONE);
+        mMotionHeaderTv.setVisibility(View.GONE);
+        mCandidateQuestionCard.setVisibility(View.GONE);
+        mCandidateMotionCard.setVisibility(View.GONE);
+      } else {
 
-            int questionCount = response.body().get("questions_count").getAsInt();
-            JsonArray questions = response.body().get("questions").getAsJsonArray();
+        Call<JsonObject> questionMotionCall =
+            mRESTService.getQuestionAndMotion(candidate.getMpid());
+        questionMotionCall.enqueue(new RestCallback<JsonObject>() {
+          @Override public void onResponse(Response<JsonObject> response) {
+            if (response.code() == 200) {
+              int motionCount = response.body().get("motions_count").getAsInt();
+              JsonArray motions = response.body().get("motions").getAsJsonArray();
 
-            makeMotionChart(motionCount, motions);
-            makeQuestionChart(questionCount, questions);
+              int questionCount = response.body().get("questions_count").getAsInt();
+              JsonArray questions = response.body().get("questions").getAsJsonArray();
+
+              makeMotionChart(motionCount, motions);
+              makeQuestionChart(questionCount, questions);
+            }
           }
+        });
+      }
+    } else {
+      RESTService mRESTService = RESTClient.getService(this);
+      Map<String, String> amyotharParams = new HashMap<>();
+      amyotharParams.put(Config.WITH, "party");
+      Call<JsonObject> candidateCall =
+          mRESTService.getCandidate(candidateSearchResult.getId(), amyotharParams);
+      candidateCall.enqueue(new RestCallback<JsonObject>() {
+        @Override public void onResponse(Response<JsonObject> response) {
+
         }
       });
     }
 
     mCompareCandidate.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-          Intent i = new Intent(CandidateDetailActivity.this, CandidateListActivity.class);
-          i.putExtra(Config.CANDIDATE, candidate);
-          startActivity(i);
+        Intent i = new Intent(CandidateDetailActivity.this, CandidateListActivity.class);
+        i.putExtra(Config.CANDIDATE, candidate);
+        startActivity(i);
       }
     });
 
@@ -216,7 +237,6 @@ public class CandidateDetailActivity extends AppCompatActivity {
     mMotionCount.setText(MixUtils.convertToBurmese(String.valueOf(motionCount)) + " ခု");
 
     PieChart mPieChart = (PieChart) findViewById(R.id.motion_piechart);
-
     makePieChart(datas, mPieChart, motionPieCont);
   }
 

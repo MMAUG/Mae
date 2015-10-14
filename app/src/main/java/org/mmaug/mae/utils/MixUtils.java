@@ -2,6 +2,7 @@ package org.mmaug.mae.utils;
 
 import android.animation.Animator;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.transition.Slide;
@@ -179,6 +180,17 @@ public class MixUtils {
   public static int dip2px(Context context, float dp) {
     float scale = context.getResources().getDisplayMetrics().density;
     return (int) (dp * scale + 0.5f);
+  }
+
+  /**
+   * Check whether or not permission is granted
+   *
+   * @return boolean
+   */
+  private static boolean wasPermissionGranted(Context context, String permission) {
+    PackageManager pm = context.getPackageManager();
+    int hasPerm = pm.checkPermission(permission, context.getPackageName());
+    return (hasPerm == PackageManager.PERMISSION_GRANTED);
   }
 
   public static class FadeAnimationListener implements Animator.AnimatorListener {
