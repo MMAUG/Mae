@@ -200,16 +200,17 @@ public class CandidateDetailActivity extends AppCompatActivity {
         });
       }
     } else {
-      RESTService mRESTService = RESTClient.getService(this);
+      //TODO fetch Candidate by ID
+     /* RESTService mRESTService = RESTClient.getService(this);
       Map<String, String> amyotharParams = new HashMap<>();
       amyotharParams.put(Config.WITH, "party");
       Call<JsonObject> candidateCall =
-          mRESTService.getCandidate(candidateSearchResult.getId(), amyotharParams);
+          mRESTService.getCandidate("7abd75a22042fe8e3faf931d710949fe", amyotharParams);
       candidateCall.enqueue(new RestCallback<JsonObject>() {
         @Override public void onResponse(Response<JsonObject> response) {
 
         }
-      });
+      });*/
     }
 
     mCompareCandidate.setOnClickListener(new View.OnClickListener() {
