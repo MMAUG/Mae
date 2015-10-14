@@ -209,13 +209,13 @@ public class SignUpFragment extends Fragment
       checkButton.setTypeface(typefacelight);
       myanmarTextPlease.setTypeface(typefacelight);
       skip_card_button.setTypeface(typefacelight);
+      mUserName.setHint(getString(R.string.name_uni));
+      mFatherName.setHint(getString(R.string.father_name_uni));
     } else {
 
       MMTextUtils.getInstance(getContext())
           .prepareMultipleViews(toCheckMae, checkButton, myanmarTextPlease, skip_card_button,
-              mDateOfBirth, mDOBLabel);
-
-      mTownship.setText(getString(R.string.township_zg));
+              mDateOfBirth, mDOBLabel, mTownship);
       mUserName.setHint(getString(R.string.name_zg));
       mFatherName.setHint(getString(R.string.father_name_zg));
     }

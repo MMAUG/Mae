@@ -111,7 +111,6 @@
               android:background="@null"
               android:gravity="center"
               android:singleLine="true"
-              android:hint="အမည်"
               android:padding="@dimen/spacing_major"
               />
 
@@ -128,7 +127,6 @@
               android:layout_height="wrap_content"
               android:background="@null"
               android:gravity="center"
-              android:hint="အဖအမည်"
               android:padding="@dimen/spacing_major"
               />
 
