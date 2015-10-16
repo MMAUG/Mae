@@ -33,4 +33,8 @@ public class CandidateSearchResult implements Serializable {
   public void setParty(String party) {
     this.party_name = party;
   }
+
+  public String toString() {
+    return this.id + " - " + this.name + " - " + this.party_name;
+  }
 }
