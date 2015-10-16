@@ -400,6 +400,7 @@ public class CandidateListActivity extends BaseActivity
         searchCandidadateView.setLayoutManager(
             new LinearLayoutManager(CandidateListActivity.this, LinearLayoutManager.VERTICAL,
                 false));
+        candidateSearchResults.clear();
         candidateSearchAdapter = new CandidateSearchAdapter();
         candidateSearchAdapter.setOnItemClickListener(CandidateListActivity.this);
         candidateSearchResults.addAll(response.body());
