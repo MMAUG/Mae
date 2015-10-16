@@ -38,7 +38,7 @@ public interface RESTService {
   @GET(Config.CANDIDATE_LIST_URL) Call<CandidateListReturnObject> getCandidateList(
       @QueryMap Map<String, String> optionalQueries);
 
-  @GET(Config.CANDIDATE_URL_BYID + "{/candidate_id}") Call<JsonObject> getCandidate(
+  @GET(Config.CANDIDATE_URL_BYID + "/{id}") Call<JsonObject> getCandidate(
       @Path("id") String id, @QueryMap Map<String, String> optionalQueries);
 
   //geo location
