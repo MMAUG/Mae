@@ -409,7 +409,7 @@ public class CandidateListActivity extends BaseActivity
       }
 
       @Override public void onFailure(Throwable t) {
-        Log.e("Error", t.getMessage());
+        Log.e("Error", "Candidate search fail by " + t.getMessage());
       }
     });
   }
