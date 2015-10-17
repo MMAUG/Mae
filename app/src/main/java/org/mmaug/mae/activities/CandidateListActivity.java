@@ -402,6 +402,7 @@ public class CandidateListActivity extends BaseActivity
         candidateSearchAdapter.setOnItemClickListener(CandidateListActivity.this);
         candidateSearchResults.addAll(response.body());
         candidateSearchAdapter.setCandidates(candidateSearchResults);
+        candidateSearchAdapter.notifyDataSetChanged();
 
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing_micro);
         searchCandidadateView.setHasFixedSize(true);
