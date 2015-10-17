@@ -38,16 +38,8 @@ public interface RESTService {
   @GET(Config.CANDIDATE_LIST_URL) Call<CandidateListReturnObject> getCandidateList(
       @QueryMap Map<String, String> optionalQueries);
 
-  @GET(Config.CANDIDATE_URL) Call<JsonObject> getCandidate(@Path("id") String id,
-      @QueryMap Map<String, String> optionalQueries);
-
-  //faq
-  //@GET(Config.FAQ_LIST_URL) Call<JsonObject> getFaqList(
-  //    @QueryMap Map<String, String> optionalQueries);
-  //
-  //@GET(Config.FAQ_URL) Call<JsonObject> getFaq(@QueryMap Map<String, String> optionalQueries);
-  //
-  //@GET(Config.FAQ_SEARCH) Call<JsonObject> serchFaq(@QueryMap Map<String, String> optionalQueries);
+  @GET(Config.CANDIDATE_URL_BYID + "{/candidate_id}") Call<JsonObject> getCandidate(
+      @Path("id") String id, @QueryMap Map<String, String> optionalQueries);
 
   //geo location
   @GET(Config.GEO_LOCATION_URL) Call<GeoReturnObject> getLocationList(

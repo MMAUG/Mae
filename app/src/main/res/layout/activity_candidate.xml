@@ -93,7 +93,6 @@
         />
 
     <TextView
-        android:gravity="center|center_horizontal|center_vertical"
         android:text="@string/no_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
