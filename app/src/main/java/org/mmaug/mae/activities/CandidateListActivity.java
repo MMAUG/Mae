@@ -325,15 +325,18 @@ public class CandidateListActivity extends BaseActivity
 
   private void initSearchCandidate() {
     searchCandidateText.addTextChangedListener(new TextWatcher() {
-      @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
       }
 
-      @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
 
       }
 
-      @Override public void afterTextChanged(final Editable s) {
+      @Override
+      public void afterTextChanged(final Editable s) {
         if (s.length() == 0) {
         } else {
           infateCandidateSearchAdapter(s.toString());
@@ -401,6 +404,10 @@ public class CandidateListActivity extends BaseActivity
         candidateSearchAdapter = new CandidateSearchAdapter();
         candidateSearchAdapter.setOnItemClickListener(CandidateListActivity.this);
         candidateSearchResults.addAll(response.body());
+        for(CandidateSearchResult o : candidateSearchResults) {
+          Log.d("Search Lists", o.toString());
+        }
+
         candidateSearchAdapter.setCandidates(candidateSearchResults);
         candidateSearchAdapter.notifyDataSetChanged();
 
