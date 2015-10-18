@@ -562,12 +562,22 @@ public class CandidateListActivity extends BaseActivity
     if (searchCandidadateView.getVisibility() == View.VISIBLE) {
       MixUtils.toggleVisibilityWithAnim(searchCandidate, false);
     } else {
-      super.onBackPressed();
+      if (searchView.getVisibility() == View.VISIBLE) {
+        MixUtils.toggleVisibilityWithAnim(searchView, false);
+      } else {
+        super.onBackPressed();
+      }
     }
     if (searchView.getVisibility() == View.VISIBLE) {
       MixUtils.toggleVisibilityWithAnim(searchView, false);
     } else {
-      super.onBackPressed();
+      if (searchCandidadateView.getVisibility() == View.VISIBLE) {
+        MixUtils.toggleVisibilityWithAnim(searchCandidate, false);
+      } else {
+        if (searchView.getVisibility() == View.VISIBLE) {
+          MixUtils.toggleVisibilityWithAnim(searchView, false);
+        }
+      }
     }
   }
 }
