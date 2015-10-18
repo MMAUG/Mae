@@ -25,7 +25,7 @@ public class AboutActivity extends BaseActivity {
   @Bind(R.id.tv_version) TextView version;
   @Bind(R.id.tv_app_des) TextView appDes;
   @Bind(R.id.ssygm) TextView ssgym;
-  @Bind(R.id.tv_terms) TextView term;
+  @Bind(R.id.terms) TextView term;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
