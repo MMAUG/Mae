@@ -89,6 +89,11 @@ public class SearchListCandidateActivity extends BaseActivity
         candidateSearchResults.clear();
         candidateSearchAdapter = new CandidateSearchAdapter();
         candidateSearchAdapter.setOnItemClickListener(SearchListCandidateActivity.this);
+        if (candidateSearchResults.size() == 0) {
+          MixUtils.toggleVisibilityWithAnim(mErrorView, true);
+        } else {
+          MixUtils.toggleVisibilityWithAnim(mErrorView, false);
+        }
         candidateSearchResults.addAll(response.body());
         for (CandidateSearchResult o : candidateSearchResults) {
           Log.d("Search Lists", o.toString());
