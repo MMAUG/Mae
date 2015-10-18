@@ -1,9 +1,12 @@
 package org.mmaug.mae.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -11,6 +14,7 @@ import butterknife.OnClick;
 import org.mmaug.mae.BuildConfig;
 import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseActivity;
+import org.mmaug.mae.utils.MMTextUtils;
 import org.mmaug.mae.utils.mmtext;
 
 /**
@@ -43,6 +47,31 @@ public class AboutActivity extends BaseActivity {
       startActivity(new Intent(Intent.ACTION_VIEW,
           Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
     }
+  }
+
+  @OnClick(R.id.terms) void showPolicy() {
+    AlertDialog.Builder db =
+        new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
+
+    View view = getLayoutInflater().inflate(R.layout.dialog_terms, null);
+    TextView title = (TextView) view.findViewById(R.id.tv_policy_title);
+    TextView body = (TextView) view.findViewById(R.id.tv_terms);
+
+    if (isUnicode()) {
+      title.setTypeface(getTypefaceTitle());
+      body.setTypeface(getTypefaceLight());
+    } else {
+      MMTextUtils.getInstance(this).prepareMultipleViews(title, body);
+    }
+    db.setView(view);
+    AlertDialog dialog = db.create();
+    db.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+      @Override public void onClick(DialogInterface dialog, int which) {
+        dialog.dismiss();
+      }
+    });
+
+    dialog.show();
   }
 
   @Override protected int getLayoutResource() {

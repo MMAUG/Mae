@@ -82,6 +82,16 @@
         style="?android:attr/borderlessButtonStyle"
         />
 
+    <TextView
+        android:id="@+id/terms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="@string/policy"
+        style="?android:attr/borderlessButtonStyle"
+        />
+
   </LinearLayout>
 
 </ScrollView>
