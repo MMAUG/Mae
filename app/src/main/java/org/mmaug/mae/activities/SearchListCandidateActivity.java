@@ -86,11 +86,6 @@ public class SearchListCandidateActivity extends BaseActivity
     candidateAutoSearch.enqueue(new RestCallback<ArrayList<CandidateSearchResult>>() {
       @Override public void onResponse(Response<ArrayList<CandidateSearchResult>> response) {
         candidateSearchResults.clear();
-        if (candidateSearchResults.size() == 0) {
-          MixUtils.toggleVisibilityWithAnim(mErrorView, true);
-        } else {
-          MixUtils.toggleVisibilityWithAnim(mErrorView, false);
-        }
         candidateSearchResults.addAll(response.body());
         candidateSearchAdapter.setCandidates(candidateSearchResults);
         candidateSearchAdapter.notifyDataSetChanged();
@@ -101,6 +96,11 @@ public class SearchListCandidateActivity extends BaseActivity
         mCandidateListRecyclerView.setAdapter(candidateSearchAdapter);
         MixUtils.toggleVisibilityWithAnim(mCandidateListRecyclerView, true);
         mProgressBar.setVisibility(View.GONE);
+        if (candidateSearchResults.size() == 0) {
+          MixUtils.toggleVisibilityWithAnim(mErrorView, true);
+        } else {
+          MixUtils.toggleVisibilityWithAnim(mErrorView, false);
+        }
       }
     });
   }
