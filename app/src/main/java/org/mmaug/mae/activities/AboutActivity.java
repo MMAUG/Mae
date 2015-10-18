@@ -25,6 +25,7 @@ public class AboutActivity extends BaseActivity {
   @Bind(R.id.tv_version) TextView version;
   @Bind(R.id.tv_app_des) TextView appDes;
   @Bind(R.id.ssygm) TextView ssgym;
+  @Bind(R.id.tv_terms) TextView term;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -35,6 +36,7 @@ public class AboutActivity extends BaseActivity {
     } else {
       appDes.setTypeface(getTypefaceTitle());
       ssgym.setTypeface(getTypefaceLight());
+      term.setTypeface(getTypefaceTitle());
     }
   }
 
