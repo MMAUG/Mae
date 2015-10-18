@@ -134,10 +134,20 @@ public class CandidateListActivity extends BaseActivity
     errotText.setTypeface(getTypefaceTitle());
     mTownShip.setSizeToFit(true);
     if (ConnectionManager.isConnected(this)) {
-      fetchCandidate(myTownShip);
-      initEditText();
-      initRecyclerView();
-      mErrorView.setOnRetryListener(this);
+      String contactString = FileUtils.loadData(CandidateListActivity.this, "candidates");
+      if (contactString != null) {
+        loadFromDisk();
+        initEditText();
+        mProgressBar.setVisibility(View.GONE);
+        initRecyclerView();
+        mErrorView.setOnRetryListener(this);
+      } else {
+        mProgressBar.setVisibility(View.VISIBLE);
+        fetchCandidate(myTownShip);
+        initEditText();
+        initRecyclerView();
+        mErrorView.setOnRetryListener(this);
+      }
     } else {
       mProgressBar.setVisibility(View.GONE);
       loadFromDisk();
@@ -172,6 +182,7 @@ public class CandidateListActivity extends BaseActivity
   @OnClick(R.id.search_fab) void search() {
     MixUtils.toggleVisibilityWithAnim(searchCandidate, true);
     initSearchCandidate();
+    keyEnterSearch();
   }
 
   @Override public void onItemClick(Candidate candidate) {
@@ -323,20 +334,31 @@ public class CandidateListActivity extends BaseActivity
     });
   }
 
+  private void keyEnterSearch() {
+    searchCandidateText.setOnKeyListener(new View.OnKeyListener() {
+      public boolean onKey(View v, int keyCode, KeyEvent event) {
+        // If the event is a key-down event on the "enter" button
+        if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+          // Perform action on key press
+          infateCandidateSearchAdapter(searchCandidateText.getText().toString());
+          return true;
+        }
+        return false;
+      }
+    });
+  }
+
   private void initSearchCandidate() {
     searchCandidateText.addTextChangedListener(new TextWatcher() {
-      @Override
-      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+      @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
       }
 
-      @Override
-      public void onTextChanged(CharSequence s, int start, int before, int count) {
+      @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
 
       }
 
-      @Override
-      public void afterTextChanged(final Editable s) {
+      @Override public void afterTextChanged(final Editable s) {
         if (s.length() == 0) {
         } else {
           infateCandidateSearchAdapter(s.toString());
@@ -404,7 +426,7 @@ public class CandidateListActivity extends BaseActivity
         candidateSearchAdapter = new CandidateSearchAdapter();
         candidateSearchAdapter.setOnItemClickListener(CandidateListActivity.this);
         candidateSearchResults.addAll(response.body());
-        for(CandidateSearchResult o : candidateSearchResults) {
+        for (CandidateSearchResult o : candidateSearchResults) {
           Log.d("Search Lists", o.toString());
         }
 
@@ -533,9 +555,12 @@ public class CandidateListActivity extends BaseActivity
   }
 
   @Override public void onBackPressed() {
-    if (searchCandidadateView.getVisibility() == View.VISIBLE
-        && searchView.getVisibility() == View.VISIBLE) {
+    if (searchCandidadateView.getVisibility() == View.VISIBLE) {
       MixUtils.toggleVisibilityWithAnim(searchCandidate, false);
+    } else {
+      super.onBackPressed();
+    }
+    if (searchView.getVisibility() == View.VISIBLE) {
       MixUtils.toggleVisibilityWithAnim(searchView, false);
     } else {
       super.onBackPressed();

@@ -257,7 +257,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
   }
 
   protected void makePieChart(JsonArray datas, PieChart mPieChart, LinearLayout mPieCount) {
-    List<String> titles = new ArrayList<String>();
+    List<String> titles = new ArrayList<>();
     for (JsonElement element : datas) {
       String title = element.getAsJsonObject().get("issue").getAsString();
       titles.add(title);

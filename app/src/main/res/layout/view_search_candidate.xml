@@ -20,11 +20,12 @@
         app:cardCornerRadius="@dimen/spacing_nano"
         >
       <AutoCompleteTextView
+          android:singleLine="true"
           android:id="@+id/et_candidate_search"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:hint="Enter Candidate Name"
-          android:drawableLeft="@drawable/ic_search"
+          android:drawableLeft="@drawable/ic_search_candidate"
           android:background="@null"
           android:padding="@dimen/spacing_minor"
           android:height="?android:attr/actionBarSize"
