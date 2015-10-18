@@ -340,9 +340,13 @@ public class CandidateListActivity extends BaseActivity
         // If the event is a key-down event on the "enter" button
         if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
           // Perform action on key press
-          String unicode = MMTextUtils.getInstance(CandidateListActivity.this)
+          Intent intentToSearchList =
+              new Intent(CandidateListActivity.this, SearchListCandidateActivity.class);
+          intentToSearchList.putExtra("searchWord", searchCandidateText.getText().toString());
+          startActivity(intentToSearchList);
+          /*String unicode = MMTextUtils.getInstance(CandidateListActivity.this)
               .zgToUni(searchCandidateText.getText().toString());
-          infateCandidateSearchAdapter(unicode);
+          infateCandidateSearchAdapter(unicode);*/
           return true;
         }
         return false;
