@@ -9,6 +9,7 @@ public class CandidateSearchResult implements Serializable {
   private String id;
   private String name;
   private String party_name;
+  private String photo_url;
 
   public String getId() {
     return id;
@@ -36,5 +37,13 @@ public class CandidateSearchResult implements Serializable {
 
   public String toString() {
     return this.id + " - " + this.name + " - " + this.party_name;
+  }
+
+  public String getPhoto_url() {
+    return photo_url;
+  }
+
+  public void setPhoto_url(String photo_url) {
+    this.photo_url = photo_url;
   }
 }

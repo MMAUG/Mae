@@ -5,10 +5,14 @@ import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.ArrayList;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseAdapter;
@@ -59,6 +63,12 @@ public class CandidateSearchAdapter extends BaseAdapter<BaseAdapter.BaseViewHold
       myHolder.mTextParty.setText(candidateParty);
     }
     myHolder.mText.setText(candidateName);
+    Glide.with(mContext)
+        .load(candidates.get(position).getPhoto_url())
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
+        .bitmapTransform(new CropCircleTransformation(mContext))
+        .placeholder(R.drawable.profile_placeholder)
+        .into(myHolder.mCandidateImage);
 
     if (isUni) {//if uni set typeface
       myHolder.mText.setTypeface(typeface);
@@ -74,6 +84,7 @@ public class CandidateSearchAdapter extends BaseAdapter<BaseAdapter.BaseViewHold
   class ViewHolder extends BaseViewHolder {
     @Bind(R.id.tv_candidate_name) TextView mText;
     @Bind(R.id.tv_candidate_party) TextView mTextParty;
+    @Bind(R.id.candidateImage) ImageView mCandidateImage;
 
     public ViewHolder(View itemView, CandidateSearchAdapter adapter) {
       super(itemView);

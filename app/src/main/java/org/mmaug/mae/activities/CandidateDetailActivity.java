@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -208,7 +210,77 @@ public class CandidateDetailActivity extends AppCompatActivity {
           mRESTService.getCandidate(candidateSearchResult.getId(), amyotharParams);
       candidateCall.enqueue(new RestCallback<JsonObject>() {
         @Override public void onResponse(Response<JsonObject> response) {
+          Gson gson = new Gson();
+          Candidate candidate =
+              gson.fromJson(response.body().getAsJsonObject("data").toString(), Candidate.class);
+          if (candidate != null) {
+            Glide.with(CandidateDetailActivity.this)
+                .load(candidate.getParty().getPartyFlag())
+                .
+                    bitmapTransform(new BlurTransformation(getApplicationContext(), 8, 1))
+                .into(partyImage);
 
+            Glide.with(CandidateDetailActivity.this)
+                .load(candidate.getPhotoUrl())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .bitmapTransform(new CropCircleTransformation(CandidateDetailActivity.this))
+                .placeholder(R.drawable.profile_placeholder)
+                .into(candidateImage);
+            candidateName.setText(candidate.getName());
+
+            Glide.with(CandidateDetailActivity.this)
+                .load(candidate.getParty().getPartyFlag())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(mCandidatePartyFlag);
+
+            if (candidate.getConstituency().getAMPCODE() == null) {
+              upperHouseView.setVisibility(View.GONE);
+            } else {
+              upperHouseView.setVisibility(View.VISIBLE);
+              upperHouse.setText(MixUtils.amConstituencyName(candidate.getConstituency().getName(),
+                  candidate.getConstituency().getNumber()));
+            }
+
+            mCandidateConstituency.setText(candidate.getConstituency().getName());
+            mCandidateDateOfBirth.setText(
+                MixUtils.convertToBurmese(String.valueOf(candidate.getBirthDateString())));
+            mCandidateEducation.setText(candidate.getEducation());
+            mCandidateFather.setText(candidate.getFather().getName());
+            mCandidateMother.setText(candidate.getMother().getName());
+            mCandidateOccupation.setText(candidate.getOccupation());
+            mCandidateRace.setText(candidate.getEthnicity());
+            mCandidateReligion.setText(candidate.getReligion());
+            mCandidateLegalSlature.setText(candidate.getLegislature());
+            mCandidateParty.setText(candidate.getParty().getPartyName());
+            mCandidateAddress.setText(candidate.getWardVillage());
+            RESTService mRESTService = RESTClient.getService(CandidateDetailActivity.this);
+            if (candidate.getMpid() == null) {
+              //mCompareCandidate.setCardBackgroundColor(getResources().getColor(R.color.accent_color_error));
+              //mCandidateCompareResult.setText(getResources().getString(R.string.first_time_candidate));
+              mQuestionHeaderTv.setVisibility(View.GONE);
+              mMotionHeaderTv.setVisibility(View.GONE);
+              mCandidateQuestionCard.setVisibility(View.GONE);
+              mCandidateMotionCard.setVisibility(View.GONE);
+            } else {
+
+              Call<JsonObject> questionMotionCall =
+                  mRESTService.getQuestionAndMotion(candidate.getMpid());
+              questionMotionCall.enqueue(new RestCallback<JsonObject>() {
+                @Override public void onResponse(Response<JsonObject> response) {
+                  if (response.code() == 200) {
+                    int motionCount = response.body().get("motions_count").getAsInt();
+                    JsonArray motions = response.body().get("motions").getAsJsonArray();
+
+                    int questionCount = response.body().get("questions_count").getAsInt();
+                    JsonArray questions = response.body().get("questions").getAsJsonArray();
+
+                    makeMotionChart(motionCount, motions);
+                    makeQuestionChart(questionCount, questions);
+                  }
+                }
+              });
+            }
+          }
         }
       });
     }
