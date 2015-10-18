@@ -1,9 +1,7 @@
 package org.mmaug.mae.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.util.SortedList;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -50,6 +48,11 @@ public class SearchListCandidateActivity extends BaseActivity
     infateCandidateSearchAdapter(unicode.toString());
     MixUtils.toggleVisibilityWithAnim(mCandidateListRecyclerView, false);
     MixUtils.toggleVisibilityWithAnim(mErrorView, false);
+    mCandidateListRecyclerView.setLayoutManager(
+        new LinearLayoutManager(SearchListCandidateActivity.this, LinearLayoutManager.VERTICAL,
+            false));
+    candidateSearchAdapter = new CandidateSearchAdapter();
+    candidateSearchAdapter.setOnItemClickListener(SearchListCandidateActivity.this);
   }
 
   @Override protected int getLayoutResource() {
@@ -83,12 +86,7 @@ public class SearchListCandidateActivity extends BaseActivity
         RESTClient.getService(this).searchCandidate(searchName, limitParams);
     candidateAutoSearch.enqueue(new Callback<ArrayList<CandidateSearchResult>>() {
       @Override public void onResponse(Response<ArrayList<CandidateSearchResult>> response) {
-        mCandidateListRecyclerView.setLayoutManager(
-            new LinearLayoutManager(SearchListCandidateActivity.this, LinearLayoutManager.VERTICAL,
-                false));
         candidateSearchResults.clear();
-        candidateSearchAdapter = new CandidateSearchAdapter();
-        candidateSearchAdapter.setOnItemClickListener(SearchListCandidateActivity.this);
         if (candidateSearchResults.size() == 0) {
           MixUtils.toggleVisibilityWithAnim(mErrorView, true);
         } else {

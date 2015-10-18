@@ -16,9 +16,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseAdapter;
-import org.mmaug.mae.models.Candidate;
 import org.mmaug.mae.models.CandidateSearchResult;
-import org.mmaug.mae.utils.DataUtils;
 import org.mmaug.mae.utils.FontCache;
 import org.mmaug.mae.utils.MMTextUtils;
 import org.mmaug.mae.utils.UserPrefUtils;
@@ -34,6 +32,7 @@ public class CandidateSearchAdapter extends BaseAdapter<BaseAdapter.BaseViewHold
   private MMTextUtils mmTextUtils;
 
   public CandidateSearchAdapter() {
+    candidates = new ArrayList<>();
   }
 
   public void setCandidates(ArrayList<CandidateSearchResult> candidates) {

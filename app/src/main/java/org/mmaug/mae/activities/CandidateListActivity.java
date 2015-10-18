@@ -14,9 +14,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -112,6 +110,16 @@ public class CandidateListActivity extends BaseActivity
     super.onCreate(savedInstanceState);
     ButterKnife.bind(this);
     initCandidateRecyclerView();
+
+    //search adapter init
+    searchCandidadateView.setLayoutManager(
+        new LinearLayoutManager(CandidateListActivity.this, LinearLayoutManager.VERTICAL, false));
+    candidateSearchAdapter = new CandidateSearchAdapter();
+    candidateSearchAdapter.setOnItemClickListener(CandidateListActivity.this);
+    int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing_micro);
+    searchCandidadateView.setHasFixedSize(true);
+    searchCandidadateView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
+    searchCandidadateView.setAdapter(candidateSearchAdapter);
 
     candidateFromDetail = (Candidate) getIntent().getSerializableExtra(Config.CANDIDATE);
     if (candidateFromDetail != null) {
@@ -427,12 +435,7 @@ public class CandidateListActivity extends BaseActivity
         RESTClient.getService(this).searchCandidate(searchName, limitParams);
     candidateAutoSearch.enqueue(new Callback<ArrayList<CandidateSearchResult>>() {
       @Override public void onResponse(Response<ArrayList<CandidateSearchResult>> response) {
-        searchCandidadateView.setLayoutManager(
-            new LinearLayoutManager(CandidateListActivity.this, LinearLayoutManager.VERTICAL,
-                false));
         candidateSearchResults.clear();
-        candidateSearchAdapter = new CandidateSearchAdapter();
-        candidateSearchAdapter.setOnItemClickListener(CandidateListActivity.this);
         candidateSearchResults.addAll(response.body());
         for (CandidateSearchResult o : candidateSearchResults) {
           Log.d("Search Lists", o.toString());
@@ -440,11 +443,6 @@ public class CandidateListActivity extends BaseActivity
 
         candidateSearchAdapter.setCandidates(candidateSearchResults);
         candidateSearchAdapter.notifyDataSetChanged();
-
-        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing_micro);
-        searchCandidadateView.setHasFixedSize(true);
-        searchCandidadateView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
-        searchCandidadateView.setAdapter(candidateSearchAdapter);
       }
 
       @Override public void onFailure(Throwable t) {
