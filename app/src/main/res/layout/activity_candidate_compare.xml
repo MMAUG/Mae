@@ -10,18 +10,12 @@
     >
   <include layout="@layout/toolbar"/>
   <ScrollView
-      xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:tools="http://schemas.android.com/tools"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
       android:layout_below="@+id/toolbar"
       tools:context="org.mmaug.mae.activities.CandidateCompareActivity"
       android:layout_height="match_parent"
       android:layout_width="match_parent"
       >
     <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context="org.mmaug.mae.activities.CandidateCompareActivity"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
@@ -138,15 +132,7 @@
                   android:layout_width="80dp"
                   android:layout_height="80dp"
                   />
-              <org.mmaug.mae.view.AutofitTextView
-                  android:visibility="gone"
-                  android:gravity="center"
-                  android:text="@string/single_candidate"
-                  android:id="@+id/no_flag_candidateOne"
-                  android:layout_alignParentLeft="true"
-                  android:layout_width="wrap_content"
-                  android:layout_height="40dp"
-                  />
+
 
               <org.mmaug.mae.view.AspectRatioImageView
                   android:visibility="gone"
@@ -155,22 +141,41 @@
                   android:layout_width="80dp"
                   android:layout_height="80dp"
                   />
-              <org.mmaug.mae.view.AutofitTextView
-                  android:visibility="gone"
-                  android:gravity="center"
-                  android:text="@string/single_candidate"
-                  android:id="@+id/no_flag_candidateTwo"
-                  android:layout_width="wrap_content"
-                  android:layout_alignParentRight="true"
-                  android:layout_height="40dp"
-                  />
             </RelativeLayout>
 
+            <LinearLayout
+                android:id="@+id/party_names"
+                android:weightSum="2"
+                android:padding="@dimen/spacing_major"
+                android:layout_below="@id/party_flag_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+              <org.mmaug.mae.view.AutofitTextView
+                  android:text="@string/single_candidate"
+                  android:id="@+id/no_flag_candidateOne"
+                  android:gravity="left"
+                  android:layout_width="0dp"
+                  android:layout_weight="1"
+                  android:layout_height="wrap_content"
+                  android:paddingRight="@dimen/spacing_nano"
+                  />
+              <org.mmaug.mae.view.AutofitTextView
+                  android:layout_below="@id/party_flag_two"
+                  android:gravity="right"
+                  android:text="@string/single_candidate"
+                  android:id="@+id/no_flag_candidateTwo"
+                  android:layout_width="0dp"
+                  android:layout_weight="1"
+                  android:layout_height="wrap_content"
+                  android:paddingLeft="@dimen/spacing_nano"
+                  />
+            </LinearLayout>
             <View
                 android:layout_marginTop="@dimen/spacing_major"
                 android:layout_marginBottom="@dimen/spacing_major"
                 android:id="@+id/party_edu_divider"
-                android:layout_below="@+id/party_flag_header"
+                android:layout_below="@+id/party_names"
                 android:background="@android:color/darker_gray"
                 android:layout_width="fill_parent"
                 android:layout_height="2dp"
@@ -249,7 +254,6 @@
                   android:layout_height="wrap_content"
                   />
             </LinearLayout>
-
 
           </RelativeLayout>
           <TextView
@@ -355,8 +359,7 @@
             android:orientation="vertical"
             android:id="@+id/motion_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            ></LinearLayout>
+            android:layout_height="match_parent"/>
       </android.support.v7.widget.CardView>
     </RelativeLayout>
   </ScrollView>

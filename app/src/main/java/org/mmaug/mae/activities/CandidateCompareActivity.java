@@ -9,15 +9,12 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -85,7 +82,6 @@ public class CandidateCompareActivity extends BaseActivity {
 
     //GET candidate value
     setupHeader();
-    setTypeFace();
     if (candidateCompare.getMpid() != null && candidate.getMpid() != null) {
       Call<JsonElement> compareQuestionCall = RESTClient.getService(this)
           .getCompareQuestion(candidateCompare.getMpid(), candidate.getMpid());
@@ -202,6 +198,8 @@ public class CandidateCompareActivity extends BaseActivity {
       findViewById(R.id.question_view).setVisibility(View.GONE);
       findViewById(R.id.motion_view_card).setVisibility(View.GONE);
     }
+
+    setTypeFace();
   }
 
   void setTypeFace() {
@@ -281,6 +279,7 @@ public class CandidateCompareActivity extends BaseActivity {
 
     if (candidateCompare.getParty().getPartyFlag() != null) {
       party_flag_one.setVisibility(View.VISIBLE);
+      no_flag_candidateOne.setText(candidateCompare.getParty().getPartyName());
       Glide.with(this)
           .load(candidateCompare.getParty().getPartyFlag())
           .listener(GlidePalette.with(candidateCompare.getParty().getPartyFlag())
@@ -294,10 +293,12 @@ public class CandidateCompareActivity extends BaseActivity {
               }))
           .into(party_flag_one);
     } else {
-      no_flag_candidateOne.setVisibility(View.VISIBLE);
+      no_flag_candidateOne.setText(R.string.single_candidate);
     }
     if (candidate.getParty().getPartyFlag() != null) {
       party_flag_two.setVisibility(View.VISIBLE);
+      no_flag_candidateTwo.setText(candidate.getParty().getPartyName());
+
       Glide.with(this)
           .load(candidate.getParty().getPartyFlag())
           .listener(GlidePalette.with(candidate.getParty().getPartyFlag())
@@ -313,7 +314,7 @@ public class CandidateCompareActivity extends BaseActivity {
               }))
           .into(party_flag_two);
     } else {
-      no_flag_candidateTwo.setVisibility(View.VISIBLE);
+      no_flag_candidateTwo.setText(R.string.single_candidate);
     }
 
     Glide.with(this)
