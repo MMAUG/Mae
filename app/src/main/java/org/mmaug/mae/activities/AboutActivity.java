@@ -1,6 +1,5 @@
 package org.mmaug.mae.activities;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,7 +39,7 @@ public class AboutActivity extends BaseActivity {
     try {
       startActivity(
           new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-    } catch (ActivityNotFoundException anfe) {
+    } catch (Exception anfe) {
       startActivity(new Intent(Intent.ACTION_VIEW,
           Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
     }
