@@ -50,8 +50,7 @@ public class AboutActivity extends BaseActivity {
   }
 
   @OnClick(R.id.terms) void showPolicy() {
-    AlertDialog.Builder db =
-        new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
+    AlertDialog.Builder db = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
 
     View view = getLayoutInflater().inflate(R.layout.dialog_terms, null);
     TextView title = (TextView) view.findViewById(R.id.tv_policy_title);
@@ -64,13 +63,12 @@ public class AboutActivity extends BaseActivity {
       MMTextUtils.getInstance(this).prepareMultipleViews(title, body);
     }
     db.setView(view);
-    AlertDialog dialog = db.create();
     db.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
       @Override public void onClick(DialogInterface dialog, int which) {
         dialog.dismiss();
       }
     });
-
+    AlertDialog dialog = db.create();
     dialog.show();
   }
 
