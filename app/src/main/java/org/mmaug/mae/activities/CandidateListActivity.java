@@ -551,15 +551,15 @@ public class CandidateListActivity extends BaseActivity
   }
 
   @Override public void onBackPressed() {
-    if (searchCandidadateView.getVisibility() != View.VISIBLE
-        && searchView.getVisibility() != View.VISIBLE) {
+    if (searchView.getVisibility() == View.GONE && searchCandidate.getVisibility() == View.GONE) {
       super.onBackPressed();
     } else {
-      if (searchCandidadateView.getVisibility() == View.VISIBLE) {
-        MixUtils.toggleVisibilityWithAnim(searchCandidate, false);
-      }
       if (searchView.getVisibility() == View.VISIBLE) {
         MixUtils.toggleVisibilityWithAnim(searchView, false);
+      }
+
+      if (searchCandidate.getVisibility() == View.VISIBLE) {
+        MixUtils.toggleVisibilityWithAnim(searchCandidate, false);
       }
     }
   }
