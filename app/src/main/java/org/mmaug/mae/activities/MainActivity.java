@@ -13,8 +13,8 @@ import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.fragments.SignUpFragment;
 import org.mmaug.mae.rest.RESTClient;
+import org.mmaug.mae.utils.RestCallback;
 import retrofit.Call;
-import retrofit.Callback;
 import retrofit.Response;
 
 public class MainActivity extends BaseActivity {
@@ -58,7 +58,7 @@ public class MainActivity extends BaseActivity {
   private void checkUpdate() {
 
     final Call<JsonObject> checkUpdate = RESTClient.getService(this).checkUpdate();
-    checkUpdate.enqueue(new Callback<JsonObject>() {
+    checkUpdate.enqueue(new RestCallback<JsonObject>() {
       @Override public void onResponse(Response<JsonObject> response) {
         if (response.code() == 200) {
           final JsonObject object = response.body();
@@ -83,10 +83,6 @@ public class MainActivity extends BaseActivity {
                 .show();
           }
         }
-      }
-
-      @Override public void onFailure(Throwable t) {
-
       }
     });
   }

@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,7 +54,6 @@ import org.mmaug.mae.utils.UserPrefUtils;
 import org.mmaug.mae.view.AutofitTextView;
 import org.mmaug.mae.view.SpacesItemDecoration;
 import retrofit.Call;
-import retrofit.Callback;
 import retrofit.Response;
 import tr.xip.errorview.ErrorView;
 
@@ -354,7 +352,7 @@ public class CandidateListActivity extends BaseActivity
           startActivity(intentToSearchList);
           /*String unicode = MMTextUtils.getInstance(CandidateListActivity.this)
               .zgToUni(searchCandidateText.getText().toString());
-          infateCandidateSearchAdapter(unicode);*/
+          inflateCandidateSearchAdapter(unicode);*/
           return true;
         }
         return false;
@@ -377,7 +375,7 @@ public class CandidateListActivity extends BaseActivity
         } else {
           String unicode =
               MMTextUtils.getInstance(CandidateListActivity.this).zgToUni(s.toString());
-          infateCandidateSearchAdapter(unicode.toString());
+          inflateCandidateSearchAdapter(unicode.toString());
         }
       }
     });
@@ -428,25 +426,17 @@ public class CandidateListActivity extends BaseActivity
     }
   }
 
-  private void infateCandidateSearchAdapter(String searchName) {
+  private void inflateCandidateSearchAdapter(String searchName) {
     Map<String, Integer> limitParams = new HashMap<>();
     limitParams.put("limit", 20);
     Call<ArrayList<CandidateSearchResult>> candidateAutoSearch =
         RESTClient.getService(this).searchCandidate(searchName, limitParams);
-    candidateAutoSearch.enqueue(new Callback<ArrayList<CandidateSearchResult>>() {
+    candidateAutoSearch.enqueue(new RestCallback<ArrayList<CandidateSearchResult>>() {
       @Override public void onResponse(Response<ArrayList<CandidateSearchResult>> response) {
         candidateSearchResults.clear();
         candidateSearchResults.addAll(response.body());
-        for (CandidateSearchResult o : candidateSearchResults) {
-          Log.d("Search Lists", o.toString());
-        }
-
         candidateSearchAdapter.setCandidates(candidateSearchResults);
         candidateSearchAdapter.notifyDataSetChanged();
-      }
-
-      @Override public void onFailure(Throwable t) {
-        Log.e("Error", "Candidate search fail by " + t.getMessage());
       }
     });
   }

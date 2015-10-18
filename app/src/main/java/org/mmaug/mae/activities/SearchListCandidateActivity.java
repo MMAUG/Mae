@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,9 +20,9 @@ import org.mmaug.mae.models.CandidateSearchResult;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.utils.MMTextUtils;
 import org.mmaug.mae.utils.MixUtils;
+import org.mmaug.mae.utils.RestCallback;
 import org.mmaug.mae.view.SpacesItemDecoration;
 import retrofit.Call;
-import retrofit.Callback;
 import retrofit.Response;
 import tr.xip.errorview.ErrorView;
 
@@ -45,7 +44,7 @@ public class SearchListCandidateActivity extends BaseActivity
     searchWord = getIntent().getStringExtra("searchWord");
     String unicode =
         MMTextUtils.getInstance(SearchListCandidateActivity.this).zgToUni(searchWord.toString());
-    infateCandidateSearchAdapter(unicode.toString());
+    inflateCandidateSearchAdapter(unicode.toString());
     MixUtils.toggleVisibilityWithAnim(mCandidateListRecyclerView, false);
     MixUtils.toggleVisibilityWithAnim(mErrorView, false);
     mCandidateListRecyclerView.setLayoutManager(
@@ -79,12 +78,12 @@ public class SearchListCandidateActivity extends BaseActivity
     return false;
   }
 
-  private void infateCandidateSearchAdapter(String searchName) {
+  private void inflateCandidateSearchAdapter(String searchName) {
     Map<String, Integer> limitParams = new HashMap<>();
     limitParams.put("limit", 20);
     Call<ArrayList<CandidateSearchResult>> candidateAutoSearch =
         RESTClient.getService(this).searchCandidate(searchName, limitParams);
-    candidateAutoSearch.enqueue(new Callback<ArrayList<CandidateSearchResult>>() {
+    candidateAutoSearch.enqueue(new RestCallback<ArrayList<CandidateSearchResult>>() {
       @Override public void onResponse(Response<ArrayList<CandidateSearchResult>> response) {
         candidateSearchResults.clear();
         if (candidateSearchResults.size() == 0) {
@@ -93,10 +92,6 @@ public class SearchListCandidateActivity extends BaseActivity
           MixUtils.toggleVisibilityWithAnim(mErrorView, false);
         }
         candidateSearchResults.addAll(response.body());
-        for (CandidateSearchResult o : candidateSearchResults) {
-          Log.d("Search Lists", o.toString());
-        }
-
         candidateSearchAdapter.setCandidates(candidateSearchResults);
         candidateSearchAdapter.notifyDataSetChanged();
 
@@ -106,10 +101,6 @@ public class SearchListCandidateActivity extends BaseActivity
         mCandidateListRecyclerView.setAdapter(candidateSearchAdapter);
         MixUtils.toggleVisibilityWithAnim(mCandidateListRecyclerView, true);
         mProgressBar.setVisibility(View.GONE);
-      }
-
-      @Override public void onFailure(Throwable t) {
-        Log.e("Error", "Candidate search fail by " + t.getMessage());
       }
     });
   }
