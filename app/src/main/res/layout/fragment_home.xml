@@ -213,7 +213,7 @@
               android:gravity="center"
               android:layout_gravity="center"
               android:id="@+id/cardview_party_condtion_list"
-              android:text="နိုင်ငံရေ: ပါတီများ"
+              android:text="နိုင်ငံရေး ပါတီများ"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               />

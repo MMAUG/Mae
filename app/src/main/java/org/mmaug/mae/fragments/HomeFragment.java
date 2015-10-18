@@ -131,13 +131,13 @@ public class HomeFragment extends android.support.v4.app.Fragment {
       monthDayLeft.setTypeface(typefacelight);
       hourMinuteLeft.setTypeface(typefacelight);
       toVote.setTypeface(typefaceTitle);
-      txt_cardview_vote_check.setTypeface(typefacelight);
-      txt_where_can_i_vote.setTypeface(typefacelight);
-      txt_howto_vote.setTypeface(typefacelight);
-      txtVoteGame.setTypeface(typefacelight);
-      card_candidate_list.setTypeface(typefacelight);
-      cardview_party_condtion_list.setTypeface(typefacelight);
-      mVoted.setTypeface(typefacelight);
+      txt_cardview_vote_check.setTypeface(typefaceTitle);
+      txt_where_can_i_vote.setTypeface(typefaceTitle);
+      txt_howto_vote.setTypeface(typefaceTitle);
+      txtVoteGame.setTypeface(typefaceTitle);
+      card_candidate_list.setTypeface(typefaceTitle);
+      cardview_party_condtion_list.setTypeface(typefaceTitle);
+      mVoted.setTypeface(typefaceTitle);
     } else {//user can't see unicode so force
       MMTextUtils.getInstance(getContext())
           .prepareMultipleViews(monthDayLeft, hourMinuteLeft, toVote, txt_cardview_vote_check,
