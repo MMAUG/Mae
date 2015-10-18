@@ -340,7 +340,9 @@ public class CandidateListActivity extends BaseActivity
         // If the event is a key-down event on the "enter" button
         if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
           // Perform action on key press
-          infateCandidateSearchAdapter(searchCandidateText.getText().toString());
+          String unicode = MMTextUtils.getInstance(CandidateListActivity.this)
+              .zgToUni(searchCandidateText.getText().toString());
+          infateCandidateSearchAdapter(unicode);
           return true;
         }
         return false;
@@ -361,7 +363,9 @@ public class CandidateListActivity extends BaseActivity
       @Override public void afterTextChanged(final Editable s) {
         if (s.length() == 0) {
         } else {
-          infateCandidateSearchAdapter(s.toString());
+          String unicode =
+              MMTextUtils.getInstance(CandidateListActivity.this).zgToUni(s.toString());
+          infateCandidateSearchAdapter(unicode.toString());
         }
       }
     });
