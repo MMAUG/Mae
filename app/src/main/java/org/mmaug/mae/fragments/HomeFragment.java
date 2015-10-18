@@ -29,6 +29,7 @@ import org.mmaug.mae.activities.HowToVoteActivity;
 import org.mmaug.mae.activities.LocationActivity;
 import org.mmaug.mae.activities.MainActivity;
 import org.mmaug.mae.activities.PartyListActivity;
+import org.mmaug.mae.activities.VoteGameActivity;
 import org.mmaug.mae.activities.VotedActivity;
 import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.services.AlarmManagerBroadcastReceiver;
@@ -44,6 +45,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
   @Bind(R.id.txt_cardview_vote_check) TextView txt_cardview_vote_check;
   @Bind(R.id.txt_where_can_i_vote) TextView txt_where_can_i_vote;
   @Bind(R.id.txt_howtovote) TextView txt_howto_vote;
+  @Bind(R.id.txt_game) TextView txtVoteGame;
   @Bind(R.id.card_candidate_list) TextView card_candidate_list;
   @Bind(R.id.cardview_party_condtion_list) TextView cardview_party_condtion_list;
   @Bind(R.id.valid_sign) ImageView valid_sign;
@@ -132,13 +134,14 @@ public class HomeFragment extends android.support.v4.app.Fragment {
       txt_cardview_vote_check.setTypeface(typefacelight);
       txt_where_can_i_vote.setTypeface(typefacelight);
       txt_howto_vote.setTypeface(typefacelight);
+      txtVoteGame.setTypeface(typefacelight);
       card_candidate_list.setTypeface(typefacelight);
       cardview_party_condtion_list.setTypeface(typefacelight);
       mVoted.setTypeface(typefacelight);
     } else {//user can't see unicode so force
       MMTextUtils.getInstance(getContext())
           .prepareMultipleViews(monthDayLeft, hourMinuteLeft, toVote, txt_cardview_vote_check,
-              txt_where_can_i_vote, txt_howto_vote, card_candidate_list,
+              txt_where_can_i_vote, txt_howto_vote, txtVoteGame, card_candidate_list,
               cardview_party_condtion_list, mVoted);
     }
   }
@@ -173,6 +176,11 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
   @OnClick(R.id.cardview_voted) void Voted() {
     Intent intent = new Intent(getActivity(), VotedActivity.class);
+    startActivity(intent);
+  }
+
+  @OnClick(R.id.card_vote_game) void voteGame() {
+    Intent intent = new Intent(getActivity(), VoteGameActivity.class);
     startActivity(intent);
   }
 

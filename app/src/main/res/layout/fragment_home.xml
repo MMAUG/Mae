@@ -177,7 +177,7 @@
               android:layout_gravity="center"
               android:layout_weight="3"
               android:id="@+id/card_candidate_list"
-              android:text="ဘယ်သူ့ မဲပေးရမှာလဲ"
+              android:text="ဘယ်သူတွေကို မဲပေးရမှာလဲ"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               />
@@ -213,7 +213,7 @@
               android:gravity="center"
               android:layout_gravity="center"
               android:id="@+id/cardview_party_condtion_list"
-              android:text="ပါတီတွေရဲ့ အခြေအနေ"
+              android:text="နိုင်ငံရေ: ပါတီများ"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               />
@@ -246,7 +246,42 @@
               android:gravity="center"
               android:layout_gravity="center"
               android:id="@+id/txt_howtovote"
-              android:text="ဘယ်လို မဲပေးရမှာလဲ"
+              android:text="မဲ ဘယ်လို ပေးရမှာလဲ"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              />
+          <ImageView
+              android:visibility="invisible"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:src="@drawable/ic_mark"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              />
+
+        </LinearLayout>
+      </android.support.v7.widget.CardView>
+
+      <android.support.v7.widget.CardView
+          android:id="@+id/card_vote_game"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_margin="@dimen/spacing_minor"
+          android:foreground="?attr/selectableItemBackground"
+          app:cardElevation="5dp"
+          card_view:cardCornerRadius="@dimen/default_padding_small"
+          >
+
+        <LinearLayout
+            android:padding="@dimen/spacing_major"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+          <TextView
+              android:gravity="center"
+              android:layout_gravity="center"
+              android:id="@+id/txt_game"
+              android:text="ဘယ်လိုမဲက ခိုင်လုံမဲ လဲ"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               />
@@ -281,7 +316,7 @@
               android:gravity="center"
               android:layout_gravity="center"
               android:id="@+id/txt_voted"
-              android:text="မဲပေးပြီးပြီ"
+              android:text="မဲ ပေးပြီးပြီ"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               />
