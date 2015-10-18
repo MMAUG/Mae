@@ -1,11 +1,13 @@
 package org.mmaug.mae.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ProgressBar;
@@ -63,7 +65,15 @@ public class SearchListCandidateActivity extends BaseActivity
   }
 
   @Override protected String getToolbarText() {
-    return "Candidate Search Result";
+    return "အမတ်လောင်းရှာဖွေမှုရလဒ်";
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == android.R.id.home) {
+      super.onBackPressed();
+      return true;
+    }
+    return false;
   }
 
   private void infateCandidateSearchAdapter(String searchName) {
@@ -93,7 +103,6 @@ public class SearchListCandidateActivity extends BaseActivity
         mCandidateListRecyclerView.setAdapter(candidateSearchAdapter);
         MixUtils.toggleVisibilityWithAnim(mCandidateListRecyclerView, true);
         mProgressBar.setVisibility(View.GONE);
-
       }
 
       @Override public void onFailure(Throwable t) {
@@ -107,6 +116,9 @@ public class SearchListCandidateActivity extends BaseActivity
   }
 
   @Override public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+    Intent intenttoCandidateDetail =
+        new Intent(SearchListCandidateActivity.this, CandidateDetailActivity.class);
+    intenttoCandidateDetail.putExtra("searchResult", candidateSearchResults.get(i));
+    startActivity(intenttoCandidateDetail);
   }
 }
