@@ -170,7 +170,6 @@
                 />
             <TextView
                 android:id="@+id/candidate_detail_race"
-                card_view:text="WOWOW"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -205,7 +204,6 @@
                 />
             <TextView
                 android:id="@+id/upper_house"
-                android:text="WOWOW"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -231,7 +229,6 @@
                 />
             <TextView
                 android:id="@+id/candidate_detail_party"
-                android:text="WOWOW"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -256,7 +253,6 @@
                 />
             <TextView
                 android:id="@+id/candidate_detail_dob"
-                android:text="WOWOW"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -281,7 +277,6 @@
                 />
             <TextView
                 android:id="@+id/candidate_detail_religion"
-                android:text="WOWOW"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
