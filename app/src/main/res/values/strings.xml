@@ -117,6 +117,8 @@
 
   <string name="error_cant_connect">Can\'t Connect!</string>
   <string name="error_something_wrong">Something went wrong!</string>
+  <string name="empty_search_result_title">No Result</string>
+  <string name="empty_search_result_subtitle">Can\'t find candidate with your search keyword!</string>
   <string name="about">About Mae</string>
   <string name="font_setting">Font Setting</string>
   <string name="copyright">© 2015 MMAUG</string>

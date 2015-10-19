@@ -24,7 +24,7 @@
         android:layout_gravity="center"
         />
 
-    <include layout="@layout/errorview"/>
+    <include layout="@layout/empty_result"/>
 
   </FrameLayout>
 </LinearLayout>

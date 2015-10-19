@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tr.xip.errorview.ErrorView xmlns:errorview="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/empty_search_result_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    errorview:ev_errorImage="@drawable/error_view_cloud"
+    errorview:ev_subtitle="@string/empty_search_result_subtitle"
+    errorview:ev_title="@string/empty_search_result_title"
+    errorview:ev_retryButtonBackground="?android:attr/selectableItemBackground"
+    errorview:ev_retryButtonTextColor="@android:color/darker_gray"
+    errorview:ev_showRetryButton="true"
+    errorview:ev_showSubtitle="true"
+    errorview:ev_showTitle="true"
+    android:layout_gravity="center"
+    android:visibility="gone"
+    />

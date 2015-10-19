@@ -31,7 +31,7 @@ public class SearchListCandidateActivity extends BaseActivity
 
   @Bind(R.id.rv_search) RecyclerView mCandidateListRecyclerView;
   @Bind(R.id.progressBar) ProgressBar mProgressBar;
-  @Bind(R.id.error_view) ErrorView mErrorView;
+  @Bind(R.id.empty_search_result_view) ErrorView mErrorView;
   String searchWord;
   ArrayList<CandidateSearchResult> candidateSearchResults = new ArrayList<>();
   private CandidateSearchAdapter candidateSearchAdapter;
