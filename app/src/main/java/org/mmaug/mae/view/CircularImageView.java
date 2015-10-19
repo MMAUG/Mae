@@ -84,8 +84,8 @@ public class CircularImageView extends ImageView {
     // init shader
     if (image != null) {
 
-      canvasSize = 200;
-      if (canvas.getHeight() < canvasSize) canvasSize = canvas.getHeight();
+      canvasSize = image.getWidth();
+     if (canvas.getHeight() < canvasSize) canvasSize = canvas.getHeight();
 
       BitmapShader shader =
           new BitmapShader(Bitmap.createScaledBitmap(image, canvasSize, canvasSize, false),
