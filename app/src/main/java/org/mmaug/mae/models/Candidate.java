@@ -168,7 +168,7 @@ public class Candidate implements Serializable {
   }
 
   public String getBirthDateString() {
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy", Locale.getDefault());
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
     // Convert to millisecond
     Date date = new Date(getBirthdate() * 1000);
     String birthDateString = dateFormat.format(date);
