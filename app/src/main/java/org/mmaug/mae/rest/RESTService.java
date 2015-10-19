@@ -14,6 +14,7 @@ import org.mmaug.mae.models.PartyReturnObject;
 import org.mmaug.mae.models.User;
 import retrofit.Call;
 import retrofit.http.GET;
+import retrofit.http.Header;
 import retrofit.http.Path;
 import retrofit.http.Query;
 import retrofit.http.QueryMap;
@@ -28,7 +29,8 @@ public interface RESTService {
    **/
 
   //TODO to check this is work or not
-  @GET(Config.REGISTER) Call<User> registerUser(@QueryMap Map<String, String> body);
+  @GET(Config.REGISTER) Call<User> registerUser(@Header("uuid") String uuid,
+      @QueryMap Map<String, String> body);
 
   /**
    * Maepaysoh services
@@ -38,8 +40,8 @@ public interface RESTService {
   @GET(Config.CANDIDATE_LIST_URL) Call<CandidateListReturnObject> getCandidateList(
       @QueryMap Map<String, String> optionalQueries);
 
-  @GET(Config.CANDIDATE_URL_BYID + "/{id}") Call<JsonObject> getCandidate(
-      @Path("id") String id, @QueryMap Map<String, String> optionalQueries);
+  @GET(Config.CANDIDATE_URL_BYID + "/{id}") Call<JsonObject> getCandidate(@Path("id") String id,
+      @QueryMap Map<String, String> optionalQueries);
 
   //geo location
   @GET(Config.GEO_LOCATION_URL) Call<GeoReturnObject> getLocationList(

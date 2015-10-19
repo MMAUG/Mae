@@ -49,9 +49,7 @@ public class RESTClient {
     private final String TAG = LoggingInterceptor.class.getSimpleName();
 
     @Override public Response intercept(Chain chain) throws IOException {
-      TelephonyManager tManager =
-          (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
-      String uuid = tManager.getDeviceId();
+
       Request request = chain.request();
       Timber.tag(TAG);
 
@@ -59,7 +57,7 @@ public class RESTClient {
       builder.header("X-API-KEY", BuildConfig.API_KEY);
       builder.header("X-API-SECRET", BuildConfig.API_SECRET);
       builder.header("Accept", "application/json");
-      builder.addHeader("uuid", uuid);
+      //builder.addHeader("uuid", uuid);
       request = builder.build();
 
       long t1 = System.nanoTime();

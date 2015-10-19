@@ -1,6 +1,7 @@
 package org.mmaug.mae.fragments;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -13,9 +14,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,6 +77,9 @@ public class SignUpFragment extends Fragment
   int defaultYear;
   int defaultMonth;
   int defaultDate;
+  TelephonyManager tManager;
+  String uuid;
+
   String DATE_TAG = "Datepickerdialog";
   private ArrayList<DataUtils.Township> townships;
   private ArrayList<DataUtils.Township> found = new ArrayList<>();
@@ -96,13 +102,22 @@ public class SignUpFragment extends Fragment
             MY_PERMISSIONS_REQUEST_PHONE_STATE);
         // app-defined int constant. The callback method gets the
         // result of the request.
+        Log.e("Here", "In Check");
       } else {
-        checkVoterListRegister();
+        tManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+        uuid = tManager.getDeviceId();
+        checkVoterListRegister(uuid);
+        Log.e("In the register logic", "Permission");
       }
+    } else {
+      tManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+      uuid = tManager.getDeviceId();
+      checkVoterListRegister(uuid);
+      Log.e("In the register logic", "Permission");
     }
   }
 
-  private void checkVoterListRegister() {
+  private void checkVoterListRegister(String uuid) {
     if (!checkFieldisValid()) {
       Toast toast = new Toast(getActivity());
       TextView textView = new TextView(getActivity());
@@ -134,7 +149,8 @@ public class SignUpFragment extends Fragment
       params.put(Config.FATHER_NAME, mmTextUtils.zgToUni(mFatherName.getText().toString()));
       params.put(Config.TOWNSHIP, mTownship.getText().toString());
 
-      final Call<User> registerUser = RESTClient.getService(getActivity()).registerUser(params);
+      final Call<User> registerUser =
+          RESTClient.getService(getActivity()).registerUser(uuid, params);
       registerUser.enqueue(new RestCallback<User>() {
         @Override public void onResponse(Response<User> response) {
           UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
@@ -402,7 +418,9 @@ public class SignUpFragment extends Fragment
       case MY_PERMISSIONS_REQUEST_PHONE_STATE: {
         // If request is cancelled, the result arrays are empty.
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-          checkVoterListRegister();
+          tManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+          uuid = tManager.getDeviceId();
+          checkVoterListRegister(uuid);
           // permission was granted, yay! Do the
 
         } else {
