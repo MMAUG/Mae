@@ -25,7 +25,6 @@ public class FontCheckerActivity extends BaseActivity
   @Bind(R.id.tv_choose_des) TextView tvDes;
   @Bind(R.id.tv_save_font) TextView tvSaveFont;
   @Bind(R.id.rg_font) RadioGroup rgFont;
-  @Bind(R.id.rb_uni) RadioButton rbUni;
 
   String font = null;
 
