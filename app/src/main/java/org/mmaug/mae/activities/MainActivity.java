@@ -18,6 +18,8 @@ import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.fragments.SignUpFragment;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.utils.RestCallback;
+import org.mmaug.mae.utils.UserPrefUtils;
+
 import retrofit.Call;
 import retrofit.Response;
 
@@ -26,6 +28,13 @@ public class MainActivity extends BaseActivity {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    // Redirect to FontChecker Page at first time.
+    if (UserPrefUtils.getInstance(this).isFristTime()) {
+      startActivity(new Intent(this, FontCheckerActivity.class));
+      finish();
+    }
+
     checkUpdate();
   }
 
