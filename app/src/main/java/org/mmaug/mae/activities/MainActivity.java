@@ -1,10 +1,14 @@
 package org.mmaug.mae.activities;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 import com.google.gson.JsonObject;
@@ -19,12 +23,11 @@ import retrofit.Response;
 
 public class MainActivity extends BaseActivity {
 
+
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
     checkUpdate();
   }
-
 
   @Override protected int getLayoutResource() {
     return R.layout.activity_main;
@@ -50,7 +53,7 @@ public class MainActivity extends BaseActivity {
       if (!intercepted) {
         super.onBackPressed();
       }
-    }else {
+    } else {
       super.onBackPressed();
     }
   }
