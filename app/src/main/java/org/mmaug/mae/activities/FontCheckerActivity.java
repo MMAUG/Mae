@@ -34,15 +34,25 @@ public class FontCheckerActivity extends BaseActivity
 
     MMTextUtils.getInstance(this).prepareMultipleViews(tvDes, tvSaveFont);
     rgFont.setOnCheckedChangeListener(this);
+
   }
 
   @Override protected void onResume() {
     super.onResume();
-    if (!UserPrefUtils.getInstance(this).isFristTime()) {
+    /*if (!UserPrefUtils.getInstance(this).isFristTime()) {
       startActivity(new Intent(this, MainActivity.class));
       finish();
     } else {
       UserPrefUtils.getInstance(this).noLongerFirstTime();
+    }*/
+    if (UserPrefUtils.getInstance(this).isFristTime()) {
+      UserPrefUtils.getInstance(this).noLongerFirstTime();
+    } else {
+      if (isUnicode()) {
+        rgFont.check(R.id.rb_uni);
+      } else {
+        rgFont.check(R.id.rb_zg);
+      }
     }
   }
 

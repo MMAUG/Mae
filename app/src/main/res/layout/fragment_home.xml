@@ -334,6 +334,19 @@
       </android.support.v7.widget.CardView>
 
       <TextView
+            android:id="@+id/font_setting"
+            android:padding="@dimen/spacing_minor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/secondary_text_color"
+            android:gravity="center"
+            android:text="@string/font_setting"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_margin="@dimen/spacing_minor"
+            />
+
+      <TextView
           android:id="@+id/about"
           android:padding="@dimen/spacing_minor"
           android:layout_width="match_parent"
