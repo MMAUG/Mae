@@ -42,7 +42,9 @@ public class AnalyticsManager {
       useProfile = R.xml.analytics_release;
       mTracker = GoogleAnalytics.getInstance(context).newTracker(useProfile);
 
-      mTracker.enableExceptionReporting(true);
+      // To prevent from not showing the crash logs but "Shutting Down VM" message
+      // http://stackoverflow.com/a/31259916/2438460
+      mTracker.enableExceptionReporting(false);
       mTracker.enableAdvertisingIdCollection(true);
       mTracker.enableAutoActivityTracking(true);
     }

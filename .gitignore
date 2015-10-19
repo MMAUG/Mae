@@ -28,8 +28,9 @@ proguard/
 *.log
 
 # Others
-.DS_Store%
+.DS_Store
 
 gradle.properties
 
 *.jks
+
