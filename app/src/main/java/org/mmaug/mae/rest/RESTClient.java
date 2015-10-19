@@ -1,13 +1,15 @@
 package org.mmaug.mae.rest;
 
 import android.content.Context;
-import android.telephony.TelephonyManager;
+
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import java.io.IOException;
 import org.mmaug.mae.BuildConfig;
+import org.mmaug.mae.utils.DeviceId;
+
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 import timber.log.Timber;
@@ -21,12 +23,13 @@ public class RESTClient {
 
   private static RESTClient instance;
   private RESTService mService;
-  private Context mContext;
 
   public RESTClient(Context context) {
+    DeviceId deviceId = DeviceId.getInstance(context);
+
     OkHttpClient client = new OkHttpClient();
-    client.interceptors().add(new LoggingInterceptor());
-    mContext = context;
+    client.interceptors().add(new LoggingInterceptor(deviceId));
+
     final Retrofit restAdapter =
         new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).
             client(client).build();
@@ -48,6 +51,12 @@ public class RESTClient {
   private class LoggingInterceptor implements Interceptor {
     private final String TAG = LoggingInterceptor.class.getSimpleName();
 
+    private DeviceId mDeviceId;
+
+    public LoggingInterceptor(DeviceId deviceId) {
+      mDeviceId = deviceId;
+    }
+
     @Override public Response intercept(Chain chain) throws IOException {
 
       Request request = chain.request();
@@ -57,7 +66,7 @@ public class RESTClient {
       builder.header("X-API-KEY", BuildConfig.API_KEY);
       builder.header("X-API-SECRET", BuildConfig.API_SECRET);
       builder.header("Accept", "application/json");
-      //builder.addHeader("uuid", uuid);
+      builder.addHeader("uuid", mDeviceId.get());
       request = builder.build();
 
       long t1 = System.nanoTime();
