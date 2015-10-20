@@ -1,20 +1,14 @@
 package org.mmaug.mae.fragments;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -54,7 +48,6 @@ public class SignUpFragment extends Fragment
     implements com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener,
     AdapterView.OnItemClickListener {
 
-  final int MY_PERMISSIONS_REQUEST_PHONE_STATE = 101;
   @Bind(R.id.tv_dob_label) TextView mDOBLabel;
   @Bind(R.id.date_of_birth) TextView mDateOfBirth;
   @Bind(R.id.user_name) EditText mUserName;
@@ -77,8 +70,6 @@ public class SignUpFragment extends Fragment
   int defaultYear;
   int defaultMonth;
   int defaultDate;
-  TelephonyManager tManager;
-  String uuid;
 
   String DATE_TAG = "Datepickerdialog";
   private ArrayList<DataUtils.Township> townships;
@@ -92,32 +83,6 @@ public class SignUpFragment extends Fragment
 
   @OnClick(R.id.sign_up_card) void checkVote() {
 
-    if (android.os.Build.VERSION.SDK_INT >= 23) {
-      // only for gingerbread and newer versions
-      if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_PHONE_STATE)
-          != PackageManager.PERMISSION_GRANTED) {
-        // No explanation needed, we can request the permission.
-        ActivityCompat.requestPermissions(getActivity(),
-            new String[] { Manifest.permission.READ_PHONE_STATE },
-            MY_PERMISSIONS_REQUEST_PHONE_STATE);
-        // app-defined int constant. The callback method gets the
-        // result of the request.
-        Log.e("Here", "In Check");
-      } else {
-        tManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-        uuid = tManager.getDeviceId();
-        checkVoterListRegister(uuid);
-        Log.e("In the register logic", "Permission");
-      }
-    } else {
-      tManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-      uuid = tManager.getDeviceId();
-      checkVoterListRegister(uuid);
-      Log.e("In the register logic", "Permission");
-    }
-  }
-
-  private void checkVoterListRegister(String uuid) {
     if (!checkFieldisValid()) {
       Toast toast = new Toast(getActivity());
       TextView textView = new TextView(getActivity());
@@ -150,7 +115,7 @@ public class SignUpFragment extends Fragment
       params.put(Config.TOWNSHIP, mTownship.getText().toString());
 
       final Call<User> registerUser =
-          RESTClient.getService(getActivity()).registerUser(uuid, params);
+          RESTClient.getService(getActivity()).registerUser(params);
       registerUser.enqueue(new RestCallback<User>() {
         @Override public void onResponse(Response<User> response) {
           UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
@@ -412,26 +377,5 @@ public class SignUpFragment extends Fragment
     return false;
   }
 
-  @Override public void onRequestPermissionsResult(int requestCode, String permissions[],
-      int[] grantResults) {
-    switch (requestCode) {
-      case MY_PERMISSIONS_REQUEST_PHONE_STATE: {
-        // If request is cancelled, the result arrays are empty.
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-          tManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-          uuid = tManager.getDeviceId();
-          checkVoterListRegister(uuid);
-          // permission was granted, yay! Do the
-
-        } else {
-          // permission denied, boo! Disable the
-          // functionality that depends on this permission.
-        }
-        return;
-      }
-      // other 'case' lines to check for other
-      // permissions this app might request
-    }
-  }
 }
 

@@ -29,8 +29,10 @@ public interface RESTService {
    **/
 
   //TODO to check this is work or not
-  @GET(Config.REGISTER) Call<User> registerUser(@Header("uuid") String uuid,
-      @QueryMap Map<String, String> body);
+  //@GET(Config.REGISTER) Call<User> registerUser(@Header("uuid") String uuid,
+   //   @QueryMap Map<String, String> body);
+
+  @GET(Config.REGISTER) Call<User> registerUser(@QueryMap Map<String, String> body);
 
   /**
    * Maepaysoh services
