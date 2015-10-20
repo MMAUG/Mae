@@ -79,12 +79,13 @@
       </android.support.v7.widget.CardView>
 
       <android.support.v7.widget.CardView
-          android:id="@+id/cardview_save_font"
-          android:layout_width="match_parent"
+          android:id="@+id/cardview_save_location"
+          android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_margin="@dimen/spacing_major"
           android:foreground="?attr/selectableItemBackground"
           app:cardElevation="5dp"
+          android:layout_gravity="center"
           card_view:cardCornerRadius="@dimen/default_padding_small"
           >
 
@@ -115,7 +116,13 @@
         android:visibility="gone"
         >
 
-      <include layout="@layout/view_search_township"/>
+      <FrameLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+
+        <include layout="@layout/view_search_township"/>
+
+      </FrameLayout>
 
       <FrameLayout
           android:layout_width="wrap_content"

@@ -25,7 +25,9 @@ public class MainActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
 
     // Redirect to FontChecker Page at first time.
-    if (UserPrefUtils.getInstance(this).isFristTime()) {
+    if (UserPrefUtils.getInstance(this).isFristTime() || UserPrefUtils.getInstance(this)
+        .getTextPref()
+        .equals("")) {
       startActivity(new Intent(this, FontCheckerActivity.class));
       finish();
     } else if (UserPrefUtils.getInstance(this).getTownship().equals("")

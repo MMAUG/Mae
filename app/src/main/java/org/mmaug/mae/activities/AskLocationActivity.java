@@ -1,5 +1,6 @@
 package org.mmaug.mae.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.google.gson.Gson;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -132,6 +134,7 @@ public class AskLocationActivity extends BaseActivity
       if (tspCode != null) {
         searchFlag = 2;
         showHidSearchView(false);
+        if (wardAdapter.getItemCount() == 0) progressBar.setVisibility(View.VISIBLE);
         mTownshipList.setAdapter(wardAdapter);
       } else {
         Toast toast = new Toast(this);
@@ -295,7 +298,6 @@ public class AskLocationActivity extends BaseActivity
 
   private void loadWards() {
     progressBar.setVisibility(View.VISIBLE);
-    mTownshipList.setVisibility(View.GONE);
     DataUtils.getInstance(this)
         .loadVWByTownship(tspCode)
         .subscribeOn(Schedulers.io())
@@ -304,7 +306,6 @@ public class AskLocationActivity extends BaseActivity
 
   private void loadTownships() {
     progressBar.setVisibility(View.VISIBLE);
-    mTownshipList.setVisibility(View.GONE);
     DataUtils.getInstance(this)
         .loadObsTownship()
         .subscribeOn(Schedulers.io())
@@ -336,7 +337,6 @@ public class AskLocationActivity extends BaseActivity
             activity.foundWards = villageOrWards;
             activity.wardAdapter.setWards(villageOrWards);
             activity.progressBar.setVisibility(View.GONE);
-            activity.mTownshipList.setVisibility(View.VISIBLE);
           }
         });
       }
@@ -368,11 +368,17 @@ public class AskLocationActivity extends BaseActivity
             activity.found = townships;
             activity.townshipAdapter.setTownships(townships);
             activity.progressBar.setVisibility(View.GONE);
-            activity.mTownshipList.setVisibility(View.VISIBLE);
           }
         });
       }
     }
+  }
+
+  @OnClick(R.id.cardview_save_location) void saveLocation() {
+    UserPrefUtils.getInstance(this).saveTownShip(townshipGson);
+    UserPrefUtils.getInstance(this).saveWard(wardGson);
+    startActivity(new Intent(this, MainActivity.class));
+    finish();
   }
 
   @Override public void onBackPressed() {
