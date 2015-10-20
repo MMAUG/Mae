@@ -133,6 +133,9 @@ public class SignUpFragment extends Fragment
           userPrefUtils.saveFatherName(params.get(Config.FATHER_NAME));
           userPrefUtils.saveTownShip(townshipGson);
 
+          // Set uni or zg for dialog
+          dialog.unicode(isUnicode);
+
           if (response.code() == 200) {
             userPrefUtils.setValid(true);
             dialog.showValid(getActivity().getLayoutInflater());

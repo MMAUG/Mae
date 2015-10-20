@@ -186,6 +186,8 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vot
     boolean ok = userPrefUtils.isValid();
 
     VoterCheckDialog dialog = new VoterCheckDialog((MainActivity) getActivity(), this);
+    // Set uni or zg for dialog
+    dialog.unicode(isUnicode);
 
     if (ok) {
       dialog.showValid(getActivity().getLayoutInflater());
