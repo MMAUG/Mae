@@ -58,10 +58,47 @@ public class DataUtils {
     return townships;
   }
 
-  public ArrayList<Township> loadVillageOrWard() {
-    ArrayList<Township> townships = new ArrayList<>();
+  private ArrayList<VillageOrWard> loadVWByTownship(String tspCode) {
+    ArrayList<VillageOrWard> villageOrWardsByTownship = new ArrayList<>();
+    ArrayList<VillageOrWard> villageOrWards = loadWV();
+
+    for (VillageOrWard villageOrWard : villageOrWards) {
+      if (villageOrWard.TSPcode.equalsIgnoreCase(tspCode)) {
+        villageOrWardsByTownship.add(villageOrWard);
+      }
+    }
+    return villageOrWardsByTownship;
+  }
+
+  public ArrayList<VillageOrWard> loadWV() {
+    ArrayList<VillageOrWard> villageOrWards = new ArrayList<>();
+    ArrayList<Ward> wards = loadWard();
+    ArrayList<Village> villages = loadVillage();
+    for (Ward ward : wards) {
+      VillageOrWard villageOrWard = new VillageOrWard();
+      villageOrWard.TSPcode = ward.getTSPcode();
+      villageOrWard.VWcode = ward.WardPcode;
+      villageOrWard.VWName = ward.getWard();
+      villageOrWard.VWNameBurmese = ward.getWardNameBurmese();
+      villageOrWards.add(villageOrWard);
+    }
+
+    for (Village village : villages) {
+      VillageOrWard villageOrWard = new VillageOrWard();
+      villageOrWard.TSPcode = village.getTSPcode();
+      villageOrWard.VWcode = village.getVTPcode();
+      villageOrWard.VWName = village.getVillageTract();
+      villageOrWard.VWNameBurmese = village.getVillageTractMyaMMR3();
+      villageOrWards.add(villageOrWard);
+    }
+
+    return villageOrWards;
+  }
+
+  public ArrayList<Ward> loadWard() {
+    ArrayList<Ward> wards = new ArrayList<>();
     try {
-      InputStream json = mContext.getAssets().open("Township.json");
+      InputStream json = mContext.getAssets().open("Wards.json");
       JsonParser parser = new JsonParser();
       JsonReader reader = new JsonReader(new InputStreamReader(json));
       reader.setLenient(true);
@@ -69,14 +106,35 @@ public class DataUtils {
       JsonArray data = parser.parse(reader).getAsJsonArray();
 
       for (JsonElement element : data) {
-        Township township = gson.fromJson(element, Township.class);
-        townships.add(township);
+        Ward ward = gson.fromJson(element, Ward.class);
+        wards.add(ward);
       }
     } catch (IOException e) {
       e.printStackTrace();
     }
 
-    return townships;
+    return wards;
+  }
+
+  public ArrayList<Village> loadVillage() {
+    ArrayList<Village> villages = new ArrayList<>();
+    try {
+      InputStream json = mContext.getAssets().open("Village Tracts.json");
+      JsonParser parser = new JsonParser();
+      JsonReader reader = new JsonReader(new InputStreamReader(json));
+      reader.setLenient(true);
+
+      JsonArray data = parser.parse(reader).getAsJsonArray();
+
+      for (JsonElement element : data) {
+        Village village = gson.fromJson(element, Village.class);
+        villages.add(village);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    return villages;
   }
 
   public static class Township {
@@ -348,5 +406,12 @@ public class DataUtils {
     public void setDescription(String Description) {
       this.Description = Description;
     }
+  }
+
+  private static class VillageOrWard {
+    private String TSPcode;
+    private String VWcode;
+    private String VWName;
+    private String VWNameBurmese;
   }
 }
