@@ -375,10 +375,28 @@ public class AskLocationActivity extends BaseActivity
   }
 
   @OnClick(R.id.cardview_save_location) void saveLocation() {
-    UserPrefUtils.getInstance(this).saveTownShip(townshipGson);
-    UserPrefUtils.getInstance(this).saveWard(wardGson);
-    startActivity(new Intent(this, MainActivity.class));
-    finish();
+    if (townshipGson != null && wardGson != null) {
+      UserPrefUtils.getInstance(this).saveTownShip(townshipGson);
+      UserPrefUtils.getInstance(this).saveWard(wardGson);
+      startActivity(new Intent(this, MainActivity.class));
+      finish();
+    } else {
+      Toast toast = new Toast(this);
+      TextView textView = new TextView(this);
+      textView.setText("အချက်အလက်များကို ပြည့်စုံစွာဖြည့်စွက်ပေးပါ");
+      if (isUnicode()) {
+        textView.setTypeface(getTypefaceLight());
+      } else {
+        MMTextUtils.getInstance(this).prepareSingleView(textView);
+      }
+      textView.setPadding(16, 16, 16, 16);
+      textView.setTextColor(Color.WHITE);
+      textView.setBackgroundColor(getResources().getColor(R.color.accent_color));
+      toast.setView(textView);
+      toast.setGravity(Gravity.CENTER, 0, 10);
+      toast.show();
+    }
+
   }
 
   @Override public void onBackPressed() {
