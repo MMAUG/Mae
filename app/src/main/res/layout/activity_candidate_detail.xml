@@ -606,7 +606,7 @@
           />
 
       <org.mmaug.mae.view.AutofitTextView
-          android:id="@+id/legalslature"
+          android:id="@+id/legislature"
           android:gravity="center"
           card_view:text="ပြည်သူ့လွျတ်တော်"
           android:layout_width="0dp"

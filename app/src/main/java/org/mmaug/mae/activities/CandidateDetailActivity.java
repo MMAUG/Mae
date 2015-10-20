@@ -12,7 +12,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -81,7 +80,7 @@ public class CandidateDetailActivity extends AppCompatActivity {
   @Bind(R.id.candidate_detail_occupation) TextView mCandidateOccupation;
   @Bind(R.id.candidate_detail_race) TextView mCandidateRace;
   @Bind(R.id.candidate_detail_religion) TextView mCandidateReligion;
-  @Bind(R.id.legalslature) TextView mCandidateLegalSlature;
+  @Bind(R.id.legislature) TextView mCandidateLegalSlature;
   @Bind(R.id.motion_count) TextView mMotionCount;
   @Bind(R.id.motion_middle_text) TextView motionMiddleText;
   @Bind(R.id.question_middle_text) TextView mQuestionMiddleText;
