@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
+import org.mmaug.mae.activities.MainActivity;
 import org.mmaug.mae.adapter.TownshipAdapter;
 import org.mmaug.mae.base.BaseActivity;
 import org.mmaug.mae.models.User;
@@ -41,12 +42,14 @@ import org.mmaug.mae.utils.DataUtils;
 import org.mmaug.mae.utils.MMTextUtils;
 import org.mmaug.mae.utils.RestCallback;
 import org.mmaug.mae.utils.UserPrefUtils;
+import org.mmaug.mae.utils.VoterCheckDialog;
+
 import retrofit.Call;
 import retrofit.Response;
 
 public class SignUpFragment extends Fragment
     implements com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener,
-    AdapterView.OnItemClickListener {
+    AdapterView.OnItemClickListener, VoterCheckDialog.OkButtonClickListener {
 
   @Bind(R.id.tv_dob_label) TextView mDOBLabel;
   @Bind(R.id.date_of_birth) TextView mDateOfBirth;
@@ -114,29 +117,29 @@ public class SignUpFragment extends Fragment
       params.put(Config.FATHER_NAME, mmTextUtils.zgToUni(mFatherName.getText().toString()));
       params.put(Config.TOWNSHIP, mTownship.getText().toString());
 
+      final VoterCheckDialog.OkButtonClickListener listener = this;
+
       final Call<User> registerUser =
           RESTClient.getService(getActivity()).registerUser(params);
       registerUser.enqueue(new RestCallback<User>() {
         @Override public void onResponse(Response<User> response) {
+          VoterCheckDialog dialog = new VoterCheckDialog((MainActivity) getActivity(), listener);
           UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
-          if (response.code() == 200) {
-            userPrefUtils.setValid(true);
-          } else {
-            userPrefUtils.setValid(false);
-          }
+
           userPrefUtils.saveSkip(true);
           userPrefUtils.saveUserName(params.get(Config.VOTER_NAME));
           userPrefUtils.saveBirthDate(params.get(Config.DATE_OF_BIRTH));
           userPrefUtils.saveNRC(params.get(Config.NRC));
           userPrefUtils.saveFatherName(params.get(Config.FATHER_NAME));
           userPrefUtils.saveTownShip(townshipGson);
-          mainView.setVisibility(View.GONE);
-          contenFragment.setVisibility(View.VISIBLE);
-          HomeFragment homeFragment = new HomeFragment();
-          FragmentManager fm = getActivity().getSupportFragmentManager();
-          FragmentTransaction transaction = fm.beginTransaction();
-          transaction.replace(R.id.contentFragment, homeFragment);
-          transaction.commit();
+
+          if (response.code() == 200) {
+            userPrefUtils.setValid(true);
+            dialog.showValid(getActivity().getLayoutInflater());
+          } else {
+            userPrefUtils.setValid(false);
+            dialog.showInvalid(getActivity().getLayoutInflater());
+          }
         }
       });
     }
@@ -152,6 +155,22 @@ public class SignUpFragment extends Fragment
     } else {
       return true;
     }
+  }
+
+  /**
+   * Override the Dialog Box's OK Button Click Event from VoterCheckDialog.
+   * @param view Click View
+   * @param isValid Voter Check Result
+   */
+  @Override
+  public void onClickOkFromDialog(View view, boolean isValid) {
+    mainView.setVisibility(View.GONE);
+    contenFragment.setVisibility(View.VISIBLE);
+    HomeFragment homeFragment = new HomeFragment();
+    FragmentManager fm = getActivity().getSupportFragmentManager();
+    FragmentTransaction transaction = fm.beginTransaction();
+    transaction.replace(R.id.contentFragment, homeFragment);
+    transaction.commit();
   }
 
   @OnClick(R.id.skip_card_button) void SkipCard() {
@@ -173,7 +192,7 @@ public class SignUpFragment extends Fragment
 
     datePickerDialog =
         com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(this, defaultYear,
-            defaultMonth, defaultDate);
+                defaultMonth, defaultDate);
     datePickerDialog.show(getActivity().getFragmentManager(), DATE_TAG);
   }
 
@@ -297,15 +316,18 @@ public class SignUpFragment extends Fragment
 
   private void initEditText() {
     searchTownship.addTextChangedListener(new TextWatcher() {
-      @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
       }
 
-      @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
 
       }
 
-      @Override public void afterTextChanged(Editable s) {
+      @Override
+      public void afterTextChanged(Editable s) {
 
         if (s.length() == 0) {
           found = townships;

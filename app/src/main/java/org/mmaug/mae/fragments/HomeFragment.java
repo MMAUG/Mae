@@ -1,8 +1,6 @@
 package org.mmaug.mae.fragments;
 
-import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -12,19 +10,18 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import hu.aut.utillib.circular.animation.CircularAnimationUtils;
 import java.text.ParseException;
 import java.util.HashMap;
 import org.mmaug.mae.R;
 import org.mmaug.mae.activities.AboutActivity;
 import org.mmaug.mae.activities.CandidateListActivity;
 import org.mmaug.mae.activities.FaqListActivity;
+import org.mmaug.mae.activities.FontCheckerActivity;
 import org.mmaug.mae.activities.HowToVoteActivity;
 import org.mmaug.mae.activities.LocationActivity;
 import org.mmaug.mae.activities.MainActivity;
@@ -36,8 +33,9 @@ import org.mmaug.mae.services.AlarmManagerBroadcastReceiver;
 import org.mmaug.mae.utils.MMTextUtils;
 import org.mmaug.mae.utils.MixUtils;
 import org.mmaug.mae.utils.UserPrefUtils;
+import org.mmaug.mae.utils.VoterCheckDialog;
 
-public class HomeFragment extends android.support.v4.app.Fragment {
+public class HomeFragment extends android.support.v4.app.Fragment implements VoterCheckDialog.OkButtonClickListener {
 
   @Bind(R.id.month_day_left) TextView monthDayLeft;
   @Bind(R.id.hour_minute_left) TextView hourMinuteLeft;
@@ -55,7 +53,6 @@ public class HomeFragment extends android.support.v4.app.Fragment {
   @Bind(R.id.txt_voted) TextView mVoted;
 
   private AlarmManagerBroadcastReceiver alarm;
-  private Dialog voteResultDialog;
   Typeface typefaceTitle;
   Typeface typefacelight;
   boolean isUnicode;
@@ -187,97 +184,38 @@ public class HomeFragment extends android.support.v4.app.Fragment {
   @OnClick(R.id.cardview_vote_check) public void showVoteResult(CardView textView) {
     final UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
     boolean ok = userPrefUtils.isValid();
-    View view;
-    voteResultDialog =
-        new Dialog(getActivity(), android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
+
+    VoterCheckDialog dialog = new VoterCheckDialog((MainActivity) getActivity(), this);
+
     if (ok) {
-      view = getActivity().getLayoutInflater().inflate(R.layout.dialog_voter_check_ok, null);
-      View myTargetView = view.findViewById(R.id.circle_full);
-      View mySourceView = view.findViewById(R.id.circle_empty);
-      TextView okBtn = (TextView) view.findViewById(R.id.voter_check_ok_btn);
-      TextView txt_recheck = (TextView) view.findViewById(R.id.txt_recheck);
-      TextView recheck = (TextView) view.findViewById(R.id.recheck);
-      TextView voter_check_not_ok = (TextView) view.findViewById(R.id.voter_check_not_ok);
-
-      if (isUnicode) {
-        voter_check_not_ok.setTypeface(typefaceTitle);
-        txt_recheck.setTypeface(typefacelight);
-        okBtn.setTypeface(typefaceTitle);
-        recheck.setTypeface(typefaceTitle);
-      } else {
-        MMTextUtils.getInstance(getContext())
-            .prepareMultipleViews(voter_check_not_ok, txt_recheck, okBtn, recheck);
-      }
-
-      recheck.setOnClickListener(new View.OnClickListener() {
-        @Override public void onClick(View view) {
-          userPrefUtils.setSKIP(false);
-          Intent i = new Intent(getActivity(), MainActivity.class);
-          startActivity(i);
-        }
-      });
-
-      //myTargetView & mySourceView are children in the CircularFrameLayout
-      float finalRadius = CircularAnimationUtils.hypo(200, 200);
-      ////getCenter computes from 2 view: One is touched, and one will be animated, but you can use anything for center
-      //int[] center = CircularAnimationUtils.getCenter(fab, myTargetView);
-      ObjectAnimator animator =
-          CircularAnimationUtils.createCircularTransform(myTargetView, mySourceView, 1, 2, 0F,
-              finalRadius);
-      animator.setInterpolator(new AccelerateDecelerateInterpolator());
-      animator.setDuration(1500);
-      voteResultDialog.setContentView(view);
-      voteResultDialog.show();
-      animator.start();
-      okBtn.setOnClickListener(new View.OnClickListener() {
-        @Override public void onClick(View view) {
-          if (voteResultDialog.isShowing()) {
-            voteResultDialog.dismiss();
-            backdrop.setCardBackgroundColor(getResources().getColor(R.color.accent_color));
-            txt_cardview_vote_check.setTextColor(Color.WHITE);
-            valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_mark));
-          }
-        }
-      });
+      dialog.showValid(getActivity().getLayoutInflater());
     } else {
-
-      view = getActivity().getLayoutInflater().inflate(R.layout.dialog_voter_check_not_ok, null);
-      TextView okBtn = (TextView) view.findViewById(R.id.voter_check_ok_btn);
-      TextView txt_recheck = (TextView) view.findViewById(R.id.txt_recheck);
-      TextView voter_check_not_ok = (TextView) view.findViewById(R.id.voter_check_not_ok);
-      TextView recheck = (TextView) view.findViewById(R.id.recheck);
-      if (isUnicode) {
-        voter_check_not_ok.setTypeface(typefaceTitle);
-        txt_recheck.setTypeface(typefacelight);
-        okBtn.setTypeface(typefaceTitle);
-        recheck.setTypeface(typefaceTitle);
-      } else {
-        MMTextUtils.getInstance(getContext())
-            .prepareMultipleViews(voter_check_not_ok, txt_recheck, okBtn, recheck);
-      }
-      voteResultDialog.setContentView(view);
-      voteResultDialog.show();
-      okBtn.setOnClickListener(new View.OnClickListener() {
-        @Override public void onClick(View view) {
-          if (voteResultDialog.isShowing()) {
-            voteResultDialog.dismiss();
-            backdrop.setCardBackgroundColor(getResources().getColor(R.color.orange));
-            valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_exclamation_mark));
-            txt_cardview_vote_check.setTextColor(Color.WHITE);
-          }
-        }
-      });
-      recheck.setOnClickListener(new View.OnClickListener() {
-        @Override public void onClick(View view) {
-          userPrefUtils.setSKIP(false);
-          Intent i = new Intent(getActivity(), MainActivity.class);
-          startActivity(i);
-        }
-      });
+      dialog.showInvalid(getActivity().getLayoutInflater());
     }
+  }
+
+  /**
+   * Override the Dialog Box's OK Button Click Event from VoterCheckDialog.
+   * @param view Click View
+   * @param isValid Voter Check Result
+   */
+  @Override
+  public void onClickOkFromDialog(View view, boolean isValid) {
+    if (isValid) {
+      backdrop.setCardBackgroundColor(getResources().getColor(R.color.accent_color));
+      valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_mark));
+    } else {
+      backdrop.setCardBackgroundColor(getResources().getColor(R.color.orange));
+      valid_sign.setImageDrawable(getResources().getDrawable(R.drawable.ic_exclamation_mark));
+    }
+    txt_cardview_vote_check.setTextColor(Color.WHITE);
   }
 
   @OnClick(R.id.about) void about() {
     startActivity(new Intent(getActivity(), AboutActivity.class));
+  }
+
+  @OnClick(R.id.font_setting) void fontSetting() {
+    startActivity(new Intent(getActivity(), FontCheckerActivity.class));
   }
 }
