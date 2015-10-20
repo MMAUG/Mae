@@ -64,6 +64,12 @@
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme"
         />
+
+    <activity
+        android:name=".activities.AskLocationActivity"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme"
+        />
     <activity
         android:name=".activities.CandidateListActivity"
         android:screenOrientation="portrait"

@@ -13,6 +13,7 @@ public class UserPrefUtils {
   private static final String BIRTH_DATE = "birthdate";
   private static final String NRC = "nrc";
   private static final String TOWNSHIP = "township";
+  private static final String WARD = "ward";
   private static final String IS_VALID = "valid";
   private static final String SKIP_VALID = "skip";
   private static final String TEXT_PREF = "font";
@@ -57,8 +58,16 @@ public class UserPrefUtils {
     mSharedPreferences.edit().putString(TOWNSHIP, township).apply();
   }
 
+  public void saveWard(String ward) {
+    mSharedPreferences.edit().putString(WARD, ward).apply();
+  }
+
   public void saveTextPref(String textPref) {
     mSharedPreferences.edit().putString(TEXT_PREF, textPref).apply();
+  }
+
+  public String getWard() {
+    return mSharedPreferences.getString(WARD, "");
   }
 
   public String getTextPref() {

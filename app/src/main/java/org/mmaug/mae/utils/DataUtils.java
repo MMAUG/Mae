@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import rx.Observable;
+import rx.Subscriber;
 
 /**
  * Created by poepoe on 15/9/15.
@@ -24,10 +26,6 @@ public class DataUtils {
 
   public DataUtils(Context context) {
     this.mContext = context;
-  }
-
-  public DataUtils() {
-
   }
 
   public static DataUtils getInstance(Context mContext) {
@@ -58,17 +56,55 @@ public class DataUtils {
     return townships;
   }
 
-  private ArrayList<VillageOrWard> loadVWByTownship(String tspCode) {
-    ArrayList<VillageOrWard> villageOrWardsByTownship = new ArrayList<>();
-    ArrayList<VillageOrWard> villageOrWards = loadWV();
+  public Observable<ArrayList<Township>> loadObsTownship() {
+    Observable<ArrayList<Township>> my =
+        Observable.create(new Observable.OnSubscribe<ArrayList<Township>>() {
+          @Override public void call(Subscriber<? super ArrayList<Township>> subscriber) {
+            ArrayList<Township> townships = new ArrayList<>();
+            try {
+              InputStream json = mContext.getAssets().open("Township.json");
+              JsonParser parser = new JsonParser();
+              JsonReader reader = new JsonReader(new InputStreamReader(json));
+              reader.setLenient(true);
 
-    for (VillageOrWard villageOrWard : villageOrWards) {
-      if (villageOrWard.TSPcode.equalsIgnoreCase(tspCode)) {
-        villageOrWardsByTownship.add(villageOrWard);
-      }
-    }
-    return villageOrWardsByTownship;
+              JsonArray data = parser.parse(reader).getAsJsonArray();
+
+              for (JsonElement element : data) {
+                Township township = gson.fromJson(element, Township.class);
+                townships.add(township);
+              }
+
+              subscriber.onNext(townships);
+              subscriber.onCompleted();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+          }
+        });
+
+    return my;
   }
+
+  public Observable<ArrayList<VillageOrWard>> loadVWByTownship(final String tspCode) {
+    Observable<ArrayList<VillageOrWard>> my =
+        Observable.create(new Observable.OnSubscribe<ArrayList<VillageOrWard>>() {
+          @Override public void call(Subscriber<? super ArrayList<VillageOrWard>> subscriber) {
+            ArrayList<VillageOrWard> villageOrWardsByTownship = new ArrayList<>();
+            ArrayList<VillageOrWard> villageOrWards = loadWV();
+
+            for (VillageOrWard villageOrWard : villageOrWards) {
+              if (villageOrWard.TSPcode.equalsIgnoreCase(tspCode)) {
+                villageOrWardsByTownship.add(villageOrWard);
+              }
+            }
+            subscriber.onNext(villageOrWardsByTownship);
+            subscriber.onCompleted();
+          }
+        });
+
+    return my;
+  }
+
 
   public ArrayList<VillageOrWard> loadWV() {
     ArrayList<VillageOrWard> villageOrWards = new ArrayList<>();
@@ -76,19 +112,19 @@ public class DataUtils {
     ArrayList<Village> villages = loadVillage();
     for (Ward ward : wards) {
       VillageOrWard villageOrWard = new VillageOrWard();
-      villageOrWard.TSPcode = ward.getTSPcode();
-      villageOrWard.VWcode = ward.WardPcode;
-      villageOrWard.VWName = ward.getWard();
-      villageOrWard.VWNameBurmese = ward.getWardNameBurmese();
+      villageOrWard.setTSPcode(ward.getTSPcode());
+      villageOrWard.setVWcode(ward.WardPcode);
+      villageOrWard.setVWName(ward.getWard());
+      villageOrWard.setVWNameBurmese(ward.getWardNameBurmese());
       villageOrWards.add(villageOrWard);
     }
 
     for (Village village : villages) {
       VillageOrWard villageOrWard = new VillageOrWard();
-      villageOrWard.TSPcode = village.getTSPcode();
-      villageOrWard.VWcode = village.getVTPcode();
-      villageOrWard.VWName = village.getVillageTract();
-      villageOrWard.VWNameBurmese = village.getVillageTractMyaMMR3();
+      villageOrWard.setTSPcode(village.getTSPcode());
+      villageOrWard.setVWcode(village.getVTPcode());
+      villageOrWard.setVWName(village.getVillageTract());
+      villageOrWard.setVWNameBurmese(village.getVillageTractMyaMMR3());
       villageOrWards.add(villageOrWard);
     }
 
@@ -408,10 +444,51 @@ public class DataUtils {
     }
   }
 
-  private static class VillageOrWard {
+  public static class VillageOrWard {
     private String TSPcode;
+    private String TSPName;
     private String VWcode;
     private String VWName;
     private String VWNameBurmese;
+
+    public void setTSPcode(String TSPcode) {
+      this.TSPcode = TSPcode;
+    }
+
+    public void setTSPName(String TSPName) {
+      this.TSPName = TSPName;
+    }
+
+    public void setVWcode(String VWcode) {
+      this.VWcode = VWcode;
+    }
+
+    public void setVWName(String VWName) {
+      this.VWName = VWName;
+    }
+
+    public void setVWNameBurmese(String VWNameBurmese) {
+      this.VWNameBurmese = VWNameBurmese;
+    }
+
+    public String getTSPcode() {
+      return TSPcode;
+    }
+
+    public String getTSPName() {
+      return TSPName;
+    }
+
+    public String getVWcode() {
+      return VWcode;
+    }
+
+    public String getVWName() {
+      return VWName;
+    }
+
+    public String getVWNameBurmese() {
+      return VWNameBurmese;
+    }
   }
 }

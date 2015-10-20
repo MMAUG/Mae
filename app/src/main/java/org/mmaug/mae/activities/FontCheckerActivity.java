@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,12 +38,6 @@ public class FontCheckerActivity extends BaseActivity
 
   @Override protected void onResume() {
     super.onResume();
-    /*if (!UserPrefUtils.getInstance(this).isFristTime()) {
-      startActivity(new Intent(this, MainActivity.class));
-      finish();
-    } else {
-      UserPrefUtils.getInstance(this).noLongerFirstTime();
-    }*/
     if (UserPrefUtils.getInstance(this).isFristTime()) {
       UserPrefUtils.getInstance(this).noLongerFirstTime();
     } else {

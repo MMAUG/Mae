@@ -219,5 +219,6 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vot
 
   @OnClick(R.id.font_setting) void fontSetting() {
     startActivity(new Intent(getActivity(), FontCheckerActivity.class));
+    getActivity().finish();
   }
 }

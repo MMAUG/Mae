@@ -1,14 +1,10 @@
 package org.mmaug.mae.activities;
 
-import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 import com.google.gson.JsonObject;
@@ -19,7 +15,6 @@ import org.mmaug.mae.fragments.SignUpFragment;
 import org.mmaug.mae.rest.RESTClient;
 import org.mmaug.mae.utils.RestCallback;
 import org.mmaug.mae.utils.UserPrefUtils;
-
 import retrofit.Call;
 import retrofit.Response;
 
@@ -33,9 +28,11 @@ public class MainActivity extends BaseActivity {
     if (UserPrefUtils.getInstance(this).isFristTime()) {
       startActivity(new Intent(this, FontCheckerActivity.class));
       finish();
+    } else if (UserPrefUtils.getInstance(this).getTownship().equals("")
+        || UserPrefUtils.getInstance(this).getWard().equals("")) {
+      startActivity(new Intent(this, AskLocationActivity.class));
+      finish();
     }
-
-    checkUpdate();
   }
 
   @Override protected int getLayoutResource() {

@@ -124,4 +124,5 @@ dependencies {
   }
   //analytics
   compile 'com.google.android.gms:play-services-analytics:7.8.0'
+  compile 'io.reactivex:rxandroid:1.0.1'
 }

@@ -113,6 +113,10 @@
   <string name="please_choose_font">ကျေးဇူးပြု၍ မိမိဖုန်းနှင့် ကိုက်ညီသော မြန်မာစာဖောင့်အား
     ရွေးချယ်ပေးပါ။
   </string>
+
+  <string name="please_choose_location">ကျေးဇူးပြု၍ မိမိ၏ နေရပ်လိပ်စာအား ရွေးပေးပါ
+  </string>
+
   <string name="save_font">ရွေးပြီးပြီ</string>
 
   <string name="error_cant_connect">Can\'t Connect!</string>
@@ -131,6 +135,8 @@
   <string name="father_name_zg">အဖအမည္</string>
   <string name="father_name_uni">အဖအမည်</string>
   <string name="title_activity_search_candidate">SearchCandidateActivity</string>
+  <string name="vw_unicode">ရပ်ကွက် (သို့) ကျေးရွာ</string>
+  <string name="vw_zawgyi">ရပ္ကြက္ (သို႔) ေက်းရြာ</string>
   <string name="policy">သဘောတူညီချက်</string>
   <string name="terms">
     Mae mobile application အား downlod ဆွဲ၊ အသုံးပြုသူများသည် အောက်ပါ အချက်များကို အလိုအလျောက် သဘောတူညီပြီးဖြစ်သည်။

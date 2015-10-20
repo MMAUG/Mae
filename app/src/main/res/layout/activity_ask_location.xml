@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+  <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll_tsp_input_ivew"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/primary">
+
+      <TextView
+          android:id="@+id/tv_choose_loc"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/please_choose_location"
+          android:padding="@dimen/spacing_minor"
+          android:lineSpacingMultiplier="1.2"
+          android:gravity="center"
+          android:textColor="@color/white"
+          style="@style/TextAppearance.AppCompat.Widget.ActionMode.Subtitle"
+          android:layout_margin="@dimen/spacing_major"/>
+
+      <android.support.v7.widget.CardView
+          android:id="@+id/register_card"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="@dimen/spacing_not_so_massive"
+          android:layout_marginRight="@dimen/spacing_not_so_massive"
+          app:cardElevation="@dimen/spacing_major"
+          app:cardUseCompatPadding="true"
+          >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:showDividers="middle"
+            android:divider="@drawable/divider"
+            >
+
+          <TextView
+              android:id="@+id/tv_tsp"
+              style="@style/Widget.AppCompat.EditText"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:text="မြို့နယ်"
+              android:padding="@dimen/spacing_major"
+              android:background="@null"
+              android:textColor="@color/secondary_text_color"
+              android:clickable="true"
+              />
+
+          <TextView
+              android:id="@+id/tv_vw"
+              style="@style/Widget.AppCompat.EditText"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:text="ရပ်ကွက်  (သို့) ကျေးရွာ"
+              android:padding="@dimen/spacing_major"
+              android:background="@null"
+              android:textColor="@color/secondary_text_color"
+              android:clickable="true"
+              />
+
+
+        </LinearLayout>
+      </android.support.v7.widget.CardView>
+
+      <android.support.v7.widget.CardView
+          android:id="@+id/cardview_save_font"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_margin="@dimen/spacing_major"
+          android:foreground="?attr/selectableItemBackground"
+          app:cardElevation="5dp"
+          card_view:cardCornerRadius="@dimen/default_padding_small"
+          >
+
+        <LinearLayout
+            android:padding="@dimen/spacing_major"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/accent_color"
+            >
+          <TextView
+              android:text="@string/save_font"
+              android:layout_gravity="center"
+              android:id="@+id/tv_save_location"
+              android:gravity="center"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:textColor="@color/white"
+              />
+        </LinearLayout>
+      </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/searchFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/primary"
+        android:visibility="gone"
+        >
+
+      <include layout="@layout/view_search_township"/>
+
+      <FrameLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            />
+      </FrameLayout>
+
+    </FrameLayout>
+  </FrameLayout>
+</android.support.design.widget.CoordinatorLayout>
