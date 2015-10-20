@@ -279,9 +279,9 @@ public class AskLocationActivity extends BaseActivity
         MMTextUtils.getInstance(this).prepareSingleView(tvTownship);
       }
       tspCode = found.get(position).getTSPcode();
-      townshipGson = new Gson().toJson(found.get(position));
       wards.clear();
       foundWards.clear();
+      townshipGson = new Gson().toJson(found.get(position));
       loadWards();
     } else if (searchFlag == 2) {
       showHidSearchView(true);
