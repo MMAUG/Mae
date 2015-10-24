@@ -74,7 +74,11 @@ public class VotedActivity extends BaseActivity {
 
   void takeImage() {
     Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-    fileUri = Uri.fromFile(getOutputPhotoFile());
+    try {
+      fileUri = Uri.fromFile(getOutputPhotoFile());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
     i.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
     startActivityForResult(i, CAPTURE_IMAGE_ACTIVITY_REQ);
   }
