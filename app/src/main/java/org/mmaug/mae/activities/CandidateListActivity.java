@@ -85,7 +85,7 @@ public class CandidateListActivity extends BaseActivity
   private ArrayList<DataUtils.Township> found = new ArrayList<>();
   private TownshipAdapter adapter;
   private DataUtils.Township myTownShip;
-  private DataUtils.VillageOrWard myVillageOrWard;
+  //private DataUtils.VillageOrWard myVillageOrWard;
 
   private List<Candidate> candidates = new ArrayList<>();
   private ArrayList<String> candidateName = new ArrayList<>();
@@ -135,9 +135,9 @@ public class CandidateListActivity extends BaseActivity
       mTownShip.setText(myTownShip.getTowhshipNameBurmese());
     }
 
-    if (villageWardStr != null && villageWardStr.length() > 0) {
-      myVillageOrWard = new Gson().fromJson(villageWardStr, DataUtils.VillageOrWard.class);
-    }
+    //if (villageWardStr != null && villageWardStr.length() > 0) {
+    //  myVillageOrWard = new Gson().fromJson(villageWardStr, DataUtils.VillageOrWard.class);
+    //}
 
     if (isUnicode()) {
       mTownShip.setTypeface(getTypefaceLight());
