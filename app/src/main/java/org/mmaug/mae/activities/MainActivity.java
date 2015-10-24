@@ -30,11 +30,12 @@ public class MainActivity extends BaseActivity {
         .equals("")) {
       startActivity(new Intent(this, FontCheckerActivity.class));
       finish();
-    } else if (UserPrefUtils.getInstance(this).getTownship().equals("")
-        || UserPrefUtils.getInstance(this).getWard().equals("")) {
-      startActivity(new Intent(this, AskLocationActivity.class));
-      finish();
     }
+    //} else if (UserPrefUtils.getInstance(this).getTownship().equals("")
+    //    || UserPrefUtils.getInstance(this).getWard().equals("")) {
+    //  startActivity(new Intent(this, AskLocationActivity.class));
+    //  finish();
+    //}
   }
 
   @Override protected int getLayoutResource() {

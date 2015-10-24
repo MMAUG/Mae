@@ -34,6 +34,7 @@
         android:lineSpacingMultiplier="1.2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:checked="false"
         android:text="@string/uni"/>
     <RadioButton
         android:id="@+id/rb_zg"
@@ -43,6 +44,7 @@
         android:lineSpacingMultiplier="1.2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:checked="false"
         android:text="@string/zg"/>
   </RadioGroup>
 

@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +42,6 @@ import org.mmaug.mae.utils.MMTextUtils;
 import org.mmaug.mae.utils.RestCallback;
 import org.mmaug.mae.utils.UserPrefUtils;
 import org.mmaug.mae.utils.VoterCheckDialog;
-
 import retrofit.Call;
 import retrofit.Response;
 
@@ -124,7 +122,7 @@ public class SignUpFragment extends Fragment
       registerUser.enqueue(new RestCallback<User>() {
         @Override public void onResponse(Response<User> response) {
           VoterCheckDialog dialog = new VoterCheckDialog((MainActivity) getActivity(), listener);
-          UserPrefUtils userPrefUtils = new UserPrefUtils(getActivity());
+          UserPrefUtils userPrefUtils = UserPrefUtils.getInstance(getActivity());
 
           userPrefUtils.saveSkip(true);
           userPrefUtils.saveUserName(params.get(Config.VOTER_NAME));

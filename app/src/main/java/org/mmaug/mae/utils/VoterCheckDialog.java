@@ -2,19 +2,15 @@ package org.mmaug.mae.utils;
 
 import android.animation.ObjectAnimator;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.TextView;
-
+import hu.aut.utillib.circular.animation.CircularAnimationUtils;
 import org.mmaug.mae.R;
 import org.mmaug.mae.activities.MainActivity;
-import org.mmaug.mae.base.BaseActivity;
-
-import hu.aut.utillib.circular.animation.CircularAnimationUtils;
 
 /**
  * Created by lynn on 10/20/15.
@@ -47,18 +43,18 @@ public class VoterCheckDialog {
         TextView okBtn = (TextView) view.findViewById(R.id.voter_check_ok_btn);
         TextView txt_recheck = (TextView) view.findViewById(R.id.txt_recheck);
         TextView recheck = (TextView) view.findViewById(R.id.recheck);
-        TextView voter_check_not_ok = (TextView) view.findViewById(R.id.voter_check_not_ok);
+        TextView voter_check_ok = (TextView) view.findViewById(R.id.tv_voter_check_ok);
 
         if (isUnicode) {
             Typeface typefaceTitle = mActivity.getTypefaceTitle();
 
-            voter_check_not_ok.setTypeface(typefaceTitle);
+            voter_check_ok.setTypeface(typefaceTitle);
             okBtn.setTypeface(typefaceTitle);
             recheck.setTypeface(typefaceTitle);
             txt_recheck.setTypeface( mActivity.getTypefaceLight());
         } else {
             MMTextUtils.getInstance(mActivity.getApplicationContext())
-                    .prepareMultipleViews(voter_check_not_ok, txt_recheck, okBtn, recheck);
+                    .prepareMultipleViews(voter_check_ok, txt_recheck, okBtn, recheck);
         }
 
         //myTargetView & mySourceView are children in the CircularFrameLayout
