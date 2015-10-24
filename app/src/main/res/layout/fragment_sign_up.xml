@@ -1,4 +1,5 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -97,6 +98,7 @@
               android:background="@null"
               android:textColor="@color/secondary_text_color"
               android:clickable="true"
+              android:nextFocusForward="@+id/user_name"
               />
 
           <View
@@ -113,6 +115,7 @@
               android:gravity="center"
               android:singleLine="true"
               android:padding="@dimen/spacing_major"
+              android:nextFocusForward="@+id/father_name"
               />
 
           <View
@@ -129,6 +132,8 @@
               android:background="@null"
               android:gravity="center"
               android:padding="@dimen/spacing_major"
+              android:nextFocusForward="@+id/nrc_no"
+              android:imeOptions="actionNext"
               />
 
           <View
@@ -157,6 +162,8 @@
                 android:paddingBottom="@dimen/spacing_major"
                 android:paddingTop="@dimen/spacing_major"
                 android:singleLine="true"
+                android:nextFocusRight="@+id/nrc_township"
+                android:imeOptions="actionNext"
                 />
 
             <EditText
@@ -172,6 +179,8 @@
                 android:paddingBottom="@dimen/spacing_major"
                 android:paddingTop="@dimen/spacing_major"
                 android:singleLine="true"
+                android:nextFocusRight="@+id/nrc_value"
+                android:imeOptions="actionNext"
                 />
 
             <EditText
@@ -187,6 +196,7 @@
                 android:paddingBottom="@dimen/spacing_major"
                 android:paddingTop="@dimen/spacing_major"
                 android:singleLine="true"
+                android:imeOptions="actionDone"
                 />
           </LinearLayout>
 
