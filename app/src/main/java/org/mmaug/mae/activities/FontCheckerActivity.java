@@ -3,13 +3,12 @@ package org.mmaug.mae.activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import org.mmaug.mae.Config;
 import org.mmaug.mae.R;
 import org.mmaug.mae.base.BaseActivity;
@@ -20,20 +19,25 @@ import org.mmaug.mae.utils.UserPrefUtils;
  * Created by poepoe on 30/9/15.
  */
 public class FontCheckerActivity extends BaseActivity
-    implements RadioGroup.OnCheckedChangeListener {
-  @Bind(R.id.tv_choose_des) TextView tvDes;
-  @Bind(R.id.tv_save_font) TextView tvSaveFont;
-  @Bind(R.id.rg_font) RadioGroup rgFont;
+    implements RadioGroup.OnCheckedChangeListener, View.OnClickListener {
+  TextView tvDes;
+  TextView tvSaveFont;
+  RadioGroup rgFont;
+  CardView saveFont;
 
   String font = null;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    ButterKnife.bind(this);
+
+    tvDes = (TextView) findViewById(R.id.tv_choose_des);
+    tvSaveFont = (TextView) findViewById(R.id.tv_save_font);
+    rgFont = (RadioGroup) findViewById(R.id.rg_font);
+    saveFont = (CardView) findViewById(R.id.cardview_save_font);
 
     MMTextUtils.getInstance(this).prepareMultipleViews(tvDes, tvSaveFont);
     rgFont.setOnCheckedChangeListener(this);
-
+    saveFont.setOnClickListener(this);
   }
 
   @Override protected void onResume() {
@@ -57,7 +61,7 @@ public class FontCheckerActivity extends BaseActivity
     }
   }
 
-  @OnClick(R.id.cardview_save_font) void saveFont() {
+  private void saveFont() {
     if (font != null) {
       UserPrefUtils.getInstance(this).saveTextPref(font);
       startActivity(new Intent(this, MainActivity.class));
@@ -90,5 +94,14 @@ public class FontCheckerActivity extends BaseActivity
 
   @Override protected String getToolbarText() {
     return null;
+  }
+
+  /**
+   * Called when a view has been clicked.
+   *
+   * @param v The view that was clicked.
+   */
+  @Override public void onClick(View v) {
+    saveFont();
   }
 }
