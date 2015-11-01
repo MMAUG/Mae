@@ -78,9 +78,6 @@ public class Config {
   public static final String CANDIDATE_LIST_URL = CANDIDATE_URL + "/" + LIST;
   public static final String CANDIDTE_AUTO_SEARCH = BASE_URL + API_V1 + "autocomplete/candidate";
 
-  public static final String CANDIDATE_URL_BYID =
-      "http://mae.mmaug.org/api/v1/mps/candidate";
-
   //party endpoints
   public static final String PARTY_LIST_URL = MPS_BASE_URL + PARTY;
 
